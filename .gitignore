@@ -1,0 +1,17 @@
+# node dependencies
+node_modules/
+
+# generated
+build/
+
+# ide/editor
+.idea
+.project
+.classpath
+GPATH
+GRTAGS
+GTAGS
+TAGS
+*.org
+nohup.out
+.vscode
