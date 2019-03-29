@@ -3,6 +3,7 @@ node_modules/
 
 # generated
 build/
+public/
 
 # ide/editor
 .idea
