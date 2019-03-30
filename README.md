@@ -8,6 +8,7 @@
 | -------------------------- | ------------------------------------------------- |
 | `npm run storybook`        | Start development mode (Storybook)                |
 | `npm run build-storybook`  | Run compiled project                              |
+| `npm run build`            | Build library                                     |
 | `npm run test`, `npm test` | Run tests (TODO)                                  |
 | `npm run check`            | Checks code for formatting and lint issues        |
 | `npm run fix`              | Fixes formatting and linting issues (if possible) |

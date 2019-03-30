@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "author": "EDEKA DIGITAL GmbH",
+  "main": "lib/index.js",
   "scripts": {
     "storybook": "start-storybook -p 8000 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o public",
+    "build": "tsc -p tsconfig.lib.json",
     "test": "echo \"TODO: Add test setup\" && exit 0",
     "check": "gts check",
     "fix": "gts fix",
