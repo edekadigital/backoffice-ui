@@ -23,7 +23,7 @@
 ## Todos
 
 - ~~Setup Storybook~~
-- Setup React component library
+- ~~Setup React component library~~
 - Add Material-UI
 - Setup Jest
 - Move project to GitHub
