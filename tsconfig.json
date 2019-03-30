@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "es5",
     "lib": ["dom"],
     "rootDir": "src",
