@@ -26,6 +26,7 @@
 - ~~Setup React component library~~
 - Add Material-UI
 - Setup Jest
-- Move project to GitHub
+- Document usage
+- Move project to GitHub (select Licence -> MIT?)
 - Publish NPM package
 - ~~Upgrade GTS to upcoming 1.0 release~~
