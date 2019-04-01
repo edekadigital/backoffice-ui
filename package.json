@@ -52,5 +52,8 @@
     "react-dom": "^16.8.6",
     "tslint-react": "^4.0.0",
     "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.9.3"
   }
 }
