@@ -24,7 +24,8 @@
 
 - ~~Setup Storybook~~
 - ~~Setup React component library~~
-- Add Material-UI
+- Material UI Theme
+- Storybook Structure
 - Setup Jest
 - Document usage
 - Move project to GitHub (select Licence -> MIT?)
