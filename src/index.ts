@@ -1,2 +1,2 @@
 export * from './components/buttons/PrimaryButton';
-export * from './theme/ThemeProvider';
+export * from './ThemeProvider';
