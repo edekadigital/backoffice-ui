@@ -1,7 +1,7 @@
 {
   "name": "@edeka/backoffice-ui",
   "version": "0.1.0",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
   "main": "lib/cjs/index.js",
   "module": "lib/es6/index.js",
