@@ -59,5 +59,8 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
