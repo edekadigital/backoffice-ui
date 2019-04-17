@@ -1,0 +1,26 @@
+language: node_js
+
+os:
+  - linux
+
+node_js:
+  - 10
+
+cache: npm
+
+before_install:
+  - node --version
+
+script:
+  - npm run test
+
+deploy:
+  provider: npm
+  email: $NPM_EMAIL
+  api_key: $NPM_TOKEN
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: edekadigital/backoffice-ui
+    node: 10
+    condition: '$TRAVIS_OS_NAME = linux'
