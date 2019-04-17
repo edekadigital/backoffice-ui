@@ -27,7 +27,7 @@ deploy:
       condition: '$TRAVIS_OS_NAME = linux'
   - provider: pages
     local_dir: public
-    target_branch: gh_pages
+    target_branch: gh-pages
     github_token: $GITHUB_TOKEN
     skip_cleanup: true
     keep_history: true
