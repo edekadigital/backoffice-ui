@@ -1,5 +1,5 @@
 {
-  "name": "@edeka/backoffice-ui",
+  "name": "@edekadigital/backoffice-ui",
   "version": "0.1.0",
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
@@ -7,6 +7,10 @@
   "module": "lib/es6/index.js",
   "typings": "lib/cjs/index.d.ts",
   "types": "lib/cjs/index.d.ts",
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
+  ],
   "scripts": {
     "storybook": "start-storybook -p 8000 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o public",
@@ -16,7 +20,8 @@
     "test": "echo \"TODO: Add test setup\" && exit 0",
     "check": "gts check",
     "fix": "gts fix",
-    "clean": "gts clean"
+    "clean": "gts clean",
+    "prepublishOnly": "npm run build"
   },
   "husky": {
     "hooks": {
