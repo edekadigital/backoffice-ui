@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Button, Delete, ArrowForward } from '..';
+import { Button, Delete, ArrowForward } from '..'; // @edekadigital/backoffice-ui
 
 storiesOf('Components|Button', module)
   .add('contained', () => <Button>Some Label</Button>)
