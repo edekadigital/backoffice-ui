@@ -1,20 +1,36 @@
 import * as React from 'react';
-import MUIButton from '@material-ui/core/Button';
+import {
+  default as MUIButton,
+  ButtonProps as MUIButtonProps,
+} from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
+export type ButtonComponent = React.ReactType<MUIButtonProps>;
+
+export type ButtonType = 'submit' | 'reset' | 'button';
+
+export type ButtonIcon = React.ReactType<SvgIconProps>;
+
 export type ButtonIconPosition = 'left' | 'right';
 
 export interface ButtonProps {
+  children: React.ReactNode;
   variant?: ButtonVariant;
-  icon?: React.ComponentType<SvgIconProps>;
+  icon?: ButtonIcon;
   iconPosition?: ButtonIconPosition;
+  component?: ButtonComponent;
+  disabled?: boolean;
+  type?: ButtonType;
+  href?: string;
+  className?: string;
+  onClick?: React.MouseEventHandler;
 }
 
-export interface IconProps {
-  icon: React.ComponentType<SvgIconProps>;
+interface IconProps {
+  icon: ButtonIcon;
   position: ButtonIconPosition;
 }
 
@@ -49,22 +65,24 @@ const WithIcon: React.FC<IconProps> = props =>
     </>
   );
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = 'contained',
-  icon,
-  iconPosition = 'left',
-  children,
-}) => {
-  let content = children;
-  if (icon) {
-    content = (
-      <WithIcon icon={icon} position={iconPosition}>
-        {children}
-      </WithIcon>
-    );
-  }
+export const Button: React.FC<ButtonProps> = props => {
+  const {
+    variant = 'contained',
+    icon,
+    iconPosition = 'left',
+    children,
+    ...additionalProps
+  } = props;
+  const content = icon ? (
+    <WithIcon icon={icon} position={iconPosition}>
+      {children}
+    </WithIcon>
+  ) : (
+    children
+  );
+
   return (
-    <MUIButton variant={variant} color="primary">
+    <MUIButton variant={variant} color="primary" {...additionalProps}>
       {content}
     </MUIButton>
   );
