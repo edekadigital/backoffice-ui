@@ -25,6 +25,7 @@ export interface ButtonProps {
   disabled?: boolean;
   type?: ButtonType;
   href?: string;
+  target?: string;
   className?: string;
   onClick?: React.MouseEventHandler;
 }

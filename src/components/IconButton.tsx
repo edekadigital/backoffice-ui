@@ -16,6 +16,7 @@ export interface IconButtonProps {
   disabled?: boolean;
   type?: IconButtonType;
   href?: string;
+  target?: string;
   className?: string;
   onClick?: React.MouseEventHandler;
 }
