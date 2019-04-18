@@ -4,8 +4,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   // TODO define theme: https://material-ui.com/customization/themes/
   palette: {
-    primary: { main: '#fce531' },
-    secondary: { main: '#1b66b3' },
+    primary: { main: '#1b66b3' },
+    secondary: { main: '#fce531' },
   },
   typography: { useNextVariants: true },
 });
