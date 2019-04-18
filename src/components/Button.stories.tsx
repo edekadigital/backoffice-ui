@@ -5,6 +5,9 @@ import { Button, Delete, ArrowForward } from '..';
 
 storiesOf('Components|Button', module)
   .add('contained', () => <Button>Some Label</Button>)
+  .add('contained (disabled)', () => (
+    <Button disabled={true}>Some Label</Button>
+  ))
   .add('contained with icon', () => (
     <Button variant="contained" icon={Delete}>
       Some Label
@@ -16,6 +19,11 @@ storiesOf('Components|Button', module)
     </Button>
   ))
   .add('text', () => <Button variant="text">Some Label</Button>)
+  .add('text (disabled)', () => (
+    <Button variant="text" disabled={true}>
+      Some Label
+    </Button>
+  ))
   .add('text with icon', () => (
     <Button variant="text" icon={Delete}>
       Some Label
@@ -27,6 +35,11 @@ storiesOf('Components|Button', module)
     </Button>
   ))
   .add('outlined', () => <Button variant="outlined">Some Label</Button>)
+  .add('outlined (disabled)', () => (
+    <Button variant="outlined" disabled={true}>
+      Some Label
+    </Button>
+  ))
   .add('outlined with icon', () => (
     <Button variant="outlined" icon={Delete}>
       Some Label
