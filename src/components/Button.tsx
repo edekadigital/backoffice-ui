@@ -1,15 +1,53 @@
 import * as React from 'react';
 import MUIButton from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { WithInlineIcon, InlineIconPosition } from './InlineIcon';
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
+
+export type ButtonIconPosition = 'left' | 'right';
 
 export interface ButtonProps {
   variant?: ButtonVariant;
   icon?: React.ComponentType<SvgIconProps>;
-  iconPosition?: InlineIconPosition;
+  iconPosition?: ButtonIconPosition;
 }
+
+export interface IconProps {
+  icon: React.ComponentType<SvgIconProps>;
+  position: ButtonIconPosition;
+}
+
+const iconStyles = (theme: Theme) =>
+  createStyles({
+    left: {
+      marginRight: theme.spacing.unit,
+    },
+    right: {
+      marginLeft: theme.spacing.unit,
+    },
+  });
+
+const Icon: React.FC<IconProps> = ({ icon, position }) => {
+  const IconComponent = icon;
+  const StyledIconComponent = withStyles(iconStyles)((props: WithStyles) => (
+    <IconComponent className={props.classes[position]} />
+  ));
+  return <StyledIconComponent />;
+};
+
+const WithIcon: React.FC<IconProps> = props =>
+  props.position === 'left' ? (
+    <>
+      <Icon {...props} />
+      {props.children}
+    </>
+  ) : (
+    <>
+      {props.children}
+      <Icon {...props} />
+    </>
+  );
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'contained',
@@ -20,9 +58,9 @@ export const Button: React.FC<ButtonProps> = ({
   let content = children;
   if (icon) {
     content = (
-      <WithInlineIcon icon={icon} position={iconPosition}>
+      <WithIcon icon={icon} position={iconPosition}>
         {children}
-      </WithInlineIcon>
+      </WithIcon>
     );
   }
   return (
