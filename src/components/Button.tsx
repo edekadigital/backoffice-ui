@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {
-  default as MUIButton,
-  ButtonProps as MUIButtonProps,
+  default as MuiButton,
+  ButtonProps as MuiButtonProps,
 } from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonComponent = React.ReactType<MUIButtonProps>;
+export type ButtonComponent = React.ReactType<MuiButtonProps>;
 
 export type ButtonType = 'submit' | 'reset' | 'button';
 
@@ -82,8 +82,8 @@ export const Button: React.FC<ButtonProps> = props => {
   );
 
   return (
-    <MUIButton variant={variant} color="primary" {...additionalProps}>
+    <MuiButton variant={variant} color="primary" {...additionalProps}>
       {content}
-    </MUIButton>
+    </MuiButton>
   );
 };
