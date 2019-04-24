@@ -4,10 +4,45 @@
 
 ## Usage
 
-### Install
+### 1. Install
 
 ```bash
 npm i -S @edekadigital/backoffice-ui
+```
+
+### 2. Load "Roboto" font
+
+```html
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+/>
+```
+
+### 3. Provide theme context
+
+```js
+import { ThemeProvider } from '@edekadigital/backoffice-ui';
+
+export const App = () => (
+  <ThemeProvider>
+    <SomeComponent />
+    {/* ... */}
+  </ThemeProvider>
+);
+```
+
+### 4. Use components
+
+```js
+import { Button } from '@edekadigital/backoffice-ui';
+
+export const SomeComponent = () => (
+  <>
+    {/* ... */}
+    <Button>Some label</Button>
+  </>
+);
 ```
 
 ## Development
