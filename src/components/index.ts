@@ -5,3 +5,4 @@ export * from './Button';
 export * from './IconButton';
 export * from './Switch';
 export * from './TextField';
+export * from './SearchField';
