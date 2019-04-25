@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { default as MuiIconButton } from '@material-ui/core/IconButton';
+import { IconButton as MuiIconButton } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 
