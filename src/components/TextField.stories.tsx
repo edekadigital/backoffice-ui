@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { TextField, Button } from '..'; // @edekadigital/backoffice-ui
+import { TextField } from '..'; // @edekadigital/backoffice-ui
 
 storiesOf('Components|TextField', module)
   .add('default', () => <TextField label="Some label" />)
