@@ -4,19 +4,18 @@
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
   "main": "lib/cjs/index.js",
-  "module": "lib/es6/index.js",
-  "typings": "lib/cjs/index.d.ts",
-  "types": "lib/cjs/index.d.ts",
+  "module": "lib/esm/index.js",
+  "typings": "lib/types/index.d.ts",
+  "types": "lib/types/index.d.ts",
   "files": [
-    "lib/**/*.js",
-    "lib/**/*.d.ts"
+    "lib"
   ],
   "scripts": {
     "storybook": "start-storybook -p 8000 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o public",
-    "build": "npm run build-cjs && npm run build-es6",
-    "build-cjs": "tsc -p tsconfig.lib.json --module commonjs --outDir ./lib/cjs",
-    "build-es6": "tsc -p tsconfig.lib.json --module es6 --outDir ./lib/es6",
+    "build": "npm run build-bundles && npm run build-types",
+    "build-bundles": "rollup -c",
+    "build-types": "tsc -p tsconfig.types.json --outDir ./lib/types",
     "test": "echo \"TODO: Add test setup\" && exit 0",
     "check": "gts check",
     "fix": "gts fix",
@@ -44,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
@@ -60,10 +60,14 @@
     "prettier": "^1.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "rollup": "^1.10.1",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^4.2.3",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.5"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2"
   },
