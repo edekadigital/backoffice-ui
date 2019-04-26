@@ -7,3 +7,5 @@ export { SearchField } from './components/SearchField';
 export { Subtitle } from './components/Subtitle';
 export { Switch } from './components/Switch';
 export { TextField } from './components/TextField';
+
+export * from '@material-ui/icons';

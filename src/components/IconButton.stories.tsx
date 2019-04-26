@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { ArrowForward } from '@material-ui/icons';
-import { IconButton } from '..'; // @edekadigital/backoffice-ui
+import { IconButton, ArrowForward } from '..'; // @edekadigital/backoffice-ui
 
 storiesOf('Components|IconButton', module)
   .add('default', () => <IconButton icon={ArrowForward} />)
