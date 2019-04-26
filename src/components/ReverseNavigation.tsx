@@ -4,7 +4,10 @@ import { ArrowBack } from '@material-ui/icons';
 import { Heading } from './Heading';
 import { IconButton } from './IconButton';
 
+export type ReverseNavigationVariant = 'default' | 'narrow';
+
 export interface ReverseNavigationProps {
+  variant?: ReverseNavigationVariant;
   children?: React.ReactNode;
   onBackClick?: React.MouseEventHandler;
 }
@@ -25,6 +28,9 @@ const styles = createStyles((theme: Theme) => ({
     height: 70,
     alignItems: 'center',
   },
+  outerNarrow: {
+    maxWidth: 800,
+  },
   backButton: {
     marginLeft: -12,
     marginRight: theme.spacing.unit,
@@ -33,7 +39,7 @@ const styles = createStyles((theme: Theme) => ({
 
 const ReverseNavigationComponent: React.FC<
   ReverseNavigationProps & WithStyles
-> = ({ classes, onBackClick, children }) => {
+> = ({ classes, variant = 'default', onBackClick, children }) => {
   const backButton = onBackClick ? (
     <IconButton
       icon={ArrowBack}
@@ -48,9 +54,14 @@ const ReverseNavigationComponent: React.FC<
     </Heading>
   ) : null;
 
+  let outerClassName = classes.outer;
+  if (variant === 'narrow') {
+    outerClassName = `${outerClassName} ${classes.outerNarrow}`;
+  }
+
   return (
     <div className={classes.root}>
-      <div className={classes.outer}>
+      <div className={outerClassName}>
         {backButton}
         {title}
       </div>
