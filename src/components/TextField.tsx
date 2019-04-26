@@ -49,6 +49,7 @@ export const TextField: React.FC<TextFieldProps> = props => {
       required={required}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
+      variant="filled"
     />
   );
 };
