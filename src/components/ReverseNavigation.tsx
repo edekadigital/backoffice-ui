@@ -26,6 +26,7 @@ const styles = createStyles((theme: Theme) => ({
     alignItems: 'center',
   },
   backButton: {
+    marginLeft: -12,
     marginRight: theme.spacing.unit,
   },
 }));
