@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
-import { Heading } from './Heading';
+import { Heading } from '../typography/Heading';
 import { IconButton } from './IconButton';
 
 export type ReverseNavigationVariant = 'default' | 'narrow';
