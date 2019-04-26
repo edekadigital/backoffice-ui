@@ -12,6 +12,8 @@ export type PageVariant = 'default' | 'narrow';
 export type PageChildren = React.ReactNode | React.ReactNode[];
 
 export interface PageProps {
+  bar?: React.ReactNode;
+  stickyBar?: boolean;
   variant?: PageVariant;
   children: PageChildren;
 }
@@ -29,24 +31,39 @@ const pageStyles = (theme: Theme) =>
   createStyles({
     root: {
       boxSizing: 'border-box',
-      padding: spacing,
       minHeight: '100vh',
       background: theme.palette.grey[200],
     },
     outer: {
+      padding: spacing,
+    },
+    inner: {
       margin: '0 auto',
       width: '100%',
       maxWidth: 1400,
     },
-    outerNarrow: {
+    innerNarrow: {
       maxWidth: 800,
+    },
+    innerWithStickyBar: {
+      paddingTop: 70,
+    },
+    stickyBarWrapper: {
+      position: 'fixed',
+      width: '100vw',
     },
   });
 
 export const PageComponent: React.FC<PageProps & WithStyles> = props => {
-  const { variant = 'default', children, classes } = props;
+  const {
+    bar,
+    stickyBar = false,
+    variant = 'default',
+    children,
+    classes,
+  } = props;
+  const hasBar = !!bar;
   const items = Array.isArray(children) ? children : [children];
-
   const itemSizingProps: ItemSizingProps = {
     xs: false,
     md: true,
@@ -62,23 +79,32 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
     itemSizingProps.lg = true;
   }
 
-  let outerClassName = classes.outer;
-  if (variant === 'narrow') {
-    outerClassName = `${outerClassName} ${classes.outerNarrow}`;
-  }
-
   const gridContent = items.map((tempItem, index) => (
     <Grid item={true} key={`page-item-${index}`} {...itemSizingProps}>
       {tempItem}
     </Grid>
   ));
 
+  let innerClassName = classes.inner;
+  if (variant === 'narrow') {
+    innerClassName = `${innerClassName} ${classes.innerNarrow}`;
+  }
+  if (hasBar && stickyBar) {
+    innerClassName = `${innerClassName} ${classes.innerWithStickyBar}`;
+  }
+
+  const barWrapperClassName = stickyBar ? classes.stickyBarWrapper : undefined;
+  const top = hasBar ? <div className={barWrapperClassName}>{bar}</div> : null;
+
   return (
     <div className={classes.root}>
-      <div className={outerClassName}>
-        <Grid container={true} spacing={24} justify="center" component="main">
-          {gridContent}
-        </Grid>
+      {top}
+      <div className={classes.outer}>
+        <div className={innerClassName}>
+          <Grid container={true} spacing={24} justify="center" component="main">
+            {gridContent}
+          </Grid>
+        </div>
       </div>
     </div>
   );
