@@ -1,3 +1,9 @@
-export * from './ThemeProvider';
-export * from './components';
-export * from '@material-ui/icons';
+export { ThemeProvider } from './ThemeProvider';
+export { Body } from './components/Body';
+export { Button } from './components/Button';
+export { Heading } from './components/Heading';
+export { IconButton } from './components/IconButton';
+export { SearchField } from './components/SearchField';
+export { Subtitle } from './components/Subtitle';
+export { Switch } from './components/Switch';
+export { TextField } from './components/TextField';
