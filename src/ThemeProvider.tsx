@@ -8,7 +8,15 @@ const theme = createMuiTheme({
     secondary: { main: '#fce531' },
     error: { main: '#d0021b' },
   },
-  typography: { useNextVariants: true },
+  typography: {
+    useNextVariants: true,
+    h1: { fontWeight: 300 },
+    h2: { fontWeight: 300 },
+    h3: { fontWeight: 300 },
+    h4: { fontWeight: 300 },
+    h5: { fontWeight: 300 },
+    h6: { fontWeight: 300 },
+  },
 });
 
 export const ThemeProvider: React.FC = ({ children }) => (
