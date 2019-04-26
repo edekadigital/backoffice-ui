@@ -3,6 +3,12 @@ import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import { Heading } from '../typography/Heading';
 import { IconButton } from './IconButton';
+import {
+  GRID_SPACING_DEFAULT,
+  TOP_BAR_HEIGHT,
+  LAYOUT_MAX_WIDTH_DEFAULT,
+  LAYOUT_MAX_WIDTH_NARROW,
+} from '../constants/dimensions';
 
 export type ReverseNavigationVariant = 'default' | 'narrow';
 
@@ -12,24 +18,22 @@ export interface ReverseNavigationProps {
   onBackClick?: React.MouseEventHandler;
 }
 
-const spacing = 24;
-
 const styles = createStyles((theme: Theme) => ({
   root: {
-    paddingLeft: spacing,
-    paddingRight: spacing,
+    paddingLeft: GRID_SPACING_DEFAULT,
+    paddingRight: GRID_SPACING_DEFAULT,
     background: theme.palette.background.paper,
   },
   outer: {
     margin: '0 auto',
     display: 'flex',
     width: '100%',
-    maxWidth: 1400,
-    height: 70,
+    maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
+    height: TOP_BAR_HEIGHT,
     alignItems: 'center',
   },
   outerNarrow: {
-    maxWidth: 800,
+    maxWidth: LAYOUT_MAX_WIDTH_NARROW,
   },
   backButton: {
     marginLeft: -12,

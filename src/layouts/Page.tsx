@@ -6,6 +6,12 @@ import {
   Theme,
   Grid,
 } from '@material-ui/core';
+import {
+  GRID_SPACING_DEFAULT,
+  TOP_BAR_HEIGHT,
+  LAYOUT_MAX_WIDTH_DEFAULT,
+  LAYOUT_MAX_WIDTH_NARROW,
+} from '../constants/dimensions';
 
 export type PageVariant = 'default' | 'narrow';
 
@@ -25,8 +31,6 @@ interface ItemSizingProps {
   xl: boolean | 3 | 4 | 6 | 12;
 }
 
-const spacing = 24;
-
 const pageStyles = (theme: Theme) =>
   createStyles({
     root: {
@@ -35,18 +39,18 @@ const pageStyles = (theme: Theme) =>
       background: theme.palette.grey[200],
     },
     outer: {
-      padding: spacing,
+      padding: GRID_SPACING_DEFAULT,
     },
     inner: {
       margin: '0 auto',
       width: '100%',
-      maxWidth: 1400,
+      maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
     },
     innerNarrow: {
-      maxWidth: 800,
+      maxWidth: LAYOUT_MAX_WIDTH_NARROW,
     },
     innerWithStickyBar: {
-      paddingTop: 70,
+      paddingTop: TOP_BAR_HEIGHT,
     },
     stickyBarWrapper: {
       position: 'fixed',
@@ -101,7 +105,12 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
       {top}
       <div className={classes.outer}>
         <div className={innerClassName}>
-          <Grid container={true} spacing={24} justify="center" component="main">
+          <Grid
+            container={true}
+            spacing={GRID_SPACING_DEFAULT}
+            justify="center"
+            component="main"
+          >
             {gridContent}
           </Grid>
         </div>
