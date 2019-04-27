@@ -5,7 +5,7 @@ import {
   IconButton as MuiIconButton,
 } from '@material-ui/core';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { Search } from '../icons';
 
 export interface SearchFieldProps {
   placeholder: string;

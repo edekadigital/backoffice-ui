@@ -14,4 +14,4 @@ export { Subtitle } from './typography/Subtitle';
 
 export { Page } from './layouts/Page';
 
-export * from '@material-ui/icons';
+export * from './icons';

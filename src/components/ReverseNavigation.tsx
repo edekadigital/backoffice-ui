@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { ArrowBack } from '../icons';
 import { Heading } from '../typography/Heading';
 import { IconButton } from './IconButton';
 import {
