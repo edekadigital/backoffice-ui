@@ -16,6 +16,16 @@ const theme = createMuiTheme({
     h4: { fontWeight: 300 },
     h5: { fontWeight: 300 },
     h6: { fontWeight: 300 },
+    subtitle1: {
+      fontWeight: 400,
+      fontSize: '1.6rem',
+      lineHeight: 1.33,
+    },
+    subtitle2: {
+      fontWeight: 400,
+      fontSize: '1.3rem',
+      lineHeight: 1.6,
+    },
   },
 });
 
