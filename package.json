@@ -1,5 +1,6 @@
 {
   "name": "@edekadigital/backoffice-ui",
+  "description": "React components based on Material Design",
   "version": "0.8.1",
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",

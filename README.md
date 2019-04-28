@@ -2,6 +2,8 @@
 
 # Backoffice UI
 
+React components based on Material Design. [edekadigital.github.io/backoffice-ui](https://edekadigital.github.io/backoffice-ui/)
+
 ## Usage
 
 ### 1. Install
@@ -63,4 +65,3 @@ export const SomeComponent = () => (
 
 - [React](https://reactjs.org/)
 - [Storybook](https://storybook.js.org/)
-- [GTS - TypeScript style guide, formatter, and linter](https://github.com/google/gts)
