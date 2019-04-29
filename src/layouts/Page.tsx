@@ -69,10 +69,10 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
   const hasBar = !!bar;
   const items = Array.isArray(children) ? children : [children];
   const itemSizingProps: ItemSizingProps = {
-    xs: false,
+    xs: 12,
     md: true,
-    lg: true,
-    xl: true,
+    lg: false,
+    xl: false,
   };
 
   if (items.length < 5) {
