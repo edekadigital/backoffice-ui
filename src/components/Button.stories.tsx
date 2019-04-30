@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { Button, Delete, ArrowForward } from '..'; // @edekadigital/backoffice-ui
+import { CloudDownload } from '../icons';
 
 storiesOf('Components|Button', module)
   .add('contained', () => <Button>Some Label</Button>)
@@ -47,6 +48,16 @@ storiesOf('Components|Button', module)
   ))
   .add('outlined with icon (right)', () => (
     <Button variant="outlined" icon={ArrowForward} iconPosition="right">
+      Some Label
+    </Button>
+  ))
+  .add('download', () => (
+    <Button
+      variant="text"
+      icon={CloudDownload}
+      href="data:text/plain;base64,TG9yZW0gSXBzdW0="
+      download="file.txt"
+    >
       Some Label
     </Button>
   ));

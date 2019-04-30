@@ -18,6 +18,7 @@ export interface IconButtonProps {
   href?: string;
   target?: string;
   className?: string;
+  download?: string | boolean;
   onClick?: React.MouseEventHandler;
 }
 
