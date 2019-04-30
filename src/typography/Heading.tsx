@@ -15,10 +15,13 @@ export type HeadingComponent =
 
 export type HeadingColor = 'default' | 'primary' | 'secondary';
 
+export type HeadingAlign = 'left' | 'center' | 'right';
+
 export interface HeadingProps {
   variant?: HeadingVariant;
   component?: HeadingComponent;
   color?: HeadingColor;
+  align?: HeadingAlign;
   children: React.ReactNode;
 }
 
@@ -26,11 +29,11 @@ export const Heading: React.FC<HeadingProps> = props => {
   const {
     variant = 'h2',
     component = 'h2',
-    color = 'default',
     children,
+    ...additionalProps
   } = props;
   return (
-    <MuiTypography variant={variant} component={component} color={color}>
+    <MuiTypography variant={variant} component={component} {...additionalProps}>
       {children}
     </MuiTypography>
   );

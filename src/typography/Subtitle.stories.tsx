@@ -22,6 +22,12 @@ storiesOf('Typography|Subtitle', module)
       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     </Subtitle>
   ))
+  .add('center', () => (
+    <Subtitle align="center">
+      Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Subtitle>
+  ))
   .add('subtitle1', () => (
     <Subtitle variant="subtitle1">
       Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,

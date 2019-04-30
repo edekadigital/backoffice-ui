@@ -19,6 +19,11 @@ storiesOf('Typography|Heading', module)
       Lorem ipsum dolor <strong>sit amet</strong>
     </Heading>
   ))
+  .add('center', () => (
+    <Heading align="center">
+      Lorem ipsum dolor <strong>sit amet</strong>
+    </Heading>
+  ))
   .add('h1', () => (
     <Heading variant="h1">
       Lorem ipsum dolor <strong>sit amet</strong>

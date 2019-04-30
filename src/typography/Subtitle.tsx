@@ -7,10 +7,13 @@ export type SubtitleComponent = 'p' | 'span' | 'div';
 
 export type SubtitleColor = 'default' | 'primary' | 'secondary';
 
+export type SubtitleAlign = 'left' | 'center' | 'right';
+
 export interface SubtitleProps {
   variant?: SubtitleVariant;
   component?: SubtitleComponent;
   color?: SubtitleColor;
+  align?: SubtitleAlign;
   children: React.ReactNode;
 }
 
@@ -18,11 +21,11 @@ export const Subtitle: React.FC<SubtitleProps> = props => {
   const {
     variant = 'subtitle1',
     component = 'p',
-    color = 'default',
     children,
+    ...additionalProps
   } = props;
   return (
-    <MuiTypography variant={variant} component={component} color={color}>
+    <MuiTypography variant={variant} component={component} {...additionalProps}>
       {children}
     </MuiTypography>
   );
