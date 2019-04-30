@@ -14,6 +14,7 @@ export interface SubtitleProps {
   component?: SubtitleComponent;
   color?: SubtitleColor;
   align?: SubtitleAlign;
+  gutterBottom?: boolean;
   children: React.ReactNode;
 }
 

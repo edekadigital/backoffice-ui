@@ -22,6 +22,7 @@ export interface HeadingProps {
   component?: HeadingComponent;
   color?: HeadingColor;
   align?: HeadingAlign;
+  gutterBottom?: boolean;
   children: React.ReactNode;
 }
 
