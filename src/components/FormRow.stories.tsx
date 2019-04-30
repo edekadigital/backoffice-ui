@@ -39,4 +39,11 @@ storiesOf('Components|FormRow', module)
         <TextField label="Some Label" />
       </FormRow>
     </>
+  ))
+  .add('single field', () => (
+    <>
+      <FormRow>
+        <TextField label="Some Label" />
+      </FormRow>
+    </>
   ));
