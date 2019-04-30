@@ -1,6 +1,7 @@
 export { ThemeProvider } from './ThemeProvider';
 
 export { Button } from './components/Button';
+export { FormRow } from './components/FormRow';
 export { IconButton } from './components/IconButton';
 export { ReverseNavigation } from './components/ReverseNavigation';
 export { SearchField } from './components/SearchField';
