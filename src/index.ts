@@ -1,4 +1,7 @@
-export { ThemeProvider } from './ThemeProvider';
+export { SnackbarProvider } from './providers/SnackbarProvider';
+export { ThemeProvider } from './providers/ThemeProvider';
+
+export { useSnackbar } from './hooks/useSnackbar';
 
 export { Button } from './components/Button';
 export { ConfirmationDialog } from './components/ConfirmationDialog';
