@@ -10,6 +10,7 @@ export { FormRow } from './components/FormRow';
 export { IconButton } from './components/IconButton';
 export { ReverseNavigation } from './components/ReverseNavigation';
 export { SearchField } from './components/SearchField';
+export { StatusChip } from './components/StatusChip';
 export { Switch } from './components/Switch';
 export { TextField } from './components/TextField';
 
