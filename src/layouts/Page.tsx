@@ -54,6 +54,7 @@ const pageStyles = (theme: Theme) =>
     },
     stickyBarWrapper: {
       position: 'fixed',
+      zIndex: 1,
       width: '100vw',
     },
   });
