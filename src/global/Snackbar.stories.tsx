@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { SnackbarProvider, useSnackbar, Button, FormRow } from '..'; // @edekadigital/backoffice-ui
+import { useSnackbar, Button, FormRow } from '..'; // @edekadigital/backoffice-ui
 
 storiesOf('Global|Snackbar', module).add('Snackbar', () => {
   const message = 'Lorem ipsum dolor sit amet';
@@ -26,9 +26,5 @@ storiesOf('Global|Snackbar', module).add('Snackbar', () => {
     );
   };
 
-  return (
-    <SnackbarProvider>
-      <StoryComponent />
-    </SnackbarProvider>
-  );
+  return <StoryComponent />;
 });

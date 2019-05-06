@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { configure, addDecorator } from '@storybook/react';
-import { ThemeProvider } from '../src';
+import { BackofficeUiProvider } from '../src';
 
-const ThemeDecorator = storyFn => <ThemeProvider>{storyFn()}</ThemeProvider>;
+const ThemeDecorator = storyFn => (
+  <BackofficeUiProvider>{storyFn()}</BackofficeUiProvider>
+);
 addDecorator(ThemeDecorator);
 
 function loadStories() {

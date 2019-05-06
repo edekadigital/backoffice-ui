@@ -1,5 +1,4 @@
-export { SnackbarProvider } from './providers/SnackbarProvider';
-export { ThemeProvider } from './providers/ThemeProvider';
+export { BackofficeUiProvider } from './providers/BackofficeUiProvider';
 
 export { useSnackbar } from './hooks/useSnackbar';
 

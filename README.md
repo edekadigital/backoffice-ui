@@ -21,16 +21,16 @@ npm i -S @edekadigital/backoffice-ui
 />
 ```
 
-### 3. Provide theme context
+### 3. Render `BackofficeUiProvider`
 
 ```js
-import { ThemeProvider } from '@edekadigital/backoffice-ui';
+import { BackofficeUiProvider } from '@edekadigital/backoffice-ui';
 
 export const App = () => (
-  <ThemeProvider>
+  <BackofficeUiProvider>
     <SomeComponent />
     {/* ... */}
-  </ThemeProvider>
+  </BackofficeUiProvider>
 );
 ```
 
