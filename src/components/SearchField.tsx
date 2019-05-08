@@ -39,15 +39,18 @@ const SearchFieldComponent: React.FC<SearchFieldProps & WithStyles> = props => {
         onChange(event.target.value);
       }
     },
-    []
+    [onChange]
   );
 
-  const handleFormSubmit = React.useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    if (onSubmit) {
-      onSubmit(inputRef!.current!.value);
-    }
-  }, []);
+  const handleFormSubmit = React.useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      if (onSubmit) {
+        onSubmit(inputRef!.current!.value);
+      }
+    },
+    [onSubmit]
+  );
 
   return (
     <MuiPaper elevation={1}>
