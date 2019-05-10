@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { IconButton as MuiIconButton } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { GRID_SPACING_DEFAULT } from '../constants/dimensions';
+import { OUTER_MARGIN } from '../constants/dimensions';
 
 export interface AppBarAction {
   icon: React.ReactType<SvgIconProps>;
@@ -22,8 +22,8 @@ export interface AppBarProps {
 
 const styles = createStyles((theme: Theme) => ({
   root: {
-    paddingLeft: GRID_SPACING_DEFAULT,
-    paddingRight: GRID_SPACING_DEFAULT,
+    paddingLeft: OUTER_MARGIN,
+    paddingRight: OUTER_MARGIN,
     background: theme.palette.background.paper,
   },
   outer: {

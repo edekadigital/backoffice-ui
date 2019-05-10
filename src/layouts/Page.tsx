@@ -10,6 +10,7 @@ import {
   GRID_SPACING_DEFAULT,
   LAYOUT_MAX_WIDTH_DEFAULT,
   LAYOUT_MAX_WIDTH_NARROW,
+  OUTER_MARGIN,
 } from '../constants/dimensions';
 
 export type PageVariant = 'default' | 'narrow';
@@ -36,7 +37,7 @@ const pageStyles = (theme: Theme) =>
       minHeight: '100vh',
     },
     outer: {
-      padding: GRID_SPACING_DEFAULT,
+      padding: OUTER_MARGIN,
     },
     inner: {
       margin: '0 auto',

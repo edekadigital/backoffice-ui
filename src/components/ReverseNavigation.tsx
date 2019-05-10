@@ -9,9 +9,9 @@ import {
 import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
 import {
-  GRID_SPACING_DEFAULT,
   LAYOUT_MAX_WIDTH_DEFAULT,
   LAYOUT_MAX_WIDTH_NARROW,
+  OUTER_MARGIN,
 } from '../constants/dimensions';
 
 export type ReverseNavigationVariant = 'default' | 'narrow';
@@ -24,8 +24,8 @@ export interface ReverseNavigationProps {
 
 const styles = createStyles((theme: Theme) => ({
   root: {
-    paddingLeft: GRID_SPACING_DEFAULT,
-    paddingRight: GRID_SPACING_DEFAULT,
+    paddingLeft: OUTER_MARGIN,
+    paddingRight: OUTER_MARGIN,
   },
   outer: {
     margin: '0 auto',
