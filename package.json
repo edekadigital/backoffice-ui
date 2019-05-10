@@ -1,7 +1,7 @@
 {
   "name": "@edekadigital/backoffice-ui",
   "description": "React components based on Material Design",
-  "version": "0.12.3",
+  "version": "0.13.0",
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
   "main": "lib/cjs/index.js",
