@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core';
 import { Search } from '../icons';
+import { withTestId } from '../utils/withTestId';
 
 export interface SearchFieldProps {
   placeholder: string;
@@ -60,11 +61,13 @@ const SearchFieldComponent: React.FC<SearchFieldProps & WithStyles> = props => {
           placeholder={placeholder}
           inputRef={inputRef}
           onChange={handleInputChange}
+          inputProps={withTestId('bo-search-field__input')}
         />
         <MuiIconButton
           className={classes.iconButton}
           aria-label={placeholder}
           type="submit"
+          {...withTestId('bo-search-field__submit')}
         >
           <Search />
         </MuiIconButton>
