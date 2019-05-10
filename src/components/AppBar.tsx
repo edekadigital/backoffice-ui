@@ -71,7 +71,7 @@ const AppBarComponent: React.FC<AppBarProps & WithStyles> = ({
     <div className={classes.root}>
       <div className={classes.outer}>
         <div className={classes.titleWrapper}>
-          <Typography component="h1" variant="h5" className={classes.title}>
+          <Typography component="h1" variant="h6" className={classes.title}>
             {children}
           </Typography>
         </div>
