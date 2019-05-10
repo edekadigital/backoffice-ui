@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core';
 import {
   GRID_SPACING_DEFAULT,
-  TOP_BAR_HEIGHT,
   LAYOUT_MAX_WIDTH_DEFAULT,
   LAYOUT_MAX_WIDTH_NARROW,
 } from '../constants/dimensions';
@@ -19,7 +18,6 @@ export type PageChildren = React.ReactNode | React.ReactNode[];
 
 export interface PageProps {
   bar?: React.ReactNode;
-  stickyBar?: boolean;
   variant?: PageVariant;
   children: PageChildren;
 }
@@ -48,25 +46,10 @@ const pageStyles = (theme: Theme) =>
     innerNarrow: {
       maxWidth: LAYOUT_MAX_WIDTH_NARROW,
     },
-    innerWithStickyBar: {
-      paddingTop: TOP_BAR_HEIGHT,
-    },
-    stickyBarWrapper: {
-      position: 'fixed',
-      zIndex: 1,
-      width: '100vw',
-    },
   });
 
 export const PageComponent: React.FC<PageProps & WithStyles> = props => {
-  const {
-    bar,
-    stickyBar = false,
-    variant = 'default',
-    children,
-    classes,
-  } = props;
-  const hasBar = !!bar;
+  const { bar, variant = 'default', children, classes } = props;
   const items = Array.isArray(children) ? children : [children];
   const itemSizingProps: ItemSizingProps = {
     xs: 12,
@@ -93,16 +76,10 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
   if (variant === 'narrow') {
     innerClassName = `${innerClassName} ${classes.innerNarrow}`;
   }
-  if (hasBar && stickyBar) {
-    innerClassName = `${innerClassName} ${classes.innerWithStickyBar}`;
-  }
-
-  const barWrapperClassName = stickyBar ? classes.stickyBarWrapper : undefined;
-  const top = hasBar ? <div className={barWrapperClassName}>{bar}</div> : null;
 
   return (
     <div className={classes.root}>
-      {top}
+      {bar || null}
       <div className={classes.outer}>
         <div className={innerClassName}>
           <Grid

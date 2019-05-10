@@ -111,7 +111,7 @@ storiesOf('Layouts|Page', module)
       </Page>
     );
   })
-  .add('with ReverseNavigation (sticky + narrow)', () => {
+  .add('with ReverseNavigation (narrow)', () => {
     const handleBarBackClick = () => {
       console.log('handleBarBackClick');
     };
@@ -123,7 +123,7 @@ storiesOf('Layouts|Page', module)
     );
 
     return (
-      <Page bar={bar} variant="narrow" stickyBar={true}>
+      <Page bar={bar} variant="narrow">
         <ContentLong />
       </Page>
     );
