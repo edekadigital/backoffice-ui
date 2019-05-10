@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  createStyles,
-  withStyles,
-  WithStyles,
-  Theme,
-  Grid,
-} from '@material-ui/core';
+import { createStyles, withStyles, WithStyles, Grid } from '@material-ui/core';
 import {
   GRID_SPACING_DEFAULT,
   LAYOUT_MAX_WIDTH_DEFAULT,
@@ -30,12 +24,8 @@ interface ItemSizingProps {
   xl: boolean | 3 | 4 | 6 | 12;
 }
 
-const pageStyles = (theme: Theme) =>
+const pageStyles = () =>
   createStyles({
-    root: {
-      boxSizing: 'border-box',
-      minHeight: '100vh',
-    },
     outer: {
       padding: OUTER_MARGIN,
     },
@@ -79,7 +69,7 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
   }
 
   return (
-    <div className={classes.root}>
+    <>
       {bar || null}
       <div className={classes.outer}>
         <div className={innerClassName}>
@@ -93,7 +83,7 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
           </Grid>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
