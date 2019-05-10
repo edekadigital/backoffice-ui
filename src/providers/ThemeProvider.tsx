@@ -7,6 +7,7 @@ const theme = createMuiTheme({
     primary: { main: PRIMARY },
     secondary: { main: SECONDARY },
     error: { main: ERROR },
+    background: { default: '#f5f5f5', paper: '#ffffff' },
   },
   typography: {
     useNextVariants: true,

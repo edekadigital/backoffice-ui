@@ -36,7 +36,6 @@ const pageStyles = (theme: Theme) =>
     root: {
       boxSizing: 'border-box',
       minHeight: '100vh',
-      background: theme.palette.grey[200],
     },
     outer: {
       padding: GRID_SPACING_DEFAULT,

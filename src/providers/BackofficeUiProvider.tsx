@@ -4,9 +4,9 @@ import { SnackbarProvider } from './SnackbarProvider';
 import { ThemeProvider } from './ThemeProvider';
 
 export const BackofficeUiProvider: React.FC = ({ children }) => (
-  <CssBaseline>
-    <ThemeProvider>
+  <ThemeProvider>
+    <CssBaseline>
       <SnackbarProvider>{children}</SnackbarProvider>
-    </ThemeProvider>
-  </CssBaseline>
+    </CssBaseline>
+  </ThemeProvider>
 );
