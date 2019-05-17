@@ -4,6 +4,10 @@
   "version": "0.13.1",
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edekadigital/backoffice-ui.git"
+  },
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "typings": "lib/types/index.d.ts",
