@@ -10,7 +10,6 @@ const theme = createMuiTheme({
     background: { default: '#f5f5f5', paper: '#ffffff' },
   },
   typography: {
-    useNextVariants: true,
     h1: { fontWeight: 300 },
     h2: { fontWeight: 300 },
     h3: { fontWeight: 300 },

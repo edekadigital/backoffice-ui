@@ -4,7 +4,8 @@ import {
   ButtonProps as MuiButtonProps,
 } from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
@@ -31,41 +32,16 @@ export interface ButtonProps {
   onClick?: React.MouseEventHandler;
 }
 
-interface IconProps {
-  icon: ButtonIcon;
-  position: ButtonIconPosition;
-}
-
-const iconStyles = (theme: Theme) =>
-  createStyles({
-    left: {
-      marginRight: theme.spacing.unit,
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    iconLeft: {
+      marginRight: theme.spacing(),
     },
-    right: {
-      marginLeft: theme.spacing.unit,
+    iconRight: {
+      marginLeft: theme.spacing(),
     },
-  });
-
-const Icon: React.FC<IconProps> = ({ icon, position }) => {
-  const IconComponent = icon;
-  const StyledIconComponent = withStyles(iconStyles)((props: WithStyles) => (
-    <IconComponent className={props.classes[position]} />
-  ));
-  return <StyledIconComponent />;
-};
-
-const WithIcon: React.FC<IconProps> = props =>
-  props.position === 'left' ? (
-    <>
-      <Icon {...props} />
-      {props.children}
-    </>
-  ) : (
-    <>
-      {props.children}
-      <Icon {...props} />
-    </>
-  );
+  };
+});
 
 export const Button: React.FC<ButtonProps> = props => {
   const {
@@ -75,13 +51,27 @@ export const Button: React.FC<ButtonProps> = props => {
     children,
     ...additionalProps
   } = props;
-  const content = icon ? (
-    <WithIcon icon={icon} position={iconPosition}>
-      {children}
-    </WithIcon>
-  ) : (
-    children
-  );
+  const classes = useStyles();
+
+  let content = children;
+  if (icon) {
+    const IconComponent = icon;
+    if (iconPosition === 'left') {
+      content = (
+        <>
+          <IconComponent className={classes.iconLeft} />
+          {children}
+        </>
+      );
+    } else {
+      content = (
+        <>
+          {children}
+          <IconComponent className={classes.iconRight} />
+        </>
+      );
+    }
+  }
 
   return (
     <MuiButton variant={variant} color="primary" {...additionalProps}>

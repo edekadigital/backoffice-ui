@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  withStyles,
-  createStyles,
-  WithStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
+import { Theme, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { IconButton as MuiIconButton } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { OUTER_MARGIN } from '../constants/dimensions';
@@ -20,7 +15,7 @@ export interface AppBarProps {
   actions?: AppBarAction[];
 }
 
-const styles = createStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingLeft: OUTER_MARGIN,
     paddingRight: OUTER_MARGIN,
@@ -50,11 +45,9 @@ const styles = createStyles((theme: Theme) => ({
   },
 }));
 
-const AppBarComponent: React.FC<AppBarProps & WithStyles> = ({
-  classes,
-  actions = [],
-  children,
-}) => {
+export const AppBar: React.FC<AppBarProps> = ({ actions = [], children }) => {
+  const classes = useStyles();
+
   const actionItems = actions.map(({ icon, handler }, index) => {
     const IconComponent = icon;
     const handleClick = () => handler();
@@ -80,5 +73,3 @@ const AppBarComponent: React.FC<AppBarProps & WithStyles> = ({
     </div>
   );
 };
-
-export const AppBar = withStyles(styles)(AppBarComponent);

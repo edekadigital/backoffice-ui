@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  Grid,
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles,
-} from '@material-ui/core';
+import { Grid, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export type FormRowItemWidth =
   | 1
@@ -29,21 +24,18 @@ export interface FormRowProps {
   children: FormRowChildren;
 }
 
-const formRowStyles = createStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
     overflow: 'hidden',
     '& + &': {
-      marginTop: theme.spacing.unit * 2,
+      marginTop: theme.spacing(2),
     },
   },
 }));
 
-const FormRowComponent: React.FC<FormRowProps & WithStyles> = ({
-  widths = [],
-  children,
-  classes,
-}) => {
+export const FormRow: React.FC<FormRowProps> = ({ widths = [], children }) => {
+  const classes = useStyles();
   const items = Array.isArray(children) ? children : [children];
   const renderedItems = items.map((tempChild, index) => (
     <Grid item={true} xs={widths[index] || true} key={`form-row-item-${index}`}>
@@ -52,11 +44,9 @@ const FormRowComponent: React.FC<FormRowProps & WithStyles> = ({
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} spacing={16} alignItems="flex-start" wrap="nowrap">
+      <Grid container={true} spacing={2} alignItems="flex-start" wrap="nowrap">
         {renderedItems}
       </Grid>
     </div>
   );
 };
-
-export const FormRow = withStyles(formRowStyles)(FormRowComponent);

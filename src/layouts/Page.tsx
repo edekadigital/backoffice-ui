@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { createStyles, withStyles, WithStyles, Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import {
-  GRID_SPACING_DEFAULT,
   LAYOUT_MAX_WIDTH_DEFAULT,
   LAYOUT_MAX_WIDTH_NARROW,
   OUTER_MARGIN,
@@ -24,23 +23,23 @@ interface ItemSizingProps {
   xl: boolean | 3 | 4 | 6 | 12;
 }
 
-const pageStyles = () =>
-  createStyles({
-    outer: {
-      padding: OUTER_MARGIN,
-    },
-    inner: {
-      margin: '0 auto',
-      width: '100%',
-      maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
-    },
-    innerNarrow: {
-      maxWidth: LAYOUT_MAX_WIDTH_NARROW,
-    },
-  });
+const useStyles = makeStyles({
+  outer: {
+    padding: OUTER_MARGIN,
+  },
+  inner: {
+    margin: '0 auto',
+    width: '100%',
+    maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
+  },
+  innerNarrow: {
+    maxWidth: LAYOUT_MAX_WIDTH_NARROW,
+  },
+});
 
-export const PageComponent: React.FC<PageProps & WithStyles> = props => {
-  const { bar, variant = 'default', children, classes } = props;
+export const Page: React.FC<PageProps> = props => {
+  const { bar, variant = 'default', children } = props;
+  const classes = useStyles();
   const items = Array.isArray(children) ? children : [children];
   const itemSizingProps: ItemSizingProps = {
     xs: 12,
@@ -73,12 +72,7 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
       {bar || null}
       <div className={classes.outer}>
         <div className={innerClassName}>
-          <Grid
-            container={true}
-            spacing={GRID_SPACING_DEFAULT}
-            justify="center"
-            component="main"
-          >
+          <Grid container={true} spacing={4} justify="center" component="main">
             {gridContent}
           </Grid>
         </div>
@@ -86,5 +80,3 @@ export const PageComponent: React.FC<PageProps & WithStyles> = props => {
     </>
   );
 };
-
-export const Page = withStyles(pageStyles)(PageComponent);

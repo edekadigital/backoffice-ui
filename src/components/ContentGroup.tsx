@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { Heading, HeadingComponent } from '../typography/Heading';
-import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export interface ContentGroupProps {
   title?: string;
@@ -9,20 +10,20 @@ export interface ContentGroupProps {
   children: React.ReactNode;
 }
 
-const contentGroupStyles = createStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     '& + &': {
-      marginTop: theme.spacing.unit * 4,
+      marginTop: theme.spacing(4),
     },
   },
 }));
 
-const ContentGroupComponent: React.FC<ContentGroupProps & WithStyles> = ({
+export const ContentGroup: React.FC<ContentGroupProps> = ({
   title,
   titleComponent = 'h3',
   children,
-  classes,
 }) => {
+  const classes = useStyles();
   const header = title ? (
     <Heading variant="h5" component={titleComponent} gutterBottom={true}>
       {title}
@@ -35,7 +36,3 @@ const ContentGroupComponent: React.FC<ContentGroupProps & WithStyles> = ({
     </div>
   );
 };
-
-export const ContentGroup = withStyles(contentGroupStyles)(
-  ContentGroupComponent
-);

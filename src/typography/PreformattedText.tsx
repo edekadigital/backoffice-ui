@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export interface PreformattedTextProps {
   children: React.ReactNode;
 }
 
-const preStyles = createStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
     fontFamily:
@@ -16,12 +17,9 @@ const preStyles = createStyles((theme: Theme) => ({
   },
 }));
 
-const PreformattedTextComponent: React.FC<
-  PreformattedTextProps & WithStyles
-> = ({ classes, children }) => {
+export const PreformattedText: React.FC<PreformattedTextProps> = ({
+  children,
+}) => {
+  const classes = useStyles();
   return <pre className={classes.root}>{children}</pre>;
 };
-
-export const PreformattedText = withStyles(preStyles)(
-  PreformattedTextComponent
-);

@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  withStyles,
-  createStyles,
-  WithStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
+import { Theme, Typography } from '@material-ui/core';
 import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
 import {
@@ -13,6 +7,7 @@ import {
   LAYOUT_MAX_WIDTH_NARROW,
   OUTER_MARGIN,
 } from '../constants/dimensions';
+import { makeStyles } from '@material-ui/styles';
 
 export type ReverseNavigationVariant = 'default' | 'narrow';
 
@@ -22,7 +17,7 @@ export interface ReverseNavigationProps {
   onBackClick: React.MouseEventHandler;
 }
 
-const styles = createStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingLeft: OUTER_MARGIN,
     paddingRight: OUTER_MARGIN,
@@ -40,13 +35,17 @@ const styles = createStyles((theme: Theme) => ({
   },
   backButton: {
     marginLeft: -12,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
 }));
 
-const ReverseNavigationComponent: React.FC<
-  ReverseNavigationProps & WithStyles
-> = ({ classes, variant = 'default', onBackClick, children }) => {
+export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
+  variant = 'default',
+  onBackClick,
+  children,
+}) => {
+  const classes = useStyles();
+
   const title = children ? (
     <Typography component="h2" variant="h5">
       {children}
@@ -71,5 +70,3 @@ const ReverseNavigationComponent: React.FC<
     </div>
   );
 };
-
-export const ReverseNavigation = withStyles(styles)(ReverseNavigationComponent);
