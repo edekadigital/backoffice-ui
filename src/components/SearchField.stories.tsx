@@ -11,10 +11,19 @@ const handleSubmit = (value: string) => {
   console.log(`Submit: ${value}`);
 };
 
-storiesOf('Components|SearchField', module).add('default', () => (
-  <SearchField
-    placeholder="Search"
-    onChange={handleChange}
-    onSubmit={handleSubmit}
-  />
-));
+storiesOf('Components|SearchField', module)
+  .add('default', () => (
+    <SearchField
+      placeholder="Search"
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+    />
+  ))
+  .add('progress', () => (
+    <SearchField
+      placeholder="Search"
+      progress={true}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+    />
+  ));

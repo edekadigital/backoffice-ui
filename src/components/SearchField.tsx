@@ -3,17 +3,23 @@ import {
   Paper as MuiPaper,
   InputBase as MuiInputBase,
   IconButton as MuiIconButton,
+  LinearProgress as MuiLinearProgress,
 } from '@material-ui/core';
 import { Search } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 
 export interface SearchFieldProps {
   placeholder: string;
+  progress?: boolean;
   onChange?: (value: string) => void;
   onSubmit?: (value: string) => void;
 }
 
 const useStyles = makeStyles({
+  paper: {
+    position: 'relative',
+    overflow: 'hidden',
+  },
   form: {
     padding: '2px 4px',
     display: 'flex',
@@ -26,10 +32,17 @@ const useStyles = makeStyles({
   iconButton: {
     padding: 10,
   },
+  progress: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+  },
 });
 
 export const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,
+  progress,
   onChange,
   onSubmit,
 }) => {
@@ -55,8 +68,12 @@ export const SearchField: React.FC<SearchFieldProps> = ({
     [onSubmit]
   );
 
+  const progressBar = progress ? (
+    <MuiLinearProgress className={classes.progress} />
+  ) : null;
+
   return (
-    <MuiPaper elevation={1}>
+    <MuiPaper elevation={1} className={classes.paper}>
       <form className={classes.form} onSubmit={handleFormSubmit}>
         <MuiInputBase
           className={classes.input}
@@ -72,6 +89,7 @@ export const SearchField: React.FC<SearchFieldProps> = ({
           <Search />
         </MuiIconButton>
       </form>
+      {progressBar}
     </MuiPaper>
   );
 };
