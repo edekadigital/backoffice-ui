@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TextField as MuiTextField } from '@material-ui/core';
+import { TextField as MuiTextField, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export type TextFieldValue = string | number;
 
@@ -34,22 +35,41 @@ export interface TextFieldProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
+const useInputStyles = makeStyles((theme: Theme) => ({
+  root: {
+    background: theme.palette.background.paper,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+  },
+}));
+
+const useLabelStyles = makeStyles((theme: Theme) => ({
+  root: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+  },
+}));
+
 export const TextField: React.FC<TextFieldProps> = props => {
-  const { label, type = 'text', required = false, ...additionalProps } = props;
-  const modifiedLabel = required ? label : `${label} (optional)`;
+  const { type = 'text', required = false, ...additionalProps } = props;
+  const inputClasses = useInputStyles();
+  const labelClasses = useLabelStyles();
+  const InputProps = {
+    classes: inputClasses,
+  };
   const InputLabelProps = {
+    classes: labelClasses,
     shrink: true,
-    required: false,
+    required,
   };
   return (
     <MuiTextField
       {...additionalProps}
-      label={modifiedLabel}
       type={type}
       required={required}
+      InputProps={InputProps}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
-      variant="filled"
     />
   );
 };
