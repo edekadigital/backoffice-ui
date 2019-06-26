@@ -5,7 +5,7 @@ export type BodyVariant = 'body1' | 'body2';
 
 export type BodyComponent = 'p' | 'span' | 'div';
 
-export type BodyColor = 'default' | 'primary' | 'secondary' | 'error';
+export type BodyColor = 'initial' | 'primary' | 'secondary' | 'error';
 
 export interface BodyProps {
   variant?: BodyVariant;

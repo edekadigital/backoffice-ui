@@ -5,7 +5,7 @@ export type SubtitleVariant = 'subtitle1' | 'subtitle2';
 
 export type SubtitleComponent = 'p' | 'span' | 'div';
 
-export type SubtitleColor = 'default' | 'primary' | 'secondary';
+export type SubtitleColor = 'initial' | 'primary' | 'secondary';
 
 export type SubtitleAlign = 'left' | 'center' | 'right';
 

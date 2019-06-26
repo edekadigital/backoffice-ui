@@ -13,7 +13,7 @@ export type HeadingComponent =
   | 'span'
   | 'div';
 
-export type HeadingColor = 'default' | 'primary' | 'secondary';
+export type HeadingColor = 'initial' | 'primary' | 'secondary';
 
 export type HeadingAlign = 'left' | 'center' | 'right';
 
