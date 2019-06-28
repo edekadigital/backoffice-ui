@@ -46,7 +46,7 @@ export const StatusChip: React.FC<StatusChipProps> = props => {
   const classes = useStyles(props);
 
   const chipProps: ChipProps = {
-    label: `label: ${label}`,
+    label,
     variant: 'outlined',
     classes: { root: classes.root }, // TODO
   };
