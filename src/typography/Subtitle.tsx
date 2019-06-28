@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography as MuiTypography } from '@material-ui/core';
+import { Typography as MuiTypography, makeStyles } from '@material-ui/core';
 
 export type SubtitleVariant = 'subtitle1' | 'subtitle2';
 
@@ -18,6 +18,12 @@ export interface SubtitleProps {
   children: React.ReactNode;
 }
 
+const useStyles = makeStyles({
+  gutterBottom: {
+    marginBottom: '0.5em',
+  },
+});
+
 export const Subtitle: React.FC<SubtitleProps> = props => {
   const {
     variant = 'subtitle1',
@@ -25,8 +31,14 @@ export const Subtitle: React.FC<SubtitleProps> = props => {
     children,
     ...additionalProps
   } = props;
+  const classes = useStyles();
   return (
-    <MuiTypography variant={variant} component={component} {...additionalProps}>
+    <MuiTypography
+      variant={variant}
+      component={component}
+      classes={classes}
+      {...additionalProps}
+    >
       {children}
     </MuiTypography>
   );
