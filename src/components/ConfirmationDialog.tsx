@@ -36,13 +36,7 @@ const ConfirmationDialogComponent: React.FC<
     fullScreen,
   } = props;
   return (
-    <Dialog
-      open={open}
-      fullScreen={fullScreen}
-      onClose={onClose}
-      disablePortal={true}
-      keepMounted={true}
-    >
+    <Dialog open={open} fullScreen={fullScreen} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText variant="body1">{message}</DialogContentText>
