@@ -41,6 +41,7 @@ const ConfirmationDialogComponent: React.FC<
       fullScreen={fullScreen}
       onClose={onClose}
       disablePortal={true}
+      keepMounted={true}
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
