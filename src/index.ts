@@ -1,4 +1,5 @@
 export * from './providers/BackofficeUiProvider';
+export * from './providers/ThemeProvider';
 
 export * from './hooks/useSnackbar';
 
