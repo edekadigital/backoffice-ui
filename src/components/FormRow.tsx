@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Theme } from '@material-ui/core';
+import { Grid, Theme, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export type FormRowItemWidth =
@@ -26,8 +26,8 @@ export interface FormRowProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: '100%',
-    overflow: 'hidden',
+    marginLeft: theme.spacing(-1),
+    marginRight: theme.spacing(-1),
     '& + &': {
       marginTop: theme.spacing(2),
     },
@@ -39,12 +39,12 @@ export const FormRow: React.FC<FormRowProps> = ({ widths = [], children }) => {
   const items = Array.isArray(children) ? children : [children];
   const renderedItems = items.map((tempChild, index) => (
     <Grid item={true} xs={widths[index] || true} key={`form-row-item-${index}`}>
-      {tempChild}
+      <Box mx={1}>{tempChild}</Box>
     </Grid>
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} spacing={2} alignItems="flex-start" wrap="nowrap">
+      <Grid container={true} spacing={0} alignItems="center" wrap="nowrap">
         {renderedItems}
       </Grid>
     </div>
