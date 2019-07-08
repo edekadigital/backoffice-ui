@@ -44,7 +44,7 @@ export const FormRow: React.FC<FormRowProps> = ({ widths = [], children }) => {
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} spacing={0} alignItems="center" wrap="nowrap">
+      <Grid container={true} spacing={0} alignItems="flex-start" wrap="nowrap">
         {renderedItems}
       </Grid>
     </div>
