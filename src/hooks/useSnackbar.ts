@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSnackbar as origUseSnackbar } from 'notistack';
 
 export type SnackbarVariant =
@@ -15,15 +16,18 @@ export interface SnackbarApi {
   push: (message: string, options?: SnackbarOptions) => void;
 }
 
-export const useSnackbar: () => SnackbarApi = () => {
+export const useSnackbar = () => {
   const { enqueueSnackbar } = origUseSnackbar();
 
-  const push = (message: string, options: SnackbarOptions = {}) => {
-    const { variant = 'default' } = options;
-    enqueueSnackbar(message, { variant });
-  };
+  const api = React.useMemo<SnackbarApi>(() => {
+    const push = (message: string, options: SnackbarOptions = {}) => {
+      const { variant = 'default' } = options;
+      enqueueSnackbar(message, { variant });
+    };
+    return {
+      push,
+    };
+  }, [enqueueSnackbar]);
 
-  return {
-    push,
-  };
+  return api;
 };
