@@ -8,6 +8,7 @@ export * from './components/Button';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/FormRow';
+export * from './components/HorizontalMenu';
 export * from './components/IconButton';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';

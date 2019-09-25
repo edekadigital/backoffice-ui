@@ -31,10 +31,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   titleWrapper: {
     flex: '1 1 100%',
-    overflow: 'hidden',
   },
   title: {
-    overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },

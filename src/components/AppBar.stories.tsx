@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { AppBar, ExitToApp, Apps } from '..'; // @edekadigital/backoffice-ui
+import { AppBar, ExitToApp, Apps, HorizontalMenu } from '..'; // @edekadigital/backoffice-ui
+import { BrowserRouter } from 'react-router-dom';
 
 storiesOf('Components|AppBar', module)
   .add('default', () => (
@@ -24,5 +25,24 @@ storiesOf('Components|AppBar', module)
       <AppBar actions={actions}>
         <strong>Lorem</strong>Ipsum
       </AppBar>
+    );
+  })
+  .add('with horizontal menu', () => {
+    const menu = {
+      items: [
+        { title: 'Simple', to: '/simple' },
+        { title: 'Dot as badge', to: '/dot-as-badge', badge: true },
+        { title: 'Number as badge', to: '/number-as-badge', badge: 4 },
+        { title: 'Disabled' },
+      ],
+    };
+
+    return (
+      <BrowserRouter>
+        <AppBar>
+          <strong>Lorem</strong>Ipsum
+          <HorizontalMenu items={menu.items} />
+        </AppBar>
+      </BrowserRouter>
     );
   });
