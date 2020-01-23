@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { render, fireEvent, cleanup } from 'react-testing-library';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Button } from './Button';
-import { ThemeProvider } from '../providers/ThemeProvider';
+import { ThemeProvider } from '..';
 
 const label = 'Some Label';
 
