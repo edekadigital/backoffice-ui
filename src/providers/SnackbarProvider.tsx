@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   info: { backgroundColor: PRIMARY },
 }));
 
+/**
+ * TODO: remove notistack and use native material-ui snackbars instead
+ * see: https://material-ui.com/components/snackbars/
+ */
 export const SnackbarProvider: React.FC = ({ children }) => {
   const classes = useStyles();
   const snackbarOrigin: SnackbarOrigin = {

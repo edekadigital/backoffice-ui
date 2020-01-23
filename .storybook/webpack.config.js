@@ -1,13 +1,7 @@
-module.exports = async ({ config }) => {
+module.exports = ({ config }) => {
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
-    use: [
-      'babel-loader',
-      {
-        loader: require.resolve('@storybook/addon-storysource/loader'),
-        options: { parser: 'typescript' },
-      },
-    ],
+    use: require.resolve('babel-loader'),
   });
 
   config.resolve.extensions.push('.ts', '.tsx');
