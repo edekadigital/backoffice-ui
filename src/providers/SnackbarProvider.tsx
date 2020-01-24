@@ -31,7 +31,7 @@ interface SnackbarContextValue {
 
 interface SnackbarContent {
   message: string;
-  options?: SnackbarOptions;
+  variant?: SnackbarVariant;
 }
 
 const noop = () => {};
@@ -47,26 +47,50 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const [snackbarOptions, setSnackbarOptions] = useState<SnackbarContent>();
   const queueRef = useRef<SnackbarContent[]>([]);
 
-  const push = (message: string, options?: SnackbarOptions) => {
-    console.log(message, options);
-    queueRef.current.push({ message, options });
-
-    const processQueue = () => {
-      if (queueRef.current.length > 0) {
-        setSnackbarOptions(queueRef.current.shift());
-        setOpen(true);
-      }
-    };
+  const push = (message: string, options: SnackbarOptions = {}) => {
+    // console.log(message, options);
+    const { variant = 'default' } = options;
+    queueRef.current.push({ message, variant });
 
     if (open) {
       setOpen(false);
-      processQueue();
     } else {
       processQueue();
     }
   };
 
+  const processQueue = () => {
+    if (queueRef.current.length > 0) {
+      setSnackbarOptions(queueRef.current.shift());
+      setOpen(true);
+    }
+  };
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    console.log('handleClose - no clickaway');
+    setOpen(false);
+  };
+
   const value = useMemo(() => ({ push }), [push]);
+
+  const snackbar = useMemo(() => {
+    if (snackbarOptions) {
+      return (
+        <Snackbar
+          open={open}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          message={`${snackbarOptions.message} + ${snackbarOptions.variant}`}
+        />
+      );
+    } else {
+      return null;
+    }
+  }, [snackbarOptions, open]);
 
   const classes = useStyles();
   const snackbarClasses = {
@@ -82,12 +106,7 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
       // classes={snackbarClasses}
     >
       {props.children}
-      <Snackbar
-        open={open}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        autoHideDuration={3000}
-        message={`${snackbarOptions?.message} + ${snackbarOptions?.options?.variant}`}
-      />
+      {snackbar}
     </SnackbarContext.Provider>
   );
 };
