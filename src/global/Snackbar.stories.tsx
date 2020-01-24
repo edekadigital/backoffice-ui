@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { useSnackbar, Button, FormRow } from '..'; // @edekadigital/backoffice-ui
+import { Button, FormRow } from '..'; // @edekadigital/backoffice-ui
+import { useSnackbar } from '../providers/SnackbarProvider';
 
 storiesOf('Global|Snackbar', module).add('Snackbar', () => {
   const message = 'Lorem ipsum dolor sit amet';
