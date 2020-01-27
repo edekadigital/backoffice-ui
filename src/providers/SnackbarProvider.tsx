@@ -92,14 +92,6 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
 
   const value = useMemo(() => ({ push }), [push]);
 
-  const action = () => {
-    return (
-      <IconButton aria-label="close" color="inherit" onClick={handleClose}>
-        <CloseIcon />
-      </IconButton>
-    );
-  };
-
   const snackbar = useMemo(() => {
     if (snackbarContent && snackbarContent.variant !== 'default') {
       return (
@@ -120,6 +112,17 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
         </Snackbar>
       );
     } else if (snackbarContent) {
+      const action = (
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          onClick={handleClose}
+          size="small"
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      );
+
       return (
         <Snackbar
           open={open}
