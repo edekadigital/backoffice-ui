@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useMemo, useState, useRef, ReactNode } from 'react';
-// import { SnackbarProvider as OrigSnackbarProvider } from 'notistack';
 import { Theme } from '@material-ui/core';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { PRIMARY, SUCCESS, ERROR, WARNING } from '../constants/colors';
 import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/styles';
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export type SnackbarVariant =
-  | 'default'
+  | undefined
   | 'success'
   | 'error'
   | 'warning'
@@ -42,14 +42,27 @@ const SnackbarContext = React.createContext<SnackbarContextValue>({
 
 export const useSnackbar = () => useContext(SnackbarContext);
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={4} variant="filled" {...props} />;
+}
+
 export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const [open, setOpen] = useState(false);
   const [snackbarOptions, setSnackbarOptions] = useState<SnackbarContent>();
   const queueRef = useRef<SnackbarContent[]>([]);
 
+  const classes = useStyles();
+  const snackbarClasses = {
+    filledSuccess: classes.success,
+    filledError: classes.error,
+    filledWarning: classes.warning,
+    filledInfo: classes.info,
+  };
+
   const push = (message: string, options: SnackbarOptions = {}) => {
-    // console.log(message, options);
-    const { variant = 'default' } = options;
+    console.log(message, options);
+    console.log(open);
+    const { variant = undefined } = options;
     queueRef.current.push({ message, variant });
 
     if (open) {
@@ -70,8 +83,11 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
     if (reason === 'clickaway') {
       return;
     }
-    console.log('handleClose - no clickaway');
     setOpen(false);
+  };
+
+  const handleExited = () => {
+    processQueue();
   };
 
   const value = useMemo(() => ({ push }), [push]);
@@ -84,27 +100,24 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           autoHideDuration={5000}
           onClose={handleClose}
-          message={`${snackbarOptions.message} + ${snackbarOptions.variant}`}
-        />
+          onExited={handleExited}
+        >
+          <Alert
+            severity={snackbarOptions.variant}
+            onClose={handleClose}
+            classes={snackbarClasses}
+          >
+            {snackbarOptions.message}
+          </Alert>
+        </Snackbar>
       );
     } else {
       return null;
     }
   }, [snackbarOptions, open]);
 
-  const classes = useStyles();
-  const snackbarClasses = {
-    base: classes.default,
-    variantSuccess: classes.success,
-    variantError: classes.error,
-    variantWarning: classes.warning,
-    variantInfo: classes.info,
-  };
   return (
-    <SnackbarContext.Provider
-      value={value}
-      // classes={snackbarClasses}
-    >
+    <SnackbarContext.Provider value={value}>
       {props.children}
       {snackbar}
     </SnackbarContext.Provider>
