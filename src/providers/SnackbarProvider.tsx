@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { useContext, useMemo, useState, useRef, ReactNode } from 'react';
 import { Theme } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { PRIMARY, SUCCESS, ERROR, WARNING } from '../constants/colors';
-import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -15,11 +17,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export type SnackbarVariant =
-  | undefined
+  | 'default'
+  | 'info'
   | 'success'
   | 'error'
-  | 'warning'
-  | 'info';
+  | 'warning';
 
 interface SnackbarOptions {
   variant?: SnackbarVariant;
@@ -31,7 +33,7 @@ interface SnackbarContextValue {
 
 interface SnackbarContent {
   message: string;
-  variant?: SnackbarVariant;
+  variant: SnackbarVariant;
 }
 
 const noop = () => {};
@@ -48,11 +50,11 @@ function Alert(props: AlertProps) {
 
 export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [snackbarOptions, setSnackbarOptions] = useState<SnackbarContent>();
+  const [snackbarContent, setSnackbarContent] = useState<SnackbarContent>();
   const queueRef = useRef<SnackbarContent[]>([]);
 
   const classes = useStyles();
-  const snackbarClasses = {
+  const alertClasses = {
     filledSuccess: classes.success,
     filledError: classes.error,
     filledWarning: classes.warning,
@@ -60,9 +62,7 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   };
 
   const push = (message: string, options: SnackbarOptions = {}) => {
-    console.log(message, options);
-    console.log(open);
-    const { variant = undefined } = options;
+    const { variant = 'default' } = options;
     queueRef.current.push({ message, variant });
 
     if (open) {
@@ -74,7 +74,7 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
 
   const processQueue = () => {
     if (queueRef.current.length > 0) {
-      setSnackbarOptions(queueRef.current.shift());
+      setSnackbarContent(queueRef.current.shift());
       setOpen(true);
     }
   };
@@ -92,8 +92,16 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
 
   const value = useMemo(() => ({ push }), [push]);
 
+  const action = () => {
+    return (
+      <IconButton aria-label="close" color="inherit" onClick={handleClose}>
+        <CloseIcon />
+      </IconButton>
+    );
+  };
+
   const snackbar = useMemo(() => {
-    if (snackbarOptions) {
+    if (snackbarContent && snackbarContent.variant !== 'default') {
       return (
         <Snackbar
           open={open}
@@ -103,18 +111,30 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
           onExited={handleExited}
         >
           <Alert
-            severity={snackbarOptions.variant}
+            severity={snackbarContent.variant}
             onClose={handleClose}
-            classes={snackbarClasses}
+            classes={alertClasses}
           >
-            {snackbarOptions.message}
+            {snackbarContent.message}
           </Alert>
         </Snackbar>
+      );
+    } else if (snackbarContent) {
+      return (
+        <Snackbar
+          open={open}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          onExited={handleExited}
+          action={action}
+          ContentProps={{ message: snackbarContent.message }}
+        />
       );
     } else {
       return null;
     }
-  }, [snackbarOptions, open]);
+  }, [snackbarContent, open]);
 
   return (
     <SnackbarContext.Provider value={value}>
