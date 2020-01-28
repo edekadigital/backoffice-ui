@@ -15,6 +15,8 @@ export interface ReverseNavigationProps {
   variant?: ReverseNavigationVariant;
   children?: React.ReactNode;
   onBackClick: React.MouseEventHandler;
+  infoBarContent?: React.ReactNode;
+  actionBarContent?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,6 +31,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
     height: 70,
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
   },
   outerNarrow: {
     maxWidth: LAYOUT_MAX_WIDTH_NARROW,
@@ -37,12 +44,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: -12,
     marginRight: theme.spacing(),
   },
+  actionBar: {
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
+    marginLeft: theme.spacing(4.5),
+  },
 }));
 
 export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   variant = 'default',
   onBackClick,
   children,
+  infoBarContent,
+  actionBarContent,
 }) => {
   const classes = useStyles();
 
@@ -52,6 +66,9 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
     </Typography>
   ) : null;
 
+  const navStatus = infoBarContent ? infoBarContent : null;
+  const navAction = actionBarContent ? actionBarContent : null;
+
   let outerClassName = classes.outer;
   if (variant === 'narrow') {
     outerClassName = `${outerClassName} ${classes.outerNarrow}`;
@@ -60,13 +77,17 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   return (
     <div className={classes.root}>
       <div className={outerClassName}>
-        <IconButton
-          icon={ArrowBack}
-          onClick={onBackClick}
-          className={classes.backButton}
-        />
-        {title}
+        <div className={classes.wrapper}>
+          <IconButton
+            icon={ArrowBack}
+            onClick={onBackClick}
+            className={classes.backButton}
+          />
+          {title}
+        </div>
+        {navAction}
       </div>
+      <div className={classes.actionBar}>{navStatus}</div>
     </div>
   );
 };
