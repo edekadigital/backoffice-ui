@@ -1,7 +1,7 @@
 export * from './providers/BackofficeUiProvider';
 export * from './providers/ThemeProvider';
 
-export * from './hooks/useSnackbar';
+export * from './providers/SnackbarProvider';
 
 export * from './components/AppBar';
 export * from './components/Button';
