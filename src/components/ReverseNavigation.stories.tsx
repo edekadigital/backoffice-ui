@@ -48,7 +48,7 @@ storiesOf('Components|ReverseNavigation', module)
       <ReverseNavigation
         onBackClick={handleBackClick}
         infoBarContent={status}
-        actionBarContent={action}
+        action={action}
       >
         Lorem ipsum dolor <strong>sit amet</strong>
       </ReverseNavigation>

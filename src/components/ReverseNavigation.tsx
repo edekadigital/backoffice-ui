@@ -16,7 +16,7 @@ export interface ReverseNavigationProps {
   children?: React.ReactNode;
   onBackClick: React.MouseEventHandler;
   infoBarContent?: React.ReactNode;
-  actionBarContent?: React.ReactNode;
+  action?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -41,12 +41,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: LAYOUT_MAX_WIDTH_NARROW,
   },
   backButton: {
-    marginLeft: -12,
+    marginLeft: theme.spacing(-1.5),
     marginRight: theme.spacing(),
   },
   actionBar: {
     paddingLeft: theme.spacing(),
-    paddingRight: theme.spacing(),
     marginLeft: theme.spacing(4.5),
   },
 }));
@@ -56,7 +55,7 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   onBackClick,
   children,
   infoBarContent,
-  actionBarContent,
+  action,
 }) => {
   const classes = useStyles();
 
@@ -67,7 +66,7 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   ) : null;
 
   const navStatus = infoBarContent ? infoBarContent : null;
-  const navAction = actionBarContent ? actionBarContent : null;
+  const navAction = action ? action : null;
 
   let outerClassName = classes.outer;
   if (variant === 'narrow') {
