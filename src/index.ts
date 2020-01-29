@@ -14,6 +14,7 @@ export * from './components/SearchField';
 export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TextField';
+export * from './components/SimpleMenu';
 
 export * from './typography/Body';
 export * from './typography/Heading';

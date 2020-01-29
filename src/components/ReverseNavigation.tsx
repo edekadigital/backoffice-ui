@@ -15,6 +15,8 @@ export interface ReverseNavigationProps {
   variant?: ReverseNavigationVariant;
   children?: React.ReactNode;
   onBackClick: React.MouseEventHandler;
+  infoBarContent?: React.ReactNode;
+  action?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -24,18 +26,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   outer: {
     margin: '0 auto',
-    display: 'flex',
     width: '100%',
     maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
+  },
+  inner: {
+    display: 'flex',
     height: 70,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  wrapper: {
+    display: 'flex',
     alignItems: 'center',
   },
   outerNarrow: {
     maxWidth: LAYOUT_MAX_WIDTH_NARROW,
   },
   backButton: {
-    marginLeft: -12,
+    marginLeft: theme.spacing(-1.5),
     marginRight: theme.spacing(),
+  },
+  infoBar: {
+    paddingLeft: theme.spacing(),
+    marginLeft: theme.spacing(4.5),
   },
 }));
 
@@ -43,6 +56,8 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   variant = 'default',
   onBackClick,
   children,
+  infoBarContent,
+  action,
 }) => {
   const classes = useStyles();
 
@@ -52,6 +67,11 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
     </Typography>
   ) : null;
 
+  const infoBar = infoBarContent ? (
+    <div className={classes.infoBar}>{infoBarContent}</div>
+  ) : null;
+  const actions = action ? <div>{action}</div> : null;
+
   let outerClassName = classes.outer;
   if (variant === 'narrow') {
     outerClassName = `${outerClassName} ${classes.outerNarrow}`;
@@ -60,12 +80,18 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   return (
     <div className={classes.root}>
       <div className={outerClassName}>
-        <IconButton
-          icon={ArrowBack}
-          onClick={onBackClick}
-          className={classes.backButton}
-        />
-        {title}
+        <div className={classes.inner}>
+          <div className={classes.wrapper}>
+            <IconButton
+              icon={ArrowBack}
+              onClick={onBackClick}
+              className={classes.backButton}
+            />
+            {title}
+          </div>
+          {actions}
+        </div>
+        {infoBar}
       </div>
     </div>
   );
