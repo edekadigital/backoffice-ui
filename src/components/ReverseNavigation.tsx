@@ -26,9 +26,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   outer: {
     margin: '0 auto',
-    display: 'flex',
     width: '100%',
     maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
+  },
+  inner: {
+    display: 'flex',
     height: 70,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -44,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(-1.5),
     marginRight: theme.spacing(),
   },
-  actionBar: {
+  infoBar: {
     paddingLeft: theme.spacing(),
     marginLeft: theme.spacing(4.5),
   },
@@ -65,8 +67,10 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
     </Typography>
   ) : null;
 
-  const navStatus = infoBarContent ? infoBarContent : null;
-  const navAction = action ? action : null;
+  const infoBar = infoBarContent ? (
+    <div className={classes.infoBar}>{infoBarContent}</div>
+  ) : null;
+  const actions = action ? <div>{action}</div> : null;
 
   let outerClassName = classes.outer;
   if (variant === 'narrow') {
@@ -76,17 +80,19 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   return (
     <div className={classes.root}>
       <div className={outerClassName}>
-        <div className={classes.wrapper}>
-          <IconButton
-            icon={ArrowBack}
-            onClick={onBackClick}
-            className={classes.backButton}
-          />
-          {title}
+        <div className={classes.inner}>
+          <div className={classes.wrapper}>
+            <IconButton
+              icon={ArrowBack}
+              onClick={onBackClick}
+              className={classes.backButton}
+            />
+            {title}
+          </div>
+          {actions}
         </div>
-        {navAction}
+        {infoBar}
       </div>
-      <div className={classes.actionBar}>{navStatus}</div>
     </div>
   );
 };
