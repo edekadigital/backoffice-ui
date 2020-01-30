@@ -18,12 +18,14 @@ export interface SwitchProps {
   ) => void;
 }
 
+// tslint:disable-next-line: no-any
+type MuiSwitchInputProps = any; // fix issue with incomplete type definitions
+
 export const Switch: React.FC<SwitchProps> = props => {
   const { label, ...additionalProps } = props;
-  return (
-    <MuiFormControlLabel
-      control={<MuiSwitch color="primary" {...additionalProps} />}
-      label={label}
-    />
+  const inputProps: MuiSwitchInputProps = { 'data-testid': 'switch-input' };
+  const control = (
+    <MuiSwitch color="primary" inputProps={inputProps} {...additionalProps} />
   );
+  return <MuiFormControlLabel control={control} label={label} />;
 };

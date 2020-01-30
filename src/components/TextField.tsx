@@ -70,6 +70,7 @@ export const TextField: React.FC<TextFieldProps> = props => {
       InputProps={InputProps}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
+      inputProps={{ 'data-testid': 'textField-input' }}
     />
   );
 };

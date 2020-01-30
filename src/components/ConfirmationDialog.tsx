@@ -21,9 +21,8 @@ export interface ConfirmationDialogProps {
   onCancel?: React.ReactEventHandler<{}>;
 }
 
-const ConfirmationDialogComponent: React.FC<
-  ConfirmationDialogProps & InjectedProps
-> = props => {
+const ConfirmationDialogComponent: React.FC<ConfirmationDialogProps &
+  InjectedProps> = props => {
   const {
     open,
     title,
@@ -37,15 +36,26 @@ const ConfirmationDialogComponent: React.FC<
   } = props;
   return (
     <Dialog open={open} fullScreen={fullScreen} onClose={onClose}>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle data-testid="confirmationDialog-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText variant="body1">{message}</DialogContentText>
+        <DialogContentText
+          variant="body1"
+          data-testid="confirmationDialog-message"
+        >
+          {message}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={onCancel}>
+        <Button
+          variant="outlined"
+          onClick={onCancel}
+          data-testid="confirmationDialog-cancel"
+        >
           {cancelLabel}
         </Button>
-        <Button onClick={onConfirm}>{confirmLabel}</Button>
+        <Button onClick={onConfirm} data-testid="confirmationDialog-confirm">
+          {confirmLabel}
+        </Button>
       </DialogActions>
     </Dialog>
   );

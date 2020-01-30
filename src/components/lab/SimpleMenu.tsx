@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Menu as MuiMenu, MenuProps, Theme } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import { IconButton } from './IconButton';
-import { ArrowDropDown } from '../icons';
+import { IconButton } from '../IconButton';
+import { ArrowDropDown } from '../../icons';
+
+// WIP
 
 export interface MenuItemAction {
   label: string;

@@ -80,11 +80,13 @@ export const SearchField: React.FC<SearchFieldProps> = ({
           placeholder={placeholder}
           inputRef={inputRef}
           onChange={handleInputChange}
+          inputProps={{ 'data-testid': 'searchField-input' }}
         />
         <MuiIconButton
           className={classes.iconButton}
           aria-label={placeholder}
           type="submit"
+          data-testid="searchField-submit"
         >
           <Search />
         </MuiIconButton>

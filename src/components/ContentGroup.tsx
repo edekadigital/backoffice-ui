@@ -25,7 +25,12 @@ export const ContentGroup: React.FC<ContentGroupProps> = ({
 }) => {
   const classes = useStyles();
   const header = title ? (
-    <Heading variant="h5" component={titleComponent} gutterBottom={true}>
+    <Heading
+      variant="h5"
+      component={titleComponent}
+      gutterBottom={true}
+      data-testid="contentGroup-title"
+    >
       {title}
     </Heading>
   ) : null;

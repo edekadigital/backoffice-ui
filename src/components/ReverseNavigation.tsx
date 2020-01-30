@@ -62,15 +62,23 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
   const classes = useStyles();
 
   const title = children ? (
-    <Typography component="h2" variant="h5">
+    <Typography
+      component="h2"
+      variant="h5"
+      data-testid="reverseNavigation-title"
+    >
       {children}
     </Typography>
   ) : null;
 
   const infoBar = infoBarContent ? (
-    <div className={classes.infoBar}>{infoBarContent}</div>
+    <div className={classes.infoBar} data-testid="reverseNavigation-infoBar">
+      {infoBarContent}
+    </div>
   ) : null;
-  const actions = action ? <div>{action}</div> : null;
+  const actions = action ? (
+    <div data-testid="reverseNavigation-actions">{action}</div>
+  ) : null;
 
   let outerClassName = classes.outer;
   if (variant === 'narrow') {

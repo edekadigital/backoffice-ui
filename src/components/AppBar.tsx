@@ -64,7 +64,12 @@ export const AppBar: React.FC<AppBarProps> = ({ actions = [], children }) => {
     <div className={classes.root}>
       <div className={classes.outer}>
         <div className={classes.titleWrapper}>
-          <Typography component="h1" variant="h6" className={classes.title}>
+          <Typography
+            component="h1"
+            variant="h6"
+            className={classes.title}
+            data-testid="appBar-title"
+          >
             {children}
           </Typography>
         </div>

@@ -48,6 +48,10 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={4} variant="filled" {...props} />;
 }
 
+const SnackbarMessage: React.FC = ({ children }) => (
+  <span data-testid="snackbar-message">{children}</span>
+);
+
 export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const [open, setOpen] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState<SnackbarContent>();
@@ -107,7 +111,7 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
             onClose={handleClose}
             classes={alertClasses}
           >
-            {snackbarContent.message}
+            <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
           </Alert>
         </Snackbar>
       );
@@ -123,6 +127,10 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
         </IconButton>
       );
 
+      const message = (
+        <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
+      );
+
       return (
         <Snackbar
           open={open}
@@ -131,7 +139,7 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
           onClose={handleClose}
           onExited={handleExited}
           action={action}
-          ContentProps={{ message: snackbarContent.message }}
+          ContentProps={{ message }}
         />
       );
     } else {
