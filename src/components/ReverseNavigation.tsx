@@ -93,6 +93,7 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
             <IconButton
               icon={ArrowBack}
               onClick={onBackClick}
+              data-testid="reverseNavigation-back"
               className={classes.backButton}
             />
             {title}

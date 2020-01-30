@@ -72,7 +72,7 @@ export const SomeComponent = () => (
 | `components/ContentGroup`       | `contentGroup-title`                                                                                                |
 | `components/Switch`             | `switch-input`                                                                                                      |
 | `components/TextField`          | `textField-input`                                                                                                   |
-| `components/ReverseNavigation`  | `reverseNavigation-title`, `reverseNavigation-infoBar` , `reverseNavigation-actions`                                |
+| `components/ReverseNavigation`  | `reverseNavigation-title`, `reverseNavigation-infoBar` , `reverseNavigation-actions`, `reverseNavigation-back`      |
 
 ### Resources
 
