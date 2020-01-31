@@ -3,7 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
-storiesOf('Components|FormRow', module)
+storiesOf('Forms|FormRow', module)
   .add('default', () => (
     <>
       <FormRow>
