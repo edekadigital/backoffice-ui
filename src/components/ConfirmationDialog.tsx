@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  withMobileDialog,
-} from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useTheme from '@material-ui/styles/useTheme';
+import { Theme } from '@material-ui/core';
+
 import { Button } from './Button';
-import { InjectedProps } from '@material-ui/core/withMobileDialog';
 
 export interface ConfirmationDialogProps {
   open: boolean;
@@ -21,8 +21,7 @@ export interface ConfirmationDialogProps {
   onCancel?: React.ReactEventHandler<{}>;
 }
 
-const ConfirmationDialogComponent: React.FC<ConfirmationDialogProps &
-  InjectedProps> = props => {
+export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
   const {
     open,
     title,
@@ -32,10 +31,11 @@ const ConfirmationDialogComponent: React.FC<ConfirmationDialogProps &
     onClose,
     onConfirm,
     onCancel,
-    fullScreen,
   } = props;
+  const theme = useTheme<Theme>();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   return (
-    <Dialog open={open} fullScreen={fullScreen} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} fullScreen={fullScreen}>
       <DialogTitle data-testid="confirmationDialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText
@@ -60,7 +60,3 @@ const ConfirmationDialogComponent: React.FC<ConfirmationDialogProps &
     </Dialog>
   );
 };
-
-export const ConfirmationDialog = withMobileDialog<ConfirmationDialogProps>()(
-  ConfirmationDialogComponent
-);
