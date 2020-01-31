@@ -6,7 +6,7 @@ import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { OUTER_MARGIN } from '../constants/dimensions';
 
 export interface AppBarAction {
-  icon: React.ReactType<SvgIconProps>;
+  icon: React.ElementType<SvgIconProps>;
   handler: () => void;
 }
 

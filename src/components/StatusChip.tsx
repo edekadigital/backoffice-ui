@@ -21,7 +21,7 @@ const colorMap: { [k: string]: string } = {
 
 export interface StatusChipProps {
   label: string;
-  icon?: React.ReactType<SvgIconProps>;
+  icon?: React.ElementType<SvgIconProps>;
   color?: StatusChipColor;
 }
 

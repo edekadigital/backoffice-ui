@@ -13,6 +13,7 @@ export * from './components/ReverseNavigation';
 export * from './components/SearchField';
 export * from './components/StatusChip';
 export * from './components/Switch';
+export * from './components/TabNavigation';
 export * from './components/TextField';
 
 export * from './typography/Body';
