@@ -4,6 +4,7 @@ import {
   ButtonProps as MuiButtonProps,
 } from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -22,6 +23,7 @@ export interface ButtonProps {
   variant?: ButtonVariant;
   icon?: ButtonIcon;
   iconPosition?: ButtonIconPosition;
+  showProgress?: boolean;
   component?: ButtonComponent;
   disabled?: boolean;
   type?: ButtonType;
@@ -48,30 +50,43 @@ export const Button: React.FC<ButtonProps> = props => {
     variant = 'contained',
     icon,
     iconPosition = 'left',
+    showProgress = false,
     children,
     ...additionalProps
   } = props;
   const classes = useStyles();
 
-  let content = children;
-  if (icon) {
-    const IconComponent = icon;
-    if (iconPosition === 'left') {
-      content = (
-        <>
-          <IconComponent className={classes.iconLeft} />
-          {children}
-        </>
-      );
+  const IconComponent = React.useMemo(() => {
+    if (showProgress) {
+      return (props: {}) => <CircularProgress size={24} {...props} />;
+    } else if (icon) {
+      return icon;
     } else {
-      content = (
-        <>
-          {children}
-          <IconComponent className={classes.iconRight} />
-        </>
-      );
+      return null;
     }
-  }
+  }, [icon, showProgress]);
+
+  const content = React.useMemo(() => {
+    if (IconComponent) {
+      if (iconPosition === 'left') {
+        return (
+          <>
+            <IconComponent className={classes.iconLeft} />
+            {children}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {children}
+            <IconComponent className={classes.iconRight} />
+          </>
+        );
+      }
+    } else {
+      return children;
+    }
+  }, [IconComponent, iconPosition, children, classes]);
 
   return (
     <MuiButton variant={variant} color="primary" {...additionalProps}>

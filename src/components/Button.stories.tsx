@@ -59,4 +59,9 @@ storiesOf('Components|Button', module)
     >
       Some Label
     </Button>
+  ))
+  .add('progress', () => (
+    <Button variant="text" showProgress={true}>
+      Some Label
+    </Button>
   ));
