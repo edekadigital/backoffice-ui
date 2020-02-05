@@ -1,35 +1,35 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import { activeLinkClass, TabNavigation } from './TabNavigation';
+import { useEffect, useMemo, useState } from 'react';
+import { TabNavigation, TabNavigationItem } from './TabNavigation';
 import {
-  Router,
-  Link,
-  RouteComponentProps,
-  LocationProvider,
   createHistory,
   createMemorySource,
-  LinkGetProps,
+  Link,
+  LocationProvider,
+  RouteComponentProps,
+  Router,
 } from '@reach/router';
 
-const navigationItems1 = [
+const navigationItems1: Array<TabNavigationItem<number>> = [
   {
-    href: '/',
+    value: 1,
     label: 'Persönliche Daten',
   },
   {
-    href: 'view2',
+    value: 2,
     label: 'Login / Mail',
   },
   {
-    href: 'view3',
+    value: 3,
     label: 'Newsletter',
   },
   {
-    href: 'view3',
+    value: 4,
     label: 'Datenschutz',
   },
   {
-    href: 'view3',
+    value: 5,
     label: 'Protokoll',
     divider: true,
   },
@@ -37,57 +37,75 @@ const navigationItems1 = [
 
 const navigationItems2 = [
   {
-    href: '/',
+    value: '/',
     label: 'Persönliche Daten',
   },
   {
-    href: 'view2',
+    value: '/view2',
     label: 'Login / Mail',
+    divider: true,
   },
 ];
 
-const View1: React.FC<RouteComponentProps> = () => {
+const View1: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>View 1</h1>
+      <h1 style={{ textAlign: 'center' }}>View 1: {location?.pathname}</h1>
     </div>
   );
 };
 
-const View2: React.FC<RouteComponentProps> = () => {
+const View2: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>View 2</h1>
+      <h1 style={{ textAlign: 'center' }}>View 2: {location?.pathname}</h1>
     </div>
   );
 };
 
 storiesOf('Components|TabNavigation', module)
   .add('Default', () => {
-    return <TabNavigation items={navigationItems1} />;
+    const [value, setValue] = useState(1);
+
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+      setValue(newValue);
+    };
+
+    return (
+      <>
+        <TabNavigation
+          items={navigationItems1}
+          value={value}
+          onChange={handleChange}
+        />
+        <div hidden={value !== 1}>Tab 1</div>
+        <div hidden={value !== 2}>Tab 2</div>
+        <div hidden={value !== 3}>Tab 3</div>
+        <div hidden={value !== 4}>Tab 4</div>
+        <div hidden={value !== 5}>Tab 5</div>
+      </>
+    );
   })
   .add('With router', () => {
-    const source = createMemorySource('/');
-    const history = createHistory(source);
+    const source = useMemo(() => createMemorySource('/'), []);
+    const history = useMemo(() => createHistory(source), []);
+    const [path, setPath] = useState('/');
 
-    // TODO refactor component forwarding
-    // tslint:disable-next-line: no-any
-    const NavLink = React.forwardRef<HTMLAnchorElement, any>((props, ref) => {
-      const isActive = (options: LinkGetProps) => ({
-        className: options.isCurrent
-          ? `${props.className} ${activeLinkClass}`
-          : props.className,
-      });
-      return <Link {...props} ref={ref} getProps={isActive} />;
-    });
+    useEffect(() => {
+      history.listen(({ location }) => setPath(location.pathname));
+    }, [history]);
 
     return (
       <LocationProvider history={history}>
+        <TabNavigation
+          items={navigationItems2}
+          linkComponent={Link}
+          value={path}
+        />
         <Router>
           <View1 path="/" />
-          <View2 path="/view2" />
+          <View2 path="view2" />
         </Router>
-        <TabNavigation items={navigationItems2} linkComponent={NavLink} />
       </LocationProvider>
     );
   });

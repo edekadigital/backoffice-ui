@@ -1,31 +1,32 @@
 import * as React from 'react';
+import { useEffect, useMemo } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Tabs from '@material-ui/core/Tabs';
-import { useMemo } from 'react';
 import Tab from '@material-ui/core/Tab';
 import clsx from 'clsx';
 
-const DefaultLinkComponent = React.forwardRef<HTMLAnchorElement>(
-  (props, ref) => <a {...props} ref={ref} />
-);
-
-interface TabNavigationItem {
+export interface TabNavigationItem<T> {
   label: string;
-  href: string;
   divider?: boolean;
+  value: T;
 }
 
-export interface TabNavigationProps {
-  // tslint:disable-next-line: no-any
-  linkComponent?: any;
-  items: TabNavigationItem[];
+export interface TabNavigationProps<T> {
+  linkComponent?: React.ElementType;
+  items: Array<TabNavigationItem<T>>;
+  value: T;
+  onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
 }
 
 export const activeLinkClass = 'active';
 
 const useStyles = makeStyles(() => ({
   root: {},
-  tab: {},
+  tab: {
+    [`&.${activeLinkClass}`]: {
+      backgroundColor: 'red',
+    },
+  },
   tabDivider: {
     '&::before': {
       content: "''",
@@ -37,21 +38,28 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const TabNavigation: React.FC<TabNavigationProps> = props => {
-  const { items, linkComponent = DefaultLinkComponent } = props;
+export function TabNavigation<T>(props: TabNavigationProps<T>) {
+  const { items, linkComponent = 'button', value, ...additionalProps } = props;
   const classes = useStyles();
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('resize'));
+  }, []);
 
   const tabs = useMemo(
     () =>
-      items.map((item: TabNavigationItem, index: number) => {
+      items.map((item: TabNavigationItem<T>, index: number) => {
         const className = clsx(classes.tab, {
           [classes.tabDivider]: item.divider,
         });
         return (
           <Tab
             key={index}
+            selected={true}
             component={linkComponent}
             label={item.label}
+            to={item.value}
+            value={item.value}
             className={className}
           />
         );
@@ -61,7 +69,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = props => {
 
   return (
     <div className={classes.root}>
-      <Tabs value={false}>{tabs}</Tabs>
+      <Tabs value={value} indicatorColor="primary" {...additionalProps}>
+        {tabs}
+      </Tabs>
     </div>
   );
-};
+}
