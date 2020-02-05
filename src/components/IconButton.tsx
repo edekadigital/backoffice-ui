@@ -5,12 +5,12 @@ import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 
 export type IconButtonColor = 'default' | 'primary';
 
-export type IconButtonComponent = React.ReactType<ButtonBaseProps>;
+export type IconButtonComponent = React.ElementType<ButtonBaseProps>;
 
 export type IconButtonType = 'submit' | 'reset' | 'button';
 
 export interface IconButtonProps {
-  icon: React.ReactType<SvgIconProps>;
+  icon: React.ElementType<SvgIconProps>;
   color?: IconButtonColor;
   component?: IconButtonComponent;
   disabled?: boolean;
