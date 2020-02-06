@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Page, Body, ReverseNavigation, AppBar } from '..'; // @edekadigital/backoffice-ui
+import { PageWrapper, Page, Body, ReverseNavigation, AppBar } from '..'; // @edekadigital/backoffice-ui
 
 const Content = () => (
   <Body component="p">
@@ -16,22 +16,16 @@ const Content = () => (
 
 const noop = () => {};
 
-storiesOf('Layouts|Page', module)
-  .add('default', () => (
-    <Page>
-      <Content />
-    </Page>
-  ))
-  .add('narrow', () => (
-    <Page variant="narrow">
-      <Content />
-    </Page>
-  ))
-  .add('with ReverseNavigation', () => (
+storiesOf('Layouts|PageWrapper', module).add('default', () => (
+  <PageWrapper>
+    <AppBar gutterBottom={true}>
+      <strong>Lorem</strong>Ipsum
+    </AppBar>
     <Page>
       <ReverseNavigation onBackClick={noop} gutterBottom={true}>
         LoremIpsum
       </ReverseNavigation>
       <Content />
     </Page>
-  ));
+  </PageWrapper>
+));

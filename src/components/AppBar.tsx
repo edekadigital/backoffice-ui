@@ -14,12 +14,14 @@ export interface AppBarAction {
 export interface AppBarProps {
   children?: React.ReactNode;
   actions?: AppBarAction[];
+  gutterBottom?: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const useStyles = makeStyles<Theme, AppBarProps>(theme => ({
+  root: ({ gutterBottom }) => ({
     background: theme.palette.background.paper,
-  },
+    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+  }),
   outer: {
     margin: '0 auto',
     display: 'flex',
@@ -44,8 +46,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const AppBar: React.FC<AppBarProps> = ({ actions = [], children }) => {
-  const classes = useStyles();
+export const AppBar: React.FC<AppBarProps> = props => {
+  const { actions = [], children } = props;
+  const classes = useStyles(props);
 
   const actionItems = actions.map(({ icon, handler }, index) => {
     const IconComponent = icon;

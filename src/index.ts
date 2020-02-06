@@ -25,5 +25,6 @@ export * from './typography/PreformattedText';
 export * from './typography/Subtitle';
 
 export * from './layouts/Page';
+export * from './layouts/PageWrapper';
 
 export * from './icons';
