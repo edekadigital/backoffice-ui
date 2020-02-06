@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { TextField as MuiTextField, Theme } from '@material-ui/core';
+import {
+  TextField as MuiTextField,
+  Theme,
+  SelectProps,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export type TextFieldValue = string | number;
@@ -33,6 +37,8 @@ export interface TextFieldProps {
   name?: string;
   value?: TextFieldValue;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  select?: boolean;
+  SelectProps?: Partial<SelectProps>;
 }
 
 const useInputStyles = makeStyles((theme: Theme) => ({
