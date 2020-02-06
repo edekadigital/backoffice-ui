@@ -77,6 +77,7 @@ storiesOf('Components|TabNavigation', module)
           items={navigationItems1}
           value={value}
           onChange={handleChange}
+          gutterBottom={true}
         />
         <div hidden={value !== 1}>Tab 1</div>
         <div hidden={value !== 2}>Tab 2</div>
@@ -101,6 +102,7 @@ storiesOf('Components|TabNavigation', module)
           items={navigationItems2}
           linkComponent={Link}
           value={path}
+          gutterBottom={true}
         />
         <Router>
           <View1 path="/" />

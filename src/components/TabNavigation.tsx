@@ -4,6 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import clsx from 'clsx';
+import { Divider, Theme } from '@material-ui/core';
 
 export interface TabNavigationItem<T> {
   label: string;
@@ -16,15 +17,26 @@ export interface TabNavigationProps<T> {
   items: Array<TabNavigationItem<T>>;
   value: T;
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
+  gutterBottom?: boolean;
 }
 
-export const activeLinkClass = 'active';
-
-const useStyles = makeStyles(() => ({
-  root: {},
+const useStyles = makeStyles<Theme, { gutterBottom: boolean }>(theme => ({
+  root: ({ gutterBottom }) => ({
+    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+  }),
+  indicator: {
+    height: 4,
+    zIndex: 2,
+  },
+  horizontalDivider: {
+    position: 'relative',
+    bottom: 1,
+  },
   tab: {
-    [`&.${activeLinkClass}`]: {
-      backgroundColor: 'red',
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 'auto',
     },
   },
   tabDivider: {
@@ -39,8 +51,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 export function TabNavigation<T>(props: TabNavigationProps<T>) {
-  const { items, linkComponent = 'button', value, ...additionalProps } = props;
-  const classes = useStyles();
+  const {
+    items,
+    linkComponent = 'button',
+    value,
+    gutterBottom = false,
+    ...additionalProps
+  } = props;
+  const classes = useStyles({ gutterBottom });
 
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('resize'));
@@ -67,11 +85,21 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
     []
   );
 
+  const tabIndicatorProps = {
+    color: 'primary',
+    className: classes.indicator,
+  };
+
   return (
     <div className={classes.root}>
-      <Tabs value={value} indicatorColor="primary" {...additionalProps}>
+      <Tabs
+        value={value}
+        TabIndicatorProps={tabIndicatorProps}
+        {...additionalProps}
+      >
         {tabs}
       </Tabs>
+      <Divider className={classes.horizontalDivider} />
     </div>
   );
 }
