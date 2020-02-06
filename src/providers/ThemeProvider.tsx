@@ -34,6 +34,18 @@ const theme = createMuiTheme({
         paddingRight: 8,
       },
     },
+    MuiSelect: {
+      select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
+    },
+    MuiMenuItem: {
+      root: {
+        '&:hover': { backgroundColor: 'rgba(234, 234, 234, 0.4)' },
+        '&.Mui-selected, &.Mui-selected:hover': {
+          backgroundColor: PRIMARY,
+          color: '#fff',
+        },
+      },
+    },
   },
 });
 

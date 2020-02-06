@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { TextFieldValue, TextField } from './TextField';
+import { TextField, TextFieldValue } from './TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import { SelectProps } from '@material-ui/core';
 
 export interface SelectFieldProps {
   label: string;
@@ -17,21 +15,13 @@ export interface SelectFieldProps {
   menuItems: Array<{ value: string | number; label: string }>;
 }
 
-const useStyles = makeStyles(() => ({
-  select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
-}));
-
 export const SelectField: React.FC<SelectFieldProps> = props => {
   const { menuItems, ...additionalProps } = props;
-  const classes = useStyles();
-  const MuiSelectProps: SelectProps = {
-    classes: { select: classes.select },
-  };
 
   const menuItemList = menuItems
     ? menuItems.map((item, index) => (
         <MenuItem
-          key={`menu-item-${index}`}
+          key={index}
           value={item.value}
           data-testid={'selectField-item-' + index}
         >
@@ -41,7 +31,7 @@ export const SelectField: React.FC<SelectFieldProps> = props => {
     : null;
 
   return (
-    <TextField SelectProps={MuiSelectProps} select={true} {...additionalProps}>
+    <TextField select={true} {...additionalProps}>
       {menuItemList}
     </TextField>
   );
