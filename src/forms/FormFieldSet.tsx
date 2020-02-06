@@ -9,7 +9,7 @@ export interface FormFieldSetProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     maxWidth: theme.breakpoints.values['md'],
     '& + &': {
       marginTop: theme.spacing(4),
