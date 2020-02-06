@@ -39,7 +39,9 @@ export const FormRow: React.FC<FormRowProps> = ({ widths = [], children }) => {
   const items = Array.isArray(children) ? children : [children];
   const renderedItems = items.map((tempChild, index) => (
     <Grid item={true} xs={widths[index] || true} key={`form-row-item-${index}`}>
-      <Box mx={1}>{tempChild}</Box>
+      <Box mx={1} data-testid={`formRow-item-${index}`}>
+        {tempChild}
+      </Box>
     </Grid>
   ));
   return (

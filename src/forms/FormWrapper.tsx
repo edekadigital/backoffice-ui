@@ -35,11 +35,21 @@ export const FormWrapper: React.FC<FormWrapperProps> = props => {
   );
 
   return (
-    <form onSubmit={internalOnSubmit} className={classes.root}>
+    <form
+      onSubmit={internalOnSubmit}
+      className={classes.root}
+      data-testid="formWrapper-form"
+    >
       <div className={classes.content}>{children}</div>
       <ButtonBar>
-        <Button type="submit">{submitLabel}</Button>
-        <Button variant="text" onClick={onCancel}>
+        <Button type="submit" data-testid="formWrapper-submit">
+          {submitLabel}
+        </Button>
+        <Button
+          variant="text"
+          onClick={onCancel}
+          data-testid="formWrapper-cancel"
+        >
           {cancelLabel}
         </Button>
       </ButtonBar>

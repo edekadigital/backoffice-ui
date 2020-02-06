@@ -29,7 +29,12 @@ export const FormFieldSet: React.FC<FormFieldSetProps> = ({
   const renderedTitle = React.useMemo(
     () =>
       title ? (
-        <Typography className={classes.title} component="div" variant="h5">
+        <Typography
+          className={classes.title}
+          component="div"
+          variant="h5"
+          data-testid="formFieldSet-title"
+        >
           <strong>{title}</strong>
         </Typography>
       ) : null,
