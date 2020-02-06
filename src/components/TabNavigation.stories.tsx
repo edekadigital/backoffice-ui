@@ -14,23 +14,23 @@ import {
 const navigationItems1: Array<TabNavigationItem<number>> = [
   {
     value: 1,
-    label: 'Persönliche Daten',
+    label: 'Tab A',
   },
   {
     value: 2,
-    label: 'Login / Mail',
+    label: 'Tab B',
   },
   {
     value: 3,
-    label: 'Newsletter',
+    label: 'Tab C',
   },
   {
     value: 4,
-    label: 'Datenschutz',
+    label: 'Tab D',
   },
   {
     value: 5,
-    label: 'Protokoll',
+    label: 'Tab E',
     divider: true,
   },
 ];
@@ -38,11 +38,11 @@ const navigationItems1: Array<TabNavigationItem<number>> = [
 const navigationItems2 = [
   {
     value: '/',
-    label: 'Persönliche Daten',
+    label: 'Tab A',
   },
   {
     value: '/view2',
-    label: 'Login / Mail',
+    label: 'Tab B',
     divider: true,
   },
 ];

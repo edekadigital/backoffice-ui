@@ -83,7 +83,7 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
           />
         );
       }),
-    []
+    [items]
   );
 
   const tabIndicatorProps = {
