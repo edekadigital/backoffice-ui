@@ -10,11 +10,11 @@ import { makeStyles } from '@material-ui/styles';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonComponent = React.ReactType<MuiButtonProps>;
+export type ButtonComponent = React.ElementType<MuiButtonProps>;
 
 export type ButtonType = 'submit' | 'reset' | 'button';
 
-export type ButtonIcon = React.ReactType<SvgIconProps>;
+export type ButtonIcon = React.ElementType<SvgIconProps>;
 
 export type ButtonIconPosition = 'left' | 'right';
 

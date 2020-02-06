@@ -1,26 +1,27 @@
 import * as React from 'react';
-import { Theme, Typography } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import MuiIconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/styles';
-import { IconButton as MuiIconButton } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { OUTER_MARGIN } from '../constants/dimensions';
 
 export interface AppBarAction {
-  icon: React.ReactType<SvgIconProps>;
+  icon: React.ElementType<SvgIconProps>;
   handler: () => void;
 }
 
 export interface AppBarProps {
   children?: React.ReactNode;
   actions?: AppBarAction[];
+  gutterBottom?: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    paddingLeft: OUTER_MARGIN,
-    paddingRight: OUTER_MARGIN,
+const useStyles = makeStyles<Theme, AppBarProps>(theme => ({
+  root: ({ gutterBottom }) => ({
     background: theme.palette.background.paper,
-  },
+    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+  }),
   outer: {
     margin: '0 auto',
     display: 'flex',
@@ -45,8 +46,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const AppBar: React.FC<AppBarProps> = ({ actions = [], children }) => {
-  const classes = useStyles();
+export const AppBar: React.FC<AppBarProps> = props => {
+  const { actions = [], children } = props;
+  const classes = useStyles(props);
 
   const actionItems = actions.map(({ icon, handler }, index) => {
     const IconComponent = icon;
@@ -62,19 +64,21 @@ export const AppBar: React.FC<AppBarProps> = ({ actions = [], children }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.outer}>
-        <div className={classes.titleWrapper}>
-          <Typography
-            component="h1"
-            variant="h6"
-            className={classes.title}
-            data-testid="appBar-title"
-          >
-            {children}
-          </Typography>
+      <Container maxWidth={false}>
+        <div className={classes.outer}>
+          <div className={classes.titleWrapper}>
+            <Typography
+              component="h1"
+              variant="h6"
+              className={classes.title}
+              data-testid="appBar-title"
+            >
+              {children}
+            </Typography>
+          </div>
+          <div className={classes.actionsWrapper}>{actionItems}</div>
         </div>
-        <div className={classes.actionsWrapper}>{actionItems}</div>
-      </div>
+      </Container>
     </div>
   );
 };
