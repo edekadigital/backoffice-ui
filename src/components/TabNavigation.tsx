@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import clsx from 'clsx';
-import { Divider, Theme } from '@material-ui/core';
+import { Divider, fade, Theme } from '@material-ui/core';
 
 export interface TabNavigationItem<T> {
   label: string;
@@ -42,7 +42,7 @@ const useStyles = makeStyles<Theme, { gutterBottom: boolean }>(theme => ({
   tabDivider: {
     '&::before': {
       content: "''",
-      borderLeft: 'solid 1px',
+      borderLeft: `solid 1px ${fade('#000', 0.5)}`,
       height: '50%',
       position: 'absolute',
       left: 0,
