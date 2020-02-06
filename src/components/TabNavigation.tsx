@@ -79,6 +79,7 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
             to={item.value}
             value={item.value}
             className={className}
+            data-testid={'tabNavigation-item-' + index}
           />
         );
       }),
@@ -95,6 +96,7 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
       <Tabs
         value={value}
         TabIndicatorProps={tabIndicatorProps}
+        data-testid="tabNavigation"
         {...additionalProps}
       >
         {tabs}
