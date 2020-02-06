@@ -5,9 +5,9 @@ export * from './providers/SnackbarProvider';
 
 export * from './components/AppBar';
 export * from './components/Button';
+export * from './components/ButtonBar';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
-export * from './components/FormRow';
 export * from './components/IconButton';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
@@ -15,6 +15,10 @@ export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TabNavigation';
 export * from './components/TextField';
+
+export * from './forms/FormWrapper';
+export * from './forms/FormFieldSet';
+export * from './forms/FormRow';
 
 export * from './typography/Body';
 export * from './typography/Heading';
