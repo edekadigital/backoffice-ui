@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
-  default as MuiButton,
   ButtonProps as MuiButtonProps,
+  default as MuiButton,
 } from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
