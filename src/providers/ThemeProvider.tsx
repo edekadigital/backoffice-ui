@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { PRIMARY, SECONDARY, ERROR } from '../constants/colors';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { ERROR, PRIMARY, SECONDARY } from '../constants/colors';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +25,26 @@ const theme = createMuiTheme({
       fontWeight: 400,
       fontSize: '1.3rem',
       lineHeight: 1.6,
+    },
+  },
+  overrides: {
+    MuiFormHelperText: {
+      root: {
+        paddingLeft: 8,
+        paddingRight: 8,
+      },
+    },
+    MuiSelect: {
+      select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
+    },
+    MuiMenuItem: {
+      root: {
+        '&:hover': { backgroundColor: 'rgba(234, 234, 234, 0.4)' },
+        '&.Mui-selected, &.Mui-selected:hover': {
+          backgroundColor: PRIMARY,
+          color: '#fff',
+        },
+      },
     },
   },
 });

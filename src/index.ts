@@ -1,6 +1,5 @@
 export * from './providers/BackofficeUiProvider';
 export * from './providers/ThemeProvider';
-
 export * from './providers/SnackbarProvider';
 
 export * from './components/AppBar';
@@ -11,6 +10,7 @@ export * from './components/ContentGroup';
 export * from './components/IconButton';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
+export * from './components/SelectField';
 export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TabNavigation';

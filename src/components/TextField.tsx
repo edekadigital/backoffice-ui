@@ -33,6 +33,7 @@ export interface TextFieldProps {
   name?: string;
   value?: TextFieldValue;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  select?: boolean;
 }
 
 const useInputStyles = makeStyles((theme: Theme) => ({
