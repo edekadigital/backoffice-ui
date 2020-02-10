@@ -11,11 +11,15 @@ export interface ReverseNavigationProps {
   infoBarContent?: React.ReactNode;
   action?: React.ReactNode;
   gutterBottom?: boolean;
+  floatingBackButton?: boolean;
 }
 
 const useStyles = makeStyles<Theme, ReverseNavigationProps>((theme: Theme) => ({
-  root: ({ gutterBottom }) => ({
+  root: ({ gutterBottom, floatingBackButton = true }) => ({
     marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+    [theme.breakpoints.up(theme.breakpoints.width('lg') + theme.spacing(2))]: {
+      marginLeft: floatingBackButton ? theme.spacing(-5.5) : 0,
+    },
   }),
   inner: {
     display: 'flex',

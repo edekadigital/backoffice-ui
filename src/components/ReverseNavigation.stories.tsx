@@ -2,17 +2,36 @@ import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 // @edekadigital/backoffice-ui
-import { ReverseNavigation, StatusChip, Check, Button, Delete } from '..';
+import { ReverseNavigation, StatusChip, Check, Button, Delete, Page } from '..';
 
 storiesOf('Components|ReverseNavigation', module)
-  .add('default', () => {
+  .add('default (floating back button)', () => {
     const handleBackClick = () => {
       console.log('handleBackClick');
     };
     return (
-      <ReverseNavigation onBackClick={handleBackClick}>
-        Lorem ipsum dolor <strong>sit amet</strong>
-      </ReverseNavigation>
+      <Page>
+        <ReverseNavigation onBackClick={handleBackClick}>
+          Lorem ipsum dolor <strong>sit amet</strong>
+        </ReverseNavigation>
+        <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
+      </Page>
+    );
+  })
+  .add('default (not floating back button)', () => {
+    const handleBackClick = () => {
+      console.log('handleBackClick');
+    };
+    return (
+      <Page>
+        <ReverseNavigation
+          onBackClick={handleBackClick}
+          floatingBackButton={false}
+        >
+          Lorem ipsum dolor <strong>sit amet</strong>
+        </ReverseNavigation>
+        <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
+      </Page>
     );
   })
   .add('infobar', () => {
