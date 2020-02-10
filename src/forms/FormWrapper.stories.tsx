@@ -20,7 +20,7 @@ storiesOf('Forms|FormWrapper', module).add('default', () => {
       onCancel={onCancel}
     >
       <FormFieldSet title="Lorem ipsum">
-        <FormRow>
+        <FormRow gutterBottom={true}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>
@@ -30,7 +30,7 @@ storiesOf('Forms|FormWrapper', module).add('default', () => {
         </FormRow>
       </FormFieldSet>
       <FormFieldSet title="Lorem ipsum">
-        <FormRow>
+        <FormRow gutterBottom={true}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>

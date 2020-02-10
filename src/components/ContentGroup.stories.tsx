@@ -6,11 +6,11 @@ import { ContentGroup, FormRow, TextField } from '..'; // @edekadigital/backoffi
 storiesOf('Components|ContentGroup', module)
   .add('default', () => (
     <ContentGroup title="Some title">
-      <FormRow widths={[8, 4]}>
+      <FormRow gridLayout={[8, 4]} gutterBottom={true}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
-      <FormRow widths={[3, 9]}>
+      <FormRow gridLayout={[3, 9]}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
@@ -19,21 +19,21 @@ storiesOf('Components|ContentGroup', module)
   .add('multiple groups', () => (
     <>
       <ContentGroup title="Some title">
-        <FormRow widths={[8, 4]}>
+        <FormRow gridLayout={[8, 4]} gutterBottom={true}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>
-        <FormRow widths={[3, 9]}>
+        <FormRow gridLayout={[3, 9]}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>
       </ContentGroup>
       <ContentGroup title="Some title">
-        <FormRow widths={[8, 4]}>
+        <FormRow gridLayout={[8, 4]} gutterBottom={true}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>
-        <FormRow widths={[3, 9]}>
+        <FormRow gridLayout={[3, 9]}>
           <TextField label="Some Label" />
           <TextField label="Some Label" />
         </FormRow>
