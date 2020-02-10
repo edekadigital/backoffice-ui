@@ -40,7 +40,7 @@ storiesOf('Forms|FormRow', module)
       </FormRow>
     </>
   ))
-  .add('single field', () => (
+  .add('single field (max width)', () => (
     <>
       <FormRow maxWidth={'sm'}>
         <TextField label="Some Label" />

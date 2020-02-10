@@ -73,19 +73,19 @@ function mapJustifyToJustifyContent(
 
 const useStyles = makeStyles<Theme, SanitizedFormProps>(theme => ({
   root: ({ gutterBottom, maxWidth }) => {
-    let ddd: number | undefined = undefined;
+    let maxWidthValue: number | undefined = undefined;
 
     if (typeof maxWidth === 'number') {
-      ddd = maxWidth;
+      maxWidthValue = maxWidth;
     } else if (maxWidth) {
-      ddd = theme.breakpoints.width(maxWidth);
+      maxWidthValue = theme.breakpoints.width(maxWidth);
     }
 
     return {
       marginBottom: theme.spacing(
         Math.max(gutterBottom - GRID_SPACING * 0.5, 0)
       ),
-      maxWidth: ddd,
+      maxWidth: maxWidthValue,
     };
   },
 }));
