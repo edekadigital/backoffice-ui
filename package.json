@@ -53,7 +53,7 @@
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
-    "@storybook/react": "^5.3.8",
+    "@storybook/react": "^5.3.12",
     "@testing-library/react": "^9.4.0",
     "@types/jest": "^24.9.0",
     "@types/node": "^12.12.25",
@@ -79,7 +79,8 @@
     "@material-ui/icons": "^4.4.3",
     "@material-ui/lab": "^4.0.0-alpha.40",
     "@material-ui/styles": "^4.5.0",
-    "clsx": "^1.0.4"
+    "clsx": "^1.0.4",
+    "react-number-format": "^4.3.1"
   },
   "publishConfig": {
     "access": "public"
