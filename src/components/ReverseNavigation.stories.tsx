@@ -41,9 +41,14 @@ storiesOf('Components|ReverseNavigation', module)
     const label = 'Some Label';
     const status = <StatusChip label={label} icon={Check} />;
     return (
-      <ReverseNavigation onBackClick={handleBackClick} infoBarContent={status}>
-        Lorem ipsum dolor <strong>sit amet</strong>
-      </ReverseNavigation>
+      <Page>
+        <ReverseNavigation
+          onBackClick={handleBackClick}
+          infoBarContent={status}
+        >
+          Lorem ipsum dolor <strong>sit amet</strong>
+        </ReverseNavigation>
+      </Page>
     );
   })
   .add('info- and actionbar', () => {
@@ -54,12 +59,14 @@ storiesOf('Components|ReverseNavigation', module)
     const status = <StatusChip label={label} icon={Check} />;
     const action = <Button children={label} icon={Delete} variant="outlined" />;
     return (
-      <ReverseNavigation
-        onBackClick={handleBackClick}
-        infoBarContent={status}
-        action={action}
-      >
-        Lorem ipsum dolor <strong>sit amet</strong>
-      </ReverseNavigation>
+      <Page>
+        <ReverseNavigation
+          onBackClick={handleBackClick}
+          infoBarContent={status}
+          action={action}
+        >
+          Lorem ipsum dolor <strong>sit amet</strong>
+        </ReverseNavigation>
+      </Page>
     );
   });
