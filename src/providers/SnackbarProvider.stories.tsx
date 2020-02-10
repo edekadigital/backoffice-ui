@@ -16,7 +16,7 @@ storiesOf('Global|Snackbar', module).add('Snackbar', () => {
     const showWarning = () => snackbar.push(message, { variant: 'warning' });
 
     return (
-      <FormRow widths={['auto', 'auto', 'auto', 'auto', 'auto']}>
+      <FormRow>
         <Button onClick={showDefault}>default</Button>
         <Button onClick={showInfo}>info</Button>
         <Button onClick={showSuccess}>success</Button>

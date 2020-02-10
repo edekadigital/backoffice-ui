@@ -11,7 +11,7 @@ storiesOf('Components|StatusChip', module)
   .add('error', () => <StatusChip label="Some label" color="error" />)
   .add('warning', () => <StatusChip label="Some label" color="warning" />)
   .add('multiple chips', () => (
-    <FormRow widths={['auto', 'auto', 'auto']}>
+    <FormRow gridLayout={['auto', 'auto', 'auto']}>
       <StatusChip label="Active" color="success" icon={Check} />
       <StatusChip label="Inactive" color="error" icon={Schedule} />
       <StatusChip label="Deleted" icon={Delete} />
