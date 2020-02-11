@@ -35,9 +35,6 @@ const useStyles = makeStyles<Theme, { gutterBottom: boolean }>(theme => ({
   tab: {
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      minWidth: 'auto',
-    },
   },
   tabDivider: {
     '&::before': {
@@ -94,6 +91,8 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
   return (
     <div className={classes.root}>
       <Tabs
+        variant="scrollable"
+        scrollButtons="auto"
         value={value}
         TabIndicatorProps={tabIndicatorProps}
         data-testid="tabNavigation"

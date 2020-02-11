@@ -14,23 +14,23 @@ import {
 const navigationItems1: Array<TabNavigationItem<number>> = [
   {
     value: 1,
-    label: 'Tab A',
+    label: 'Tab One of Five',
   },
   {
     value: 2,
-    label: 'Tab B',
+    label: 'Tab Two of Five',
   },
   {
     value: 3,
-    label: 'Tab C',
+    label: 'Tab Three of Five',
   },
   {
     value: 4,
-    label: 'Tab D',
+    label: 'Tab Four of Five',
   },
   {
     value: 5,
-    label: 'Tab E',
+    label: 'Tab Five of Five',
     divider: true,
   },
 ];
