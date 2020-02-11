@@ -26,7 +26,8 @@ storiesOf('Forms|FormRow', module)
   ))
   .add('custom gridLayout', () => (
     <>
-      <FormRow gridLayout={[6, 6]} gutterBottom={true}>
+      <FormRow gridLayout={[3, 3, 4]} gutterBottom={true}>
+        <TextField label="Some Label" />
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
