@@ -6,6 +6,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useTheme from '@material-ui/styles/useTheme';
+import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
 import { Button } from './Button';
@@ -21,6 +22,18 @@ export interface ConfirmationDialogProps {
   onCancel?: React.ReactEventHandler<{}>;
 }
 
+const useDialogStyles = makeStyles((theme: Theme) => ({
+  spacing: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    ['& > :not(:first-child)']: {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
+
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
   const {
     open,
@@ -34,6 +47,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
   } = props;
   const theme = useTheme<Theme>();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const dialogClasses = useDialogStyles();
   return (
     <Dialog open={open} onClose={onClose} fullScreen={fullScreen}>
       <DialogTitle data-testid="confirmationDialog-title">{title}</DialogTitle>
@@ -45,7 +59,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
           {message}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions classes={dialogClasses}>
         <Button
           variant="outlined"
           onClick={onCancel}
