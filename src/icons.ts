@@ -9,9 +9,7 @@ export { default as ArrowBack } from '@material-ui/icons/ArrowBack';
 export { default as ArrowBackIos } from '@material-ui/icons/ArrowBackIos';
 export { default as ArrowDownward } from '@material-ui/icons/ArrowDownward';
 export { default as ArrowDropDown } from '@material-ui/icons/ArrowDropDown';
-export {
-  default as ArrowDropDownCircle,
-} from '@material-ui/icons/ArrowDropDownCircle';
+export { default as ArrowDropDownCircle } from '@material-ui/icons/ArrowDropDownCircle';
 export { default as ArrowDropUp } from '@material-ui/icons/ArrowDropUp';
 export { default as ArrowForward } from '@material-ui/icons/ArrowForward';
 export { default as ArrowForwardIos } from '@material-ui/icons/ArrowForwardIos';
@@ -55,15 +53,11 @@ export { default as MoreVert } from '@material-ui/icons/MoreVert';
 export { default as NavigateBefore } from '@material-ui/icons/NavigateBefore';
 export { default as NavigateNext } from '@material-ui/icons/NavigateNext';
 export { default as Notifications } from '@material-ui/icons/Notifications';
-export {
-  default as NotificationsNone,
-} from '@material-ui/icons/NotificationsNone';
+export { default as NotificationsNone } from '@material-ui/icons/NotificationsNone';
 export { default as OpenInNew } from '@material-ui/icons/OpenInNew';
 export { default as Person } from '@material-ui/icons/Person';
 export { default as PersonAdd } from '@material-ui/icons/PersonAdd';
-export {
-  default as PowerSettingsNew,
-} from '@material-ui/icons/PowerSettingsNew';
+export { default as PowerSettingsNew } from '@material-ui/icons/PowerSettingsNew';
 export { default as PriorityHigh } from '@material-ui/icons/PriorityHigh';
 export { default as Public } from '@material-ui/icons/Public';
 export { default as Publish } from '@material-ui/icons/Publish';
@@ -81,17 +75,11 @@ export { default as Star } from '@material-ui/icons/Star';
 export { default as StarBorder } from '@material-ui/icons/StarBorder';
 export { default as StarHalf } from '@material-ui/icons/StarHalf';
 export { default as SwapHoriz } from '@material-ui/icons/SwapHoriz';
-export {
-  default as SwapHorizontalCircle,
-} from '@material-ui/icons/SwapHorizontalCircle';
+export { default as SwapHorizontalCircle } from '@material-ui/icons/SwapHorizontalCircle';
 export { default as SwapVert } from '@material-ui/icons/SwapVert';
-export {
-  default as SwapVerticalCircle,
-} from '@material-ui/icons/SwapVerticalCircle';
+export { default as SwapVerticalCircle } from '@material-ui/icons/SwapVerticalCircle';
 export { default as Undo } from '@material-ui/icons/Undo';
 export { default as UnfoldMore } from '@material-ui/icons/UnfoldMore';
-export {
-  default as VerticalAlignBottom,
-} from '@material-ui/icons/VerticalAlignBottom';
+export { default as VerticalAlignBottom } from '@material-ui/icons/VerticalAlignBottom';
 export { default as Visibility } from '@material-ui/icons/Visibility';
 export { default as VisibilityOff } from '@material-ui/icons/VisibilityOff';

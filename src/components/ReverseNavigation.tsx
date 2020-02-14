@@ -6,17 +6,17 @@ import {
   LAYOUT_MAX_WIDTH_DEFAULT,
   LAYOUT_MAX_WIDTH_NARROW,
   OUTER_MARGIN,
-} from '../constants/dimensions';
+} from '../constants';
 import { makeStyles } from '@material-ui/styles';
 
 export type ReverseNavigationVariant = 'default' | 'narrow';
 
 export interface ReverseNavigationProps {
-  variant?: ReverseNavigationVariant;
-  children?: React.ReactNode;
   onBackClick: React.MouseEventHandler;
-  infoBarContent?: React.ReactNode;
   action?: React.ReactNode;
+  children?: React.ReactNode;
+  infoBarContent?: React.ReactNode;
+  variant?: ReverseNavigationVariant;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

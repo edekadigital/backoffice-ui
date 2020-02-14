@@ -14,24 +14,24 @@ export type ButtonComponent = React.ReactType<MuiButtonProps>;
 
 export type ButtonType = 'submit' | 'reset' | 'button';
 
-export type ButtonIcon = React.ReactType<SvgIconProps>;
+export type ButtonIcon = React.FunctionComponent<SvgIconProps>;
 
 export type ButtonIconPosition = 'left' | 'right';
 
 export interface ButtonProps {
   children: React.ReactNode;
-  variant?: ButtonVariant;
-  icon?: ButtonIcon;
-  iconPosition?: ButtonIconPosition;
-  showProgress?: boolean;
+  className?: string;
   component?: ButtonComponent;
   disabled?: boolean;
-  type?: ButtonType;
-  href?: string;
-  target?: string;
-  className?: string;
   download?: string | boolean;
+  href?: string;
+  icon?: ButtonIcon;
+  iconPosition?: ButtonIconPosition;
   onClick?: React.MouseEventHandler;
+  showProgress?: boolean;
+  target?: string;
+  type?: ButtonType;
+  variant?: ButtonVariant;
 }
 
 const useStyles = makeStyles((theme: Theme) => {

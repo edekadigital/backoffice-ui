@@ -6,13 +6,22 @@ import { ThemeProvider } from '..';
 
 const label = 'Some Label';
 
-describe('<Button />', () => {
+describe('<Button/>', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
     const { container } = render(
       <ThemeProvider>
         <Button>{label}</Button>
+      </ThemeProvider>
+    );
+    expect(container.textContent).toEqual(label);
+  });
+
+  it('should render the component on the left side', () => {
+    const { container } = render(
+      <ThemeProvider>
+        <Button iconPosition={'left'}>{label}</Button>
       </ThemeProvider>
     );
     expect(container.textContent).toEqual(label);

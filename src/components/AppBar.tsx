@@ -11,8 +11,8 @@ export interface AppBarAction {
 }
 
 export interface AppBarProps {
-  children?: React.ReactNode;
   actions?: AppBarAction[];
+  children?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

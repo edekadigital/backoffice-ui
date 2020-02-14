@@ -1,7 +1,5 @@
 import * as React from 'react';
-
 import { storiesOf } from '@storybook/react';
-// @edekadigital/backoffice-ui
 import { ReverseNavigation, StatusChip, Check, Button, Delete } from '..';
 
 storiesOf('Components|ReverseNavigation', module)

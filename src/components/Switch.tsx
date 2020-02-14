@@ -8,10 +8,10 @@ export type SwitchValue = string | number | boolean;
 
 export interface SwitchProps {
   label: string;
-  value?: SwitchValue;
   checked?: boolean;
   disabled?: boolean;
   id?: string;
+  value?: SwitchValue;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean

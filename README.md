@@ -78,3 +78,18 @@ export const SomeComponent = () => (
 
 - [React](https://reactjs.org/)
 - [Storybook](https://storybook.js.org/)
+
+### Tests and test coverage
+
+For tests in the project we use the jest framework and set a minimum coverage of 90% for the subfolders 'components', 'layouts' and 'typography'.
+To run the tests locally, use the command
+
+```bash
+npm run coverage
+```
+
+If the test coverage is below 90%, the tests will fail. To show you a report of the test coverage in Google Chrome, use the command:
+
+```bash
+npm run show-coverage
+```

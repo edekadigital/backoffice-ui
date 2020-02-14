@@ -11,15 +11,15 @@ export type IconButtonType = 'submit' | 'reset' | 'button';
 
 export interface IconButtonProps {
   icon: React.ReactType<SvgIconProps>;
+  className?: string;
   color?: IconButtonColor;
   component?: IconButtonComponent;
   disabled?: boolean;
-  type?: IconButtonType;
-  href?: string;
-  target?: string;
-  className?: string;
   download?: string | boolean;
+  href?: string;
   onClick?: React.MouseEventHandler;
+  target?: string;
+  type?: IconButtonType;
 }
 
 export const IconButton: React.FC<IconButtonProps> = props => {

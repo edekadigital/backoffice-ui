@@ -21,18 +21,18 @@ export type TextFieldType =
 
 export interface TextFieldProps {
   label: string;
-  placeholder?: string;
-  type?: TextFieldType;
-  required?: boolean;
-  helperText?: string;
-  error?: boolean;
   autoComplete?: string;
   defaultValue?: TextFieldValue;
   disabled?: boolean;
+  error?: boolean;
+  helperText?: string;
   id?: string;
   name?: string;
-  value?: TextFieldValue;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  required?: boolean;
+  type?: TextFieldType;
+  value?: TextFieldValue;
 }
 
 const useInputStyles = makeStyles((theme: Theme) => ({

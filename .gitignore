@@ -16,3 +16,10 @@ TAGS
 *.org
 nohup.out
 .vscode
+
+# Local MacOS Files
+.DS_Store
+
+# jest
+/coverage/
+
