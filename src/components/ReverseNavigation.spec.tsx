@@ -30,4 +30,18 @@ describe('<ReverseNavigation/>', () => {
     fireEvent.click(getByTestId('reverseNavigation-back'));
     expect(clicked).toBe(true);
   });
+
+  it('should trigger onClick callback for reverse navigation with variant narrow', () => {
+    let clicked = false;
+    const onClick = () => {
+      clicked = true;
+    };
+
+    const { getByTestId } = render(
+      <ReverseNavigation onBackClick={onClick} variant={'narrow'} />
+    );
+
+    fireEvent.click(getByTestId('reverseNavigation-back'));
+    expect(clicked).toBe(true);
+  });
 });

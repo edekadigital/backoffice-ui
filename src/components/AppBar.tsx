@@ -3,7 +3,7 @@ import { Theme, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { IconButton as MuiIconButton } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { OUTER_MARGIN } from '../constants/dimensions';
+import { OUTER_MARGIN } from '../constants';
 
 export interface AppBarAction {
   icon: React.ReactType<SvgIconProps>;
