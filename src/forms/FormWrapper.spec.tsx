@@ -1,33 +1,83 @@
 import * as React from 'react';
 
 import { cleanup } from '@testing-library/react';
-import { FormFieldSet, FormRow, TextField } from '..';
+import { FormFieldSet, FormRow, FormWrapper, TextField } from '..';
 import { render } from '../test-utils';
+import userEvent from '@testing-library/user-event';
 
-const title = 'some title';
-const label = 'another label';
-const label2 = 'some label';
+const labelSubmit = 'submit';
+const labelCancel = 'cancel';
+const title = 'title';
+const label = 'label';
+const label2 = 'label2';
 
-describe('<Form/>', () => {
+describe('<FormWrapper/>', () => {
   afterEach(cleanup);
 
-  it('should render the form field set with title', () => {
+  it('should render an empty form wrapper component', () => {
+    let submit = false;
+    let cancel = false;
+    const onSubmit = () => {
+      submit = true;
+    };
+
+    const onCancel = () => {
+      cancel = true;
+    };
+
     const { container } = render(
-      <FormFieldSet title={title}>
-        <FormRow>
-          <TextField label={label} />
-          <TextField label={label2} />
-        </FormRow>
-      </FormFieldSet>
+      <FormWrapper
+        cancelLabel={labelCancel}
+        onCancel={onCancel}
+        submitLabel={labelSubmit}
+        onSubmit={onSubmit}
+      />
     );
 
-    const result = container.querySelectorAll<HTMLLabelElement>('label');
-    expect(result!.item(0).textContent).toEqual(label);
-    expect(result!.item(1).textContent).toEqual(label2);
+    const buttons = container.querySelectorAll<HTMLButtonElement>('button');
+    expect(buttons!.item(0).textContent).toEqual(labelSubmit);
+    expect(buttons!.item(1).textContent).toEqual(labelCancel);
 
-    const titleResult = container.querySelectorAll<HTMLDivElement>('div');
-    expect(titleResult!.item(1).className).toContain(
-      'MuiTypography-root makeStyles-title-'
+    userEvent.click(buttons.item(0));
+    userEvent.click(buttons.item(1));
+    expect(submit).toEqual(true);
+    expect(cancel).toEqual(true);
+  });
+
+  it('should render an  form wrapper component with content', () => {
+    let submit = false;
+    let cancel = false;
+    const onSubmit = () => {
+      submit = true;
+    };
+
+    const onCancel = () => {
+      cancel = true;
+    };
+
+    const { container } = render(
+      <FormWrapper
+        cancelLabel={labelCancel}
+        onCancel={onCancel}
+        submitLabel={labelSubmit}
+        onSubmit={onSubmit}
+      >
+        <FormFieldSet title={title}>
+          <FormRow>
+            <TextField label={label} />
+            <TextField label={label2} />
+          </FormRow>
+        </FormFieldSet>
+      </FormWrapper>
     );
+
+    const buttons = container.querySelectorAll<HTMLButtonElement>('button');
+    expect(buttons!.item(0).textContent).toEqual(labelSubmit);
+    expect(buttons!.item(1).textContent).toEqual(labelCancel);
+
+    userEvent.click(buttons.item(0));
+    userEvent.click(buttons.item(1));
+    expect(submit).toEqual(true);
+    expect(cancel).toEqual(true);
   });
 });
