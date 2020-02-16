@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, cleanup } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import { DateField } from '..';
 import { render } from '../test-utils';
 import userEvent from '@testing-library/user-event';
@@ -45,23 +45,22 @@ describe('<DateField />', () => {
   });
 
   // TODO
-  it('should be able to type date in date field', async () => {
-    let userInput = false;
+/*  it('should be able to type date in date field', async () => {
+    const handleChange = jest.fn();
 
-    const handleUserInput = () => {
-      userInput = true;
-    };
-
-    const { container } = render(
+    const { getByTestId } = render(
       <DateField
         label={label}
         placeholder={placeholder}
-        onChange={handleUserInput}
+        onChange={handleChange}
       />
     );
 
-    const inputElement = container.querySelector<HTMLInputElement>('input');
-    await userEvent.type(inputElement!, 'Hello SearchField');
-    expect(userInput).toBeTruthy();
-  });
+    await userEvent.type(getByTestId('textField-input'), '331983');
+
+    expect(handleChange).toBeCalled();
+    expect(handleChange.mock.calls.entries().next().value).toBeCalledWith('Hello Searchfield');
+    userEvent.click(getByTestId('textField-input'));
+    expect(getByTestId('textField-input')).toEqual('03.03.1983');
+  });*/
 });
