@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { fireEvent, cleanup } from '@testing-library/react';
-import { Button } from './Button';
+import { cleanup } from '@testing-library/react';
 import { TextField } from '..';
 import { render } from '../test-utils';
 
@@ -34,19 +33,5 @@ describe('<TextField />', () => {
     const inputLabel = container.querySelector<HTMLInputElement>('label');
 
     expect(inputLabel!.textContent).toEqual(label);
-  });
-
-  it('should trigger onClick callback', () => {
-    let clicked = false;
-    const handleClick = () => {
-      clicked = true;
-    };
-    const { getByTestId } = render(
-      <Button onClick={handleClick} data-testid="button">
-        {label}
-      </Button>
-    );
-    fireEvent.click(getByTestId('button'));
-    expect(clicked).toBe(true);
   });
 });

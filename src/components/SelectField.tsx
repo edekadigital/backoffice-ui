@@ -4,15 +4,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export interface SelectFieldProps {
   label: string;
-  required?: boolean;
-  helperText?: string;
-  error?: boolean;
+  menuItems: Array<{ value: string | number; label: string }>;
   disabled?: boolean;
+  error?: boolean;
+  helperText?: string;
   id?: string;
   name?: string;
-  value?: TextFieldValue;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  menuItems: Array<{ value: string | number; label: string }>;
+  required?: boolean;
+  value?: TextFieldValue;
 }
 
 export const SelectField: React.FC<SelectFieldProps> = props => {

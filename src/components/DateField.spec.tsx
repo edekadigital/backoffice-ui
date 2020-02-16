@@ -13,7 +13,10 @@ describe('<DateField />', () => {
 
   it('should render the date field component with placeholder', () => {
     const { container } = render(
-      <DateField label={label} placeholder={placeholder} />
+      <DateField
+        label={label}
+        placeholder={placeholder}
+      />
     );
 
     const labelResult = container.querySelectorAll<HTMLLabelElement>('label');

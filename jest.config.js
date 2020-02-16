@@ -2,7 +2,7 @@ module.exports = {
   verbose: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    './src/{typography,forms,layouts,providers,global,components}/**/*.{ts,tsx}',
+    './src/{typography,forms,layouts,global,components}/**/*.{ts,tsx}',
     '!./src/**/*.stories.{ts,tsx}',
   ],
   coverageThreshold: {
