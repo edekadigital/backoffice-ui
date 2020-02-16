@@ -38,4 +38,17 @@ describe('<FormRow/>', () => {
     expect(result!.item(0).textContent).toEqual(label);
     expect(result!.item(1).textContent).toEqual(label2);
   });
+
+  it('should render the form row with width as number', () => {
+    const { container } = render(
+      <FormRow maxWidth={20} gutterBottom={true}>
+        <TextField label={label} />
+        <TextField label={label2} />
+      </FormRow>
+    );
+
+    const result = container.querySelectorAll<HTMLLabelElement>('label');
+    expect(result!.item(0).textContent).toEqual(label);
+    expect(result!.item(1).textContent).toEqual(label2);
+  });
 });

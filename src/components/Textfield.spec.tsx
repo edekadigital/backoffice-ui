@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { fireEvent, cleanup } from '@testing-library/react';
 import { Button } from './Button';
-import { TextField, ThemeProvider } from '..';
+import { TextField } from '..';
 import { render } from '../test-utils';
 
 const label = 'some text';
