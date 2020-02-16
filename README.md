@@ -73,6 +73,10 @@ export const SomeComponent = () => (
 | `components/Switch`             | `switch-input`                                                                                                      |
 | `components/TextField`          | `textField-input`                                                                                                   |
 | `components/ReverseNavigation`  | `reverseNavigation-title`, `reverseNavigation-infoBar` , `reverseNavigation-actions`, `reverseNavigation-back`      |
+| `components/TabNavigation`      | `tabNavigation-item`, `tabNavigation-item-${index}`                                                                 |
+| `form/FormFieldSet`             | `formFieldSet-title`                                                                                                |
+| `form/FormRow`                  | `formRow-item-${index}`                                                                                             |
+| `form/FormWrapper`              | `formWrapper-form`, `formWrapper-submit`, `formWrapper-cancel`                                                      |
 
 ### Resources
 

@@ -1,7 +1,7 @@
 {
   "name": "@edekadigital/backoffice-ui",
   "description": "React components based on Material Design",
-  "version": "0.25.0",
+  "version": "1.2.3",
   "license": "MIT",
   "author": "EDEKA DIGITAL GmbH",
   "repository": {
@@ -85,7 +85,9 @@
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
     "@material-ui/lab": "^4.0.0-alpha.40",
-    "@material-ui/styles": "^4.5.0"
+    "@material-ui/styles": "^4.5.0",
+    "clsx": "^1.0.4",
+    "react-number-format": "^4.3.1"
   },
   "publishConfig": {
     "access": "public"

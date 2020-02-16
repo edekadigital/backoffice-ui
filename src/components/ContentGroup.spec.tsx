@@ -3,7 +3,7 @@ import { cleanup } from '@testing-library/react';
 import { ContentGroup, FormRow, TextField } from '..';
 import { render } from '../test-utils';
 
-describe('<ContentGroup />', () => {
+describe('<ContentGroup/>', () => {
   afterEach(cleanup);
 
   const title = 'test title';
@@ -11,7 +11,11 @@ describe('<ContentGroup />', () => {
   const label2 = 'test label2';
 
   it('should render the content group component with title', () => {
-    const { container } = render(<ContentGroup title={title} />);
+    const { container } = render(
+      <ContentGroup
+        title={title}>
+        <div>'test'</div>
+      </ContentGroup>);
 
     const result = container.querySelector<HTMLHeadingElement>('h3');
     expect(result!.textContent).toEqual(title);
@@ -34,10 +38,10 @@ describe('<ContentGroup />', () => {
   it('should render content group with children items and title', () => {
     const { container } = render(
       <ContentGroup title={title}>
-        <FormRow widths={[10, 4]}>
+        <FormRow>
           <TextField label={label} />
         </FormRow>
-        <FormRow widths={[8, 3]}>
+        <FormRow>
           <TextField label={label2}>blablub</TextField>
         </FormRow>
       </ContentGroup>
@@ -49,6 +53,7 @@ describe('<ContentGroup />', () => {
     const resultTitle = container.querySelector<HTMLHeadingElement>('h3');
     expect(resultTitle!.textContent).toEqual(title);
   });
+
   /*
   it('should render content group with fallback title', function () {
     const { container } = render(
@@ -57,6 +62,5 @@ describe('<ContentGroup />', () => {
 
     const result = container.querySelector<HTMLHeadingElement>('h5');
     result
-
   });*/
 });

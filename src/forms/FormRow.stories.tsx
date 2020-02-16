@@ -14,7 +14,7 @@ storiesOf('Forms|FormRow', module)
   ))
   .add('multi-row', () => (
     <>
-      <FormRow>
+      <FormRow gutterBottom={true}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
@@ -24,25 +24,26 @@ storiesOf('Forms|FormRow', module)
       </FormRow>
     </>
   ))
-  .add('custom widths', () => (
+  .add('custom gridLayout', () => (
     <>
-      <FormRow widths={[6, 6]}>
+      <FormRow gridLayout={[3, 3, 4]} gutterBottom={true}>
         <TextField label="Some Label" />
-        <TextField label="Some Label" />
-      </FormRow>
-      <FormRow widths={[8, 4]}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
-      <FormRow widths={[3, 9]}>
+      <FormRow gridLayout={[8, 4]} gutterBottom={true}>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+      <FormRow gridLayout={[3, 9]}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
     </>
   ))
-  .add('single field', () => (
+  .add('single field (max width)', () => (
     <>
-      <FormRow>
+      <FormRow maxWidth={'sm'}>
         <TextField label="Some Label" />
       </FormRow>
     </>

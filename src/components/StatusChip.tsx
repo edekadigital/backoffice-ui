@@ -22,7 +22,7 @@ const colorMap: { [k: string]: string } = {
 export interface StatusChipProps {
   label: string;
   color?: StatusChipColor;
-  icon?: React.ReactType<SvgIconProps>;
+  icon?: React.ElementType<SvgIconProps>;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,7 +48,7 @@ export const StatusChip: React.FC<StatusChipProps> = props => {
   const chipProps: ChipProps = {
     label,
     variant: 'outlined',
-    classes: { root: classes.root },
+    classes: { root: classes.root }, // TODO
   };
 
   if (icon) {

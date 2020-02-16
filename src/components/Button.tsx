@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
-  default as MuiButton,
   ButtonProps as MuiButtonProps,
+  default as MuiButton,
 } from '@material-ui/core/Button';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,11 +10,11 @@ import { makeStyles } from '@material-ui/styles';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonComponent = React.ReactType<MuiButtonProps>;
+export type ButtonComponent = React.ElementType<MuiButtonProps>;
 
 export type ButtonType = 'submit' | 'reset' | 'button';
 
-export type ButtonIcon = React.FunctionComponent<SvgIconProps>;
+export type ButtonIcon = React.ElementType<SvgIconProps>;
 
 export type ButtonIconPosition = 'left' | 'right';
 

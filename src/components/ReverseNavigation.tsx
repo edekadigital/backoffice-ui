@@ -1,34 +1,26 @@
 import * as React from 'react';
-import { Theme, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
-import {
-  LAYOUT_MAX_WIDTH_DEFAULT,
-  LAYOUT_MAX_WIDTH_NARROW,
-  OUTER_MARGIN,
-} from '../constants';
-import { makeStyles } from '@material-ui/styles';
-
-export type ReverseNavigationVariant = 'default' | 'narrow';
 
 export interface ReverseNavigationProps {
   onBackClick: React.MouseEventHandler;
   action?: React.ReactNode;
   children?: React.ReactNode;
+  floatingBackButton?: boolean;
+  gutterBottom?: boolean;
   infoBarContent?: React.ReactNode;
-  variant?: ReverseNavigationVariant;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    paddingLeft: OUTER_MARGIN,
-    paddingRight: OUTER_MARGIN,
-  },
-  outer: {
-    margin: '0 auto',
-    width: '100%',
-    maxWidth: LAYOUT_MAX_WIDTH_DEFAULT,
-  },
+const useStyles = makeStyles<Theme, ReverseNavigationProps>((theme: Theme) => ({
+  root: ({ gutterBottom, floatingBackButton = true }) => ({
+    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+    [theme.breakpoints.up(theme.breakpoints.width('lg') + theme.spacing(2))]: {
+      marginLeft: floatingBackButton ? theme.spacing(-5.5) : 0,
+    },
+  }),
   inner: {
     display: 'flex',
     height: 70,
@@ -39,9 +31,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  outerNarrow: {
-    maxWidth: LAYOUT_MAX_WIDTH_NARROW,
-  },
   backButton: {
     marginLeft: theme.spacing(-1.5),
     marginRight: theme.spacing(),
@@ -49,17 +38,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   infoBar: {
     paddingLeft: theme.spacing(),
     marginLeft: theme.spacing(4.5),
+    paddingBottom: theme.spacing(1),
   },
 }));
 
-export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
-  variant = 'default',
-  onBackClick,
-  children,
-  infoBarContent,
-  action,
-}) => {
-  const classes = useStyles();
+export const ReverseNavigation: React.FC<ReverseNavigationProps> = props => {
+  const { onBackClick, children, infoBarContent, action } = props;
+  const classes = useStyles(props);
 
   const title = children ? (
     <Typography
@@ -76,32 +61,26 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = ({
       {infoBarContent}
     </div>
   ) : null;
+
   const actions = action ? (
     <div data-testid="reverseNavigation-actions">{action}</div>
   ) : null;
 
-  let outerClassName = classes.outer;
-  if (variant === 'narrow') {
-    outerClassName = `${outerClassName} ${classes.outerNarrow}`;
-  }
-
   return (
     <div className={classes.root}>
-      <div className={outerClassName}>
-        <div className={classes.inner}>
-          <div className={classes.wrapper}>
-            <IconButton
-              icon={ArrowBack}
-              onClick={onBackClick}
-              data-testid="reverseNavigation-back"
-              className={classes.backButton}
-            />
-            {title}
-          </div>
-          {actions}
+      <div className={classes.inner}>
+        <div className={classes.wrapper}>
+          <IconButton
+            icon={ArrowBack}
+            onClick={onBackClick}
+            data-testid="reverseNavigation-back"
+            className={classes.backButton}
+          />
+          {title}
         </div>
-        {infoBar}
+        {actions}
       </div>
+      {infoBar}
     </div>
   );
 };

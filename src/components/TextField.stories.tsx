@@ -9,6 +9,14 @@ storiesOf('Components|TextField', module)
   .add('with placeholder', () => (
     <TextField label="Some label" placeholder="Placeholder" />
   ))
+  .add('with error', () => (
+    <TextField
+      label="Some label"
+      placeholder="Placeholder"
+      error={true}
+      helperText="Lorem ipsum"
+    />
+  ))
   .add('with value', () => <TextField label="Some label" value="Some value" />)
   .add('password', () => (
     <TextField label="Password" required={true} type="password" />

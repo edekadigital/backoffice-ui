@@ -1,6 +1,5 @@
 export * from './providers/BackofficeUiProvider';
 export * from './providers/ThemeProvider';
-
 export * from './providers/SnackbarProvider';
 
 export * from './components/AppBar';
@@ -8,11 +7,14 @@ export * from './components/Button';
 export * from './components/ButtonBar';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
+export * from './components/DateField';
 export * from './components/IconButton';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
+export * from './components/SelectField';
 export * from './components/StatusChip';
 export * from './components/Switch';
+export * from './components/TabNavigation';
 export * from './components/TextField';
 
 export * from './forms/FormWrapper';
@@ -25,5 +27,6 @@ export * from './typography/PreformattedText';
 export * from './typography/Subtitle';
 
 export * from './layouts/Page';
+export * from './layouts/PageWrapper';
 
 export * from './icons';
