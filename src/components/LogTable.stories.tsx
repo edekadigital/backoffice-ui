@@ -11,7 +11,7 @@ const tableBodyCells = [
 ];
 
 storiesOf('Components|LogTable', module).add('default', () => (
-  <FormFieldSet title="Protokoll">
-    <LogTable cells={tableHeadCells} rows={tableBodyCells} />
+  <FormFieldSet title="Protocol">
+    <LogTable columns={tableHeadCells} rows={tableBodyCells} />
   </FormFieldSet>
 ));

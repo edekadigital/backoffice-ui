@@ -74,6 +74,7 @@ export const SomeComponent = () => (
 | `components/TextField`          | `textField-input`                                                                                                   |
 | `components/ReverseNavigation`  | `reverseNavigation-title`, `reverseNavigation-infoBar` , `reverseNavigation-actions`, `reverseNavigation-back`      |
 | `components/TabNavigation`      | `tabNavigation-item`, `tabNavigation-item-${index}`                                                                 |
+| `components/LogTable`           | `logTable-row-${index}`, `logTable-th-${index}`, `logTable-td-${rowIndex}-${index}`                                 |
 | `form/FormFieldSet`             | `formFieldSet-title`                                                                                                |
 | `form/FormRow`                  | `formRow-item-${index}`                                                                                             |
 | `form/FormWrapper`              | `formWrapper-form`, `formWrapper-submit`, `formWrapper-cancel`                                                      |

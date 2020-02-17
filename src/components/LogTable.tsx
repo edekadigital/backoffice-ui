@@ -6,48 +6,41 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
-/*
-type HeadCellName<T> = keyof T;
-type BodyCell<T> = { [K in keyof T]: HeadCellName<T[K]> };
-
-export interface LogTableProps1<T> {
-  headCells: Array<HeadCellName<T>>;
-  bodyCells?: Array<string>;
-}
-
-const t: LogTableProps<string> = {
-  headCells: ['test'],
-  bodyCells: [{ test: 'a' }],
-};
-
- */
-
 export interface LogTableProps {
-  cells: string[];
+  columns: string[];
   rows: string[][];
 }
 
 export const LogTable: React.FC<LogTableProps> = props => {
-  const { cells, rows } = props;
+  const { columns, rows } = props;
 
-  const tableHead = cells.map((cell, index) => (
-    <TableCell key={index}>{cell}</TableCell>
+  const tableHead = columns.map((column, index) => (
+    <TableCell key={index} data-testid={`logTable-th-${index}`}>
+      {column}
+    </TableCell>
   ));
 
-  const tableRowCell = (tableRow: string[]) =>
+  const tableRowCell = (tableRow: string[], rowIndex: number) =>
     tableRow.map((cell, index: number) => (
-      <TableCell key={index} component="th" scope="row">
+      <TableCell
+        key={index}
+        component="th"
+        scope="row"
+        data-testid={`logTable-td-${rowIndex}-${index}`}
+      >
         {cell}
       </TableCell>
     ));
 
   const tableBody = rows.map((row, index) => (
-    <TableRow key={index}>{tableRowCell(row)}</TableRow>
+    <TableRow key={index} data-testid={`logTable-row-${index}`}>
+      {tableRowCell(row, index)}
+    </TableRow>
   ));
 
   return (
     <TableContainer>
-      <Table size="small" aria-label="a dense table">
+      <Table size="small">
         <TableHead>
           <TableRow>{tableHead}</TableRow>
         </TableHead>
