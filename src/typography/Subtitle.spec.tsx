@@ -9,11 +9,7 @@ describe('<Subtitle />', () => {
   afterEach(cleanup);
 
   it('should render the subtitle component', () => {
-    const { container } = render(
-      <Subtitle>
-        {subtitleContent}
-      </Subtitle>
-    );
+    const { container } = render(<Subtitle>{subtitleContent}</Subtitle>);
 
     const content = container.querySelector<HTMLParagraphElement>('p');
     expect(content!.textContent).toEqual(subtitleContent);
@@ -21,9 +17,7 @@ describe('<Subtitle />', () => {
 
   it('should render the subtitle component with secondary color', () => {
     const { container } = render(
-      <Subtitle color="secondary">
-        {subtitleContent}
-      </Subtitle>
+      <Subtitle color="secondary">{subtitleContent}</Subtitle>
     );
 
     const bodyResult = container.querySelector<HTMLParagraphElement>('p');
@@ -33,9 +27,7 @@ describe('<Subtitle />', () => {
 
   it('should render the subtitle component with align center', () => {
     const { container } = render(
-      <Subtitle align="center">
-        {subtitleContent}
-      </Subtitle>
+      <Subtitle align="center">{subtitleContent}</Subtitle>
     );
 
     const bodyResult = container.querySelector<HTMLParagraphElement>('p');

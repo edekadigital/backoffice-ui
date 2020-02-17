@@ -72,4 +72,20 @@ describe('<SearchField/>', () => {
     expect(handleUserClick).toBeCalledTimes(1);
     expect(handleUserClick).toBeCalledWith('Hello Searchfield');
   });
+
+  it('should render component search field without submit handler', async () => {
+    const onSubmit = jest.fn();
+
+    const { container, getByTestId } = render(
+      <SearchField placeholder={placeholder} />
+    );
+
+    container
+      .querySelector<HTMLFormElement>('form')!
+      .addEventListener('submit', onSubmit);
+    await userEvent.type(getByTestId('searchField-input'), 'Hello Searchfield');
+    await userEvent.click(getByTestId('searchField-submit'));
+
+    expect(onSubmit).toBeCalledTimes(1);
+  });
 });

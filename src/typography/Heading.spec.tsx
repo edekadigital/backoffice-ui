@@ -9,11 +9,7 @@ describe('<Heading />', () => {
   afterEach(cleanup);
 
   it('should render the heading component', () => {
-    const { container } = render(
-      <Heading>
-        {headingContent}
-      </Heading>
-    );
+    const { container } = render(<Heading>{headingContent}</Heading>);
 
     const content = container.querySelector<HTMLHeadingElement>('h2');
     expect(content!.textContent).toEqual(headingContent);
@@ -21,9 +17,7 @@ describe('<Heading />', () => {
 
   it('should render the heading component with secondary color', () => {
     const { container } = render(
-      <Heading color={'secondary'}>
-        {headingContent}
-      </Heading>
+      <Heading color={'secondary'}>{headingContent}</Heading>
     );
 
     const bodyContent = container.querySelector<HTMLHeadingElement>('h2');
@@ -33,9 +27,7 @@ describe('<Heading />', () => {
 
   it('should render the heading component with variant h3', () => {
     const { container } = render(
-      <Heading variant="h3">
-        {headingContent}
-      </Heading>
+      <Heading variant="h3">{headingContent}</Heading>
     );
 
     const bodyContent = container.querySelector<HTMLHeadingElement>('h2');

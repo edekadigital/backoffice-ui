@@ -28,7 +28,7 @@
     "fix": "gts fix",
     "clean": "gts clean",
     "prepublishOnly": "npm run build",
-    "format": "prettier \"**/*.{ts,json,md}\" --write"
+    "format": "prettier \"**/*.{ts,json,md,tsx}\" --write"
   },
   "husky": {
     "hooks": {

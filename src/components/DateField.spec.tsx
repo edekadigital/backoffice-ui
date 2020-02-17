@@ -7,16 +7,15 @@ import userEvent from '@testing-library/user-event';
 const label = 'some label';
 const placeholder = 'TT.MM.JJJJ';
 const errorText = 'Error Text';
+const dateValue = '341985';
+const correctFormattedDateValue = '03.04.1985';
 
 describe('<DateField />', () => {
   afterEach(cleanup);
 
   it('should render the date field component with placeholder', () => {
     const { container } = render(
-      <DateField
-        label={label}
-        placeholder={placeholder}
-      />
+      <DateField label={label} placeholder={placeholder} />
     );
 
     const labelResult = container.querySelectorAll<HTMLLabelElement>('label');
@@ -47,23 +46,30 @@ describe('<DateField />', () => {
     expect(placeholderResult!.classList).toContain('Mui-error');
   });
 
-  // TODO
-/*  it('should be able to type date in date field', async () => {
-    const handleChange = jest.fn();
+  it('should trigger onChange for component date field', async () => {
+    let onChanged = false;
+    const handleOnChange = () => {
+      onChanged = true;
+    };
 
-    const { getByTestId } = render(
-      <DateField
-        label={label}
-        placeholder={placeholder}
-        onChange={handleChange}
-      />
+    const { container } = render(
+      <DateField label={label} onChange={handleOnChange} />
     );
 
-    await userEvent.type(getByTestId('textField-input'), '331983');
+    const inputElement = container.querySelector<HTMLInputElement>('input');
+    await userEvent.type(inputElement!, dateValue);
+    expect(onChanged).toBeTruthy();
+    expect(inputElement!.value).toEqual(correctFormattedDateValue);
+  });
 
-    expect(handleChange).toBeCalled();
-    expect(handleChange.mock.calls.entries().next().value).toBeCalledWith('Hello Searchfield');
-    userEvent.click(getByTestId('textField-input'));
-    expect(getByTestId('textField-input')).toEqual('03.03.1983');
-  });*/
+  it('should fill day and month correctly with a leading 0', async () => {
+    const { container } = render(<DateField label={label} />);
+
+    const inputElement = container.querySelector<HTMLInputElement>('input');
+
+    await userEvent.type(inputElement!, '3.');
+    expect(inputElement!.value).toEqual('03');
+    await userEvent.type(inputElement!, '03.4.');
+    expect(inputElement!.value).toEqual('03.04');
+  });
 });

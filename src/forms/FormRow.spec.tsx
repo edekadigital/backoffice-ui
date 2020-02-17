@@ -51,4 +51,21 @@ describe('<FormRow/>', () => {
     expect(result!.item(0).textContent).toEqual(label);
     expect(result!.item(1).textContent).toEqual(label2);
   });
+
+  it('should render the form row with more children than layout can handle', () => {
+    const { container } = render(
+      <FormRow maxWidth={20} gutterBottom={true} gridLayout={[2, 2, 2, 2, 2]}>
+        <TextField label={label} />
+        <TextField label={label2} />
+        <TextField label={label} />
+        <TextField label={label2} />
+      </FormRow>
+    );
+
+    const result = container.querySelectorAll<HTMLLabelElement>('label');
+    expect(result!.item(0).textContent).toEqual(label);
+    expect(result!.item(1).textContent).toEqual(label2);
+    expect(result!.item(2).textContent).toEqual(label);
+    expect(result!.item(3).textContent).toEqual(label2);
+  });
 });

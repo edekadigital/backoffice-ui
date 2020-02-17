@@ -10,9 +10,7 @@ describe('<PreformattedText />', () => {
 
   it('should render the preformatted text component', () => {
     const { container } = render(
-      <PreformattedText>
-        {preContent}
-      </PreformattedText>
+      <PreformattedText>{preContent}</PreformattedText>
     );
 
     const content = container.querySelector<HTMLPreElement>('pre');

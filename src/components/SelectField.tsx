@@ -18,17 +18,15 @@ export interface SelectFieldProps {
 export const SelectField: React.FC<SelectFieldProps> = props => {
   const { menuItems, ...additionalProps } = props;
 
-  const menuItemList = menuItems
-    ? menuItems.map((item, index) => (
-        <MenuItem
-          key={index}
-          value={item.value}
-          data-testid={'selectField-item-' + index}
-        >
-          {item.label}
-        </MenuItem>
-      ))
-    : null;
+  const menuItemList = menuItems.map((item, index) => (
+    <MenuItem
+      key={index}
+      value={item.value}
+      data-testid={'selectField-item-' + index}
+    >
+      {item.label}
+    </MenuItem>
+  ));
 
   return (
     <TextField select={true} {...additionalProps}>

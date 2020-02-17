@@ -12,10 +12,10 @@ describe('<ContentGroup/>', () => {
 
   it('should render the content group component with title', () => {
     const { container } = render(
-      <ContentGroup
-        title={title}>
+      <ContentGroup title={title}>
         <div>'test'</div>
-      </ContentGroup>);
+      </ContentGroup>
+    );
 
     const result = container.querySelector<HTMLHeadingElement>('h3');
     expect(result!.textContent).toEqual(title);
