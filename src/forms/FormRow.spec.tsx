@@ -68,4 +68,21 @@ describe('<FormRow/>', () => {
     expect(result!.item(2).textContent).toEqual(label);
     expect(result!.item(3).textContent).toEqual(label2);
   });
+
+  it('should render the form row with width as a string', () => {
+    const { getByTestId, container } = render(
+      <FormRow maxWidth={'md'} gutterBottom={true}>
+        <TextField label={label} />
+        <TextField label={label2} />
+      </FormRow>
+    );
+
+    const result = container.querySelectorAll<HTMLLabelElement>('label');
+    expect(result!.item(0).textContent).toEqual(label);
+    expect(result!.item(1).textContent).toEqual(label2);
+
+    expect(getByTestId('formRow-item-0').classList[4]).toContain(
+      'MuiGrid-grid-md-'
+    );
+  });
 });
