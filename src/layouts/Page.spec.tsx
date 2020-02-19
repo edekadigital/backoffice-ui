@@ -9,25 +9,25 @@ describe('<Page />', () => {
   afterEach(cleanup);
 
   it('should render the page component with content', () => {
-    const { container } = render(
+    const { getByText } = render(
       <Page>
         <p>{pageContent}</p>
       </Page>
     );
 
-    const inputLabel = container.querySelector<HTMLParagraphElement>('p');
-    expect(inputLabel!.textContent).toEqual(pageContent);
+    expect(getByText(pageContent)!).toBeTruthy();
   });
 
   it('should render the page component with narrow content', () => {
-    const { container } = render(
-      <Page variant="narrow">
+    const { getByText, container } = render(
+      <Page
+        variant="narrow"
+      >
         <p>{pageContent}</p>
       </Page>
     );
 
-    const inputLabel = container.querySelector<HTMLParagraphElement>('p');
-    expect(inputLabel!.textContent).toEqual(pageContent);
+    expect(getByText(pageContent)!).toBeTruthy();
     const narrowDiv = container.querySelectorAll<HTMLDivElement>('div');
     expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthSm');
   });

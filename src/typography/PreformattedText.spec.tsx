@@ -5,15 +5,14 @@ import { PreformattedText } from '..';
 
 const preContent = 'test content';
 
-describe('<PreformattedText />', () => {
+describe('<PreformattedText/>', () => {
   afterEach(cleanup);
 
   it('should render the preformatted text component', () => {
-    const { container } = render(
+    const { getByText } = render(
       <PreformattedText>{preContent}</PreformattedText>
     );
 
-    const content = container.querySelector<HTMLPreElement>('pre');
-    expect(content!.textContent).toEqual(preContent);
+    expect(getByText(preContent)!).toBeTruthy();
   });
 });

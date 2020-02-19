@@ -11,27 +11,18 @@ describe('<SearchField/>', () => {
   const placeholder = 'placeholder text';
 
   it('should render the search field component', () => {
-    const { container } = render(<SearchField placeholder={placeholder} />);
+    const { getByTestId } = render(<SearchField placeholder={placeholder} />);
 
-    const searchFieldResult = container.querySelectorAll<HTMLInputElement>(
-      'input'
-    );
-    expect(searchFieldResult.item!(0).placeholder).toEqual(placeholder);
+    expect(getByTestId('searchField-input')!.attributes[0].value).toEqual(placeholder);
   });
 
   it('should render the search field with progress activated', () => {
-    const { container } = render(
+    const { container, getByTestId } = render(
       <SearchField placeholder={placeholder} progress={true} />
     );
 
-    const searchFieldProgressActivated = container.querySelectorAll<
-      HTMLInputElement
-    >('input');
-    expect(searchFieldProgressActivated.item!(0).placeholder).toEqual(
-      placeholder
-    );
-
     const progressStatus = container.querySelectorAll<HTMLDivElement>('div');
+    expect(getByTestId('searchField-input')!.attributes[0].value).toEqual(placeholder);
     expect(
       progressStatus.item!(2).classList.contains('MuiLinearProgress-root')
     ).toBeTruthy();
@@ -44,12 +35,11 @@ describe('<SearchField/>', () => {
       userInput = true;
     };
 
-    const { container } = render(
+    const { getByTestId } = render(
       <SearchField placeholder={placeholder} onChange={handleUserInput} />
     );
 
-    const inputElement = container.querySelector<HTMLInputElement>('input');
-    await userEvent.type(inputElement!, 'Hello SearchField');
+    await userEvent.type(getByTestId('searchField-input')!, 'Hello SearchField');
     expect(userInput).toBeTruthy();
   });
 

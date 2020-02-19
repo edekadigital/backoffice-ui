@@ -4,34 +4,42 @@ import { render } from '../test-utils';
 import { Subtitle } from '..';
 
 const subtitleContent = 'test content';
+const subtitleId = 'subtitle-test-id';
 
-describe('<Subtitle />', () => {
+describe('<Subtitle/>', () => {
   afterEach(cleanup);
 
   it('should render the subtitle component', () => {
-    const { container } = render(<Subtitle>{subtitleContent}</Subtitle>);
+    const { getByText } = render(<Subtitle>{subtitleContent}</Subtitle>);
 
-    const content = container.querySelector<HTMLParagraphElement>('p');
-    expect(content!.textContent).toEqual(subtitleContent);
+    expect(getByText(subtitleContent)!).toBeTruthy();
   });
 
   it('should render the subtitle component with secondary color', () => {
-    const { container } = render(
-      <Subtitle color="secondary">{subtitleContent}</Subtitle>
+    const { getByTestId } = render(
+      <Subtitle
+        color="secondary"
+        data-testid={subtitleId}
+      >
+        {subtitleContent}
+      </Subtitle>
     );
 
-    const bodyResult = container.querySelector<HTMLParagraphElement>('p');
-    expect(bodyResult!.textContent).toEqual(subtitleContent);
-    expect(bodyResult!.classList).toContain('MuiTypography-colorSecondary');
+    expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
+    expect(getByTestId(subtitleId)!.classList).toContain('MuiTypography-colorSecondary');
   });
 
   it('should render the subtitle component with align center', () => {
-    const { container } = render(
-      <Subtitle align="center">{subtitleContent}</Subtitle>
+    const { getByTestId } = render(
+      <Subtitle
+        align="center"
+        data-testid={subtitleId}
+      >
+        {subtitleContent}
+      </Subtitle>
     );
 
-    const bodyResult = container.querySelector<HTMLParagraphElement>('p');
-    expect(bodyResult!.textContent).toEqual(subtitleContent);
-    expect(bodyResult!.classList).toContain('MuiTypography-alignCenter');
+    expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
+    expect(getByTestId(subtitleId)!.classList).toContain('MuiTypography-alignCenter');
   });
 });

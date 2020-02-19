@@ -14,36 +14,28 @@ describe('<DateField />', () => {
   afterEach(cleanup);
 
   it('should render the date field component with placeholder', () => {
-    const { container } = render(
+    const { getByText, getByTestId } = render(
       <DateField label={label} placeholder={placeholder} />
     );
 
-    const labelResult = container.querySelectorAll<HTMLLabelElement>('label');
-    expect(labelResult.item!(0).textContent).toEqual(label);
-    const placeholderResult = container.querySelector<HTMLInputElement>(
-      'input'
-    );
-    expect(placeholderResult!.placeholder).toEqual(placeholder);
+    expect(getByText(label).textContent).toBeTruthy();
+    expect(getByTestId('textField-input')!.attributes[1].value).toEqual(placeholder);
   });
 
   it('should render the date field component with error message', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <DateField
         label={label}
         placeholder={placeholder}
         error={true}
         helperText={errorText}
+        data-testid={'datefield-id'}
       />
     );
 
-    const errorTextResult = container.querySelectorAll<HTMLParagraphElement>(
-      'p'
-    );
-    expect(errorTextResult.item!(0).textContent).toEqual(errorText);
-    const placeholderResult = container.querySelector<HTMLLabelElement>(
-      'label'
-    );
-    expect(placeholderResult!.classList).toContain('Mui-error');
+    expect(getByTestId('datefield-id').children[2].textContent).toEqual(errorText);
+    expect(getByTestId('datefield-id').children[1].classList).toContain('Mui-error');
+    expect(getByTestId('datefield-id').children[2].classList).toContain('Mui-error');
   });
 
   it('should trigger onChange for component date field', async () => {
@@ -52,24 +44,21 @@ describe('<DateField />', () => {
       onChanged = true;
     };
 
-    const { container } = render(
+    const { getByTestId } = render(
       <DateField label={label} onChange={handleOnChange} />
     );
 
-    const inputElement = container.querySelector<HTMLInputElement>('input');
-    await userEvent.type(inputElement!, dateValue);
+    await userEvent.type(getByTestId('textField-input')!, dateValue);
     expect(onChanged).toBeTruthy();
-    expect(inputElement!.value).toEqual(correctFormattedDateValue);
+    expect(getByTestId('textField-input')!.attributes[4].value).toEqual(correctFormattedDateValue);
   });
 
   it('should fill day and month correctly with a leading 0', async () => {
-    const { container } = render(<DateField label={label} />);
+    const { getByTestId } = render(<DateField label={label} />);
 
-    const inputElement = container.querySelector<HTMLInputElement>('input');
-
-    await userEvent.type(inputElement!, '3.');
-    expect(inputElement!.value).toEqual('03');
-    await userEvent.type(inputElement!, '03.4.');
-    expect(inputElement!.value).toEqual('03.04');
+    await userEvent.type(getByTestId('textField-input')!, '3.');
+    expect(getByTestId('textField-input')!.attributes[4].value).toEqual('03');
+    await userEvent.type(getByTestId('textField-input')!, '03.4.');
+    expect(getByTestId('textField-input')!.attributes[4].value).toEqual('03.04');
   });
 });

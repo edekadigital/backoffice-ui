@@ -4,34 +4,44 @@ import { render } from '../test-utils';
 import { Heading } from '..';
 
 const headingContent = 'test content';
-
+const headingTestId = 'heading-test-id';
 describe('<Heading />', () => {
   afterEach(cleanup);
 
   it('should render the heading component', () => {
-    const { container } = render(<Heading>{headingContent}</Heading>);
+    const { getByText } = render(
+      <Heading>
+        {headingContent}
+      </Heading>);
 
-    const content = container.querySelector<HTMLHeadingElement>('h2');
-    expect(content!.textContent).toEqual(headingContent);
+    expect(getByText(headingContent)).toBeTruthy();
   });
 
   it('should render the heading component with secondary color', () => {
-    const { container } = render(
-      <Heading color={'secondary'}>{headingContent}</Heading>
+    const { getByTestId } = render(
+      <Heading
+        color={'secondary'}
+        data-testid={headingTestId}
+      >
+        {headingContent}
+      </Heading>
     );
 
-    const bodyContent = container.querySelector<HTMLHeadingElement>('h2');
-    expect(bodyContent!.textContent).toEqual(headingContent);
-    expect(bodyContent!.classList).toContain('MuiTypography-colorSecondary');
+    expect(getByTestId(headingTestId).textContent).toEqual(headingContent);
+    expect(getByTestId(headingTestId).classList).toContain('MuiTypography-colorSecondary');
   });
 
   it('should render the heading component with variant h3', () => {
-    const { container } = render(
-      <Heading variant="h3">{headingContent}</Heading>
+    const { getByTestId } = render(
+      <Heading
+        variant="h3"
+        data-testid={headingTestId}
+      >
+        {headingContent}
+      </Heading>
     );
 
-    const bodyContent = container.querySelector<HTMLHeadingElement>('h2');
-    expect(bodyContent!.textContent).toEqual(headingContent);
-    expect(bodyContent!.classList).toContain('MuiTypography-h3');
+    expect(getByTestId(headingTestId).textContent).toEqual(headingContent);
+    expect(getByTestId(headingTestId).classList).toContain('MuiTypography-h3');
   });
 });

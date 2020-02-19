@@ -25,7 +25,7 @@ describe('<FormWrapper/>', () => {
       cancel = true;
     };
 
-    const { container } = render(
+    const { getByTestId } = render(
       <FormWrapper
         cancelLabel={labelCancel}
         onCancel={onCancel}
@@ -34,12 +34,11 @@ describe('<FormWrapper/>', () => {
       />
     );
 
-    const buttons = container.querySelectorAll<HTMLButtonElement>('button');
-    expect(buttons!.item(0).textContent).toEqual(labelSubmit);
-    expect(buttons!.item(1).textContent).toEqual(labelCancel);
+    expect(getByTestId('formWrapper-submit').textContent).toEqual(labelSubmit);
+    expect(getByTestId('formWrapper-cancel').textContent).toEqual(labelCancel);
 
-    userEvent.click(buttons.item(0));
-    userEvent.click(buttons.item(1));
+    userEvent.click(getByTestId('formWrapper-submit'));
+    userEvent.click(getByTestId('formWrapper-cancel'));
     expect(submit).toEqual(true);
     expect(cancel).toEqual(true);
   });
@@ -55,7 +54,7 @@ describe('<FormWrapper/>', () => {
       cancel = true;
     };
 
-    const { container } = render(
+    const { getByTestId } = render(
       <FormWrapper
         cancelLabel={labelCancel}
         onCancel={onCancel}
@@ -71,12 +70,11 @@ describe('<FormWrapper/>', () => {
       </FormWrapper>
     );
 
-    const buttons = container.querySelectorAll<HTMLButtonElement>('button');
-    expect(buttons!.item(0).textContent).toEqual(labelSubmit);
-    expect(buttons!.item(1).textContent).toEqual(labelCancel);
+    expect(getByTestId('formWrapper-submit').textContent).toEqual(labelSubmit);
+    expect(getByTestId('formWrapper-cancel').textContent).toEqual(labelCancel);
 
-    userEvent.click(buttons.item(0));
-    userEvent.click(buttons.item(1));
+    userEvent.click(getByTestId('formWrapper-submit'));
+    userEvent.click(getByTestId('formWrapper-cancel'));
     expect(submit).toEqual(true);
     expect(cancel).toEqual(true);
   });

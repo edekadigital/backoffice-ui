@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { cleanup } from '@testing-library/react';
 import { FormFieldSet, FormRow, TextField } from '..';
 import { render } from '../test-utils';
@@ -12,7 +11,7 @@ describe('<FormFieldSet/>', () => {
   afterEach(cleanup);
 
   it('should render the form field set with title', () => {
-    const { container } = render(
+    const { getByText, container } = render(
       <FormFieldSet title={title}>
         <FormRow>
           <TextField label={label} />
@@ -21,28 +20,43 @@ describe('<FormFieldSet/>', () => {
       </FormFieldSet>
     );
 
-    const result = container.querySelectorAll<HTMLLabelElement>('label');
-    expect(result!.item(0).textContent).toEqual(label);
-    expect(result!.item(1).textContent).toEqual(label2);
-
+    expect(getByText(title)!).toBeTruthy();
+    expect(getByText(label)!).toBeTruthy();
+    expect(getByText(label2)!).toBeTruthy();
     const titleResult = container.querySelectorAll<HTMLDivElement>('div');
     expect(titleResult!.item(1).className).toContain(
       'MuiTypography-root makeStyles-title-'
     );
   });
 
-  it('should render the form field set with multiple ', () => {
-    const { container } = render(
-      <FormFieldSet>
-        <FormRow>
-          <TextField label={label} />
-          <TextField label={label2} />
-        </FormRow>
-      </FormFieldSet>
+  it('should render multiple form field sets', () => {
+    const { queryByText } = render(
+      <div>
+        <FormFieldSet title={title}>
+          <FormRow>
+            <TextField label={'label'} />
+            <TextField label={label} />
+          </FormRow>
+          <FormRow>
+            <TextField label={'label'} />
+            <TextField label={'label'} />
+          </FormRow>
+        </FormFieldSet>
+        <FormFieldSet>
+          <FormRow>
+            <TextField label={'label2'} />
+            <TextField label={'label2'} />
+          </FormRow>
+          <FormRow>
+            <TextField label={'label2'} />
+            <TextField label={label2} />
+          </FormRow>
+        </FormFieldSet>
+      </div>
     );
 
-    const result = container.querySelectorAll<HTMLLabelElement>('label');
-    expect(result!.item(0).textContent).toEqual(label);
-    expect(result!.item(1).textContent).toEqual(label2);
+    expect(queryByText(title)!).toBeTruthy();
+    expect(queryByText(label)!).toBeTruthy();
+    expect(queryByText(label2)!).toBeTruthy();
   });
 });

@@ -11,56 +11,39 @@ describe('<ContentGroup/>', () => {
   const label2 = 'test label2';
 
   it('should render the content group component with title', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <ContentGroup title={title}>
         <div>'test'</div>
       </ContentGroup>
     );
 
-    const result = container.querySelector<HTMLHeadingElement>('h3');
-    expect(result!.textContent).toEqual(title);
+    expect(getByTestId('contentGroup-title').textContent).toEqual(title);
   });
 
   it('should render the content group component title tag', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <ContentGroup>
-        <div>{title}</div>
-        <title>{title}</title>
+        <div data-testid='title-id' >{title}</div>
       </ContentGroup>
     );
 
-    const resultTitle = container.querySelector<HTMLTitleElement>('title');
-    expect(resultTitle!.textContent).toEqual(title);
-    const resultDiv = container.querySelector<HTMLDivElement>('div');
-    expect(resultDiv!.textContent).toEqual(title + title);
+    expect(getByTestId('title-id').textContent).toEqual(title);
   });
 
   it('should render content group with children items and title', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <ContentGroup title={title}>
         <FormRow>
-          <TextField label={label} />
+          <TextField label={label} data-testid='label1'/>
         </FormRow>
         <FormRow>
-          <TextField label={label2}>blablub</TextField>
+          <TextField label={label2} data-testid='label2'/>
         </FormRow>
       </ContentGroup>
     );
-    const result = container.querySelectorAll<HTMLLabelElement>('label');
-    expect(result!.item(0).textContent).toEqual(label);
-    expect(result!.item(1).textContent).toEqual(label2);
 
-    const resultTitle = container.querySelector<HTMLHeadingElement>('h3');
-    expect(resultTitle!.textContent).toEqual(title);
+    expect(getByTestId('label1').textContent).toEqual(label);
+    expect(getByTestId('label2').textContent).toEqual(label2);
+    expect(getByTestId('contentGroup-title').textContent).toEqual(title);
   });
-
-  /*
-  it('should render content group with fallback title', function () {
-    const { container } = render(
-      <ContentGroup>test</ContentGroup>
-    );
-
-    const result = container.querySelector<HTMLHeadingElement>('h5');
-    result
-  });*/
 });

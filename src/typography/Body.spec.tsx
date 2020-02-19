@@ -4,30 +4,31 @@ import { render } from '../test-utils';
 import { Body } from '..';
 
 const bodyContent = 'test content';
+const bodyId = 'body-test-id';
 
 describe('<Body />', () => {
   afterEach(cleanup);
 
   it('should render the body component', () => {
-    const { container } = render(
-      <Body>
-        <p>{bodyContent}</p>
+    const { getByText } = render(
+      <Body data-testid={bodyId}>
+        {bodyContent}
       </Body>
     );
 
-    const content = container.querySelector<HTMLParagraphElement>('p');
-    expect(content!.textContent).toEqual(bodyContent);
+    expect(getByText(bodyContent)!).toBeTruthy();
   });
 
   it('should render the body component with primary color', () => {
-    const { container } = render(
-      <Body color={'primary'}>
-        <p>{bodyContent}</p>
+    const { getByTestId } = render(
+      <Body
+        color={'primary'}
+        data-testid={bodyId}
+      >
+        {bodyContent}
       </Body>
     );
 
-    const bodyResult = container.querySelector<HTMLParagraphElement>('p');
-    expect(bodyResult!.textContent).toEqual(bodyContent);
-    expect(bodyResult!.classList).toContain('MuiTypography-colorPrimary');
+    expect(getByTestId(bodyId)!.classList).toContain('MuiTypography-colorPrimary');
   });
 });

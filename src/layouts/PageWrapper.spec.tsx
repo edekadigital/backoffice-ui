@@ -5,12 +5,13 @@ import { render } from '../test-utils';
 
 const pageContent = 'test content';
 const label = 'label';
+const buttonTestId = 'button-test-id';
 
 describe('<PageWrapper />', () => {
   afterEach(cleanup);
 
   it('should render the page wrapper component with page as content', () => {
-    const { container } = render(
+    const { getByText } = render(
       <PageWrapper>
         <Page>
           <p>{pageContent}</p>
@@ -18,23 +19,21 @@ describe('<PageWrapper />', () => {
       </PageWrapper>
     );
 
-    const inputLabel = container.querySelector<HTMLParagraphElement>('p');
-    expect(inputLabel!.textContent).toEqual(pageContent);
+    expect(getByText(pageContent)!).toBeTruthy();
   });
 
   it('should render the page wrapper component with page and button bar as content', () => {
-    const { container } = render(
-      <Page variant="narrow">
+    const { getByTestId, container } = render(
+      <Page variant="narrow" data-testid='pagetestid'>
         <ButtonBar>
-          <Button>{label}</Button>
+          <Button data-testid={buttonTestId}>{label}</Button>
         </ButtonBar>
         <p>{pageContent}</p>
       </Page>
     );
 
-    const buttonResult = container.querySelector<HTMLButtonElement>('button');
-    expect(buttonResult).toBeTruthy();
-    expect(buttonResult!.textContent).toEqual(label);
+    expect(getByTestId(buttonTestId)!).toBeTruthy();
+    expect(getByTestId(buttonTestId)!.textContent).toEqual(label);
     const narrowDiv = container.querySelectorAll<HTMLDivElement>('div');
     expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthSm');
   });
