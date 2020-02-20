@@ -35,7 +35,7 @@ export const FormFieldSet: React.FC<FormFieldSetProps> = ({
           variant="h5"
           data-testid="formFieldSet-title"
         >
-          <strong>{title}</strong>
+          {title}
         </Typography>
       ) : null,
     [title]
