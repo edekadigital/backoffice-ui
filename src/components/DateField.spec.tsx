@@ -19,7 +19,8 @@ describe('<DateField />', () => {
     );
 
     expect(getByText(label).textContent).toBeTruthy();
-    expect(getByTestId('textField-input')!.attributes[1].value).toEqual(placeholder);
+    const labelResult = getByTestId('textField-input')! as HTMLInputElement;
+    expect(labelResult.placeholder).toEqual(placeholder);
   });
 
   it('should render the date field component with error message', () => {
@@ -33,9 +34,15 @@ describe('<DateField />', () => {
       />
     );
 
-    expect(getByTestId('datefield-id').children[2].textContent).toEqual(errorText);
-    expect(getByTestId('datefield-id').children[1].classList).toContain('Mui-error');
-    expect(getByTestId('datefield-id').children[2].classList).toContain('Mui-error');
+    expect(getByTestId('datefield-id').children[2].textContent).toEqual(
+      errorText
+    );
+    expect(getByTestId('datefield-id').children[1].classList).toContain(
+      'Mui-error'
+    );
+    expect(getByTestId('datefield-id').children[2].classList).toContain(
+      'Mui-error'
+    );
   });
 
   it('should trigger onChange for component date field', async () => {
@@ -50,15 +57,19 @@ describe('<DateField />', () => {
 
     await userEvent.type(getByTestId('textField-input')!, dateValue);
     expect(onChanged).toBeTruthy();
-    expect(getByTestId('textField-input')!.attributes[4].value).toEqual(correctFormattedDateValue);
+    const labelResult = getByTestId('textField-input')! as HTMLInputElement;
+    expect(labelResult.value).toEqual(correctFormattedDateValue);
   });
 
   it('should fill day and month correctly with a leading 0', async () => {
     const { getByTestId } = render(<DateField label={label} />);
 
-    await userEvent.type(getByTestId('textField-input')!, '3.');
-    expect(getByTestId('textField-input')!.attributes[4].value).toEqual('03');
-    await userEvent.type(getByTestId('textField-input')!, '03.4.');
-    expect(getByTestId('textField-input')!.attributes[4].value).toEqual('03.04');
+    const labelResult = getByTestId('textField-input')! as HTMLInputElement;
+    await userEvent.type(labelResult, '3.');
+    expect(labelResult.value).toEqual('03');
+    await userEvent.type(labelResult, '03.4.');
+    expect(labelResult.value).toEqual('03.04');
+    await userEvent.type(labelResult, '11111');
+    expect(labelResult.value).toEqual('11.11.1');
   });
 });

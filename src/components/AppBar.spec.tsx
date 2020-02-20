@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { cleanup, fireEvent } from '@testing-library/react';
 import { AppBar, Apps, ArrowDropDown, IconButton } from '..';
 import userEvent from '@testing-library/user-event';
@@ -12,6 +11,7 @@ describe('<AppBar />', () => {
 
   it('should render the app bar component', () => {
     const { container } = render(<AppBar>{label}</AppBar>);
+
     expect(container.textContent).toEqual(label);
   });
 
@@ -45,18 +45,17 @@ describe('<AppBar />', () => {
     ];
 
     const { container } = render(
-      <AppBar actions={testAction} gutterBottom={true}>
+      <AppBar actions={testAction} gutterBottom={true} data-testid="appbar-id">
         {label}
       </AppBar>
     );
 
     expect(container.textContent).toEqual(label);
-    const actionButton = container.querySelector<HTMLSpanElement>('span');
+    const actionButton = container.querySelector<HTMLButtonElement>('button');
     expect(actionButton!).toBeTruthy();
   });
 
   it('should notice onClick event in app bar', () => {
-    /*    const testHandler = jest.fn();*/
     let clicked = false;
     const clickHandler = () => {
       clicked = true;
@@ -76,13 +75,10 @@ describe('<AppBar />', () => {
     );
 
     expect(container.textContent).toEqual(label);
-    const actionButton = container.querySelector<HTMLSpanElement>('span');
-    expect(actionButton!).toBeTruthy();
 
-    const buttonResult = container.querySelectorAll<HTMLButtonElement>(
-      'button'
-    );
-    fireEvent.click(buttonResult.item(0)!);
+    const buttonResult = container.querySelector<HTMLButtonElement>('button');
+    expect(buttonResult!).toBeTruthy();
+    fireEvent.click(buttonResult!);
     expect(clicked).toBe(true);
   });
 });

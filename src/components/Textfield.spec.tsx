@@ -13,7 +13,7 @@ describe('<TextField />', () => {
   afterEach(cleanup);
 
   it('should render the text field component', () => {
-    const { getByText, container } = render(
+    const { getByText, getByTestId } = render(
       <TextField
         label={label}
         name={name}
@@ -23,13 +23,11 @@ describe('<TextField />', () => {
       />
     );
 
-    const inputTextField = container.querySelector<HTMLInputElement>(
-      'input'
-    );
+    const inputResult = getByTestId('textField-input')! as HTMLInputElement;
 
-    expect(inputTextField!.name).toEqual(name);
-    expect(inputTextField!.placeholder).toEqual(placeholder);
-    expect(inputTextField!.value).toEqual(value);
+    expect(inputResult.name).toEqual(name);
+    expect(inputResult.placeholder).toEqual(placeholder);
+    expect(inputResult.value).toEqual(value);
     expect(getByText(label)!).toBeTruthy();
   });
 });

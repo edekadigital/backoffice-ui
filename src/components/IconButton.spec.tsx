@@ -9,10 +9,11 @@ describe('<IconButton/>', () => {
   afterEach(cleanup);
 
   it('should render the icon button component', () => {
-    const { container } = render(<IconButton icon={ArrowDropDown} />);
+    const { getByTestId } = render(
+      <IconButton icon={ArrowDropDown} data-testid="iconbutton" />
+    );
 
-    const icon = container.querySelector<HTMLButtonElement>('button');
-    expect(icon!).toBeTruthy();
+    expect(getByTestId('iconbutton')).toBeTruthy();
   });
 
   it('should notice onClick event for IconButton', () => {

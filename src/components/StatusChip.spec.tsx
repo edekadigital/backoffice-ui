@@ -9,15 +9,20 @@ describe('<StatusChip/>', () => {
   const label = 'I am a status chip';
 
   it('should render the status chip component', () => {
-    const { container } = render(<StatusChip label={label} color={'info'} />);
-    expect(container.textContent).toEqual(label);
+    const { getByText } = render(<StatusChip label={label} color={'info'} />);
+
+    expect(getByText(label)!).toBeTruthy();
   });
 
   it('should render the status chip with icon', () => {
-    const { container } = render(
+    const { getByText, container } = render(
       <StatusChip label={label} icon={ArrowDropDown} />
     );
-    const icon = container.querySelector<HTMLButtonElement>('svg');
-    expect(icon!).toBeTruthy();
+
+    const progressResult2 = container.querySelector<HTMLOrSVGImageElement>(
+      '[role="presentation"]'
+    );
+    expect(progressResult2).toBeTruthy();
+    expect(getByText(label)!).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cleanup, fireEvent } from '@testing-library/react';
 import { render } from '../test-utils';
-import { Button, Check, Delete, ReverseNavigation, StatusChip } from '..';
+import { Check, ReverseNavigation, StatusChip } from '..';
 
 const label = 'Button Label';
 const reverseNaviContent = 'Lorem ipsum dolor';
@@ -25,9 +25,9 @@ describe('<ReverseNavigation/>', () => {
   it('should render the reverse navigation component with gutterbuttom', () => {
     const onClick = () => {};
     const status = <StatusChip label={label} icon={Check} />;
-    const action = <Button children={label} icon={Delete} variant="outlined" />;
+    const action = 'button rendered';
 
-    const { container, getByTestId } = render(
+    const { getByText, getByTestId } = render(
       <ReverseNavigation
         infoBarContent={status}
         onBackClick={onClick}
@@ -37,15 +37,7 @@ describe('<ReverseNavigation/>', () => {
       />
     );
 
-    const buttonResult = container.querySelectorAll<HTMLButtonElement>(
-      'button'
-    );
-    expect(buttonResult.item(1)!.classList[3]).toContain(
-      'MuiButton-outlinedPrimary'
-    );
-    expect(buttonResult.item(1)!.children.item(0)!.textContent).toContain(
-      label
-    );
+    expect(getByText('button rendered')).toBeTruthy();
     expect(getByTestId('reverseNavigation-infoBar')).toBeTruthy();
   });
 
@@ -76,15 +68,12 @@ describe('<ReverseNavigation/>', () => {
   it('should render the reverse navigation component with children', () => {
     const onClick = () => {};
 
-    const { container } = render(
+    const { getByTestId } = render(
       <ReverseNavigation infoBarContent={'test'} onBackClick={onClick}>
-        <p>{reverseNaviContent}</p>
+        <p data-testid="p-element">{reverseNaviContent}</p>
       </ReverseNavigation>
     );
 
-    const childrenResult = container.querySelectorAll<HTMLParagraphElement>(
-      'p'
-    );
-    expect(childrenResult.item(0)!.textContent).toEqual(reverseNaviContent);
+    expect(getByTestId('p-element')!.textContent).toEqual(reverseNaviContent);
   });
 });

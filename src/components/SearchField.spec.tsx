@@ -13,19 +13,19 @@ describe('<SearchField/>', () => {
   it('should render the search field component', () => {
     const { getByTestId } = render(<SearchField placeholder={placeholder} />);
 
-    expect(getByTestId('searchField-input')!.attributes[0].value).toEqual(placeholder);
+    const inputResult = getByTestId('searchField-input')! as HTMLInputElement;
+    expect(inputResult.placeholder).toEqual(placeholder);
   });
 
   it('should render the search field with progress activated', () => {
-    const { container, getByTestId } = render(
+    const { getByTestId, getByRole } = render(
       <SearchField placeholder={placeholder} progress={true} />
     );
 
-    const progressStatus = container.querySelectorAll<HTMLDivElement>('div');
-    expect(getByTestId('searchField-input')!.attributes[0].value).toEqual(placeholder);
-    expect(
-      progressStatus.item!(2).classList.contains('MuiLinearProgress-root')
-    ).toBeTruthy();
+    const inputResult = getByTestId('searchField-input')! as HTMLInputElement;
+    expect(inputResult.placeholder).toEqual(placeholder);
+    const progressResult = getByRole('progressbar')! as HTMLDivElement;
+    expect(progressResult).toBeTruthy();
   });
 
   it('should be able to use onChange in search field', async () => {
@@ -39,7 +39,10 @@ describe('<SearchField/>', () => {
       <SearchField placeholder={placeholder} onChange={handleUserInput} />
     );
 
-    await userEvent.type(getByTestId('searchField-input')!, 'Hello SearchField');
+    await userEvent.type(
+      getByTestId('searchField-input')!,
+      'Hello SearchField'
+    );
     expect(userInput).toBeTruthy();
   });
 

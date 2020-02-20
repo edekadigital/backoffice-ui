@@ -11,7 +11,7 @@ describe('<FormFieldSet/>', () => {
   afterEach(cleanup);
 
   it('should render the form field set with title', () => {
-    const { getByText, container } = render(
+    const { getByText, getByTestId } = render(
       <FormFieldSet title={title}>
         <FormRow>
           <TextField label={label} />
@@ -23,8 +23,7 @@ describe('<FormFieldSet/>', () => {
     expect(getByText(title)!).toBeTruthy();
     expect(getByText(label)!).toBeTruthy();
     expect(getByText(label2)!).toBeTruthy();
-    const titleResult = container.querySelectorAll<HTMLDivElement>('div');
-    expect(titleResult!.item(1).className).toContain(
+    expect(getByTestId('formFieldSet-title')!.className).toContain(
       'MuiTypography-root makeStyles-title-'
     );
   });
