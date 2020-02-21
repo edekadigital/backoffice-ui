@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Chip, Theme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ChipProps } from '@material-ui/core/Chip';
-import { SUCCESS, ERROR, WARNING, PRIMARY } from '../constants/colors';
+import { SUCCESS, ERROR, WARNING, PRIMARY } from '../constants';
 import { makeStyles } from '@material-ui/styles';
 
 export type StatusChipColor =
@@ -21,8 +21,8 @@ const colorMap: { [k: string]: string } = {
 
 export interface StatusChipProps {
   label: string;
-  icon?: React.ElementType<SvgIconProps>;
   color?: StatusChipColor;
+  icon?: React.ElementType<SvgIconProps>;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

@@ -8,8 +8,8 @@ import { Divider, fade, Theme } from '@material-ui/core';
 
 export interface TabNavigationItem<T> {
   label: string;
-  divider?: boolean;
   value: T;
+  divider?: boolean;
 }
 
 export interface TabNavigationProps<T> {
@@ -50,9 +50,9 @@ const useStyles = makeStyles<Theme, { gutterBottom: boolean }>(theme => ({
 export function TabNavigation<T>(props: TabNavigationProps<T>) {
   const {
     items,
+    gutterBottom = false,
     linkComponent = 'button',
     value,
-    gutterBottom = false,
     ...additionalProps
   } = props;
   const classes = useStyles({ gutterBottom });

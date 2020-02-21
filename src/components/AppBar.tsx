@@ -3,8 +3,8 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import MuiIconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import { Theme } from '@material-ui/core';
 
 export interface AppBarAction {
   icon: React.ElementType<SvgIconProps>;
@@ -12,8 +12,8 @@ export interface AppBarAction {
 }
 
 export interface AppBarProps {
-  children?: React.ReactNode;
   actions?: AppBarAction[];
+  children?: React.ReactNode;
   gutterBottom?: boolean;
 }
 

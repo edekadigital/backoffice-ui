@@ -4,31 +4,29 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export interface SelectFieldProps {
   label: string;
-  required?: boolean;
-  helperText?: string;
-  error?: boolean;
+  menuItems: Array<{ value: string | number; label: string }>;
   disabled?: boolean;
+  error?: boolean;
+  helperText?: string;
   id?: string;
   name?: string;
-  value?: TextFieldValue;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  menuItems: Array<{ value: string | number; label: string }>;
+  required?: boolean;
+  value?: TextFieldValue;
 }
 
 export const SelectField: React.FC<SelectFieldProps> = props => {
   const { menuItems, ...additionalProps } = props;
 
-  const menuItemList = menuItems
-    ? menuItems.map((item, index) => (
-        <MenuItem
-          key={index}
-          value={item.value}
-          data-testid={'selectField-item-' + index}
-        >
-          {item.label}
-        </MenuItem>
-      ))
-    : null;
+  const menuItemList = menuItems.map((item, index) => (
+    <MenuItem
+      key={index}
+      value={item.value}
+      data-testid={'selectField-item-' + index}
+    >
+      {item.label}
+    </MenuItem>
+  ));
 
   return (
     <TextField select={true} {...additionalProps}>

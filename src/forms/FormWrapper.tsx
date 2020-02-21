@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Button } from '../components/Button';
-import { ButtonBar } from '../components/ButtonBar';
+import { Button } from '..';
+import { ButtonBar } from '..';
 
 export type FormWrapperHandler = () => void;
 

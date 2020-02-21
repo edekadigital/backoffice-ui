@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { SelectField } from '..';
+import { SelectField } from './SelectField';
 
 const menuItems = [
   { value: '', label: 'Keine Angabe' },

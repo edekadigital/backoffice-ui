@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { ERROR, PRIMARY, SECONDARY } from '../constants/colors';
+import { ERROR, PRIMARY, SECONDARY } from '../constants';
 
 const theme = createMuiTheme({
   palette: {

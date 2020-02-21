@@ -6,12 +6,12 @@ import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
 
 export interface ReverseNavigationProps {
-  children?: React.ReactNode;
   onBackClick: React.MouseEventHandler;
-  infoBarContent?: React.ReactNode;
   action?: React.ReactNode;
-  gutterBottom?: boolean;
+  children?: React.ReactNode;
   floatingBackButton?: boolean;
+  gutterBottom?: boolean;
+  infoBarContent?: React.ReactNode;
 }
 
 const useStyles = makeStyles<Theme, ReverseNavigationProps>((theme: Theme) => ({

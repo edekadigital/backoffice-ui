@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Menu as MuiMenu, MenuProps, Theme } from '@material-ui/core';
+import { Menu as MuiMenu, MenuProps } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import { IconButton } from '../components/IconButton';
+import { IconButton } from '..';
 import { ArrowDropDown } from '../icons';
 
 // WIP

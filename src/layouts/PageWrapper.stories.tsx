@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { PageWrapper, Page, Body, ReverseNavigation, AppBar } from '..'; // @edekadigital/backoffice-ui
+import { Page, Body, ReverseNavigation, AppBar, PageWrapper } from '..'; // @edekadigital/backoffice-ui
 
 const Content = () => (
   <Body component="p">

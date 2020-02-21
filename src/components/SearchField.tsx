@@ -10,9 +10,9 @@ import { makeStyles } from '@material-ui/styles';
 
 export interface SearchFieldProps {
   placeholder: string;
-  progress?: boolean;
   onChange?: (value: string) => void;
   onSubmit?: (value: string) => void;
+  progress?: boolean;
 }
 
 const useStyles = makeStyles({

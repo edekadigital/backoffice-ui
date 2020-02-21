@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { Heading, HeadingComponent } from '../typography/Heading';
+import { Heading, HeadingComponent } from '..';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export interface ContentGroupProps {
+  children: React.ReactNode;
   title?: string;
   titleComponent?: HeadingComponent;
-  children: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

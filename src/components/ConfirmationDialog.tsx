@@ -12,14 +12,14 @@ import { Theme } from '@material-ui/core';
 import { Button } from './Button';
 
 export interface ConfirmationDialogProps {
+  cancelLabel: string;
+  confirmLabel: string;
+  message: React.ReactNode | string;
   open: boolean;
   title: React.ReactNode | string;
-  message: React.ReactNode | string;
-  confirmLabel: string;
-  cancelLabel: string;
+  onCancel?: React.ReactEventHandler<{}>;
   onClose?: React.ReactEventHandler<{}>;
   onConfirm?: React.ReactEventHandler<{}>;
-  onCancel?: React.ReactEventHandler<{}>;
 }
 
 const useDialogStyles = makeStyles((theme: Theme) => ({
@@ -36,14 +36,14 @@ const useDialogStyles = makeStyles((theme: Theme) => ({
 
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
   const {
-    open,
-    title,
-    message,
-    confirmLabel,
     cancelLabel,
+    confirmLabel,
+    message,
     onClose,
     onConfirm,
     onCancel,
+    open,
+    title,
   } = props;
   const theme = useTheme<Theme>();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
