@@ -23,9 +23,6 @@ describe('<FormFieldSet/>', () => {
     expect(getByText(title)!).toBeTruthy();
     expect(getByText(label)!).toBeTruthy();
     expect(getByText(label2)!).toBeTruthy();
-    expect(getByTestId('formFieldSet-title')!.className).toContain(
-      'MuiTypography-root makeStyles-title-'
-    );
   });
 
   it('should render multiple form field sets', () => {

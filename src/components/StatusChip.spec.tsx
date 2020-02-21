@@ -19,10 +19,10 @@ describe('<StatusChip/>', () => {
       <StatusChip label={label} icon={ArrowDropDown} />
     );
 
-    const progressResult2 = container.querySelector<HTMLOrSVGImageElement>(
+    const iconResult = container.querySelector<HTMLOrSVGImageElement>(
       '[role="presentation"]'
     );
-    expect(progressResult2).toBeTruthy();
+    expect(iconResult).toBeTruthy();
     expect(getByText(label)!).toBeTruthy();
   });
 });
