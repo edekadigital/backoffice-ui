@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { cleanup } from '@testing-library/react';
 
-import { render, cleanup } from '@testing-library/react';
+import { render } from '../test-utils';
 import { LogTable } from './LogTable';
-import { ThemeProvider } from '..';
 
 describe('<LogTable />', () => {
   afterEach(cleanup);
@@ -15,9 +15,7 @@ describe('<LogTable />', () => {
     ];
 
     const { getByTestId, queryByTestId } = render(
-      <ThemeProvider>
-        <LogTable columns={columns} rows={rows} />
-      </ThemeProvider>
+      <LogTable columns={columns} rows={rows} />
     );
 
     expect(getByTestId(`logTable-th-0`).textContent).toEqual('Column A');
