@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Heading } from '../typography/Heading';
 import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Box, SvgIconProps } from '@material-ui/core';
 import { ButtonBar } from './ButtonBar';
 import MuiTable, { Padding } from '@material-ui/core/Table';
 import MuiTableBody, { TableBodyProps } from '@material-ui/core/TableBody';
@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import MuiTableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import MuiTableRow from '@material-ui/core/TableRow';
+import MuiIconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import {
   useTable,
@@ -23,20 +24,15 @@ import {
   ColumnInstance,
   UseRowSelectHooks,
   TableOptions,
+  usePagination,
+  TableState,
+  Column,
 } from 'react-table';
 
 export interface TableBarAction {
-  // tslint:disable-next-line: no-any
-  icon: React.ElementType<any>;
+  icon: React.ElementType<SvgIconProps>;
   handler: () => void;
 }
-
-interface DataTableProps extends TableOptions<{}> {
-  actions?: React.ReactElement | React.ReactElement[];
-  headline?: string;
-  showCheckbox?: boolean;
-}
-
 interface TableBarProps {
   actions?: TableBarAction[];
   headline?: string;
@@ -52,6 +48,20 @@ interface TableRowProps {
   prepareRow: (row: Row) => void;
 }
 
+interface DataTableProps {
+  actions?: TableBarAction[];
+  headline?: string;
+  showCheckbox?: boolean;
+  // tslint:disable-next-line: no-any
+  fetchData: () => any[];
+  columns: Array<Column<{}>>;
+}
+
+interface StateProps extends TableState {
+  pageIndex: number;
+  pageSize: number;
+}
+
 const useStyles = makeStyles(theme => ({
   tableBarContainer: {
     display: 'flex',
@@ -60,13 +70,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TableBar: React.FC<TableBarProps> = props => {
-  const { headline, actions } = props;
+  const { headline, actions = [] } = props;
 
   const classes = useStyles();
 
-  const actionItems = actions?.map((action, index: number) => {
-    const actionComponent = action;
-    return <div key={`action-item-${index}`}>{actionComponent}</div>;
+  const actionItems = actions.map(({ icon, handler }, index) => {
+    const IconComponent = icon;
+    const handleClick = () => handler();
+    return (
+      <div key={`action-item-${index}`}>
+        <MuiIconButton color="default" onClick={handleClick}>
+          <IconComponent fontSize="small" />
+        </MuiIconButton>
+      </div>
+    );
   });
 
   const heading = React.useMemo(
@@ -80,10 +97,10 @@ const TableBar: React.FC<TableBarProps> = props => {
   );
 
   return (
-    <Container className={classes.tableBarContainer}>
+    <Box className={classes.tableBarContainer}>
       {heading}
       {actionBar}
-    </Container>
+    </Box>
   );
 };
 
@@ -131,7 +148,9 @@ const TableBody: React.FC<TableRowProps> = props => {
 };
 
 export const DataTable: React.FC<DataTableProps> = props => {
-  const { headline, actions, columns, data, showCheckbox } = props;
+  // tslint:disable-next-line: no-any
+  const [data, setData] = React.useState<any[]>([]);
+  const { headline, actions, columns, showCheckbox, fetchData } = props;
   const checkboxes: Array<PluginHook<{}>> = showCheckbox
     ? [
         useRowSelect,
@@ -157,13 +176,20 @@ export const DataTable: React.FC<DataTableProps> = props => {
     getTableBodyProps,
     rows,
     prepareRow,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
     },
+    usePagination,
     ...checkboxes
   );
+
+  React.useEffect(() => {
+    const data = fetchData();
+    setData(data);
+  }, [fetchData, pageIndex, pageSize]);
 
   const tableBar = React.useMemo(() => {
     if (headline || actions) {
