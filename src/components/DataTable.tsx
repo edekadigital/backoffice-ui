@@ -10,6 +10,7 @@ import MuiTableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import MuiTableRow from '@material-ui/core/TableRow';
 import MuiIconButton from '@material-ui/core/IconButton';
+import MuiDrawer from '@material-ui/core/Drawer';
 import Checkbox from '@material-ui/core/Checkbox';
 import {
   useTable,
@@ -25,7 +26,6 @@ import {
   usePagination,
   Column,
 } from 'react-table';
-import { mergeClasses } from '@material-ui/styles';
 
 export interface TableBarAction {
   icon: React.ElementType<SvgIconProps>;
@@ -46,21 +46,22 @@ interface TableRowProps {
   prepareRow: (row: Row) => void;
 }
 
-export interface FetchDataProps {
+export interface FetchProps {
   pageSize: number;
   pageIndex: number;
 }
 
-interface DataTableProps {
+interface DataTableProps<D extends object> {
   actions?: TableBarAction[];
   headline?: string;
   showCheckbox?: boolean;
-  fetchData: ({
-    pageSize,
-    pageIndex,
-  }: // tslint:disable-next-line: no-any
-  FetchDataProps) => Promise<{ data: any[]; pageCount: number }>;
-  columns: Array<Column<{}>>;
+  fetchData: ({ pageSize, pageIndex }: FetchProps) => Promise<FetchResult<D>>;
+  columns: Array<Column<D>>;
+}
+
+interface FetchResult<D extends object> {
+  data: D[];
+  pageCount: number;
 }
 
 interface TablePaginationActionsProps {
@@ -141,21 +142,20 @@ const TableHead: React.FC<TableHeadProps> = props => {
 const TableBody: React.FC<TableRowProps> = props => {
   const { page, prepareRow } = props;
 
-  const getCells = (row: Row) =>
+  const getCells = (row: Row, iRow: number) =>
     row.cells.map((cell: Cell, i: number) => {
       return (
-        <MuiTableCell {...cell.getCellProps()} key={i}>
+        <MuiTableCell {...cell.getCellProps()} key={`cell-${iRow}-${i}`}>
           {cell.render('Cell')}
         </MuiTableCell>
       );
     });
 
-  // tslint:disable-next-line: no-any
-  const tableRows = page.map((row: any, i: number) => {
+  const tableRows = page.map((row, i) => {
     prepareRow(row);
     return (
-      <MuiTableRow {...row.getRowProps()} key={i}>
-        {getCells(row)}
+      <MuiTableRow {...row.getRowProps()} key={`row-${i}`}>
+        {getCells(row, i)}
       </MuiTableRow>
     );
   });
@@ -163,9 +163,9 @@ const TableBody: React.FC<TableRowProps> = props => {
   return <MuiTableBody>{tableRows}</MuiTableBody>;
 };
 
-export const DataTable: React.FC<DataTableProps> = props => {
-  // tslint:disable-next-line: no-any
-  const [data, setData] = React.useState<any[]>([]);
+export function DataTable<D extends object>(props: DataTableProps<D>) {
+  const [data, setData] = React.useState<D[]>([]);
+  // count of pages
   const [pages, setPages] = React.useState(0);
   const { headline, actions, columns, showCheckbox, fetchData } = props;
   const checkboxes: Array<PluginHook<{}>> = showCheckbox
@@ -199,7 +199,7 @@ export const DataTable: React.FC<DataTableProps> = props => {
     previousPage,
     prepareRow,
     setPageSize,
-    state: { pageIndex, pageSize },
+    state: { pageIndex, pageSize, selectedRowIds },
   } = useTable(
     {
       columns,
@@ -211,6 +211,14 @@ export const DataTable: React.FC<DataTableProps> = props => {
     usePagination,
     ...checkboxes
   );
+
+  const drawer = showCheckbox ? (
+    <MuiDrawer anchor="bottom" variant="permanent">
+      <div>Action</div>
+      <div>Action</div>
+      <div>Action</div>
+    </MuiDrawer>
+  ) : null;
 
   React.useEffect(() => {
     fetchData({ pageSize, pageIndex }).then(res => {
@@ -229,16 +237,17 @@ export const DataTable: React.FC<DataTableProps> = props => {
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
-  ) => {};
-
+  ) => {
+    // TODO What todo??
+  };
+  // TODO Row counter from TablePagination component shows pages not rows?
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setPageSize(Number(event.target.value));
-    setPages(0);
   };
 
-  const TablePaginationActions = (props: TablePaginationActionsProps) => {
+  const TablePaginationActions = () => {
     const classes = useStyles();
 
     return (
@@ -286,6 +295,7 @@ export const DataTable: React.FC<DataTableProps> = props => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableContainer>
+      {drawer}
     </>
   );
-};
+}

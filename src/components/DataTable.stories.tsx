@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { DataTable, Apps, ExitToApp, FetchDataProps } from '..';
+import { DataTable, Apps, ExitToApp, FetchProps } from '..';
 
 interface ImageRenderer {
   value: string;
@@ -26,7 +26,7 @@ const getData = ({
   pageSize,
   pageIndex,
 }: // tslint:disable-next-line: no-any
-FetchDataProps): Promise<{ data: any[]; pageCount: number }> => {
+FetchProps): Promise<{ data: any[]; pageCount: number }> => {
   const data = [
     {
       picture: 'https://via.placeholder.com/50/1E90FF/FFFFFF?Text=IMG',
