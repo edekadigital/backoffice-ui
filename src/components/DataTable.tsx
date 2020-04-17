@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Heading } from '../typography/Heading';
 import { makeStyles, Box, SvgIconProps } from '@material-ui/core';
-import { ButtonBar, IconButton } from '..';
+import { ButtonBar, ArrowForward, ArrowBack } from '..';
 import MuiTable from '@material-ui/core/Table';
 import MuiTableBody, { TableBodyProps } from '@material-ui/core/TableBody';
 import MuiTableCell from '@material-ui/core/TableCell';
@@ -25,7 +25,7 @@ import {
   usePagination,
   Column,
 } from 'react-table';
-import { ArrowForward, ArrowBack } from '..';
+import { mergeClasses } from '@material-ui/styles';
 
 export interface TableBarAction {
   icon: React.ElementType<SvgIconProps>;
@@ -63,19 +63,22 @@ interface DataTableProps {
   columns: Array<Column<{}>>;
 }
 
-interface PaginationProps {
-  canPreviousPage: boolean;
-  canNextPage: boolean;
-  previousPage: () => void;
-  nextPage: () => void;
-  pageIndex: number;
-  pageOptions: number[];
-  pageCount: number;
-  pageSize: number;
+interface TablePaginationActionsProps {
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  onChangePage: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    newPage: number
+  ) => void;
 }
 
 const useStyles = makeStyles(theme => ({
   tableBarContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  paginationActions: {
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -136,7 +139,7 @@ const TableHead: React.FC<TableHeadProps> = props => {
 };
 
 const TableBody: React.FC<TableRowProps> = props => {
-  const { tableBodyProps, page, prepareRow } = props;
+  const { page, prepareRow } = props;
 
   const getCells = (row: Row) =>
     row.cells.map((cell: Cell, i: number) => {
@@ -158,57 +161,6 @@ const TableBody: React.FC<TableRowProps> = props => {
   });
 
   return <MuiTableBody>{tableRows}</MuiTableBody>;
-};
-
-const Pagination: React.FC<PaginationProps> = props => {
-  const {
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    pageIndex,
-    pageOptions,
-    pageSize,
-    pageCount,
-  } = props;
-
-  const forward = React.useMemo(
-    () => (
-      <IconButton
-        icon={ArrowForward}
-        disabled={!canNextPage}
-        onClick={nextPage}
-      />
-    ),
-    [nextPage, canNextPage]
-  );
-  const backward = React.useMemo(
-    () => (
-      <IconButton
-        icon={ArrowBack}
-        disabled={!canPreviousPage}
-        onClick={previousPage}
-      />
-    ),
-    [previousPage, canPreviousPage]
-  );
-
-  return (
-    <Box>
-      {backward}
-      {forward}
-      <span>
-        Seite {pageIndex + 1} von {pageOptions.length}
-      </span>
-      <TablePagination
-        component="div"
-        count={pageOptions.length}
-        rowsPerPage={pageSize}
-        page={pageIndex}
-        onChangePage={nextPage}
-      />
-    </Box>
-  );
 };
 
 export const DataTable: React.FC<DataTableProps> = props => {
@@ -246,6 +198,7 @@ export const DataTable: React.FC<DataTableProps> = props => {
     nextPage,
     previousPage,
     prepareRow,
+    setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -273,6 +226,41 @@ export const DataTable: React.FC<DataTableProps> = props => {
     return null;
   }, [headline, actions]);
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {};
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPageSize(Number(event.target.value));
+    setPages(0);
+  };
+
+  const TablePaginationActions = (props: TablePaginationActionsProps) => {
+    const classes = useStyles();
+
+    return (
+      <div className={classes.paginationActions}>
+        <MuiIconButton
+          onClick={previousPage}
+          disabled={!canPreviousPage}
+          aria-label="vorherige Seite"
+        >
+          <ArrowBack />
+        </MuiIconButton>
+        <MuiIconButton
+          onClick={nextPage}
+          disabled={!canNextPage}
+          aria-label="nächste Seite"
+        >
+          <ArrowForward />
+        </MuiIconButton>
+      </div>
+    );
+  };
+
   return (
     <>
       {tableBar}
@@ -285,16 +273,17 @@ export const DataTable: React.FC<DataTableProps> = props => {
             prepareRow={prepareRow}
           />
         </MuiTable>
-        <Pagination
-          nextPage={nextPage}
-          previousPage={previousPage}
-          canNextPage={canNextPage}
-          canPreviousPage={canPreviousPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          pageCount={pageCount}
-          page={page}
+
+        <TablePagination
+          component="div"
+          count={pageOptions.length}
+          rowsPerPage={pageSize}
+          page={pageIndex}
+          onChangePage={handleChangePage}
+          labelRowsPerPage="Zeilen pro Seite"
+          ActionsComponent={TablePaginationActions}
+          rowsPerPageOptions={[5, 10, 25]}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableContainer>
     </>
