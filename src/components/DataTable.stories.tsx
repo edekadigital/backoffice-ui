@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { DataTable, Button, IconButton, Apps, ExitToApp } from '..';
+import { DataTable, Apps, ExitToApp, FetchDataProps } from '..';
 
 interface ImageRenderer {
   value: string;
@@ -22,8 +22,12 @@ const columns = [
 ];
 
 // tslint:disable-next-line: no-any
-const getData = () => {
-  return [
+const getData = ({
+  pageSize,
+  pageIndex,
+}: // tslint:disable-next-line: no-any
+FetchDataProps): Promise<{ data: any[]; pageCount: number }> => {
+  const data = [
     {
       picture: 'https://via.placeholder.com/50/1E90FF/FFFFFF?Text=IMG',
       age: 35,
@@ -115,6 +119,14 @@ const getData = () => {
       registered: '2019-12-28T01:32:18 -01:00',
     },
   ];
+  const startRow = pageSize * pageIndex;
+  const endRow = startRow + pageSize;
+  const result = data.slice(startRow, endRow);
+  const pageCount = Math.ceil(data.length / pageSize);
+
+  return new Promise(resolve => {
+    setTimeout(() => resolve({ data: result, pageCount }), 500);
+  });
 };
 
 storiesOf('Components|DataTable', module).add('default', () => {

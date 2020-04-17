@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Heading } from '../typography/Heading';
-import Container from '@material-ui/core/Container';
 import { makeStyles, Box, SvgIconProps } from '@material-ui/core';
-import { ButtonBar } from './ButtonBar';
-import MuiTable, { Padding } from '@material-ui/core/Table';
+import { ButtonBar, IconButton } from '..';
+import MuiTable from '@material-ui/core/Table';
 import MuiTableBody, { TableBodyProps } from '@material-ui/core/TableBody';
 import MuiTableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -23,11 +22,10 @@ import {
   UseRowSelectInstanceProps,
   ColumnInstance,
   UseRowSelectHooks,
-  TableOptions,
   usePagination,
-  TableState,
   Column,
 } from 'react-table';
+import { ArrowForward, ArrowBack } from '..';
 
 export interface TableBarAction {
   icon: React.ElementType<SvgIconProps>;
@@ -44,21 +42,35 @@ interface TableHeadProps {
 
 interface TableRowProps {
   tableBodyProps: (propGetter?: TableBodyPropGetter<{}>) => TableBodyProps;
-  rows: Row[];
+  page: Row[];
   prepareRow: (row: Row) => void;
+}
+
+export interface FetchDataProps {
+  pageSize: number;
+  pageIndex: number;
 }
 
 interface DataTableProps {
   actions?: TableBarAction[];
   headline?: string;
   showCheckbox?: boolean;
-  // tslint:disable-next-line: no-any
-  fetchData: () => any[];
+  fetchData: ({
+    pageSize,
+    pageIndex,
+  }: // tslint:disable-next-line: no-any
+  FetchDataProps) => Promise<{ data: any[]; pageCount: number }>;
   columns: Array<Column<{}>>;
 }
 
-interface StateProps extends TableState {
+interface PaginationProps {
+  canPreviousPage: boolean;
+  canNextPage: boolean;
+  previousPage: () => void;
+  nextPage: () => void;
   pageIndex: number;
+  pageOptions: number[];
+  pageCount: number;
   pageSize: number;
 }
 
@@ -124,7 +136,7 @@ const TableHead: React.FC<TableHeadProps> = props => {
 };
 
 const TableBody: React.FC<TableRowProps> = props => {
-  const { tableBodyProps, rows, prepareRow } = props;
+  const { tableBodyProps, page, prepareRow } = props;
 
   const getCells = (row: Row) =>
     row.cells.map((cell: Cell, i: number) => {
@@ -135,7 +147,8 @@ const TableBody: React.FC<TableRowProps> = props => {
       );
     });
 
-  const tableRows = rows.map((row, i) => {
+  // tslint:disable-next-line: no-any
+  const tableRows = page.map((row: any, i: number) => {
     prepareRow(row);
     return (
       <MuiTableRow {...row.getRowProps()} key={i}>
@@ -144,12 +157,64 @@ const TableBody: React.FC<TableRowProps> = props => {
     );
   });
 
-  return <MuiTableBody {...tableBodyProps}>{tableRows}</MuiTableBody>;
+  return <MuiTableBody>{tableRows}</MuiTableBody>;
+};
+
+const Pagination: React.FC<PaginationProps> = props => {
+  const {
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageIndex,
+    pageOptions,
+    pageSize,
+    pageCount,
+  } = props;
+
+  const forward = React.useMemo(
+    () => (
+      <IconButton
+        icon={ArrowForward}
+        disabled={!canNextPage}
+        onClick={nextPage}
+      />
+    ),
+    [nextPage, canNextPage]
+  );
+  const backward = React.useMemo(
+    () => (
+      <IconButton
+        icon={ArrowBack}
+        disabled={!canPreviousPage}
+        onClick={previousPage}
+      />
+    ),
+    [previousPage, canPreviousPage]
+  );
+
+  return (
+    <Box>
+      {backward}
+      {forward}
+      <span>
+        Seite {pageIndex + 1} von {pageOptions.length}
+      </span>
+      <TablePagination
+        component="div"
+        count={pageOptions.length}
+        rowsPerPage={pageSize}
+        page={pageIndex}
+        onChangePage={nextPage}
+      />
+    </Box>
+  );
 };
 
 export const DataTable: React.FC<DataTableProps> = props => {
   // tslint:disable-next-line: no-any
   const [data, setData] = React.useState<any[]>([]);
+  const [pages, setPages] = React.useState(0);
   const { headline, actions, columns, showCheckbox, fetchData } = props;
   const checkboxes: Array<PluginHook<{}>> = showCheckbox
     ? [
@@ -171,25 +236,35 @@ export const DataTable: React.FC<DataTableProps> = props => {
       ]
     : [];
   const {
-    getTableProps,
     headerGroups,
     getTableBodyProps,
-    rows,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    nextPage,
+    previousPage,
     prepareRow,
     state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageSize: 10, pageIndex: 0 },
+      pageCount: pages,
+      manualPagination: true,
     },
     usePagination,
     ...checkboxes
   );
 
   React.useEffect(() => {
-    const data = fetchData();
-    setData(data);
-  }, [fetchData, pageIndex, pageSize]);
+    fetchData({ pageSize, pageIndex }).then(res => {
+      setPages(res.pageCount);
+      setData(res.data);
+    });
+  }, [fetchData, pageIndex, pageSize, pageCount]);
 
   const tableBar = React.useMemo(() => {
     if (headline || actions) {
@@ -202,14 +277,25 @@ export const DataTable: React.FC<DataTableProps> = props => {
     <>
       {tableBar}
       <TableContainer>
-        <MuiTable {...getTableProps}>
+        <MuiTable>
           <TableHead headerGroups={headerGroups} />
           <TableBody
             tableBodyProps={getTableBodyProps}
-            rows={rows}
+            page={page}
             prepareRow={prepareRow}
           />
         </MuiTable>
+        <Pagination
+          nextPage={nextPage}
+          previousPage={previousPage}
+          canNextPage={canNextPage}
+          canPreviousPage={canPreviousPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          pageSize={pageSize}
+          pageCount={pageCount}
+          page={page}
+        />
       </TableContainer>
     </>
   );
