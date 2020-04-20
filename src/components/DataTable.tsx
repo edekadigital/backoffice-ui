@@ -22,9 +22,9 @@ import {
   PluginHook,
   UseRowSelectInstanceProps,
   ColumnInstance,
-  UseRowSelectHooks,
   usePagination,
   Column,
+  UseRowSelectRowProps,
 } from 'react-table';
 
 export interface TableBarAction {
@@ -175,10 +175,12 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
           hooks.visibleColumns.push(columns => [
             {
               id: 'selection',
-              Header: (props: UseRowSelectInstanceProps<{}>) => (
-                <Checkbox {...props.getToggleAllRowsSelectedProps()} />
+              Header: ({
+                getToggleAllRowsSelectedProps,
+              }: UseRowSelectInstanceProps<D>) => (
+                <Checkbox {...getToggleAllRowsSelectedProps()} />
               ),
-              Cell: ({ row }: UseRowSelectHooks<Row>) => (
+              Cell: ({ row }: { row: UseRowSelectRowProps<D> }) => (
                 <Checkbox {...row.getToggleRowSelectedProps()} />
               ),
             },
