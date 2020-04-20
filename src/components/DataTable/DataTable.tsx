@@ -13,7 +13,6 @@ import {
   useRowSelect,
   PluginHook,
   UseRowSelectInstanceProps,
-  usePagination,
   Column,
   UseRowSelectRowProps,
 } from 'react-table';
@@ -44,7 +43,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   const [totalCount, setTotalCount] = React.useState(0);
   const [pageCount, setPageCount] = React.useState(0);
   const { headline, actions, columns, showCheckbox, fetchData } = props;
-  const checkboxes: Array<PluginHook<{}>> = showCheckbox
+  const checkboxes: Array<PluginHook<D>> = showCheckbox
     ? [
         useRowSelect,
         hooks => {
@@ -67,21 +66,16 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     : [];
   const {
     headerGroups,
-    page,
+    rows,
     prepareRow,
     state: { selectedRowIds },
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageSize: 10, pageIndex: 0 },
-      manualPagination: true,
     },
-    usePagination,
     ...checkboxes
   );
-
-  const drawer = showCheckbox ? <TableDrawer /> : null;
 
   React.useEffect(() => {
     fetchData({ pageSize, pageIndex }).then(res => {
@@ -89,7 +83,9 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       setTotalCount(res.totalCount);
       setData(res.data);
     });
-  }, [fetchData, pageIndex, pageSize, pageCount]);
+  }, [fetchData, pageIndex, pageSize, pageCount, totalCount]);
+
+  const rowsSelected = Object.keys(selectedRowIds).length > 0;
 
   const tableBar = React.useMemo(() => {
     if (headline || actions) {
@@ -97,6 +93,10 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     }
     return null;
   }, [headline, actions]);
+
+  const drawer = React.useMemo(() => {
+    return showCheckbox ? <TableDrawer indeterminate={rowsSelected} /> : null;
+  }, [showCheckbox, rowsSelected]);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -118,7 +118,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       <TableContainer>
         <MuiTable>
           <TableHead headerGroups={headerGroups} />
-          <TableBody page={page} prepareRow={prepareRow} />
+          <TableBody page={rows} prepareRow={prepareRow} />
         </MuiTable>
 
         <TablePagination

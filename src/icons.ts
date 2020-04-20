@@ -39,6 +39,7 @@ export { default as FavoriteBorder } from '@material-ui/icons/FavoriteBorder';
 export { default as FilterList } from '@material-ui/icons/FilterList';
 export { default as Group } from '@material-ui/icons/Group';
 export { default as GroupAdd } from '@material-ui/icons/GroupAdd';
+export { default as GetApp } from '@material-ui/icons/GetApp';
 export { default as History } from '@material-ui/icons/History';
 export { default as Home } from '@material-ui/icons/Home';
 export { default as Info } from '@material-ui/icons/Info';

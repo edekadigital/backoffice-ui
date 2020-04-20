@@ -2,6 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { DataTable, Apps, ExitToApp } from '../..';
+import Box from '@material-ui/core/Box';
 
 interface ImageRenderer {
   value: string;
@@ -13,7 +14,11 @@ const columns = [
   {
     accessor: 'picture',
     Header: 'Picture',
-    Cell: ({ value }: ImageRenderer) => <img src={value} />,
+    Cell: ({ value }: ImageRenderer) => (
+      <Box style={{ display: 'flex', alignItems: 'center', padding: '3px' }}>
+        <img src={value} />
+      </Box>
+    ),
   },
   {
     accessor: 'registered',
