@@ -86,3 +86,14 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
     </MuiDrawer>
   );
 };
+
+/*
+ * TODO hide drawer when no selection
+ * TODO paddingBottom (DataTable or PageWrapper)
+ * TODO fix indeterminate state in drawer component
+ * TODO drawer: container with maxWidth ( set from outside) instead of box element
+ * TODO set TableBar Background white
+ * TODO set Table Background white and border
+ * TODO add loading state, add min height so table doesn't jump to much
+ * TODO CallBack handler in drawer actions should always send an array with the content of the rows selected
+ */
