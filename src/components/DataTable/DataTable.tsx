@@ -25,6 +25,12 @@ export interface FetchProps {
   pageIndex: number | undefined;
 }
 
+/**
+ * TODO style checkboxes
+ * TODO hide drawer when no selection
+ * TODO paddingBottom (DataTable or PageWrapper)
+ */
+
 interface DataTableProps<D extends object> {
   actions?: TableBarAction[];
   headline?: string;
