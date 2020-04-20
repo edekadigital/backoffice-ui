@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { DataTable, Apps, ExitToApp, FetchProps } from '..';
+import { DataTable, Apps, ExitToApp } from '../..';
 
 interface ImageRenderer {
   value: string;
@@ -22,11 +22,7 @@ const columns = [
 ];
 
 // tslint:disable-next-line: no-any
-const getData = ({
-  pageSize,
-  pageIndex,
-}: // tslint:disable-next-line: no-any
-FetchProps): Promise<{ data: any[]; pageCount: number }> => {
+const getData = ({ pageSize = 10, pageIndex = 0 }) => {
   const data = [
     {
       picture: 'https://via.placeholder.com/50/1E90FF/FFFFFF?Text=IMG',
@@ -123,9 +119,10 @@ FetchProps): Promise<{ data: any[]; pageCount: number }> => {
   const endRow = startRow + pageSize;
   const result = data.slice(startRow, endRow);
   const pageCount = Math.ceil(data.length / pageSize);
+  const totalCount = data.length;
 
   return new Promise(resolve => {
-    setTimeout(() => resolve({ data: result, pageCount }), 500);
+    setTimeout(() => resolve({ data: result, totalCount, pageCount }), 500);
   });
 };
 
