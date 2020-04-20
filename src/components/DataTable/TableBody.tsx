@@ -1,25 +1,23 @@
 import * as React from 'react';
 import MuiTableCell from '@material-ui/core/TableCell';
 import MuiTableRow from '@material-ui/core/TableRow';
-import MuiTableBody, { TableBodyProps } from '@material-ui/core/TableBody';
-import { TableBodyPropGetter, Row, Cell } from 'react-table';
+import MuiTableBody from '@material-ui/core/TableBody';
+import { Row } from 'react-table';
 
 export interface TableRowProps<D extends object> {
   page: Array<Row<D>>;
   prepareRow: (row: Row<D>) => void;
 }
 
-export const TableBody: React.FC<TableRowProps<{}>> = props => {
+export function TableBody<D extends object>(props: TableRowProps<D>) {
   const { page, prepareRow } = props;
 
-  const getCells = (row: Row, iRow: number) =>
-    row.cells.map((cell: Cell, i: number) => {
-      return (
-        <MuiTableCell key={`cell-${iRow}-${i}`} padding="none">
-          {cell.render('Cell')}
-        </MuiTableCell>
-      );
-    });
+  const getCells = (row: Row<D>, iRow: number) =>
+    row.cells.map((cell, i) => (
+      <MuiTableCell key={`cell-${iRow}-${i}`} padding="none">
+        {cell.render('Cell')}
+      </MuiTableCell>
+    ));
 
   const tableRows = page.map((row, i) => {
     prepareRow(row);
@@ -27,4 +25,4 @@ export const TableBody: React.FC<TableRowProps<{}>> = props => {
   });
 
   return <MuiTableBody>{tableRows}</MuiTableBody>;
-};
+}

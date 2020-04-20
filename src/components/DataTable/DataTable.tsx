@@ -15,6 +15,9 @@ import {
   UseRowSelectInstanceProps,
   Column,
   UseRowSelectRowProps,
+  UseRowSelectState,
+  TableState,
+  UsePaginationState,
 } from 'react-table';
 
 export interface FetchProps {
@@ -64,18 +67,14 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
         },
       ]
     : [];
-  const {
-    headerGroups,
-    rows,
-    prepareRow,
-    state: { selectedRowIds },
-  } = useTable(
+  const { headerGroups, rows, prepareRow, state } = useTable(
     {
       columns,
       data,
     },
     ...checkboxes
   );
+  const { selectedRowIds } = state as UseRowSelectState<D>;
 
   React.useEffect(() => {
     fetchData({ pageSize, pageIndex }).then(res => {
