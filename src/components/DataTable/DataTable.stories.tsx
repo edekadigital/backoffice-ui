@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import { DataTable, Apps, ExitToApp } from '../..';
+import { DataTable, Apps, ExitToApp, GetApp, Delete } from '../..';
 import Box from '@material-ui/core/Box';
+import { FetchProps } from './DataTable';
 
 interface ImageRenderer {
   value: string;
@@ -26,8 +26,7 @@ const columns = [
   },
 ];
 
-// tslint:disable-next-line: no-any
-const getData = ({ pageSize = 10, pageIndex = 0 }) => {
+const getData = ({ pageSize = 10, pageIndex = 0 }: FetchProps) => {
   const data = [
     {
       picture: 'https://via.placeholder.com/50/1E90FF/FFFFFF?Text=IMG',
@@ -123,11 +122,10 @@ const getData = ({ pageSize = 10, pageIndex = 0 }) => {
   const startRow = pageSize * pageIndex;
   const endRow = startRow + pageSize;
   const result = data.slice(startRow, endRow);
-  const pageCount = Math.ceil(data.length / pageSize);
   const totalCount = data.length;
 
   return new Promise(resolve => {
-    setTimeout(() => resolve({ data: result, totalCount, pageCount }), 500);
+    setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
   });
 };
 
@@ -148,17 +146,37 @@ storiesOf('Components|DataTable', module).add('default', () => {
       actions={actions}
       columns={columns}
       fetchData={getData}
+      pagination={{ labelRowsPerPage: 'Zeilen', rowsPerPageOptions: [5, 10] }}
     />
   );
 });
 
 storiesOf('Components|DataTable', module).add('with checkboxes', () => {
+  const actions = [
+    {
+      icon: GetApp,
+      handler: () => console.log('Make api call to get zip file'),
+    },
+    {
+      icon: Delete,
+      handler: () => {
+        console.log('Delete Rows');
+      },
+    },
+  ];
+
+  const pagination = {
+    labelRowsPerPage: 'Zeilen pro Seite',
+    rowsPerPageOptions: [10, 20, 30],
+  };
   return (
     <DataTable
       headline="This is a table"
       columns={columns}
       showCheckbox={true}
       fetchData={getData}
+      tableSelectionActions={actions}
+      pagination={pagination}
     />
   );
 });
