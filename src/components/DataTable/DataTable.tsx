@@ -25,27 +25,41 @@ export interface FetchProps {
   pageIndex: number;
 }
 
+/**
+ * TODO style checkboxes
+ * TODO hide drawer when no selection
+ * TODO paddingBottom (DataTable or PageWrapper)
+ */
+
 interface DataTableProps<D extends object> {
   actions?: TableBarAction[];
   headline?: string;
+  // TODO remove in favour of new prop "selectionActions"
   showCheckbox?: boolean;
   fetchData: ({ pageSize, pageIndex }: FetchProps) => Promise<FetchResult<D>>;
   columns: Array<Column<D>>;
+  // TODO new prop: "selectionActions"
+  // TODO new prop: "pagination" = {}
 }
 
 interface FetchResult<D extends object> {
   data: D[];
+  // pageIndex: number;
+  // kann weg
   pageCount: number;
   totalCount: number;
 }
 
 export function DataTable<D extends object>(props: DataTableProps<D>) {
   const [data, setData] = React.useState<D[]>([]);
+  // TODO combine to single state: pageSize, pageIndex, totalCount
   const [pageSize, setPageSize] = React.useState(10);
   const [pageIndex, setPageIndex] = React.useState(0);
   const [totalCount, setTotalCount] = React.useState(0);
+  // TODO remove state pageCount
   const [pageCount, setPageCount] = React.useState(0);
   const { headline, actions, columns, showCheckbox, fetchData } = props;
+  // TODO rename to plugins
   const checkboxes: Array<PluginHook<D>> = showCheckbox
     ? [
         useRowSelect,
