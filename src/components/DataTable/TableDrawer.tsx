@@ -1,14 +1,11 @@
 import * as React from 'react';
 import MuiDrawer from '@material-ui/core/Drawer';
-import MuiBox from '@material-ui/core/Box';
-import MuiCheckbox from '@material-ui/core/Checkbox';
+import MuiContainer from '@material-ui/core/Container';
 import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
-import { IconButton, CheckboxLight } from '../..';
-
-import { Theme, SvgIconProps, TableRowProps } from '@material-ui/core';
-
+import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CellValue } from 'react-table';
+import { IconButton, CheckboxLight } from '../..';
 export interface TableSelectionActions {
   icon: React.ElementType<SvgIconProps>;
   handler: (selectedRows: CellValue[]) => void;
@@ -20,6 +17,7 @@ interface TableDrawerProps {
   onSelectAll: () => void;
   isAllRowsSelected: boolean;
   selectedRows: CellValue[];
+  maxWidth: 'sm' | 'lg';
 }
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -47,6 +45,7 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
   onSelectAll,
   isAllRowsSelected,
   selectedRows,
+  maxWidth = 'lg',
 }) => {
   const classes = useStyles();
   const [checkboxState, setCheckboxState] = React.useState({
@@ -100,17 +99,16 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
       classes={{ paper: classes.drawerPaper }}
       open={isOpen}
     >
-      <MuiBox className={classes.drawerActions}>
+      <MuiContainer className={classes.drawerActions} maxWidth={maxWidth}>
         <div className={classes.drawerCheckbox}>
           <MuiFormControlLabel control={control} label="Alle auswählen" />
         </div>
         <div>{actionItems}</div>
-      </MuiBox>
+      </MuiContainer>
     </MuiDrawer>
   );
 };
 
 // TODO paddingBottom (DataTable or PageWrapper)
-// TODO drawer: container with maxWidth ( set from outside) instead of box element
 // TODO add loading state, add min height so table doesn't jump to much
 // TODO Add selected highlight state --> doesn't take style overides with classes prop

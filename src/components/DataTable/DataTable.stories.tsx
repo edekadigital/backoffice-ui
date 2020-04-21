@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { DataTable, Apps, ExitToApp, GetApp, Delete } from '../..';
+import { DataTable, Apps, ExitToApp, GetApp, Delete, Page } from '../..';
 import Box from '@material-ui/core/Box';
 import { FetchProps } from './DataTable';
 
@@ -171,13 +171,15 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
     rowsPerPageOptions: [10, 20, 30],
   };
   return (
-    <DataTable
-      headline="This is a table"
-      columns={columns}
-      showCheckbox={true}
-      fetchData={getData}
-      tableSelectionActions={actions}
-      pagination={pagination}
-    />
+    <Page paddingBottom={true}>
+      <DataTable
+        headline="This is a table"
+        columns={columns}
+        showCheckbox={true}
+        fetchData={getData}
+        tableSelectionActions={actions}
+        pagination={pagination}
+      />
+    </Page>
   );
 });

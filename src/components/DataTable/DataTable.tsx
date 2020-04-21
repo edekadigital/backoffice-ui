@@ -33,6 +33,7 @@ interface DataTableProps<D extends object> {
   columns: Array<Column<D>>;
   tableSelectionActions?: TableSelectionActions[];
   pagination: { labelRowsPerPage: string; rowsPerPageOptions: number[] };
+  drawerWidth: 'sm' | 'lg';
 }
 
 export interface FetchResult<D extends object>
@@ -72,6 +73,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     fetchData,
     tableSelectionActions = [],
     pagination,
+    drawerWidth,
   } = props;
 
   const useSelection: Array<PluginHook<D>> = React.useMemo(
@@ -162,6 +164,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
         onSelectAll={toggleAllRowsSelected}
         isAllRowsSelected={isAllRowsSelected}
         selectedRows={selectedRows}
+        maxWidth={drawerWidth}
       />
     ) : null;
   }, [
