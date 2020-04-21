@@ -15,21 +15,16 @@ import {
   Column,
   UseRowSelectRowProps,
   UseRowSelectState,
-  TableState,
-  UsePaginationState,
   TableInstance,
+  IdType,
+  CellValue,
 } from 'react-table';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export interface FetchProps {
   pageSize: number | undefined;
   pageIndex: number | undefined;
 }
-
-/**
- * TODO style checkboxes
- * TODO hide drawer when no selection
- * TODO paddingBottom (DataTable or PageWrapper)
- */
 
 interface DataTableProps<D extends object> {
   actions?: TableBarAction[];
@@ -51,6 +46,14 @@ interface PaginationState {
   totalCount: number;
 }
 
+const useStyles = makeStyles<Theme>(theme => ({
+  tableContainer: {
+    borderColor: theme.palette.background.default,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+  },
+}));
+
 export function DataTable<D extends object>(props: DataTableProps<D>) {
   const [data, setData] = React.useState<D[]>([]);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
@@ -60,6 +63,8 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       totalCount: 0,
     }
   );
+  const [selectedRows, setSelectedRows] = React.useState<CellValue[]>([]);
+
   const {
     headline,
     actions,
@@ -127,8 +132,18 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     });
   }, [fetchData, paginationState.pageSize, paginationState.pageIndex]);
 
+  React.useEffect(() => {
+    const selectRows = rows
+      .filter(row => selectedRowIds && selectedRowIds[`${row.id}`] === true)
+      .map(row => row.values);
+
+    setSelectedRows(selectRows);
+  }, [selectedRowIds]);
+
+  const classes = useStyles();
+
   const rowsSelected = React.useMemo(
-    () => Object.keys(selectedRowIds).length > 0,
+    () => Object.keys(selectedRowIds).length > 0 && !isAllRowsSelected,
     [selectedRowIds, isAllRowsSelected]
   );
 
@@ -146,9 +161,15 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
         actions={tableSelectionActions}
         onSelectAll={toggleAllRowsSelected}
         isAllRowsSelected={isAllRowsSelected}
+        selectedRows={selectedRows}
       />
     ) : null;
-  }, [tableSelectionActions, rowsSelected]);
+  }, [
+    tableSelectionActions,
+    rowsSelected,
+    isAllRowsSelected,
+    toggleAllRowsSelected,
+  ]);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -168,12 +189,16 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   };
 
   return (
-    <>
+    <div className={classes.tableContainer}>
       {tableBar}
       <TableContainer>
         <MuiTable>
           <TableHead headerGroups={headerGroups} />
-          <TableBody page={rows} prepareRow={prepareRow} />
+          <TableBody
+            page={rows}
+            prepareRow={prepareRow}
+            selectedRowIds={selectedRowIds}
+          />
         </MuiTable>
 
         <TablePagination
@@ -187,6 +212,6 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
         />
       </TableContainer>
       {drawer}
-    </>
+    </div>
   );
 }

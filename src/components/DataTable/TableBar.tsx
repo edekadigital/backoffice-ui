@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Heading } from '../../typography/Heading';
-import { makeStyles, Box, SvgIconProps } from '@material-ui/core';
+import { makeStyles, Box, SvgIconProps, Divider } from '@material-ui/core';
 import MuiIconButton from '@material-ui/core/IconButton';
 import { ButtonBar } from '../..';
 
@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
   tableBarContainer: {
     display: 'flex',
     justifyContent: 'space-between',
+    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -49,9 +50,12 @@ export const TableBar: React.FC<TableBarProps> = props => {
   );
 
   return (
-    <Box className={classes.tableBarContainer}>
-      {heading}
-      {actionBar}
-    </Box>
+    <>
+      <Box className={classes.tableBarContainer}>
+        {heading}
+        {actionBar}
+      </Box>
+      <Divider />
+    </>
   );
 };

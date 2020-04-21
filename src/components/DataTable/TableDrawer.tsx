@@ -5,10 +5,10 @@ import MuiCheckbox from '@material-ui/core/Checkbox';
 import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { IconButton, CheckboxLight } from '../..';
 
-import { Theme, SvgIconProps } from '@material-ui/core';
+import { Theme, SvgIconProps, TableRowProps } from '@material-ui/core';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { on } from 'cluster';
+import { CellValue } from 'react-table';
 export interface TableSelectionActions {
   icon: React.ElementType<SvgIconProps>;
   handler: () => void;
@@ -19,6 +19,7 @@ interface TableDrawerProps {
   actions: TableSelectionActions[];
   onSelectAll: () => void;
   isAllRowsSelected: boolean;
+  selectedRows: CellValue[];
 }
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -41,41 +42,62 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 export const TableDrawer: React.FC<TableDrawerProps> = ({
-  indeterminate,
+  indeterminate = false,
   actions,
   onSelectAll,
   isAllRowsSelected,
+  selectedRows,
 }) => {
   const classes = useStyles();
-  // const [isIndeterminate, setIsIndeterminate] = React.useState(false);
+  const [checkboxState, setCheckboxState] = React.useState({
+    indeterminate,
+    checked: false,
+  });
 
-  const isIndeterminate = indeterminate && !isAllRowsSelected;
+  React.useEffect(() => {
+    setCheckboxState({
+      indeterminate,
+      checked: isAllRowsSelected,
+    });
+  }, [indeterminate, isAllRowsSelected, onSelectAll]);
 
-  console.log(isIndeterminate);
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('onchnage');
-    // isIndeterminate;
+    setCheckboxState({
+      indeterminate: false,
+      checked: isAllRowsSelected,
+    });
     onSelectAll();
   };
 
-  const actionItems = actions.map((action, i) => (
-    <IconButton
-      icon={action.icon}
-      color="inherit"
-      onClick={action.handler}
-      key={`selection-action-${i}`}
-    />
-  ));
+  const actionItems = actions.map((action, i) => {
+    return (
+      <IconButton
+        icon={action.icon}
+        color="inherit"
+        onClick={action.handler}
+        key={`selection-action-${i}`}
+      />
+    );
+  });
 
   const control = (
-    <CheckboxLight indeterminate={isIndeterminate} onChange={handleSelectAll} />
+    <CheckboxLight
+      indeterminate={checkboxState.indeterminate}
+      onChange={handleSelectAll}
+      checked={checkboxState.checked}
+    />
   );
+
+  const variant =
+    indeterminate || isAllRowsSelected ? 'permanent' : 'temporary';
+  const isOpen = indeterminate || isAllRowsSelected;
 
   return (
     <MuiDrawer
       anchor="bottom"
-      variant="permanent"
+      variant={variant}
       classes={{ paper: classes.drawerPaper }}
+      open={isOpen}
     >
       <MuiBox className={classes.drawerActions}>
         <div className={classes.drawerCheckbox}>
@@ -87,13 +109,8 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
   );
 };
 
-/*
- * TODO hide drawer when no selection
- * TODO paddingBottom (DataTable or PageWrapper)
- * TODO fix indeterminate state in drawer component
- * TODO drawer: container with maxWidth ( set from outside) instead of box element
- * TODO set TableBar Background white
- * TODO set Table Background white and border
- * TODO add loading state, add min height so table doesn't jump to much
- * TODO CallBack handler in drawer actions should always send an array with the content of the rows selected
- */
+// TODO paddingBottom (DataTable or PageWrapper)
+// TODO drawer: container with maxWidth ( set from outside) instead of box element
+// TODO add loading state, add min height so table doesn't jump to much
+// TODO CallBack handler in drawer actions should always send an array with the content of the rows selected
+// TODO Add selected highlight state --> doesn't take style overides with classes prop
