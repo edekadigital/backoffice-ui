@@ -11,7 +11,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CellValue } from 'react-table';
 export interface TableSelectionActions {
   icon: React.ElementType<SvgIconProps>;
-  handler: () => void;
+  handler: (selectedRows: CellValue[]) => void;
 }
 
 interface TableDrawerProps {
@@ -69,12 +69,13 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
     onSelectAll();
   };
 
-  const actionItems = actions.map((action, i) => {
+  const actionItems = actions.map(({ icon, handler }, i) => {
+    const handleClick = () => handler(selectedRows);
     return (
       <IconButton
-        icon={action.icon}
+        icon={icon}
         color="inherit"
-        onClick={action.handler}
+        onClick={handleClick}
         key={`selection-action-${i}`}
       />
     );
@@ -112,5 +113,4 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
 // TODO paddingBottom (DataTable or PageWrapper)
 // TODO drawer: container with maxWidth ( set from outside) instead of box element
 // TODO add loading state, add min height so table doesn't jump to much
-// TODO CallBack handler in drawer actions should always send an array with the content of the rows selected
 // TODO Add selected highlight state --> doesn't take style overides with classes prop

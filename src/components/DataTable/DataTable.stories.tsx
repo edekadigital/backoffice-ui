@@ -155,12 +155,13 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
   const actions = [
     {
       icon: GetApp,
-      handler: () => console.log('Make api call to get zip file'),
+      handler: (data: any[]) =>
+        console.log(data, 'Make api call to get zip file'),
     },
     {
       icon: Delete,
-      handler: () => {
-        console.log('Delete Rows');
+      handler: (data: any[]) => {
+        console.log(data, 'Delete Rows');
       },
     },
   ];

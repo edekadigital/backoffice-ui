@@ -169,6 +169,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     rowsSelected,
     isAllRowsSelected,
     toggleAllRowsSelected,
+    selectedRows,
   ]);
 
   const handleChangePage = (
