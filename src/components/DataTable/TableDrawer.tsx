@@ -109,6 +109,4 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
   );
 };
 
-// TODO paddingBottom (DataTable or PageWrapper)
-// TODO add loading state, add min height so table doesn't jump to much
 // TODO Add selected highlight state --> doesn't take style overides with classes prop

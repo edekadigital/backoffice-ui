@@ -1,11 +1,16 @@
 import * as React from 'react';
 import MuiTable from '@material-ui/core/Table';
-import TableContainer from '@material-ui/core/TableContainer';
-import TablePagination from '@material-ui/core/TablePagination';
-import { TableBar, TableBarAction } from './TableBar';
-import { TableHead } from './TableHead';
-import { TableBody } from './TableBody';
-import { TableDrawer, TableSelectionActions } from './TableDrawer';
+import MuiTableContainer from '@material-ui/core/TableContainer';
+import MuiTablePagination from '@material-ui/core/TablePagination';
+import MuiCircularProgress from '@material-ui/core/CircularProgress';
+import {
+  TableHead,
+  TableBody,
+  TableDrawer,
+  TableSelectionActions,
+  TableBar,
+  TableBarAction,
+} from './index';
 import { CheckboxDark } from '../..';
 import {
   useTable,
@@ -16,10 +21,9 @@ import {
   UseRowSelectRowProps,
   UseRowSelectState,
   TableInstance,
-  IdType,
   CellValue,
 } from 'react-table';
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export interface FetchProps {
   pageSize: number | undefined;
@@ -49,9 +53,15 @@ interface PaginationState {
 
 const useStyles = makeStyles<Theme>(theme => ({
   tableContainer: {
-    borderColor: theme.palette.background.default,
+    borderColor: 'rgba(0, 0, 0, 0.12)',
     borderWidth: '1px',
     borderStyle: 'solid',
+  },
+  loaderContainer: {
+    minHeight: '700px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -65,6 +75,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     }
   );
   const [selectedRows, setSelectedRows] = React.useState<CellValue[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const {
     headline,
@@ -121,6 +132,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   const { selectedRowIds = false } = state as UseRowSelectState<D>;
 
   React.useEffect(() => {
+    setIsLoading(true);
     fetchData({
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
@@ -131,6 +143,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
         totalCount: res.totalCount,
       });
       setData(res.data);
+      setIsLoading(false);
     });
   }, [fetchData, paginationState.pageSize, paginationState.pageIndex]);
 
@@ -175,6 +188,21 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     selectedRows,
   ]);
 
+  const table = !isLoading ? (
+    <MuiTable>
+      <TableHead headerGroups={headerGroups} />
+      <TableBody
+        page={rows}
+        prepareRow={prepareRow}
+        selectedRowIds={selectedRowIds}
+      />
+    </MuiTable>
+  ) : (
+    <div className={classes.loaderContainer}>
+      <MuiCircularProgress />
+    </div>
+  );
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -195,17 +223,9 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   return (
     <div className={classes.tableContainer}>
       {tableBar}
-      <TableContainer>
-        <MuiTable>
-          <TableHead headerGroups={headerGroups} />
-          <TableBody
-            page={rows}
-            prepareRow={prepareRow}
-            selectedRowIds={selectedRowIds}
-          />
-        </MuiTable>
-
-        <TablePagination
+      {table}
+      <MuiTableContainer>
+        <MuiTablePagination
           component="div"
           count={paginationState.totalCount}
           rowsPerPage={paginationState.pageSize}
@@ -214,7 +234,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
           onChangeRowsPerPage={handleChangeRowsPerPage}
           {...pagination}
         />
-      </TableContainer>
+      </MuiTableContainer>
       {drawer}
     </div>
   );
