@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { DataTable, Apps, ExitToApp, GetApp, Delete, Page } from '../..';
 import Box from '@material-ui/core/Box';
-import { FetchProps } from './DataTable';
+import { FetchProps, FetchResult } from './DataTable';
 
 interface ImageRenderer {
   value: string;
@@ -26,7 +26,10 @@ const columns = [
   },
 ];
 
-const getData = ({ pageSize = 10, pageIndex = 0 }: FetchProps) => {
+function getData({
+  pageSize = 10,
+  pageIndex = 0,
+}: FetchProps): Promise<FetchResult<{}>> {
   const data = [
     {
       picture: 'https://via.placeholder.com/50/1E90FF/FFFFFF?Text=IMG',
@@ -127,7 +130,7 @@ const getData = ({ pageSize = 10, pageIndex = 0 }: FetchProps) => {
   return new Promise(resolve => {
     setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
   });
-};
+}
 
 storiesOf('Components|DataTable', module).add('default', () => {
   const actions = [
@@ -155,11 +158,13 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
   const actions = [
     {
       icon: GetApp,
+      // tslint:disable-next-line: no-any
       handler: (data: any[]) =>
         console.log(data, 'Make api call to get zip file'),
     },
     {
       icon: Delete,
+      // tslint:disable-next-line: no-any
       handler: (data: any[]) => {
         console.log(data, 'Delete Rows');
       },
@@ -175,7 +180,6 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
       <DataTable
         headline="This is a table"
         columns={columns}
-        showCheckbox={true}
         fetchData={getData}
         tableSelectionActions={actions}
         pagination={pagination}

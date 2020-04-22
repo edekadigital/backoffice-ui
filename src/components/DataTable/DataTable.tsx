@@ -37,7 +37,7 @@ interface DataTableProps<D extends object> {
   columns: Array<Column<D>>;
   tableSelectionActions?: TableSelectionActions[];
   pagination: { labelRowsPerPage: string; rowsPerPageOptions: number[] };
-  drawerWidth: 'sm' | 'lg';
+  drawerWidth?: 'sm' | 'lg';
 }
 
 export interface FetchResult<D extends object>
@@ -84,7 +84,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     fetchData,
     tableSelectionActions = [],
     pagination,
-    drawerWidth,
+    drawerWidth = 'lg',
   } = props;
 
   const useSelection: Array<PluginHook<D>> = React.useMemo(
