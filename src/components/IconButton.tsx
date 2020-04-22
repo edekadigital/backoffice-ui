@@ -3,7 +3,7 @@ import { IconButton as MuiIconButton } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 
-export type IconButtonColor = 'default' | 'primary';
+export type IconButtonColor = 'default' | 'primary' | 'inherit';
 
 export type IconButtonComponent = React.ElementType<ButtonBaseProps>;
 
