@@ -60,7 +60,7 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
     });
   }, [indeterminate, isAllRowsSelected, onSelectAll]);
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectAll = () => {
     setCheckboxState({
       indeterminate: false,
       checked: isAllRowsSelected,

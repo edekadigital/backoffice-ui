@@ -18,10 +18,13 @@ export function TableHead<D extends object>(props: TableHeadProps<D>) {
       </MuiTableCell>
     ));
 
-  const getRows = () =>
-    headerGroups.map((headerGroup, index) => (
-      <MuiTableRow key={index}>{getCells(headerGroup)}</MuiTableRow>
-    ));
+  const getRows = React.useCallback(
+    () =>
+      headerGroups.map((headerGroup, index) => (
+        <MuiTableRow key={index}>{getCells(headerGroup)}</MuiTableRow>
+      )),
+    [headerGroups]
+  );
 
   return <MuiTableHead>{getRows()}</MuiTableHead>;
 }

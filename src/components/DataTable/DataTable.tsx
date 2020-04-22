@@ -23,7 +23,7 @@ import {
   TableInstance,
   CellValue,
 } from 'react-table';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export interface FetchProps {
   pageSize: number | undefined;
@@ -51,7 +51,7 @@ interface PaginationState {
   totalCount: number;
 }
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles(() => ({
   tableContainer: {
     borderColor: 'rgba(0, 0, 0, 0.12)',
     borderWidth: '1px',
@@ -153,7 +153,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       .map(row => row.values);
 
     setSelectedRows(selectRows);
-  }, [selectedRowIds]);
+  }, [selectedRowIds, rows]);
 
   const classes = useStyles();
 
@@ -186,22 +186,32 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     isAllRowsSelected,
     toggleAllRowsSelected,
     selectedRows,
+    drawerWidth,
   ]);
 
-  const table = !isLoading ? (
-    <MuiTable>
-      <TableHead headerGroups={headerGroups} />
-      <TableBody
-        page={rows}
-        prepareRow={prepareRow}
-        selectedRowIds={selectedRowIds}
-      />
-    </MuiTable>
-  ) : (
-    <div className={classes.loaderContainer}>
-      <MuiCircularProgress />
-    </div>
-  );
+  const table = React.useMemo(() => {
+    return !isLoading ? (
+      <MuiTable>
+        <TableHead headerGroups={headerGroups} />
+        <TableBody
+          page={rows}
+          prepareRow={prepareRow}
+          selectedRowIds={selectedRowIds}
+        />
+      </MuiTable>
+    ) : (
+      <div className={classes.loaderContainer}>
+        <MuiCircularProgress />
+      </div>
+    );
+  }, [
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedRowIds,
+    isLoading,
+    toggleAllRowsSelected,
+  ]);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
