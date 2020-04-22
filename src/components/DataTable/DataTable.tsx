@@ -76,7 +76,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   );
   const [selectedRows, setSelectedRows] = React.useState<CellValue[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
-
+  console.log(data);
   const {
     headline,
     actions,
