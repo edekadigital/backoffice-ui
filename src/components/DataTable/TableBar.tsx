@@ -32,7 +32,11 @@ export const TableBar: React.FC<TableBarProps> = props => {
     const handleClick = () => handler();
     return (
       <div key={`action-item-${index}`}>
-        <MuiIconButton color="default" onClick={handleClick}>
+        <MuiIconButton
+          color="default"
+          onClick={handleClick}
+          data-testid="tablebar-action"
+        >
           <IconComponent fontSize="small" />
         </MuiIconButton>
       </div>
@@ -40,7 +44,14 @@ export const TableBar: React.FC<TableBarProps> = props => {
   });
 
   const heading = React.useMemo(
-    () => (headline ? <Heading children={headline} variant="h4" /> : null),
+    () =>
+      headline ? (
+        <Heading
+          children={headline}
+          variant="h4"
+          data-testid="tablebar-heading"
+        />
+      ) : null,
     [headline]
   );
 
