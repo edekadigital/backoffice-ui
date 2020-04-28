@@ -65,17 +65,4 @@ describe('<DataTable>', () => {
     );
     expect(getByTestId('tablebar-heading')).toBeTruthy();
   });
-
-  it('should render the component with headline', () => {
-    const { getByTitle } = render(
-      <DataTable
-        fetchData={fetchData}
-        columns={columns}
-        pagination={{ labelRowsPerPage: 'Rows', rowsPerPageOptions: [5, 10] }}
-        headline="Test table"
-      />
-    );
-
-    fireEvent.click(getByTitle('Next page'));
-  });
 });
