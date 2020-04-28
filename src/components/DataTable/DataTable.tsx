@@ -131,19 +131,26 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   const { selectedRowIds = false } = state as UseRowSelectState<D>;
 
   React.useEffect(() => {
+    let isActive = true;
     setIsLoading(true);
     fetchData({
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
     }).then(res => {
-      setPaginationState({
-        ...paginationState,
-        pageIndex: res.pageIndex,
-        totalCount: res.totalCount,
-      });
-      setData(res.data);
-      setIsLoading(false);
+      if (isActive) {
+        setPaginationState({
+          ...paginationState,
+          pageIndex: res.pageIndex,
+          totalCount: res.totalCount,
+        });
+        setData(res.data);
+        setIsLoading(false);
+      }
     });
+
+    return () => {
+      isActive = false;
+    };
   }, [fetchData, paginationState.pageSize, paginationState.pageIndex]);
 
   React.useEffect(() => {
