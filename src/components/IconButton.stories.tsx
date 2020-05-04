@@ -20,4 +20,7 @@ storiesOf('Components|IconButton', module)
       href="data:text/plain;base64,TG9yZW0gSXBzdW0="
       download="file.txt"
     />
+  ))
+  .add('progress', () => (
+    <IconButton color="primary" icon={ArrowForward} showProgress={true} />
   ));
