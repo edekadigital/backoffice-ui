@@ -9,6 +9,7 @@ import { IconButton, CheckboxLight } from '../..';
 export interface TableSelectionActions {
   icon: React.ElementType<SvgIconProps>;
   handler: (selectedRows: CellValue[]) => void;
+  showProgress?: boolean;
 }
 
 interface TableDrawerProps {
@@ -68,17 +69,20 @@ export const TableDrawer: React.FC<TableDrawerProps> = ({
     onSelectAll();
   };
 
-  const actionItems = actions.map(({ icon, handler }, i) => {
-    const handleClick = () => handler(selectedRows);
-    return (
-      <IconButton
-        icon={icon}
-        color="inherit"
-        onClick={handleClick}
-        key={`selection-action-${i}`}
-      />
-    );
-  });
+  const actionItems = actions.map(
+    ({ icon, handler, showProgress = false }, i) => {
+      const handleClick = () => handler(selectedRows);
+      return (
+        <IconButton
+          icon={icon}
+          color="inherit"
+          onClick={handleClick}
+          key={`selection-action-${i}`}
+          showProgress={showProgress}
+        />
+      );
+    }
+  );
 
   const control = (
     <CheckboxLight
