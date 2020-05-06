@@ -34,9 +34,10 @@ export const IconButton: React.FC<IconButtonProps> = props => {
     ...additionalProps
   } = props;
   const IconComponent = icon;
-  const content = React.useMemo(
-    () => (!showProgress ? <IconComponent /> : <CircularProgress size={24} />),
-    [showProgress]
+  const content = !showProgress ? (
+    <IconComponent />
+  ) : (
+    <CircularProgress size={24} />
   );
   return (
     <MuiIconButton color={color} {...additionalProps}>
