@@ -37,7 +37,7 @@ export const IconButton: React.FC<IconButtonProps> = props => {
   const content = !showProgress ? (
     <IconComponent />
   ) : (
-    <CircularProgress size={24} />
+    <CircularProgress size={24} color="inherit" />
   );
   return (
     <MuiIconButton color={color} {...additionalProps}>
