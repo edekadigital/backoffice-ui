@@ -7,9 +7,9 @@ export type FormWrapperHandler = () => void;
 
 export interface FormWrapperProps {
   submitLabel: string;
-  cancelLabel: string;
+  cancelLabel?: string;
   onSubmit: FormWrapperHandler;
-  onCancel: FormWrapperHandler;
+  onCancel?: FormWrapperHandler;
 }
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -34,6 +34,20 @@ export const FormWrapper: React.FC<FormWrapperProps> = props => {
     [onSubmit]
   );
 
+  const cancelButton = React.useMemo(
+    () =>
+      cancelLabel && onCancel ? (
+        <Button
+          variant="text"
+          onClick={onCancel}
+          data-testid="formWrapper-cancel"
+        >
+          {cancelLabel}
+        </Button>
+      ) : null,
+    [cancelLabel, onCancel]
+  );
+
   return (
     <form
       onSubmit={internalOnSubmit}
@@ -45,13 +59,7 @@ export const FormWrapper: React.FC<FormWrapperProps> = props => {
         <Button type="submit" data-testid="formWrapper-submit">
           {submitLabel}
         </Button>
-        <Button
-          variant="text"
-          onClick={onCancel}
-          data-testid="formWrapper-cancel"
-        >
-          {cancelLabel}
-        </Button>
+        {cancelButton}
       </ButtonBar>
     </form>
   );

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { IconButton as MuiIconButton } from '@material-ui/core';
+import {
+  IconButton as MuiIconButton,
+  CircularProgress,
+} from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 
@@ -20,14 +23,25 @@ export interface IconButtonProps {
   onClick?: React.MouseEventHandler;
   target?: string;
   type?: IconButtonType;
+  showProgress?: boolean;
 }
 
 export const IconButton: React.FC<IconButtonProps> = props => {
-  const { icon, color = 'default', ...additionalProps } = props;
+  const {
+    icon,
+    color = 'default',
+    showProgress = false,
+    ...additionalProps
+  } = props;
   const IconComponent = icon;
+  const content = !showProgress ? (
+    <IconComponent />
+  ) : (
+    <CircularProgress size={24} />
+  );
   return (
     <MuiIconButton color={color} {...additionalProps}>
-      <IconComponent />
+      {content}
     </MuiIconButton>
   );
 };

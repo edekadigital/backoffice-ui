@@ -14,7 +14,7 @@ export interface PageProps {
 
 const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    paddingBottom: '100px',
+    paddingBottom: '85px',
   },
 }));
 
