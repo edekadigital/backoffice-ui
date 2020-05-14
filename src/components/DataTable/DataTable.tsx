@@ -15,11 +15,11 @@ import {
   CellValue,
 } from 'react-table';
 import { makeStyles } from '@material-ui/core/styles';
-import { TableBarAction, TableBar } from './TableBar';
 import { TableSelectionActions, TableDrawer } from './TableDrawer';
 import { TableHead } from './TableHead';
 import { TableBody } from './TableBody';
 import { CheckboxDark } from '../Checkbox';
+import { grey } from '@material-ui/core/colors';
 
 export interface FetchProps {
   pageSize: number | undefined;
@@ -27,8 +27,6 @@ export interface FetchProps {
 }
 
 interface DataTableProps<D extends object> {
-  actions?: TableBarAction[];
-  headline?: string;
   fetchData: ({ pageSize, pageIndex }: FetchProps) => Promise<FetchResult<D>>;
   columns: Array<Column<D>>;
   tableSelectionActions?: TableSelectionActions[];
@@ -49,8 +47,8 @@ interface PaginationState {
 
 const useStyles = makeStyles(() => ({
   tableContainer: {
-    borderColor: 'rgba(0, 0, 0, 0.12)',
-    borderWidth: '1px',
+    borderColor: grey[300],
+    borderWidth: 1,
     borderStyle: 'solid',
   },
   loaderContainer: {
@@ -73,8 +71,6 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   const [selectedRows, setSelectedRows] = React.useState<CellValue[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const {
-    headline,
-    actions,
     columns,
     fetchData,
     tableSelectionActions = [],
@@ -164,13 +160,6 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     [selectedRowIds, isAllRowsSelected]
   );
 
-  const tableBar = React.useMemo(() => {
-    if (headline || actions) {
-      return <TableBar headline={headline} actions={actions} />;
-    }
-    return null;
-  }, [headline, actions]);
-
   const drawer = React.useMemo(() => {
     return tableSelectionActions.length > 0 ? (
       <TableDrawer
@@ -234,7 +223,6 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
 
   return (
     <div className={classes.tableContainer}>
-      {tableBar}
       {table}
       <MuiTableContainer>
         <MuiTablePagination

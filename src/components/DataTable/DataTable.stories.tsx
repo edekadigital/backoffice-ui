@@ -1,8 +1,15 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { DataTable, Apps, ExitToApp, GetApp, Delete, Page } from '../..';
 import Box from '@material-ui/core/Box';
-import { FetchProps, FetchResult } from './DataTable';
+
+import {
+  DataTable,
+  GetApp,
+  Delete,
+  Page,
+  FetchProps,
+  FetchResult,
+} from '../..';
 
 interface ImageRenderer {
   value: string;
@@ -133,20 +140,8 @@ function getData({
 }
 
 storiesOf('Components|DataTable', module).add('default', () => {
-  const actions = [
-    {
-      icon: Apps,
-      handler: () => console.log('to dashboard'),
-    },
-    {
-      icon: ExitToApp,
-      handler: () => console.log('signout'),
-    },
-  ];
   return (
     <DataTable
-      headline="This is a table"
-      actions={actions}
       columns={columns}
       fetchData={getData}
       pagination={{ labelRowsPerPage: 'Zeilen', rowsPerPageOptions: [5, 10] }}
@@ -175,10 +170,10 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
     labelRowsPerPage: 'Zeilen pro Seite',
     rowsPerPageOptions: [10, 20, 30],
   };
+
   return (
     <Page paddingBottom={true}>
       <DataTable
-        headline="This is a table"
         columns={columns}
         fetchData={getData}
         tableSelectionActions={actions}
