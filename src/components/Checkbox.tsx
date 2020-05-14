@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiCheckbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import { blueGrey } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 
 export const CheckboxLight = withStyles({
   root: {
-    color: blueGrey[100],
+    color: grey[100],
     '&$checked': {
-      color: blueGrey[100],
+      color: grey[100],
     },
   },
   checked: {},
@@ -15,9 +15,9 @@ export const CheckboxLight = withStyles({
 
 export const CheckboxDark = withStyles({
   root: {
-    color: blueGrey[500],
+    color: grey[600],
     '&$checked': {
-      color: blueGrey[500],
+      color: grey[600],
     },
   },
   checked: {},
