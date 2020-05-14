@@ -4,15 +4,6 @@ import MuiTableContainer from '@material-ui/core/TableContainer';
 import MuiTablePagination from '@material-ui/core/TablePagination';
 import MuiCircularProgress from '@material-ui/core/CircularProgress';
 import {
-  TableHead,
-  TableBody,
-  TableDrawer,
-  TableSelectionActions,
-  TableBar,
-  TableBarAction,
-} from './index';
-import { CheckboxDark } from '../..';
-import {
   useTable,
   useRowSelect,
   PluginHook,
@@ -24,6 +15,11 @@ import {
   CellValue,
 } from 'react-table';
 import { makeStyles } from '@material-ui/core/styles';
+import { TableBarAction, TableBar } from './TableBar';
+import { TableSelectionActions, TableDrawer } from './TableDrawer';
+import { TableHead } from './TableHead';
+import { TableBody } from './TableBody';
+import { CheckboxDark } from '../Checkbox';
 
 export interface FetchProps {
   pageSize: number | undefined;
