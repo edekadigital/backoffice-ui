@@ -22,16 +22,8 @@ import { CheckboxDark } from '../Checkbox';
 import { grey } from '@material-ui/core/colors';
 
 export interface FetchProps {
-  pageSize: number | undefined;
-  pageIndex: number | undefined;
-}
-
-interface DataTableProps<D extends object> {
-  fetchData: ({ pageSize, pageIndex }: FetchProps) => Promise<FetchResult<D>>;
-  columns: Array<Column<D>>;
-  selectionActions?: TableSelectionActions[];
-  pagination: { labelRowsPerPage: string; rowsPerPageOptions: number[] };
-  drawerWidth?: 'sm' | 'lg';
+  pageSize: number;
+  pageIndex: number;
 }
 
 export interface FetchResult<D extends object>
@@ -43,6 +35,14 @@ interface PaginationState {
   pageSize: number;
   pageIndex: number;
   totalCount: number;
+}
+
+interface DataTableProps<D extends object> {
+  fetchData: (fetchProps: FetchProps) => Promise<FetchResult<D>>;
+  columns: Array<Column<D>>;
+  selectionActions?: TableSelectionActions[];
+  pagination: { labelRowsPerPage: string; rowsPerPageOptions: number[] };
+  drawerWidth?: 'sm' | 'lg';
 }
 
 const useStyles = makeStyles(() => ({
@@ -205,7 +205,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   ]);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPaginationState(prevPaginationState => ({
