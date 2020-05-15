@@ -130,11 +130,11 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       pageIndex: paginationState.pageIndex,
     }).then(res => {
       if (isActive) {
-        setPaginationState({
-          ...paginationState,
+        setPaginationState(prevPaginationState => ({
+          ...prevPaginationState,
           pageIndex: res.pageIndex,
           totalCount: res.totalCount,
-        });
+        }));
         setData(res.data);
         setIsLoading(false);
       }
@@ -208,17 +208,20 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPaginationState({ ...paginationState, pageIndex: newPage });
+    setPaginationState(prevPaginationState => ({
+      ...prevPaginationState,
+      pageIndex: newPage,
+    }));
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setPaginationState({
-      ...paginationState,
+    setPaginationState(prevPaginationState => ({
+      ...prevPaginationState,
       pageSize: Number(event.target.value),
       pageIndex: 0,
-    });
+    }));
   };
 
   return (
