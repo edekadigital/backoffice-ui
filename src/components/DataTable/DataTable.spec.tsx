@@ -35,7 +35,7 @@ describe('<DataTable>', () => {
         fetchData={fetchData}
         columns={columns}
         pagination={{ labelRowsPerPage: 'Rows', rowsPerPageOptions: [5, 10] }}
-        tableSelectionActions={[{ icon: ArrowRight, handler: jest.fn() }]}
+        selectionActions={[{ icon: ArrowRight, handler: jest.fn() }]}
       />
     );
     expect(container).toBeTruthy();

@@ -176,7 +176,7 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
       <DataTable
         columns={columns}
         fetchData={getData}
-        tableSelectionActions={actions}
+        selectionActions={actions}
         pagination={pagination}
       />
     </Page>

@@ -29,7 +29,7 @@ export interface FetchProps {
 interface DataTableProps<D extends object> {
   fetchData: ({ pageSize, pageIndex }: FetchProps) => Promise<FetchResult<D>>;
   columns: Array<Column<D>>;
-  tableSelectionActions?: TableSelectionActions[];
+  selectionActions?: TableSelectionActions[];
   pagination: { labelRowsPerPage: string; rowsPerPageOptions: number[] };
   drawerWidth?: 'sm' | 'lg';
 }
@@ -73,14 +73,14 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   const {
     columns,
     fetchData,
-    tableSelectionActions = [],
+    selectionActions = [],
     pagination,
     drawerWidth = 'lg',
   } = props;
 
   const useSelection: Array<PluginHook<D>> = React.useMemo(
     () =>
-      tableSelectionActions.length > 0
+      selectionActions.length > 0
         ? [
             useRowSelect,
             hooks => {
@@ -101,7 +101,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
             },
           ]
         : [],
-    [tableSelectionActions]
+    [selectionActions]
   );
 
   const plugins: Array<PluginHook<D>> = [...useSelection];
@@ -161,10 +161,10 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
   );
 
   const drawer = React.useMemo(() => {
-    return tableSelectionActions.length > 0 ? (
+    return selectionActions.length > 0 ? (
       <TableDrawer
         indeterminate={rowsSelected}
-        actions={tableSelectionActions}
+        actions={selectionActions}
         onSelectAll={toggleAllRowsSelected}
         isAllRowsSelected={isAllRowsSelected}
         selectedRows={selectedRows}
@@ -172,7 +172,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       />
     ) : null;
   }, [
-    tableSelectionActions,
+    selectionActions,
     rowsSelected,
     isAllRowsSelected,
     toggleAllRowsSelected,
