@@ -37,7 +37,7 @@ interface PaginationState {
   totalCount: number;
 }
 
-interface DataTableProps<D extends object> {
+export interface DataTableProps<D extends object> {
   fetchData: (fetchProps: FetchProps) => Promise<FetchResult<D>>;
   columns: Array<Column<D>>;
   selectionActions?: TableSelectionActions[];
