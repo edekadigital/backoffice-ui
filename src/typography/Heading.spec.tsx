@@ -9,34 +9,27 @@ describe('<Heading />', () => {
   afterEach(cleanup);
 
   it('should render the heading component', () => {
-    const { getByText } = render(
-      <Heading>
-        {headingContent}
-      </Heading>);
+    const { getByText } = render(<Heading>{headingContent}</Heading>);
 
     expect(getByText(headingContent)).toBeTruthy();
   });
 
   it('should render the heading component with secondary color', () => {
     const { getByTestId } = render(
-      <Heading
-        color={'secondary'}
-        data-testid={headingTestId}
-      >
+      <Heading color={'secondary'} data-testid={headingTestId}>
         {headingContent}
       </Heading>
     );
 
     expect(getByTestId(headingTestId).textContent).toEqual(headingContent);
-    expect(getByTestId(headingTestId).classList).toContain('MuiTypography-colorSecondary');
+    expect(getByTestId(headingTestId).classList).toContain(
+      'MuiTypography-colorSecondary'
+    );
   });
 
   it('should render the heading component with variant h3', () => {
     const { getByTestId } = render(
-      <Heading
-        variant="h3"
-        data-testid={headingTestId}
-      >
+      <Heading variant="h3" data-testid={headingTestId}>
         {headingContent}
       </Heading>
     );

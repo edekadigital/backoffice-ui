@@ -8,6 +8,7 @@ export * from './components/ButtonBar';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/DateField';
+export * from './components/EnhancedDataTable/EnhancedDataTable';
 export * from './components/IconButton';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';

@@ -20,9 +20,7 @@ describe('<Page />', () => {
 
   it('should render the page component with narrow content', () => {
     const { getByText, container } = render(
-      <Page
-        variant="narrow"
-      >
+      <Page variant="narrow">
         <p>{pageContent}</p>
       </Page>
     );
