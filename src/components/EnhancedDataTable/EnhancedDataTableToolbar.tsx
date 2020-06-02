@@ -13,16 +13,18 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { ActiveFilter, Filter } from './EnhancedDataTable';
-import { Add } from '../../icons';
+import { Add, Close } from '../../icons';
 import { Heading } from '../../typography/Heading';
-import { LIGHT_GREY } from '../../constants/colors';
+import { LIGHT_GREY, WHITE, PRIMARY } from '../../constants/colors';
 import { Button } from '../Button';
 import { TextField } from '../TextField';
+import clsx from 'clsx';
+import { IconButton } from '../IconButton';
 
 export interface EnhancedDataTableToolbarProps {
   activeFilters: ActiveFilter[];
   setActiveFilters: (filters: ActiveFilter[]) => void;
-  filters?: Filter[];
+  filters?: Filter[] | null;
   headline?: string;
 }
 
@@ -39,6 +41,25 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     },
     chipOutlined: {
       borderStyle: 'dashed',
+    },
+    popoverPaper: {
+      minWidth: 250,
+    },
+    filterTitleToolbar: {
+      color: `${WHITE}`,
+      background: `${PRIMARY}`,
+      fontSize: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      flexGrow: 1,
+    },
+    filterTitleToolbarLabel: {
+      flexGrow: 1,
+    },
+    gutterTop: {
+      marginTop: theme.spacing(1),
+    },
+    negativeMarginTop: {
+      marginTop: -theme.spacing(1),
     },
   })
 );
@@ -140,7 +161,20 @@ export const EnhancedDataTableToolbar = (
 
   const renderPopoverContent = selectedFilter ? (
     <>
-      <Toolbar>{selectedFilter.label}</Toolbar>
+      <Toolbar
+        classes={{ root: classes.filterTitleToolbar }}
+        variant={'dense'}
+        disableGutters={true}
+      >
+        <div className={classes.filterTitleToolbarLabel}>
+          {selectedFilter.label}
+        </div>
+        <IconButton
+          icon={Close}
+          color={'inherit'}
+          onClick={handleCloseFilterSelectorClick}
+        />
+      </Toolbar>
       <form onSubmit={handleFilterSubmit}>
         <TextField label="Enthält..." onChange={handleFilterValueChange} />
         <Button variant={'text'} type={'submit'} disabled={!filterValue}>
@@ -162,9 +196,13 @@ export const EnhancedDataTableToolbar = (
     horizontal: 'left',
   };
 
-  return (
-    <>
-      {renderHeadline}
+  const classNamePopoverpaper = clsx(classes.popoverPaper, {
+    [classes.gutterTop]: !selectedFilter,
+    [classes.negativeMarginTop]: selectedFilter,
+  });
+
+  const renderFilterBar =
+    filters !== null ? (
       <Toolbar className={classes.toolbar}>
         {renderActiveFilters}
         <Chip
@@ -182,10 +220,19 @@ export const EnhancedDataTableToolbar = (
           onClose={handleCloseFilterSelectorClick}
           anchorOrigin={popoverAnchorOrigin}
           transformOrigin={popoverTransformOrigin}
+          classes={{ paper: classNamePopoverpaper }}
         >
-          <Paper>{renderPopoverContent}</Paper>
+          {renderPopoverContent}
         </Popover>
       </Toolbar>
+    ) : (
+      <></>
+    );
+
+  return (
+    <>
+      {renderHeadline}
+      {renderFilterBar}
     </>
   );
 };

@@ -44,19 +44,18 @@ export const EnhancedDataTable = (props: EnhancedDataTableProps) => {
     setActiveFilters(filters);
   };
 
-  const filterableColumns: Filter[] = React.useMemo(
-    () =>
-      columns
-        .filter(column => column.filterable)
-        .filter(
-          filter =>
-            activeFilters.filter(
-              activeFilter => activeFilter.accessor === filter.accessor
-            ).length < 1
-        )
-        .map(item => ({ accessor: item.accessor, label: item.label })),
-    [activeFilters, columns]
-  );
+  const filterableColumns: Filter[] | null = React.useMemo(() => {
+    const foundFilterableColumns = columns.filter(column => column.filterable);
+    if (foundFilterableColumns.length < 1) return null;
+    return foundFilterableColumns
+      .filter(
+        filter =>
+          activeFilters.filter(
+            activeFilter => activeFilter.accessor === filter.accessor
+          ).length < 1
+      )
+      .map(item => ({ accessor: item.accessor, label: item.label }));
+  }, [activeFilters, columns]);
 
   return (
     <div className={classes.root}>

@@ -5,7 +5,14 @@ import {
   EnhancedDataTableColumn,
 } from './EnhancedDataTable';
 
-const columns: EnhancedDataTableColumn[] = [
+const columnsDefault: EnhancedDataTableColumn[] = [
+  { accessor: 'columnA', label: 'Column A' },
+  { accessor: 'columnB', label: 'Column B' },
+  { accessor: 'columnC', label: 'Column C' },
+  { accessor: 'columnD', label: 'Column D' },
+];
+
+const columnsFilterable: EnhancedDataTableColumn[] = [
   { accessor: 'columnA', label: 'Column A', filterable: true },
   { accessor: 'columnB', label: 'Column B', filterable: true },
   { accessor: 'columnC', label: 'Column C', filterable: true },
@@ -14,10 +21,18 @@ const columns: EnhancedDataTableColumn[] = [
 
 const fetchData = () => {};
 
-storiesOf('Components|EnhancedDataTable', module).add('default', () => (
-  <EnhancedDataTable
-    fetchData={fetchData}
-    headline={'Optional Headline'}
-    columns={columns}
-  />
-));
+storiesOf('Components|EnhancedDataTable', module)
+  .add('default', () => (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Optional Headline'}
+      columns={columnsDefault}
+    />
+  ))
+  .add('filterable', () => (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Optional Headline'}
+      columns={columnsFilterable}
+    />
+  ));
