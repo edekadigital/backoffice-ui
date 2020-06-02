@@ -2,15 +2,23 @@ import * as React from 'react';
 import { Paper, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
 
+export interface EnhancedDataTableColumn {
+  accessor: string;
+  label: string;
+  filterable?: boolean;
+  sortable?: boolean;
+}
 export interface EnhancedDataTableProps {
   fetchData: () => void;
   headline?: string;
+  columns: EnhancedDataTableColumn[];
 }
 
-export interface ActiveFilter {
-  accessor: string;
-  label: string;
-  value: string;
+export interface Filter
+  extends Pick<EnhancedDataTableColumn, 'accessor' | 'label'> {}
+
+export interface ActiveFilter extends Filter {
+  value?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const EnhancedDataTable = (props: EnhancedDataTableProps) => {
-  const { headline } = props;
+  const { headline, columns } = props;
   const [activeFilters, setActiveFilters] = React.useState<ActiveFilter[] | []>(
     []
   );
@@ -36,10 +44,25 @@ export const EnhancedDataTable = (props: EnhancedDataTableProps) => {
     setActiveFilters(filters);
   };
 
+  const filterableColumns: Filter[] = React.useMemo(
+    () =>
+      columns
+        .filter(column => column.filterable)
+        .filter(
+          filter =>
+            activeFilters.filter(
+              activeFilter => activeFilter.accessor === filter.accessor
+            ).length < 1
+        )
+        .map(item => ({ accessor: item.accessor, label: item.label })),
+    [activeFilters, columns]
+  );
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedDataTableToolbar
+          filters={filterableColumns}
           setActiveFilters={handleActiveFilters}
           activeFilters={activeFilters}
           headline={headline}
