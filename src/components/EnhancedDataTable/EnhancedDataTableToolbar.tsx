@@ -24,7 +24,7 @@ import { IconButton } from '../IconButton';
 export interface EnhancedDataTableToolbarProps {
   activeFilters: ActiveFilter[];
   setActiveFilters: (filters: ActiveFilter[]) => void;
-  filters?: Filter[] | null;
+  filters?: Filter[];
   headline?: string;
 }
 
@@ -82,7 +82,12 @@ export const EnhancedDataTableToolbar = (
 
   const classes = useToolbarStyles();
 
-  const [selectedFilter, setSelectedFilter] = React.useState<Filter | null>();
+  const [selectableFilters, setSelectableFilters] = React.useState<
+    Filter[] | undefined
+  >(filters);
+  const [selectedFilter, setSelectedFilter] = React.useState<
+    Filter | undefined
+  >();
   const [filterValue, setFilterValue] = React.useState<string | undefined>();
 
   const [
@@ -95,7 +100,7 @@ export const EnhancedDataTableToolbar = (
   const handleOpenFilterSelectorClick = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
-    setSelectedFilter(null);
+    setSelectedFilter(undefined);
     setFilterValue(undefined);
     setPopoverAnchorEl(event.currentTarget);
   };
@@ -131,6 +136,21 @@ export const EnhancedDataTableToolbar = (
     }
   };
 
+  React.useEffect(() => {
+    if (filters) {
+      setSelectableFilters(
+        filters
+          .filter(
+            filter =>
+              activeFilters.filter(
+                activeFilter => activeFilter.accessor === filter.accessor
+              ).length < 1
+          )
+          .map(item => ({ accessor: item.accessor, label: item.label }))
+      );
+    }
+  }, [activeFilters, filters]);
+
   const renderHeadline = headline ? (
     <Toolbar className={classes.toolbar}>
       <Heading variant={'h5'}>{headline}</Heading>
@@ -156,8 +176,8 @@ export const EnhancedDataTableToolbar = (
     );
   }, [activeFilters]);
 
-  const renderFilterList = filters ? (
-    filters.map(filter => (
+  const renderFilterList = selectableFilters ? (
+    selectableFilters.map(filter => (
       <ListItem
         key={filter.accessor}
         button={true}
@@ -214,33 +234,32 @@ export const EnhancedDataTableToolbar = (
     [classes.negativeMarginTop]: selectedFilter,
   });
 
-  const renderFilterBar =
-    filters !== null ? (
-      <Toolbar className={classes.toolbar}>
-        {renderActiveFilters}
-        <Chip
-          classes={{ outlined: classes.chipOutlined, root: classes.chipRoot }}
-          color={'primary'}
-          label={'Filter hinzufügen'}
-          variant={'outlined'}
-          onClick={handleOpenFilterSelectorClick}
-          icon={<Add />}
-          disabled={!filters || filters?.length < 1}
-        />
-        <Popover
-          open={isPopoverOpened}
-          anchorEl={popoverAnchorEl}
-          onClose={handleCloseFilterSelectorClick}
-          anchorOrigin={popoverAnchorOrigin}
-          transformOrigin={popoverTransformOrigin}
-          classes={{ paper: classNamePopoverpaper }}
-        >
-          {renderPopoverContent}
-        </Popover>
-      </Toolbar>
-    ) : (
-      <></>
-    );
+  const renderFilterBar = filters ? (
+    <Toolbar className={classes.toolbar}>
+      {renderActiveFilters}
+      <Chip
+        classes={{ outlined: classes.chipOutlined, root: classes.chipRoot }}
+        color={'primary'}
+        label={'Filter hinzufügen'}
+        variant={'outlined'}
+        onClick={handleOpenFilterSelectorClick}
+        icon={<Add />}
+        disabled={!selectableFilters || selectableFilters?.length < 1}
+      />
+      <Popover
+        open={isPopoverOpened}
+        anchorEl={popoverAnchorEl}
+        onClose={handleCloseFilterSelectorClick}
+        anchorOrigin={popoverAnchorOrigin}
+        transformOrigin={popoverTransformOrigin}
+        classes={{ paper: classNamePopoverpaper }}
+      >
+        {renderPopoverContent}
+      </Popover>
+    </Toolbar>
+  ) : (
+    <></>
+  );
 
   return (
     <>

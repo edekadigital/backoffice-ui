@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import {
   EnhancedDataTable,
   EnhancedDataTableColumn,
+  Filter,
 } from './EnhancedDataTable';
 
 const columnsDefault: EnhancedDataTableColumn[] = [
@@ -12,11 +13,27 @@ const columnsDefault: EnhancedDataTableColumn[] = [
   { accessor: 'columnD', label: 'Column D' },
 ];
 
-const columnsFilterable: EnhancedDataTableColumn[] = [
-  { accessor: 'columnA', label: 'Column A', filterable: true },
-  { accessor: 'columnB', label: 'Column B', filterable: true },
-  { accessor: 'columnC', label: 'Column C', filterable: true },
-  { accessor: 'columnD', label: 'Column D', filterable: false },
+const columnsSortable: EnhancedDataTableColumn[] = [
+  { accessor: 'columnA', label: 'Column A', sortable: true },
+  { accessor: 'columnB', label: 'Column B', sortable: true },
+  { accessor: 'columnC', label: 'Column C', sortable: true },
+  { accessor: 'columnD', label: 'Column D', sortable: false },
+];
+
+const filters: Filter[] = [
+  {
+    accessor: 'columnA',
+    label: 'Spalte A',
+    selectorValues: ['Manual', 'Automatic'],
+  },
+  {
+    accessor: 'columnB',
+    label: 'Spalte B',
+  },
+  {
+    accessor: 'columnC',
+    label: 'Spalte C',
+  },
 ];
 
 const fetchData = () => {};
@@ -33,6 +50,7 @@ storiesOf('Components|EnhancedDataTable', module)
     <EnhancedDataTable
       fetchData={fetchData}
       headline={'Optional Headline'}
-      columns={columnsFilterable}
+      columns={columnsDefault}
+      filters={filters}
     />
   ));

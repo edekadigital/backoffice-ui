@@ -5,17 +5,19 @@ import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
 export interface EnhancedDataTableColumn {
   accessor: string;
   label: string;
-  filterable?: boolean;
   sortable?: boolean;
 }
 export interface EnhancedDataTableProps {
   fetchData: () => void;
   headline?: string;
   columns: EnhancedDataTableColumn[];
+  filters?: Filter[];
 }
 
 export interface Filter
-  extends Pick<EnhancedDataTableColumn, 'accessor' | 'label'> {}
+  extends Pick<EnhancedDataTableColumn, 'accessor' | 'label'> {
+  selectorValues?: string[];
+}
 
 export interface ActiveFilter extends Filter {
   value?: string;
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const EnhancedDataTable = (props: EnhancedDataTableProps) => {
-  const { headline, columns } = props;
+  const { headline, columns, filters } = props;
   const [activeFilters, setActiveFilters] = React.useState<ActiveFilter[] | []>(
     []
   );
@@ -44,24 +46,11 @@ export const EnhancedDataTable = (props: EnhancedDataTableProps) => {
     setActiveFilters(filters);
   };
 
-  const filterableColumns: Filter[] | null = React.useMemo(() => {
-    const foundFilterableColumns = columns.filter(column => column.filterable);
-    if (foundFilterableColumns.length < 1) return null;
-    return foundFilterableColumns
-      .filter(
-        filter =>
-          activeFilters.filter(
-            activeFilter => activeFilter.accessor === filter.accessor
-          ).length < 1
-      )
-      .map(item => ({ accessor: item.accessor, label: item.label }));
-  }, [activeFilters, columns]);
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedDataTableToolbar
-          filters={filterableColumns}
+          filters={filters}
           setActiveFilters={handleActiveFilters}
           activeFilters={activeFilters}
           headline={headline}
