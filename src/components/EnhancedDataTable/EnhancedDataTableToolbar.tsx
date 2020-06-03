@@ -45,6 +45,17 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     popoverPaper: {
       minWidth: 250,
     },
+    popoverFormPaper: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(2),
+      '& > button': {
+        marginTop: theme.spacing(2),
+        marginLeft: 'auto',
+        display: 'block',
+      },
+    },
     filterTitleToolbar: {
       color: `${WHITE}`,
       background: `${PRIMARY}`,
@@ -176,10 +187,12 @@ export const EnhancedDataTableToolbar = (
         />
       </Toolbar>
       <form onSubmit={handleFilterSubmit}>
-        <TextField label="Enthält..." onChange={handleFilterValueChange} />
-        <Button variant={'text'} type={'submit'} disabled={!filterValue}>
-          Anwenden
-        </Button>
+        <Paper className={classes.popoverFormPaper}>
+          <TextField label="Enthält..." onChange={handleFilterValueChange} />
+          <Button variant={'text'} type={'submit'} disabled={!filterValue}>
+            Anwenden
+          </Button>
+        </Paper>
       </form>
     </>
   ) : (
