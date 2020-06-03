@@ -86,9 +86,8 @@ export const EnhancedDataTableToolbar = (
     Filter[] | undefined
   >(filters);
   const [selectedFilter, setSelectedFilter] = React.useState<
-    Filter | undefined
+    ActiveFilter | undefined
   >();
-  const [filterValue, setFilterValue] = React.useState<string | undefined>();
 
   const [
     popoverAnchorEl,
@@ -101,7 +100,6 @@ export const EnhancedDataTableToolbar = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
     setSelectedFilter(undefined);
-    setFilterValue(undefined);
     setPopoverAnchorEl(event.currentTarget);
   };
 
@@ -123,15 +121,13 @@ export const EnhancedDataTableToolbar = (
   const handleFilterValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFilterValue(event.target.value);
+    setSelectedFilter({ ...selectedFilter!, value: event.target.value });
   };
 
   const handleFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (filterValue) {
-      setActiveFilters(
-        activeFilters.concat({ ...selectedFilter!, value: filterValue })
-      );
+    if (selectedFilter) {
+      setActiveFilters(activeFilters.concat(selectedFilter));
       setPopoverAnchorEl(null);
     }
   };
@@ -209,7 +205,11 @@ export const EnhancedDataTableToolbar = (
       <form onSubmit={handleFilterSubmit}>
         <Paper className={classes.popoverFormPaper}>
           <TextField label="Enthält..." onChange={handleFilterValueChange} />
-          <Button variant={'text'} type={'submit'} disabled={!filterValue}>
+          <Button
+            variant={'text'}
+            type={'submit'}
+            disabled={!selectedFilter.value}
+          >
             Anwenden
           </Button>
         </Paper>
