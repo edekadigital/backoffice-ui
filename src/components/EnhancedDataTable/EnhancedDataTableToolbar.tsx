@@ -115,7 +115,15 @@ export const EnhancedDataTableToolbar = (
   };
 
   const handleFilterSelectClick = (selectedFilter: Filter) => {
+    console.log(selectedFilter);
     setSelectedFilter(selectedFilter);
+  };
+
+  const handleFilterValueSelectClick = (value: string) => {
+    if (selectedFilter?.accessor) {
+      setActiveFilters(activeFilters.concat({ ...selectedFilter!, value }));
+      setPopoverAnchorEl(null);
+    }
   };
 
   const handleFilterValueChange = (
@@ -126,7 +134,7 @@ export const EnhancedDataTableToolbar = (
 
   const handleFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (selectedFilter) {
+    if (selectedFilter?.accessor && selectedFilter?.value) {
       setActiveFilters(activeFilters.concat(selectedFilter));
       setPopoverAnchorEl(null);
     }
@@ -142,7 +150,11 @@ export const EnhancedDataTableToolbar = (
                 activeFilter => activeFilter.accessor === filter.accessor
               ).length < 1
           )
-          .map(item => ({ accessor: item.accessor, label: item.label }))
+          .map(item => ({
+            accessor: item.accessor,
+            label: item.label,
+            selectorValues: item.selectorValues,
+          }))
       );
     }
   }, [activeFilters, filters]);
@@ -172,18 +184,39 @@ export const EnhancedDataTableToolbar = (
     );
   }, [activeFilters]);
 
-  const renderFilterList = selectableFilters ? (
-    selectableFilters.map(filter => (
+  const popoverFilterList = selectableFilters!.map(filter => (
+    <ListItem
+      key={filter.accessor}
+      button={true}
+      onClick={() => handleFilterSelectClick(filter)}
+    >
+      <ListItemText primary={filter.label} />
+    </ListItem>
+  ));
+
+  const popoverFilterForm = selectedFilter?.selectorValues ? (
+    selectedFilter.selectorValues.map(filterValue => (
       <ListItem
-        key={filter.accessor}
+        key={filterValue}
         button={true}
-        onClick={() => handleFilterSelectClick(filter)}
+        onClick={() => handleFilterValueSelectClick(filterValue)}
       >
-        <ListItemText primary={filter.label} />
+        <ListItemText primary={filterValue} />
       </ListItem>
     ))
   ) : (
-    <></>
+    <form onSubmit={handleFilterSubmit}>
+      <Paper className={classes.popoverFormPaper}>
+        <TextField label="Enthält..." onChange={handleFilterValueChange} />
+        <Button
+          variant={'text'}
+          type={'submit'}
+          disabled={selectedFilter && !selectedFilter.value}
+        >
+          Anwenden
+        </Button>
+      </Paper>
+    </form>
   );
 
   const renderPopoverContent = selectedFilter ? (
@@ -202,21 +235,10 @@ export const EnhancedDataTableToolbar = (
           onClick={handleCloseFilterSelectorClick}
         />
       </Toolbar>
-      <form onSubmit={handleFilterSubmit}>
-        <Paper className={classes.popoverFormPaper}>
-          <TextField label="Enthält..." onChange={handleFilterValueChange} />
-          <Button
-            variant={'text'}
-            type={'submit'}
-            disabled={!selectedFilter.value}
-          >
-            Anwenden
-          </Button>
-        </Paper>
-      </form>
+      {popoverFilterForm}
     </>
   ) : (
-    <List>{renderFilterList}</List>
+    <List>{popoverFilterList}</List>
   );
 
   const popoverAnchorOrigin: PopoverOrigin = {
@@ -244,7 +266,7 @@ export const EnhancedDataTableToolbar = (
         variant={'outlined'}
         onClick={handleOpenFilterSelectorClick}
         icon={<Add />}
-        disabled={!selectableFilters || selectableFilters?.length < 1}
+        disabled={!selectableFilters || selectableFilters.length < 1}
       />
       <Popover
         open={isPopoverOpened}
