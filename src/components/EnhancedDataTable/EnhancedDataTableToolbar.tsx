@@ -184,15 +184,19 @@ export const EnhancedDataTableToolbar = (
     );
   }, [activeFilters]);
 
-  const popoverFilterList = selectableFilters!.map(filter => (
-    <ListItem
-      key={filter.accessor}
-      button={true}
-      onClick={() => handleFilterSelectClick(filter)}
-    >
-      <ListItemText primary={filter.label} />
-    </ListItem>
-  ));
+  const popoverFilterList = selectableFilters ? (
+    selectableFilters!.map(filter => (
+      <ListItem
+        key={filter.accessor}
+        button={true}
+        onClick={() => handleFilterSelectClick(filter)}
+      >
+        <ListItemText primary={filter.label} />
+      </ListItem>
+    ))
+  ) : (
+    <></>
+  );
 
   const popoverFilterForm = selectedFilter?.selectorValues ? (
     selectedFilter.selectorValues.map(filterValue => (
