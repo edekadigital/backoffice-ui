@@ -26,6 +26,7 @@ export interface EnhancedDataTableColumn {
 export interface FetchProps {
   pageSize?: number;
   pageIndex?: number;
+  filters?: ActiveFilter[];
 }
 
 export interface FetchResult<D> extends Omit<PaginationState, 'pageSize'> {
@@ -108,7 +109,9 @@ export function EnhancedDataTable<D extends object>(
   );
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>();
+  const [tableWidth, setTableWidth] = React.useState(0);
 
+  const tableRootRef = React.useRef<HTMLDivElement>(null);
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -116,6 +119,7 @@ export function EnhancedDataTable<D extends object>(
     fetchData({
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
+      filters: activeFilters,
     }).then(res => {
       if (isActive) {
         setPaginationState(prevPaginationState => ({
@@ -136,6 +140,20 @@ export function EnhancedDataTable<D extends object>(
     () => setIsAllRowsSelected(!!data && selectedRows.length === data.length),
     [data, selectedRows]
   );
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (tableRootRef.current) {
+        console.log(tableRootRef.current.getBoundingClientRect().width);
+        setTableWidth(tableRootRef.current.getBoundingClientRect().width);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [tableRootRef.current]);
 
   const handleActiveFilters = (filters: ActiveFilter[]) => {
     setActiveFilters(filters);
@@ -267,7 +285,7 @@ export function EnhancedDataTable<D extends object>(
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={tableRootRef}>
       <Paper className={classes.paper}>
         {renderToolbar}
         {renderTable}

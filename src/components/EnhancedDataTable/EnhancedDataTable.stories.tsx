@@ -10,6 +10,7 @@ import {
 } from './EnhancedDataTable';
 import { GetApp, Delete } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
+import { Page } from '../../layouts/Page';
 
 interface TestData {
   city: string;
@@ -52,6 +53,7 @@ const filters: Filter[] = [
 function fetchData({
   pageSize = 10,
   pageIndex = 0,
+  filters,
 }: FetchProps): Promise<FetchResult<TestData>> {
   const data = [
     {
@@ -150,6 +152,8 @@ function fetchData({
   const result = data.slice(startRow, endRow);
   const totalCount = data.length;
 
+  console.log('Fetching with filters', filters);
+
   return new Promise(resolve => {
     setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
   });
@@ -184,11 +188,21 @@ storiesOf('Components|EnhancedDataTable', module)
     />
   ))
   .add('selectable', () => (
+    <div style={{ width: 700, margin: 'auto' }}>
+      <EnhancedDataTable
+        fetchData={fetchData}
+        headline={'Table with selectable rows'}
+        columns={columnsDefault}
+        selectionActions={selectionActions}
+      />
+    </div>
+  ))
+  .add('clickable', () => (
     <EnhancedDataTable
       fetchData={fetchData}
-      headline={'Selectable table'}
+      headline={'Table with clickable rows'}
       columns={columnsDefault}
-      selectionActions={selectionActions}
+      onRowClick={clickAction}
     />
   ))
   .add('filterable', () => (
@@ -197,7 +211,6 @@ storiesOf('Components|EnhancedDataTable', module)
       headline={'Filterable table'}
       columns={columnsDefault}
       filters={filters}
-      onRowClick={clickAction}
     />
   ))
   .add('all functionalities', () => (

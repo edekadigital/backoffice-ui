@@ -33,6 +33,7 @@ export function EnhancedDataTableBody<D extends object>(
           key={column.accessor}
           align="left"
           onClick={() => !!onRowClick && onRowClick(row as D)}
+          style={{ cursor: !!onRowClick ? 'pointer' : 'default' }}
         >
           {row[column.accessor as keyof typeof row]}
         </TableCell>
