@@ -7,6 +7,7 @@ import {
   TableContainer,
   Table,
   TablePagination,
+  CircularProgress,
 } from '@material-ui/core';
 import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
 import { EnhancedDataTableHead } from './EnhancedDataTableHead';
@@ -36,23 +37,26 @@ interface PaginationState {
   pageIndex: number;
   totalCount: number;
 }
+
+export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
   fetchData: (fetchProps: FetchProps) => Promise<FetchResult<D>>;
   headline?: string;
   columns: EnhancedDataTableColumn[];
   filters?: Filter[];
-  selectable?: boolean;
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
   selectionMenuDrawerWidth?: 'sm' | 'lg';
+  onRowClick?: RowClickCallback<D>;
 }
 
 export interface Filter
   extends Pick<EnhancedDataTableColumn, 'accessor' | 'label'> {
   selectorValues?: string[];
+  value?: string;
 }
 
 export interface ActiveFilter extends Filter {
-  value?: string;
+  value: string;
 }
 
 export type Order = 'asc' | 'desc';
@@ -61,6 +65,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
+    },
+    loaderContainer: {
+      minHeight: '700px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     paper: {
       width: '100%',
@@ -77,17 +87,17 @@ export function EnhancedDataTable<D extends object>(
     columns,
     filters,
     fetchData,
-    selectable = false,
     selectionActions = [],
     selectionMenuDrawerWidth = 'lg',
+    onRowClick,
   } = props;
-  const [data, setData] = React.useState<D[]>([]);
+  const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
   const [isAllRowsSelected, setIsAllRowsSelected] = React.useState<boolean>(
     false
   );
   const [activeFilters, setActiveFilters] = React.useState<ActiveFilter[] | []>(
-    []
+    filters?.filter(filter => filter.value) as ActiveFilter[]
   );
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
@@ -121,6 +131,11 @@ export function EnhancedDataTable<D extends object>(
     };
   }, [fetchData, paginationState.pageSize, paginationState.pageIndex]);
 
+  React.useEffect(
+    () => setIsAllRowsSelected(!!data && selectedRows.length === data.length),
+    [data, selectedRows]
+  );
+
   const handleActiveFilters = (filters: ActiveFilter[]) => {
     setActiveFilters(filters);
   };
@@ -152,7 +167,7 @@ export function EnhancedDataTable<D extends object>(
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+    if (event.target.checked && data) {
       setSelectedRows(data);
       return;
     }
@@ -168,16 +183,8 @@ export function EnhancedDataTable<D extends object>(
     }
   };
 
-  React.useEffect(
-    () =>
-      setIsAllRowsSelected(
-        data.length > 0 && selectedRows.length === data.length
-      ),
-    [data, selectedRows]
-  );
-
   const drawer = React.useMemo(() => {
-    return selectable && selectionActions.length > 0 ? (
+    return selectionActions.length > 0 ? (
       <EnhancedDataTableSelectionMenu
         actions={selectionActions}
         onSelectAllClick={handleSelectAllClick}
@@ -187,52 +194,82 @@ export function EnhancedDataTable<D extends object>(
       />
     ) : null;
   }, [
-    selectable,
     selectionActions,
     selectedRows,
     selectionMenuDrawerWidth,
     isAllRowsSelected,
   ]);
 
+  const renderTable = React.useMemo(
+    () =>
+      data ? (
+        <>
+          <TableContainer>
+            <Table>
+              <EnhancedDataTableHead
+                columns={columns}
+                order={order}
+                orderBy={orderBy}
+                selectable={selectionActions.length > 0}
+                isAllRowsSelected={isAllRowsSelected}
+                onRequestSort={handleRequestSort}
+                onSelectAllClick={handleSelectAllClick}
+                clickable={!!onRowClick}
+              />
+              <EnhancedDataTableBody
+                columns={columns}
+                data={data}
+                selectable={selectionActions.length > 0}
+                selectedRows={selectedRows}
+                onSelectRowClick={handleSelectRowClick}
+                onRowClick={onRowClick}
+              />
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={paginationState.totalCount}
+            rowsPerPage={paginationState.pageSize}
+            page={paginationState.pageIndex}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelRowsPerPage={'Einträge pro Seite'}
+          />
+        </>
+      ) : (
+        <div className={classes.loaderContainer}>
+          <CircularProgress />
+        </div>
+      ),
+    [
+      data,
+      columns,
+      paginationState,
+      selectedRows,
+      isAllRowsSelected,
+      order,
+      orderBy,
+    ]
+  );
+
+  const renderToolbar = React.useMemo(
+    () => (
+      <EnhancedDataTableToolbar
+        filters={filters}
+        setActiveFilters={handleActiveFilters}
+        activeFilters={activeFilters}
+        headline={headline}
+      />
+    ),
+    [filters, handleActiveFilters, activeFilters, headline]
+  );
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedDataTableToolbar
-          filters={filters}
-          setActiveFilters={handleActiveFilters}
-          activeFilters={activeFilters}
-          headline={headline}
-        />
-        <TableContainer>
-          <Table aria-labelledby="tableTitle">
-            <EnhancedDataTableHead
-              columns={columns}
-              order={order}
-              orderBy={orderBy}
-              selectable={selectable}
-              isAllRowsSelected={isAllRowsSelected}
-              onRequestSort={handleRequestSort}
-              onSelectAllClick={handleSelectAllClick}
-            />
-            <EnhancedDataTableBody
-              columns={columns}
-              data={data}
-              selectable={selectable}
-              selectedRows={selectedRows}
-              onSelectRowClick={handleSelectRowClick}
-            />
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={paginationState.totalCount}
-          rowsPerPage={paginationState.pageSize}
-          page={paginationState.pageIndex}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-          labelRowsPerPage={'Einträge pro Seite'}
-        />
+        {renderToolbar}
+        {renderTable}
       </Paper>
       {drawer}
     </div>

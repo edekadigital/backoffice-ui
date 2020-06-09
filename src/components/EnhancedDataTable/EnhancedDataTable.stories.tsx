@@ -6,6 +6,7 @@ import {
   Filter,
   FetchResult,
   FetchProps,
+  RowClickCallback,
 } from './EnhancedDataTable';
 import { GetApp, Delete } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
@@ -40,6 +41,7 @@ const filters: Filter[] = [
   {
     accessor: 'name',
     label: 'Name',
+    value: 'Peter',
   },
   {
     accessor: 'age',
@@ -153,21 +155,25 @@ function fetchData({
   });
 }
 
-const actions: Array<EnhancedDataTableSelectionMenuActions<TestData>> = [
+const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+  TestData
+>> = [
   {
     icon: GetApp,
-    // tslint:disable-next-line: no-any
-    handler: (data: any[]) =>
+    handler: (data: TestData[]) =>
       console.log(data, 'Make api call to get zip file'),
   },
   {
     icon: Delete,
-    // tslint:disable-next-line: no-any
-    handler: (data: any[]) => {
+    handler: (data: TestData[]) => {
       console.log(data, 'Delete Rows');
     },
   },
 ];
+
+const clickAction: RowClickCallback<TestData> = (data: TestData) => {
+  console.log(data, 'Clicked row');
+};
 
 storiesOf('Components|EnhancedDataTable', module)
   .add('default', () => (
@@ -182,8 +188,7 @@ storiesOf('Components|EnhancedDataTable', module)
       fetchData={fetchData}
       headline={'Selectable table'}
       columns={columnsDefault}
-      selectable={true}
-      selectionActions={actions}
+      selectionActions={selectionActions}
     />
   ))
   .add('filterable', () => (
@@ -192,5 +197,6 @@ storiesOf('Components|EnhancedDataTable', module)
       headline={'Filterable table'}
       columns={columnsDefault}
       filters={filters}
+      onRowClick={clickAction}
     />
   ));

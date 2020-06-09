@@ -116,8 +116,7 @@ export const EnhancedDataTableToolbar = (
   };
 
   const handleFilterSelectClick = (selectedFilter: Filter) => {
-    console.log(selectedFilter);
-    setSelectedFilter(selectedFilter);
+    setSelectedFilter(selectedFilter as ActiveFilter);
   };
 
   const handleFilterValueSelectClick = (value: string) => {
@@ -162,7 +161,9 @@ export const EnhancedDataTableToolbar = (
 
   const renderHeadline = headline ? (
     <Toolbar className={classes.toolbar}>
-      <Heading variant={'h5'}>{headline}</Heading>
+      <Heading variant={'h6'}>
+        <strong>{headline}</strong>
+      </Heading>
     </Toolbar>
   ) : (
     <></>

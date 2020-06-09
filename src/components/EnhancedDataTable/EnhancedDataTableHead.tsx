@@ -16,6 +16,7 @@ export interface EnhancedDataTableHeadProps {
   isAllRowsSelected: boolean;
   onRequestSort: (property: string) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  clickable?: boolean;
 }
 
 export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
@@ -27,6 +28,7 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
     isAllRowsSelected,
     onRequestSort,
     onSelectAllClick,
+    clickable,
   } = props;
 
   const createSortHandler = (property: string) => () => {
@@ -49,18 +51,21 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
   ));
 
   const renderCheckbox = selectable ? (
-    <TableCell padding="checkbox" hidden={!selectable}>
+    <TableCell padding="checkbox">
       <CheckboxDark onChange={onSelectAllClick} checked={isAllRowsSelected} />
     </TableCell>
   ) : (
     <></>
   );
 
+  const renderEmptyCell = clickable ? <TableCell padding="checkbox" /> : <></>;
+
   return (
     <TableHead>
       <TableRow>
         {renderCheckbox}
         {renderHeadCells}
+        {renderEmptyCell}
       </TableRow>
     </TableHead>
   );

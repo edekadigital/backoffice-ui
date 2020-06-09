@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { TableBody, TableRow, TableCell } from '@material-ui/core';
 import { CheckboxDark } from '../Checkbox';
-import { EnhancedDataTableColumn } from './EnhancedDataTable';
+import { EnhancedDataTableColumn, RowClickCallback } from './EnhancedDataTable';
+import { IconButton } from '../IconButton';
+import { ArrowForward } from '../../icons';
 
 export interface EnhancedDataTableBodyProps<D> {
   data?: D[];
@@ -9,12 +11,20 @@ export interface EnhancedDataTableBodyProps<D> {
   selectable: boolean;
   selectedRows?: D[];
   onSelectRowClick: (row: D) => void;
+  onRowClick?: RowClickCallback<D>;
 }
 
 export function EnhancedDataTableBody<D extends object>(
   props: EnhancedDataTableBodyProps<D>
 ) {
-  const { data, columns, selectable, selectedRows, onSelectRowClick } = props;
+  const {
+    data,
+    columns,
+    selectable,
+    selectedRows,
+    onSelectRowClick,
+    onRowClick,
+  } = props;
 
   const renderColumns = (row: object) =>
     columns.map(column => {
@@ -42,21 +52,31 @@ export function EnhancedDataTableBody<D extends object>(
           <></>
         );
 
+        const renderArrowRight = !!onRowClick ? (
+          <TableCell padding="checkbox">
+            <IconButton icon={ArrowForward} />
+          </TableCell>
+        ) : (
+          <></>
+        );
+
         return (
           <TableRow
-            hover={selectable}
+            hover={selectable || !!onRowClick}
             role="checkbox"
             tabIndex={-1}
             key={index}
             selected={isSelected}
+            onClick={() => !!onRowClick && onRowClick(row)}
           >
             {renderCheckbox}
             {renderColumns(row)}
+            {renderArrowRight}
           </TableRow>
         );
       });
     } else return <>No data</>;
-  }, [data, selectedRows, selectable]);
+  }, [data, selectedRows, selectable, onSelectRowClick, onRowClick, columns]);
 
   return <TableBody>{renderRows}</TableBody>;
 }
