@@ -32,6 +32,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
       borderBottom: `solid 1px ${LIGHT_GREY}`,
+      paddingLeft: theme.spacing(2),
     },
     chipRoot: {
       marginLeft: theme.spacing(2),

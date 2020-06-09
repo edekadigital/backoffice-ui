@@ -11,6 +11,10 @@ import {
 import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
 import { EnhancedDataTableHead } from './EnhancedDataTableHead';
 import { EnhancedDataTableBody } from './EnhancedDataTableBody';
+import {
+  EnhancedDataTableSelectionMenu,
+  EnhancedDataTableSelectionMenuActions,
+} from './EnhancedDataTableSelectionMenu';
 
 export interface EnhancedDataTableColumn {
   accessor: string;
@@ -23,8 +27,7 @@ export interface FetchProps {
   pageIndex?: number;
 }
 
-export interface FetchResult<D extends object>
-  extends Omit<PaginationState, 'pageSize'> {
+export interface FetchResult<D> extends Omit<PaginationState, 'pageSize'> {
   data: D[];
 }
 
@@ -38,6 +41,9 @@ export interface EnhancedDataTableProps<D extends object> {
   headline?: string;
   columns: EnhancedDataTableColumn[];
   filters?: Filter[];
+  selectable?: boolean;
+  selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
+  selectionMenuDrawerWidth?: 'sm' | 'lg';
 }
 
 export interface Filter
@@ -66,9 +72,20 @@ const useStyles = makeStyles((theme: Theme) =>
 export function EnhancedDataTable<D extends object>(
   props: EnhancedDataTableProps<D>
 ) {
-  const { headline, columns, filters, fetchData } = props;
+  const {
+    headline,
+    columns,
+    filters,
+    fetchData,
+    selectable = false,
+    selectionActions = [],
+    selectionMenuDrawerWidth = 'lg',
+  } = props;
   const [data, setData] = React.useState<D[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
+  const [isAllRowsSelected, setIsAllRowsSelected] = React.useState<boolean>(
+    false
+  );
   const [activeFilters, setActiveFilters] = React.useState<ActiveFilter[] | []>(
     []
   );
@@ -145,12 +162,37 @@ export function EnhancedDataTable<D extends object>(
   const handleSelectRowClick = (row: D) => {
     const index = selectedRows.indexOf(row);
     if (index !== -1) {
-      // todo
+      setSelectedRows(selectedRows.filter((_, i) => index !== i));
     } else {
       setSelectedRows(selectedRows.concat(row));
     }
-    //setSelectedRows(data);
   };
+
+  React.useEffect(
+    () =>
+      setIsAllRowsSelected(
+        data.length > 0 && selectedRows.length === data.length
+      ),
+    [data, selectedRows]
+  );
+
+  const drawer = React.useMemo(() => {
+    return selectable && selectionActions.length > 0 ? (
+      <EnhancedDataTableSelectionMenu
+        actions={selectionActions}
+        onSelectAllClick={handleSelectAllClick}
+        selectedRows={selectedRows}
+        maxWidth={selectionMenuDrawerWidth}
+        isAllRowsSelected={isAllRowsSelected}
+      />
+    ) : null;
+  }, [
+    selectable,
+    selectionActions,
+    selectedRows,
+    selectionMenuDrawerWidth,
+    isAllRowsSelected,
+  ]);
 
   return (
     <div className={classes.root}>
@@ -167,12 +209,15 @@ export function EnhancedDataTable<D extends object>(
               columns={columns}
               order={order}
               orderBy={orderBy}
+              selectable={selectable}
+              isAllRowsSelected={isAllRowsSelected}
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
             />
             <EnhancedDataTableBody
               columns={columns}
               data={data}
+              selectable={selectable}
               selectedRows={selectedRows}
               onSelectRowClick={handleSelectRowClick}
             />
@@ -189,6 +234,7 @@ export function EnhancedDataTable<D extends object>(
           labelRowsPerPage={'Einträge pro Seite'}
         />
       </Paper>
+      {drawer}
     </div>
   );
 }

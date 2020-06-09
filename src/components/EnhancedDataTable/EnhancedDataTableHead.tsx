@@ -12,12 +12,22 @@ export interface EnhancedDataTableHeadProps {
   columns: EnhancedDataTableColumn[];
   order: Order;
   orderBy?: string;
+  selectable: boolean;
+  isAllRowsSelected: boolean;
   onRequestSort: (property: string) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
-  const { columns, order, orderBy, onRequestSort, onSelectAllClick } = props;
+  const {
+    columns,
+    order,
+    orderBy,
+    selectable,
+    isAllRowsSelected,
+    onRequestSort,
+    onSelectAllClick,
+  } = props;
 
   const createSortHandler = (property: string) => () => {
     onRequestSort(property);
@@ -38,15 +48,18 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
     </TableCell>
   ));
 
+  const renderCheckbox = selectable ? (
+    <TableCell padding="checkbox" hidden={!selectable}>
+      <CheckboxDark onChange={onSelectAllClick} checked={isAllRowsSelected} />
+    </TableCell>
+  ) : (
+    <></>
+  );
+
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <CheckboxDark
-            inputProps={{ 'aria-label': 'select all desserts' }}
-            onChange={onSelectAllClick}
-          />
-        </TableCell>
+        {renderCheckbox}
         {renderHeadCells}
       </TableRow>
     </TableHead>

@@ -7,6 +7,15 @@ import {
   FetchResult,
   FetchProps,
 } from './EnhancedDataTable';
+import { GetApp, Delete } from '../../icons';
+import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
+
+interface TestData {
+  city: string;
+  age?: number;
+  name: string;
+  type: string;
+}
 
 const columnsDefault: EnhancedDataTableColumn[] = [
   { accessor: 'name', label: 'Name' },
@@ -41,14 +50,7 @@ const filters: Filter[] = [
 function fetchData({
   pageSize = 10,
   pageIndex = 0,
-}: FetchProps): Promise<
-  FetchResult<{
-    city: string;
-    age?: number;
-    name: string;
-    type: string;
-  }>
-> {
+}: FetchProps): Promise<FetchResult<TestData>> {
   const data = [
     {
       city: 'Hamburg',
@@ -151,19 +153,37 @@ function fetchData({
   });
 }
 
+const actions: Array<EnhancedDataTableSelectionMenuActions<TestData>> = [
+  {
+    icon: GetApp,
+    // tslint:disable-next-line: no-any
+    handler: (data: any[]) =>
+      console.log(data, 'Make api call to get zip file'),
+  },
+  {
+    icon: Delete,
+    // tslint:disable-next-line: no-any
+    handler: (data: any[]) => {
+      console.log(data, 'Delete Rows');
+    },
+  },
+];
+
 storiesOf('Components|EnhancedDataTable', module)
-  .add('client side', () => (
+  .add('default', () => (
     <EnhancedDataTable
       fetchData={fetchData}
-      headline={'Client side paginated and sorted table'}
+      headline={'Paginatable and sortable table'}
       columns={columnsDefault}
     />
   ))
-  .add('server side', () => (
+  .add('selectable', () => (
     <EnhancedDataTable
       fetchData={fetchData}
-      headline={'Server side paginated and sorted table'}
+      headline={'Selectable table'}
       columns={columnsDefault}
+      selectable={true}
+      selectionActions={actions}
     />
   ))
   .add('filterable', () => (
