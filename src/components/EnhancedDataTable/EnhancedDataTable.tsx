@@ -108,6 +108,7 @@ export function EnhancedDataTable<D extends object>(
   );
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>();
+
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -183,7 +184,7 @@ export function EnhancedDataTable<D extends object>(
     }
   };
 
-  const drawer = React.useMemo(() => {
+  const selectionMenuDrawer = React.useMemo(() => {
     return selectionActions.length > 0 ? (
       <EnhancedDataTableSelectionMenu
         actions={selectionActions}
@@ -271,7 +272,7 @@ export function EnhancedDataTable<D extends object>(
         {renderToolbar}
         {renderTable}
       </Paper>
-      {drawer}
+      {selectionMenuDrawer}
     </div>
   );
 }

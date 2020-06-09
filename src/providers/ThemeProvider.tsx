@@ -48,6 +48,13 @@ const theme = createMuiTheme(
           },
         },
       },
+      MuiTableRow: {
+        root: {
+          '&.Mui-selected, &.Mui-selected:hover': {
+            backgroundColor: 'rgb(227, 236, 245)',
+          },
+        },
+      },
     },
   },
   deDE

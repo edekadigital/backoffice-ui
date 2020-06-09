@@ -29,7 +29,11 @@ export function EnhancedDataTableBody<D extends object>(
   const renderColumns = (row: object) =>
     columns.map(column => {
       return (
-        <TableCell key={column.accessor} align="left">
+        <TableCell
+          key={column.accessor}
+          align="left"
+          onClick={() => !!onRowClick && onRowClick(row as D)}
+        >
           {row[column.accessor as keyof typeof row]}
         </TableCell>
       );
@@ -53,7 +57,10 @@ export function EnhancedDataTableBody<D extends object>(
         );
 
         const renderArrowRight = !!onRowClick ? (
-          <TableCell padding="checkbox">
+          <TableCell
+            padding="checkbox"
+            onClick={() => !!onRowClick && onRowClick(row)}
+          >
             <IconButton icon={ArrowForward} />
           </TableCell>
         ) : (
@@ -67,7 +74,6 @@ export function EnhancedDataTableBody<D extends object>(
             tabIndex={-1}
             key={index}
             selected={isSelected}
-            onClick={() => !!onRowClick && onRowClick(row)}
           >
             {renderCheckbox}
             {renderColumns(row)}

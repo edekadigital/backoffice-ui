@@ -199,4 +199,14 @@ storiesOf('Components|EnhancedDataTable', module)
       filters={filters}
       onRowClick={clickAction}
     />
+  ))
+  .add('all functionalities', () => (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with all functionalities'}
+      columns={columnsDefault}
+      selectionActions={selectionActions}
+      filters={filters}
+      onRowClick={clickAction}
+    />
   ));
