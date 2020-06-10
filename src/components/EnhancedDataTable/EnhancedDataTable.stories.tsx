@@ -7,6 +7,7 @@ import {
   FetchResult,
   FetchProps,
   RowClickCallback,
+  Order,
 } from './EnhancedDataTable';
 import { GetApp, Delete } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
@@ -50,10 +51,32 @@ const filters: Filter[] = [
   },
 ];
 
+const compareValues = (key?: string, order?: Order) => {
+  if (!key || !order) return;
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0;
+    }
+
+    const varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+    const varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return order === 'desc' ? comparison * -1 : comparison;
+  };
+};
+
 function fetchData({
   pageSize = 10,
   pageIndex = 0,
   filters,
+  order,
+  orderBy,
 }: FetchProps): Promise<FetchResult<TestData>> {
   let data = [
     {
@@ -157,6 +180,8 @@ function fetchData({
     );
   }
 
+  data = data.sort(compareValues(orderBy, order));
+
   const startRow = pageSize * pageIndex;
   const endRow = startRow + pageSize;
   let result: TestData[] = data.slice(startRow, endRow);
@@ -164,9 +189,9 @@ function fetchData({
 
   const renderStatusChip = (type: string) =>
     type === 'Automatic' ? (
-      <StatusChip label={type} color={'success'} />
+      <StatusChip label={type} color={'success'} size={'small'} />
     ) : (
-      <StatusChip label={type} color={'warning'} />
+      <StatusChip label={type} color={'warning'} size={'small'} />
     );
 
   result = result.map(entry => ({

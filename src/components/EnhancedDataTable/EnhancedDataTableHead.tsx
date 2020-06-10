@@ -5,6 +5,9 @@ import {
   TableRow,
   TableCell,
   TableSortLabel,
+  makeStyles,
+  Theme,
+  createStyles,
 } from '@material-ui/core';
 import { CheckboxDark } from '../Checkbox';
 
@@ -19,6 +22,15 @@ export interface EnhancedDataTableHeadProps {
   clickable?: boolean;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    tableCell: {
+      paddingTop: theme.spacing(1.8),
+      paddingBottom: theme.spacing(1.8),
+    },
+  })
+);
+
 export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
   const {
     columns,
@@ -31,6 +43,8 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
     clickable,
   } = props;
 
+  const classes = useStyles();
+
   const createSortHandler = (property: string) => () => {
     onRequestSort(property);
   };
@@ -39,6 +53,7 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
     <TableCell
       key={column.accessor}
       sortDirection={orderBy === column.accessor ? order : false}
+      className={classes.tableCell}
     >
       <TableSortLabel
         active={orderBy === column.accessor}

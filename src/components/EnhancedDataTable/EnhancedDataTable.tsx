@@ -27,6 +27,8 @@ export interface FetchProps {
   pageSize?: number;
   pageIndex?: number;
   filters?: ActiveFilter[];
+  order?: Order;
+  orderBy?: string;
 }
 
 export interface FetchResult<D> extends Omit<PaginationState, 'pageSize'> {
@@ -77,6 +79,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       marginBottom: theme.spacing(2),
     },
+    paginationToolbar: {
+      [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
+        minHeight: theme.spacing(9),
+      },
+    },
   })
 );
 
@@ -121,6 +128,8 @@ export function EnhancedDataTable<D extends object>(
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
       filters: activeFilters,
+      order,
+      orderBy,
     }).then(res => {
       if (isActive) {
         setPaginationState(prevPaginationState => ({
@@ -140,6 +149,8 @@ export function EnhancedDataTable<D extends object>(
     paginationState.pageSize,
     paginationState.pageIndex,
     activeFilters,
+    order,
+    orderBy,
   ]);
 
   React.useEffect(
@@ -260,6 +271,7 @@ export function EnhancedDataTable<D extends object>(
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
+            classes={{ toolbar: classes.paginationToolbar }}
           />
         </>
       ) : (
