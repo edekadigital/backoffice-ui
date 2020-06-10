@@ -49,21 +49,24 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
     onRequestSort(property);
   };
 
-  const renderHeadCells = columns.map(column => (
-    <TableCell
-      key={column.accessor}
-      sortDirection={orderBy === column.accessor ? order : false}
-      className={classes.tableCell}
-    >
-      <TableSortLabel
-        active={orderBy === column.accessor}
-        direction={orderBy === column.accessor ? order : 'asc'}
-        onClick={createSortHandler(column.accessor)}
+  const renderHeadCells = columns.map(
+    ({ accessor, label, sortable = true }) => (
+      <TableCell
+        key={accessor}
+        sortDirection={sortable && orderBy === accessor ? order : false}
+        className={classes.tableCell}
       >
-        {column.label}
-      </TableSortLabel>
-    </TableCell>
-  ));
+        <TableSortLabel
+          disabled={!sortable}
+          active={orderBy === accessor}
+          direction={orderBy === accessor ? order : 'asc'}
+          onClick={createSortHandler(accessor)}
+        >
+          {label}
+        </TableSortLabel>
+      </TableCell>
+    )
+  );
 
   const renderCheckbox = selectable ? (
     <TableCell padding="checkbox">

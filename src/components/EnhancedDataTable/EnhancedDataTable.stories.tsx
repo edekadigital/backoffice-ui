@@ -22,16 +22,9 @@ interface TestData {
 
 const columnsDefault: EnhancedDataTableColumn[] = [
   { accessor: 'name', label: 'Name' },
-  { accessor: 'city', label: 'City' },
+  { accessor: 'city', label: 'City', sortable: false },
   { accessor: 'age', label: 'Age' },
   { accessor: 'type', label: 'Type' },
-];
-
-const columnsSortable: EnhancedDataTableColumn[] = [
-  { accessor: 'name', label: 'Name', sortable: true },
-  { accessor: 'city', label: 'City', sortable: true },
-  { accessor: 'age', label: 'Age', sortable: true },
-  { accessor: 'type', label: 'Type', sortable: false },
 ];
 
 const filters: Filter[] = [
