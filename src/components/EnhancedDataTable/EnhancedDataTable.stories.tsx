@@ -17,7 +17,7 @@ interface TestData {
   city: string;
   age?: number;
   name: string;
-  type: string | React.ReactElement;
+  type: string;
 }
 
 const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
@@ -44,11 +44,10 @@ const filters: Array<Filter<TestData>> = [
   },
 ];
 
-// TODO: In Utils auslagern und exportieren
-function compareValues<T extends Record<string, string | number | undefined>>(
-  orderBy?: keyof T,
-  order?: Order
-) {
+// TODO: In Utils auslagern und exportieren:
+function compareValues<
+  T extends Partial<Record<keyof T, string | number | undefined>>
+>(orderBy?: keyof T, order?: Order) {
   if (!orderBy || !order) return;
   return function innerSort(a: T, b: T) {
     let comparison = 0;
@@ -83,7 +82,7 @@ function fetchData({
   order,
   orderBy,
 }: FetchProps<TestData>): Promise<FetchResult<TestData>> {
-  let data = [
+  let data: TestData[] = [
     {
       city: 'Hamburg',
       age: 35,
@@ -198,6 +197,7 @@ function fetchData({
       <StatusChip label={type} color={'warning'} size={'small'} />
     );
 
+  // TODO: Fix types
   result = result.map(entry => ({
     ...entry,
     type: renderStatusChip(entry.type as string),
@@ -213,12 +213,11 @@ const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
 >> = [
   {
     icon: GetApp,
-    handler: (data: TestData[]) =>
-      console.log(data, 'Make api call to get zip file'),
+    handler: data => console.log(data, 'Make api call to get zip file'),
   },
   {
     icon: Delete,
-    handler: (data: TestData[]) => {
+    handler: data => {
       console.log(data, 'Delete Rows');
     },
   },
