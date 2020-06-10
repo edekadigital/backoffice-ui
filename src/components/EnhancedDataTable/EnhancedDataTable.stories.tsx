@@ -10,13 +10,13 @@ import {
 } from './EnhancedDataTable';
 import { GetApp, Delete } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
-import { Page } from '../../layouts/Page';
+import { StatusChip } from '../StatusChip';
 
 interface TestData {
   city: string;
   age?: number;
   name: string;
-  type: string;
+  type: string | React.ReactElement;
 }
 
 const columnsDefault: EnhancedDataTableColumn[] = [
@@ -38,11 +38,11 @@ const filters: Filter[] = [
     accessor: 'type',
     label: 'Type',
     selectorValues: ['Manual', 'Automatic'],
+    value: 'Manual',
   },
   {
     accessor: 'name',
     label: 'Name',
-    value: 'Peter',
   },
   {
     accessor: 'age',
@@ -55,7 +55,7 @@ function fetchData({
   pageIndex = 0,
   filters,
 }: FetchProps): Promise<FetchResult<TestData>> {
-  const data = [
+  let data = [
     {
       city: 'Hamburg',
       age: 35,
@@ -147,12 +147,32 @@ function fetchData({
     },
   ];
 
+  if (filters && filters.length > 0) {
+    data = data.filter(item =>
+      filters.every(filter =>
+        item[filter.accessor as keyof typeof item]
+          ?.toString()
+          .includes(filter.value)
+      )
+    );
+  }
+
   const startRow = pageSize * pageIndex;
   const endRow = startRow + pageSize;
-  const result = data.slice(startRow, endRow);
+  let result: TestData[] = data.slice(startRow, endRow);
   const totalCount = data.length;
 
-  console.log('Fetching with filters', filters);
+  const renderStatusChip = (type: string) =>
+    type === 'Automatic' ? (
+      <StatusChip label={type} color={'success'} />
+    ) : (
+      <StatusChip label={type} color={'warning'} />
+    );
+
+  result = result.map(entry => ({
+    ...entry,
+    type: renderStatusChip(entry.type as string),
+  }));
 
   return new Promise(resolve => {
     setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);

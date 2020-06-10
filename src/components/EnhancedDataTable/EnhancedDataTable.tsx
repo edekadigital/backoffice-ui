@@ -115,6 +115,7 @@ export function EnhancedDataTable<D extends object>(
   const classes = useStyles();
 
   React.useEffect(() => {
+    setData(undefined);
     let isActive = true;
     fetchData({
       pageSize: paginationState.pageSize,
@@ -134,7 +135,12 @@ export function EnhancedDataTable<D extends object>(
     return () => {
       isActive = false;
     };
-  }, [fetchData, paginationState.pageSize, paginationState.pageIndex]);
+  }, [
+    fetchData,
+    paginationState.pageSize,
+    paginationState.pageIndex,
+    activeFilters,
+  ]);
 
   React.useEffect(
     () => setIsAllRowsSelected(!!data && selectedRows.length === data.length),
