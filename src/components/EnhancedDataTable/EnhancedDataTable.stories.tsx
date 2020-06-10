@@ -44,25 +44,36 @@ const filters: Filter[] = [
   },
 ];
 
-const compareValues = (key?: string, order?: Order) => {
-  if (!key || !order) return;
-  return function innerSort(a, b) {
-    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-      return 0;
-    }
-
-    const varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
-    const varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
-
+function compareValues<T extends Record<string, string | number | undefined>>(
+  orderBy?: keyof T,
+  order?: Order
+) {
+  if (!orderBy || !order) return;
+  return function innerSort(a: T, b: T) {
     let comparison = 0;
-    if (varA > varB) {
-      comparison = 1;
-    } else if (varA < varB) {
-      comparison = -1;
+
+    if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
+      if (!a.hasOwnProperty(orderBy)) comparison = 1;
+      else comparison = -1;
+    } else {
+      const varA =
+        typeof a[orderBy] === 'string'
+          ? (a[orderBy] as string).toUpperCase()
+          : a[orderBy];
+      const varB =
+        typeof b[orderBy] === 'string'
+          ? (b[orderBy] as string).toUpperCase()
+          : b[orderBy];
+
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
     }
     return order === 'desc' ? comparison * -1 : comparison;
   };
-};
+}
 
 function fetchData({
   pageSize = 10,
@@ -70,7 +81,7 @@ function fetchData({
   filters,
   order,
   orderBy,
-}: FetchProps): Promise<FetchResult<TestData>> {
+}: FetchProps<TestData>): Promise<FetchResult<TestData>> {
   let data = [
     {
       city: 'Hamburg',
@@ -172,7 +183,6 @@ function fetchData({
       )
     );
   }
-
   data = data.sort(compareValues(orderBy, order));
 
   const startRow = pageSize * pageIndex;
