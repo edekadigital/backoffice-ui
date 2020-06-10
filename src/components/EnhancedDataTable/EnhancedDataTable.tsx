@@ -17,18 +17,18 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 
-export interface EnhancedDataTableColumn {
-  accessor: string;
+export interface EnhancedDataTableColumn<D> {
+  accessor: keyof D;
   label: string;
   sortable?: boolean;
 }
 
-export interface FetchProps {
+export interface FetchProps<D> {
   pageSize?: number;
   pageIndex?: number;
-  filters?: ActiveFilter[];
+  filters?: Array<ActiveFilter<D>>;
   order?: Order;
-  orderBy?: string;
+  orderBy?: keyof D;
 }
 
 export interface FetchResult<D> extends Omit<PaginationState, 'pageSize'> {
@@ -43,22 +43,23 @@ interface PaginationState {
 
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
-  fetchData: (fetchProps: FetchProps) => Promise<FetchResult<D>>;
+  fetchData: (fetchProps: FetchProps<D>) => Promise<FetchResult<D>>;
   headline?: string;
-  columns: EnhancedDataTableColumn[];
-  filters?: Filter[];
+  columns: Array<EnhancedDataTableColumn<D>>;
+  filters?: Array<Filter<D>>;
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
   selectionMenuDrawerWidth?: 'sm' | 'lg';
   onRowClick?: RowClickCallback<D>;
 }
 
-export interface Filter
-  extends Pick<EnhancedDataTableColumn, 'accessor' | 'label'> {
+export interface Filter<D> {
+  accessor: keyof D;
+  label: string;
   selectorValues?: string[];
   value?: string;
 }
 
-export interface ActiveFilter extends Filter {
+export interface ActiveFilter<D> extends Filter<D> {
   value: string;
 }
 
@@ -104,9 +105,9 @@ export function EnhancedDataTable<D extends object>(
   const [isAllRowsSelected, setIsAllRowsSelected] = React.useState<boolean>(
     false
   );
-  const [activeFilters, setActiveFilters] = React.useState<ActiveFilter[] | []>(
-    filters?.filter(filter => filter.value) as ActiveFilter[]
-  );
+  const [activeFilters, setActiveFilters] = React.useState<
+    Array<ActiveFilter<D>> | []
+  >(filters?.filter(filter => filter.value) as Array<ActiveFilter<D>>);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
       pageSize: 10,
@@ -115,10 +116,8 @@ export function EnhancedDataTable<D extends object>(
     }
   );
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<string>();
-  const [tableWidth, setTableWidth] = React.useState(0);
+  const [orderBy, setOrderBy] = React.useState<keyof D>();
 
-  const tableRootRef = React.useRef<HTMLDivElement>(null);
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -158,25 +157,11 @@ export function EnhancedDataTable<D extends object>(
     [data, selectedRows]
   );
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (tableRootRef.current) {
-        console.log(tableRootRef.current.getBoundingClientRect().width);
-        setTableWidth(tableRootRef.current.getBoundingClientRect().width);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [tableRootRef.current]);
-
-  const handleActiveFilters = (filters: ActiveFilter[]) => {
+  const handleActiveFilters = (filters: Array<ActiveFilter<D>>) => {
     setActiveFilters(filters);
   };
 
-  const handleRequestSort = (property: string) => {
+  const handleRequestSort = (property: keyof D) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -303,7 +288,7 @@ export function EnhancedDataTable<D extends object>(
   );
 
   return (
-    <div className={classes.root} ref={tableRootRef}>
+    <div className={classes.root}>
       <Paper className={classes.paper}>
         {renderToolbar}
         {renderTable}

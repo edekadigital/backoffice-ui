@@ -11,13 +11,13 @@ import {
 } from '@material-ui/core';
 import { CheckboxDark } from '../Checkbox';
 
-export interface EnhancedDataTableHeadProps {
-  columns: EnhancedDataTableColumn[];
+export interface EnhancedDataTableHeadProps<D> {
+  columns: Array<EnhancedDataTableColumn<D>>;
   order: Order;
-  orderBy?: string;
+  orderBy?: keyof D;
   selectable: boolean;
   isAllRowsSelected: boolean;
-  onRequestSort: (property: string) => void;
+  onRequestSort: (property: keyof D) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   clickable?: boolean;
 }
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
+export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
   const {
     columns,
     order,
@@ -45,14 +45,14 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
 
   const classes = useStyles();
 
-  const createSortHandler = (property: string) => () => {
+  const createSortHandler = (property: keyof D) => () => {
     onRequestSort(property);
   };
 
   const renderHeadCells = columns.map(
     ({ accessor, label, sortable = true }) => (
       <TableCell
-        key={accessor}
+        key={accessor as React.Key}
         sortDirection={sortable && orderBy === accessor ? order : false}
         className={classes.tableCell}
       >
@@ -87,4 +87,4 @@ export const EnhancedDataTableHead = (props: EnhancedDataTableHeadProps) => {
       </TableRow>
     </TableHead>
   );
-};
+}

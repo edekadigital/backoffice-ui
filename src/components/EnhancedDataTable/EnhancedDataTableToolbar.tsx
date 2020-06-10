@@ -21,10 +21,10 @@ import { TextField } from '../TextField';
 import clsx from 'clsx';
 import { IconButton } from '../IconButton';
 
-export interface EnhancedDataTableToolbarProps {
-  activeFilters: ActiveFilter[];
-  setActiveFilters: (filters: ActiveFilter[]) => void;
-  filters?: Filter[];
+export interface EnhancedDataTableToolbarProps<D> {
+  activeFilters: Array<ActiveFilter<D>>;
+  setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
+  filters?: Array<Filter<D>>;
   headline?: string;
 }
 
@@ -79,18 +79,18 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const EnhancedDataTableToolbar = (
-  props: EnhancedDataTableToolbarProps
-) => {
+export function EnhancedDataTableToolbar<D>(
+  props: EnhancedDataTableToolbarProps<D>
+) {
   const { filters, activeFilters, setActiveFilters, headline } = props;
 
   const classes = useToolbarStyles();
 
   const [selectableFilters, setSelectableFilters] = React.useState<
-    Filter[] | undefined
+    Array<Filter<D>> | undefined
   >(filters);
   const [selectedFilter, setSelectedFilter] = React.useState<
-    ActiveFilter | undefined
+    ActiveFilter<D> | undefined
   >();
 
   const [
@@ -111,15 +111,15 @@ export const EnhancedDataTableToolbar = (
     setPopoverAnchorEl(null);
   };
 
-  const handleDeleteFilterClick = (filter: ActiveFilter) => () => {
+  const handleDeleteFilterClick = (filter: ActiveFilter<D>) => () => {
     const newActiveFilters = activeFilters.filter(
       activeFilter => activeFilter !== filter
     );
-    setActiveFilters(newActiveFilters as ActiveFilter[] | []);
+    setActiveFilters(newActiveFilters as Array<ActiveFilter<D>> | []);
   };
 
-  const handleFilterSelectClick = (selectedFilter: Filter) => {
-    setSelectedFilter(selectedFilter as ActiveFilter);
+  const handleFilterSelectClick = (selectedFilter: Filter<D>) => {
+    setSelectedFilter(selectedFilter as ActiveFilter<D>);
   };
 
   const handleFilterValueSelectClick = (value: string) => {
@@ -174,10 +174,10 @@ export const EnhancedDataTableToolbar = (
 
   const renderActiveFilters = React.useMemo(() => {
     return activeFilters ? (
-      activeFilters.map((filter: ActiveFilter) => (
+      activeFilters.map((filter: ActiveFilter<D>) => (
         <Chip
           classes={{ root: classes.chipRoot }}
-          key={filter.accessor}
+          key={filter.accessor as React.Key}
           color={'primary'}
           label={`${filter.label}: "${filter.value}"`}
           onDelete={handleDeleteFilterClick(filter)}
@@ -192,7 +192,7 @@ export const EnhancedDataTableToolbar = (
   const popoverFilterList = selectableFilters ? (
     selectableFilters!.map(filter => (
       <ListItem
-        key={filter.accessor}
+        key={filter.accessor as React.Key}
         button={true}
         onClick={() => handleFilterSelectClick(filter)}
       >
@@ -298,4 +298,4 @@ export const EnhancedDataTableToolbar = (
       {renderFilterBar}
     </>
   );
-};
+}

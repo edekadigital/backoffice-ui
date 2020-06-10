@@ -14,7 +14,7 @@ import { ArrowForward } from '../../icons';
 
 export interface EnhancedDataTableBodyProps<D> {
   data?: D[];
-  columns: EnhancedDataTableColumn[];
+  columns: Array<EnhancedDataTableColumn<D>>;
   selectable: boolean;
   selectedRows?: D[];
   onSelectRowClick: (row: D) => void;
@@ -48,7 +48,7 @@ export function EnhancedDataTableBody<D extends object>(
     columns.map(column => {
       return (
         <TableCell
-          key={column.accessor}
+          key={column.accessor as React.Key}
           align="left"
           onClick={() => !!onRowClick && onRowClick(row as D)}
           style={{ cursor: !!onRowClick ? 'pointer' : 'default' }}

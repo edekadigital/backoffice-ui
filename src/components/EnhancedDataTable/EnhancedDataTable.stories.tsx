@@ -20,14 +20,14 @@ interface TestData {
   type: string | React.ReactElement;
 }
 
-const columnsDefault: EnhancedDataTableColumn[] = [
+const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
   { accessor: 'name', label: 'Name' },
   { accessor: 'city', label: 'City', sortable: false },
   { accessor: 'age', label: 'Age' },
   { accessor: 'type', label: 'Type' },
 ];
 
-const filters: Filter[] = [
+const filters: Array<Filter<TestData>> = [
   {
     accessor: 'type',
     label: 'Type',
@@ -44,6 +44,7 @@ const filters: Filter[] = [
   },
 ];
 
+// TODO: In Utils auslagern und exportieren
 function compareValues<T extends Record<string, string | number | undefined>>(
   orderBy?: keyof T,
   order?: Order
