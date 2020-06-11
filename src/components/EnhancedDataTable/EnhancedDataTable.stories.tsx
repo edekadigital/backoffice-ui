@@ -41,18 +41,6 @@ export const Default = () => {
         type: 'Automatic',
       },
       {
-        city: 'Berlin',
-        age: 22,
-        name: 'Dyer Ortiz',
-        type: 'Automatic',
-      },
-      {
-        city: 'Stockholm',
-        age: 32,
-        name: 'Cain Ward',
-        type: 'Manual',
-      },
-      {
         city: 'Göteborg',
         age: 23,
         name: 'Mullins Clemons',
@@ -143,6 +131,8 @@ export const Default = () => {
       fetchData={fetchData}
       headline={'Paginatable and sortable table'}
       columns={columns}
+      defaultPageSize={5}
+      rowsPerPageOptions={[5, 10]}
     />
   );
 };

@@ -9,6 +9,7 @@
       "allow-trailing-underscore",
       "allow-pascal-case"
     ],
+    "no-default-export": false,
     "jsx-no-lambda": false
   }
 }

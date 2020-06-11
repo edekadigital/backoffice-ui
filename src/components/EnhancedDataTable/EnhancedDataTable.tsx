@@ -55,6 +55,8 @@ export interface EnhancedDataTableProps<D extends object> {
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
   selectionMenuDrawerWidth?: 'sm' | 'lg';
   onRowClick?: RowClickCallback<D>;
+  rowsPerPageOptions?: number[];
+  defaultPageSize?: number;
 }
 
 export interface Filter<D> {
@@ -93,6 +95,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+EnhancedDataTable.defaultProps = {
+  selectionActions: [],
+  selectionMenuDrawerWidth: 'lg',
+  defaultPageSize: 10,
+  rowsPerPageOptions: [5, 10, 25],
+};
+
 export function EnhancedDataTable<D extends object>(
   props: EnhancedDataTableProps<D>
 ) {
@@ -104,6 +113,8 @@ export function EnhancedDataTable<D extends object>(
     selectionActions = [],
     selectionMenuDrawerWidth = 'lg',
     onRowClick,
+    defaultPageSize = 10,
+    rowsPerPageOptions = [5, 10, 25],
   } = props;
   const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
@@ -115,7 +126,7 @@ export function EnhancedDataTable<D extends object>(
   >(filters?.filter(filter => filter.value) as Array<ActiveFilter<D>>);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
-      pageSize: 10,
+      pageSize: defaultPageSize,
       pageIndex: 0,
       totalCount: 0,
     }
@@ -254,7 +265,7 @@ export function EnhancedDataTable<D extends object>(
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={paginationState.totalCount}
             rowsPerPage={paginationState.pageSize}
