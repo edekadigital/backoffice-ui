@@ -24,6 +24,7 @@ export interface EnhancedDataTableColumn<D> {
   accessor: keyof D;
   label: string;
   sortable?: boolean;
+  component?: React.ElementType;
 }
 
 interface EnhancedDataTableFetchProps<D> {

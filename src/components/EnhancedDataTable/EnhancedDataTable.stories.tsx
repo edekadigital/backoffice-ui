@@ -12,242 +12,523 @@ import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelect
 export default {
   title: 'components/EnhancedDataTable',
   component: EnhancedDataTable,
-  includeStories: [
-    'Default',
-    'Selectable',
-    'Clickable',
-    'Filterable',
-    'AllFunctionalities',
-  ],
 };
 
 export const Default = () => {
-  console.log('TEST');
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Hamburg',
+        name: 'Marianne Lamb',
+        type: 'Automatic',
+      },
+      {
+        city: 'Berlin',
+        age: 22,
+        name: 'Dyer Ortiz',
+        type: 'Automatic',
+      },
+      {
+        city: 'Stockholm',
+        age: 32,
+        name: 'Cain Ward',
+        type: 'Manual',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+      {
+        city: 'Malmö',
+        age: 37,
+        name: 'Williamson William',
+        type: 'Automatic',
+      },
+      {
+        city: 'Poznan',
+        age: 22,
+        name: 'Hinton Weiss',
+        type: 'Automatic',
+      },
+      {
+        city: 'Oldenburg',
+        age: 39,
+        name: 'Raymond Horne',
+        type: 'Manual',
+      },
+      {
+        city: 'Kiel',
+        age: 26,
+        name: 'Mia Blair',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 39,
+        name: 'Ashley Casey',
+        type: 'Automatic',
+      },
+      {
+        city: 'Oslo',
+        age: 39,
+        name: 'Spence Mathews',
+        type: 'Automatic',
+      },
+    ];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
+
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
+
+  const TypeChipComponent: React.FC = ({ children }) => {
+    if (!children) return <></>;
+    return children === 'Automatic' ? (
+      <StatusChip
+        label={children.toString()}
+        color={'success'}
+        size={'small'}
+      />
+    ) : (
+      <StatusChip
+        label={children.toString()}
+        color={'warning'}
+        size={'small'}
+      />
+    );
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City', sortable: false },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type', component: TypeChipComponent },
+  ];
+
   return (
     <EnhancedDataTable
       fetchData={fetchData}
       headline={'Paginatable and sortable table'}
-      columns={columnsDefault}
+      columns={columns}
     />
   );
 };
 
-export const Selectable = () => (
-  <EnhancedDataTable
-    fetchData={fetchData}
-    headline={'Table with selectable rows'}
-    columns={columnsDefault}
-    selectionActions={selectionActions}
-  />
-);
+export const Selectable = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
 
-export const Clickable = () => (
-  <EnhancedDataTable
-    fetchData={fetchData}
-    headline={'Table with clickable rows'}
-    columns={columnsDefault}
-    onRowClick={clickAction}
-  />
-);
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
 
-export const Filterable = () => (
-  <EnhancedDataTable
-    fetchData={fetchData}
-    headline={'Filterable table'}
-    columns={columnsDefault}
-    filters={filters}
-  />
-);
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
 
-export const AllFunctionalities = () => (
-  <EnhancedDataTable
-    fetchData={fetchData}
-    headline={'Table with all functionalities'}
-    columns={columnsDefault}
-    selectionActions={selectionActions}
-    filters={filters}
-    onRowClick={clickAction}
-  />
-);
-interface TestData {
-  city: string;
-  age?: number;
-  name: string;
-  type: string | React.ReactElement;
-}
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
 
-export const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
-  { accessor: 'name', label: 'Name' },
-  { accessor: 'city', label: 'City', sortable: false },
-  { accessor: 'age', label: 'Age' },
-  { accessor: 'type', label: 'Type' },
-];
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
 
-const filters: Array<Filter<TestData>> = [
-  {
-    accessor: 'type',
-    label: 'Type',
-    selectorValues: ['Manual', 'Automatic'],
-    value: 'Manual',
-  },
-  {
-    accessor: 'name',
-    label: 'Name',
-  },
-  {
-    accessor: 'age',
-    label: 'Age',
-  },
-];
-export const fetchData: EnhancedDataTableFetchData<TestData> = ({
-  pageSize = 10,
-  pageIndex = 0,
-  filters,
-  order,
-  orderBy,
-}) => {
-  let data: TestData[] = [
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+    TestData
+  >> = [
     {
-      city: 'Hamburg',
-      age: 35,
-      name: 'Kane David',
-      type: 'Automatic',
+      icon: GetApp,
+      handler: data => console.log(data, 'Make api call to get zip file'),
     },
     {
-      city: 'Hamburg',
-      name: 'Marianne Lamb',
-      type: 'Automatic',
-    },
-    {
-      city: 'Berlin',
-      age: 22,
-      name: 'Dyer Ortiz',
-      type: 'Automatic',
-    },
-    {
-      city: 'Stockholm',
-      age: 32,
-      name: 'Cain Ward',
-      type: 'Manual',
-    },
-    {
-      city: 'Göteborg',
-      age: 23,
-      name: 'Mullins Clemons',
-      type: 'Manual',
-    },
-    {
-      city: 'Malmö',
-      age: 37,
-      name: 'Williamson William',
-      type: 'Automatic',
-    },
-    {
-      city: 'Poznan',
-      age: 22,
-      name: 'Hinton Weiss',
-      type: 'Automatic',
-    },
-    {
-      city: 'Oldenburg',
-      age: 39,
-      name: 'Raymond Horne',
-      type: 'Manual',
-    },
-    {
-      city: 'Hamburg',
-      age: 37,
-      name: 'Jannie Knight',
-      type: 'Automatic',
-    },
-    {
-      city: 'Hamburg',
-      age: 21,
-      name: 'Hancock Dunlap',
-      type: 'Manual',
-    },
-    {
-      city: 'Kiel',
-      age: 32,
-      name: 'Florence Hale',
-      type: 'Manual',
-    },
-    {
-      city: 'Köln',
-      age: 24,
-      name: 'Inez Mccall',
-      type: 'Automatic',
-    },
-    {
-      city: 'Kiel',
-      age: 26,
-      name: 'Mia Blair',
-      type: 'Automatic',
-    },
-    {
-      city: 'Göteborg',
-      age: 39,
-      name: 'Ashley Casey',
-      type: 'Automatic',
-    },
-    {
-      city: 'Oslo',
-      age: 39,
-      name: 'Spence Mathews',
-      type: 'Automatic',
+      icon: Delete,
+      handler: data => {
+        console.log(data, 'Delete Rows');
+      },
     },
   ];
 
-  if (filters && filters.length > 0) {
-    data = data.filter(item =>
-      filters.every(filter =>
-        item[filter.accessor as keyof typeof item]
-          ?.toString()
-          .includes(filter.value)
-      )
-    );
-  }
-
-  data = sortTable(data, orderBy, order);
-
-  const { paginatedResult, totalCount } = paginateTable(
-    pageSize,
-    pageIndex,
-    data
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with selectable rows'}
+      columns={columns}
+      selectionActions={selectionActions}
+    />
   );
-
-  const renderStatusChip = (type: string) =>
-    type === 'Automatic' ? (
-      <StatusChip label={type} color={'success'} size={'small'} />
-    ) : (
-      <StatusChip label={type} color={'warning'} size={'small'} />
-    );
-
-  const result = paginatedResult.map(entry => ({
-    ...entry,
-    type: renderStatusChip(entry.type as string),
-  }));
-
-  return new Promise(resolve => {
-    setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
-  });
 };
 
-const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-  TestData
->> = [
-  {
-    icon: GetApp,
-    handler: data => console.log(data, 'Make api call to get zip file'),
-  },
-  {
-    icon: Delete,
-    handler: data => {
-      console.log(data, 'Delete Rows');
-    },
-  },
-];
+export const Clickable = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
 
-const clickAction: RowClickCallback<TestData> = (data: TestData) => {
-  console.log(data, 'Clicked row');
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
+
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const clickAction: RowClickCallback<TestData> = (data: TestData) => {
+    console.log(data, 'Clicked row');
+  };
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with clickable rows'}
+      columns={columns}
+      onRowClick={clickAction}
+    />
+  );
+};
+
+export const Filterable = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const filters: Array<Filter<TestData>> = [
+    {
+      accessor: 'type',
+      label: 'Type',
+      selectorValues: ['Manual', 'Automatic'],
+      value: 'Manual',
+    },
+    {
+      accessor: 'name',
+      label: 'Name',
+    },
+    {
+      accessor: 'age',
+      label: 'Age',
+    },
+  ];
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    filters,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Stockholm',
+        age: 32,
+        name: 'Cain Ward',
+        type: 'Manual',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    if (filters && filters.length > 0) {
+      data = data.filter(item =>
+        filters.every(filter =>
+          item[filter.accessor as keyof typeof item]
+            ?.toString()
+            .includes(filter.value)
+        )
+      );
+    }
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
+
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Filterable table'}
+      columns={columns}
+      filters={filters}
+    />
+  );
+};
+
+export const AllFunctionalities = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const filters: Array<Filter<TestData>> = [
+    {
+      accessor: 'type',
+      label: 'Type',
+      selectorValues: ['Manual', 'Automatic'],
+      value: 'Manual',
+    },
+    {
+      accessor: 'name',
+      label: 'Name',
+    },
+    {
+      accessor: 'age',
+      label: 'Age',
+    },
+  ];
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    filters,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Berlin',
+        age: 22,
+        name: 'Dyer Ortiz',
+        type: 'Automatic',
+      },
+      {
+        city: 'Stockholm',
+        age: 32,
+        name: 'Cain Ward',
+        type: 'Manual',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    if (filters && filters.length > 0) {
+      data = data.filter(item =>
+        filters.every(filter =>
+          item[filter.accessor as keyof typeof item]
+            ?.toString()
+            .includes(filter.value)
+        )
+      );
+    }
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
+
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
+
+  const TypeChipComponent: React.FC = ({ children }) => {
+    if (!children) return <></>;
+    return children === 'Automatic' ? (
+      <StatusChip
+        label={children.toString()}
+        color={'success'}
+        size={'small'}
+      />
+    ) : (
+      <StatusChip
+        label={children.toString()}
+        color={'warning'}
+        size={'small'}
+      />
+    );
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City', sortable: false },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type', component: TypeChipComponent },
+  ];
+
+  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+    TestData
+  >> = [
+    {
+      icon: GetApp,
+      handler: data => console.log(data, 'Make api call to get zip file'),
+    },
+    {
+      icon: Delete,
+      handler: data => {
+        console.log(data, 'Delete Rows');
+      },
+    },
+  ];
+
+  const clickAction: RowClickCallback<TestData> = (data: TestData) => {
+    console.log(data, 'Clicked row');
+  };
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with all functionalities'}
+      columns={columns}
+      selectionActions={selectionActions}
+      filters={filters}
+      onRowClick={clickAction}
+    />
+  );
 };

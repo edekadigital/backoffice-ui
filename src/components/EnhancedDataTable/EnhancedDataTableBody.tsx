@@ -46,6 +46,13 @@ export function EnhancedDataTableBody<D extends object>(
 
   const renderColumns = (row: object, rowIndex: number) =>
     columns.map((column, index) => {
+      const renderColumn = column.component ? (
+        <column.component>
+          {row[column.accessor as keyof typeof row]}
+        </column.component>
+      ) : (
+        <>{row[column.accessor as keyof typeof row]}</>
+      );
       return (
         <TableCell
           key={column.accessor as React.Key}
@@ -55,7 +62,7 @@ export function EnhancedDataTableBody<D extends object>(
           className={classes.tableCell}
           data-testid={`enhancedDataTable-body-row-${rowIndex}-column-${index}`}
         >
-          {row[column.accessor as keyof typeof row]}
+          {renderColumn}
         </TableCell>
       );
     });
