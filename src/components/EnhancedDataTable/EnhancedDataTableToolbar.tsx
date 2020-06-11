@@ -163,7 +163,10 @@ export function EnhancedDataTableToolbar<D>(
   }, [activeFilters, filters]);
 
   const renderHeadline = headline ? (
-    <Toolbar className={classes.toolbar}>
+    <Toolbar
+      className={classes.toolbar}
+      data-testid={'enhancedDataTable-filterBar-headline'}
+    >
       <Heading variant={'h6'}>
         <strong>{headline}</strong>
       </Heading>
@@ -174,7 +177,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const renderActiveFilters = React.useMemo(() => {
     return activeFilters ? (
-      activeFilters.map((filter: ActiveFilter<D>) => (
+      activeFilters.map((filter: ActiveFilter<D>, index: number) => (
         <Chip
           classes={{ root: classes.chipRoot }}
           key={filter.accessor as React.Key}
@@ -182,6 +185,7 @@ export function EnhancedDataTableToolbar<D>(
           label={`${filter.label}: "${filter.value}"`}
           onDelete={handleDeleteFilterClick(filter)}
           onClick={handleDeleteFilterClick(filter)}
+          data-testid={`enhancedDataTable-activeFilter-${index}`}
         />
       ))
     ) : (
@@ -190,11 +194,12 @@ export function EnhancedDataTableToolbar<D>(
   }, [activeFilters]);
 
   const popoverFilterList = selectableFilters ? (
-    selectableFilters!.map(filter => (
+    selectableFilters!.map((filter, index) => (
       <ListItem
         key={filter.accessor as React.Key}
         button={true}
         onClick={() => handleFilterSelectClick(filter)}
+        data-testid={`enhancedDataTable-filterBar-selectFilter-${index}`}
       >
         <ListItemText primary={filter.label} />
       </ListItem>
@@ -204,11 +209,12 @@ export function EnhancedDataTableToolbar<D>(
   );
 
   const popoverFilterForm = selectedFilter?.selectorValues ? (
-    selectedFilter.selectorValues.map(filterValue => (
+    selectedFilter.selectorValues.map((filterValue, index) => (
       <ListItem
         key={filterValue}
         button={true}
         onClick={() => handleFilterValueSelectClick(filterValue)}
+        data-testid={`enhancedDataTable-filterBar-selectValue-${index}`}
       >
         <ListItemText primary={filterValue} />
       </ListItem>
@@ -216,11 +222,16 @@ export function EnhancedDataTableToolbar<D>(
   ) : (
     <form onSubmit={handleFilterSubmit}>
       <Paper className={classes.popoverFormPaper}>
-        <TextField label="Enthält..." onChange={handleFilterValueChange} />
+        <TextField
+          label="Enthält..."
+          onChange={handleFilterValueChange}
+          data-testid={'enhancedDataTable-filterBar-input'}
+        />
         <Button
           variant={'text'}
           type={'submit'}
           disabled={selectedFilter && !selectedFilter.value}
+          data-testid={'enhancedDataTable-filterBar-submit'}
         >
           Anwenden
         </Button>
@@ -235,13 +246,17 @@ export function EnhancedDataTableToolbar<D>(
         variant={'dense'}
         disableGutters={true}
       >
-        <div className={classes.filterTitleToolbarLabel}>
+        <div
+          className={classes.filterTitleToolbarLabel}
+          data-testid={'enhancedDataTable-filterBar-selectedFilter'}
+        >
           {selectedFilter.label}
         </div>
         <IconButton
           icon={Close}
           color={'inherit'}
           onClick={handleCloseFilterSelectorClick}
+          data-testid={'enhancedDataTable-filterBar-close'}
         />
       </Toolbar>
       {popoverFilterForm}
@@ -266,7 +281,10 @@ export function EnhancedDataTableToolbar<D>(
   });
 
   const renderFilterBar = filters ? (
-    <Toolbar className={classes.toolbar}>
+    <Toolbar
+      className={classes.toolbar}
+      data-testid={'enhancedDataTable-filterBar'}
+    >
       {renderActiveFilters}
       <Chip
         classes={{ outlined: classes.chipOutlined, root: classes.chipRoot }}
@@ -276,6 +294,7 @@ export function EnhancedDataTableToolbar<D>(
         onClick={handleOpenFilterSelectorClick}
         icon={<Add />}
         disabled={!selectableFilters || selectableFilters.length < 1}
+        data-testid={'enhancedDataTable-filterBar-add'}
       />
       <Popover
         open={isPopoverOpened}
@@ -284,6 +303,7 @@ export function EnhancedDataTableToolbar<D>(
         anchorOrigin={popoverAnchorOrigin}
         transformOrigin={popoverTransformOrigin}
         classes={{ paper: classNamePopoverpaper }}
+        data-testid={'enhancedDataTable-filterBar-filterMenu'}
       >
         {renderPopoverContent}
       </Popover>

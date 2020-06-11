@@ -44,8 +44,8 @@ export function EnhancedDataTableBody<D extends object>(
 
   const classes = useStyles();
 
-  const renderColumns = (row: object) =>
-    columns.map(column => {
+  const renderColumns = (row: object, rowIndex: number) =>
+    columns.map((column, index) => {
       return (
         <TableCell
           key={column.accessor as React.Key}
@@ -53,6 +53,7 @@ export function EnhancedDataTableBody<D extends object>(
           onClick={() => !!onRowClick && onRowClick(row as D)}
           style={{ cursor: !!onRowClick ? 'pointer' : 'default' }}
           className={classes.tableCell}
+          data-testid={`enhancedDataTable-body-row-${rowIndex}-column-${index}`}
         >
           {row[column.accessor as keyof typeof row]}
         </TableCell>
@@ -70,6 +71,7 @@ export function EnhancedDataTableBody<D extends object>(
             <CheckboxDark
               checked={isSelected}
               onChange={() => onSelectRowClick(row)}
+              data-testid={`enhancedDataTable-body-row-select-${index}`}
             />
           </TableCell>
         ) : (
@@ -80,8 +82,12 @@ export function EnhancedDataTableBody<D extends object>(
           <TableCell
             padding="checkbox"
             onClick={() => !!onRowClick && onRowClick(row)}
+            data-testid={`enhancedDataTable-body-row-click-${index}`}
           >
-            <IconButton icon={ArrowForward} />
+            <IconButton
+              icon={ArrowForward}
+              data-testid={`enhancedDataTable-body-row-clickArrow-${index}`}
+            />
           </TableCell>
         ) : (
           <></>
@@ -94,9 +100,10 @@ export function EnhancedDataTableBody<D extends object>(
             tabIndex={-1}
             key={index}
             selected={isSelected}
+            data-testid={`enhancedDataTable-body-row-${index}`}
           >
             {renderCheckbox}
-            {renderColumns(row)}
+            {renderColumns(row, index)}
             {renderArrowRight}
           </TableRow>
         );
@@ -104,5 +111,7 @@ export function EnhancedDataTableBody<D extends object>(
     } else return <>No data</>;
   }, [data, selectedRows, selectable, onSelectRowClick, onRowClick, columns]);
 
-  return <TableBody>{renderRows}</TableBody>;
+  return (
+    <TableBody data-testid={'enhancedDataTable-body'}>{renderRows}</TableBody>
+  );
 }

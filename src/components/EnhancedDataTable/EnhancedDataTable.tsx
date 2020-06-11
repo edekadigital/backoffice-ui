@@ -228,7 +228,7 @@ export function EnhancedDataTable<D extends object>(
     () =>
       data ? (
         <>
-          <TableContainer>
+          <TableContainer data-testid={'enhancedDataTable-container'}>
             <Table>
               <EnhancedDataTableHead
                 columns={columns}
@@ -260,10 +260,14 @@ export function EnhancedDataTable<D extends object>(
             onChangeRowsPerPage={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
             classes={{ toolbar: classes.paginationToolbar }}
+            data-testid={'enhancedDataTable-pagination'}
           />
         </>
       ) : (
-        <div className={classes.loaderContainer}>
+        <div
+          className={classes.loaderContainer}
+          data-testid={'enhancedDataTable-loading'}
+        >
           <CircularProgress />
         </div>
       ),

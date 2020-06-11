@@ -51,14 +51,15 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
   const classes = useStyles();
 
   const actionItems = actions.map(
-    ({ icon, handler, showProgress = false }, i) => {
+    ({ icon, handler, showProgress = false }, index) => {
       const handleClick = () => handler(selectedRows);
       return (
         <IconButton
           icon={icon}
           color="inherit"
           onClick={handleClick}
-          key={`selection-action-${i}`}
+          key={`selection-action-${index}`}
+          data-testid={`enhancedDataTable-selectionMenu-action-${index}`}
           showProgress={showProgress}
         />
       );
@@ -66,7 +67,11 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
   );
 
   const control = (
-    <CheckboxLight onChange={onSelectAllClick} checked={isAllRowsSelected} />
+    <CheckboxLight
+      onChange={onSelectAllClick}
+      checked={isAllRowsSelected}
+      data-testid={'enhancedDataTable-selectionMenu-selectAll'}
+    />
   );
 
   const isOpen = selectedRows.length > 0;
@@ -77,6 +82,7 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
       variant={'persistent'}
       classes={{ paper: classes.drawerPaper }}
       open={isOpen}
+      data-testid={'enhancedDataTable-selectionMenu'}
     >
       <MuiContainer className={classes.drawerActions} maxWidth={maxWidth}>
         <div className={classes.drawerCheckbox}>

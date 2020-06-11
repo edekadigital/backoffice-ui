@@ -50,17 +50,19 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
   };
 
   const renderHeadCells = columns.map(
-    ({ accessor, label, sortable = true }) => (
+    ({ accessor, label, sortable = true }, index) => (
       <TableCell
         key={accessor as React.Key}
         sortDirection={sortable && orderBy === accessor ? order : false}
         className={classes.tableCell}
+        data-testid={`enhancedDataTable-head-column-${index}`}
       >
         <TableSortLabel
           disabled={!sortable}
           active={orderBy === accessor}
           direction={orderBy === accessor ? order : 'asc'}
           onClick={createSortHandler(accessor)}
+          data-testid={`enhancedDataTable-head-column-sort-${index}`}
         >
           {label}
         </TableSortLabel>
@@ -70,16 +72,27 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
 
   const renderCheckbox = selectable ? (
     <TableCell padding="checkbox">
-      <CheckboxDark onChange={onSelectAllClick} checked={isAllRowsSelected} />
+      <CheckboxDark
+        onChange={onSelectAllClick}
+        checked={isAllRowsSelected}
+        data-testid={'enhancedDataTable-head-selectAll'}
+      />
     </TableCell>
   ) : (
     <></>
   );
 
-  const renderEmptyCell = clickable ? <TableCell padding="checkbox" /> : <></>;
+  const renderEmptyCell = clickable ? (
+    <TableCell
+      padding="checkbox"
+      data-testid={'enhancedDataTable-head-emptyColumn'}
+    />
+  ) : (
+    <></>
+  );
 
   return (
-    <TableHead>
+    <TableHead data-testid={'enhancedDataTable-head'}>
       <TableRow>
         {renderCheckbox}
         {renderHeadCells}
