@@ -4,20 +4,20 @@ import {
   EnhancedDataTable,
   EnhancedDataTableColumn,
   Filter,
-  FetchResult,
-  FetchProps,
+  EnhancedDataTableFetchResult,
+  EnhancedDataTableFetchProps,
   RowClickCallback,
-  Order,
 } from './EnhancedDataTable';
 import { GetApp, Delete } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 import { StatusChip } from '../StatusChip';
+import { sortTable, paginateTable } from '../../utils/tableUtils';
 
 interface TestData {
   city: string;
   age?: number;
   name: string;
-  type: string;
+  type: string | React.ReactElement;
 }
 
 const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
@@ -44,44 +44,15 @@ const filters: Array<Filter<TestData>> = [
   },
 ];
 
-// TODO: In Utils auslagern und exportieren:
-function compareValues<
-  T extends Partial<Record<keyof T, string | number | undefined>>
->(orderBy?: keyof T, order?: Order) {
-  if (!orderBy || !order) return;
-  return function innerSort(a: T, b: T) {
-    let comparison = 0;
-
-    if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
-      if (!a.hasOwnProperty(orderBy)) comparison = 1;
-      else comparison = -1;
-    } else {
-      const varA =
-        typeof a[orderBy] === 'string'
-          ? (a[orderBy] as string).toUpperCase()
-          : a[orderBy];
-      const varB =
-        typeof b[orderBy] === 'string'
-          ? (b[orderBy] as string).toUpperCase()
-          : b[orderBy];
-
-      if (varA > varB) {
-        comparison = 1;
-      } else if (varA < varB) {
-        comparison = -1;
-      }
-    }
-    return order === 'desc' ? comparison * -1 : comparison;
-  };
-}
-
 function fetchData({
   pageSize = 10,
   pageIndex = 0,
   filters,
   order,
   orderBy,
-}: FetchProps<TestData>): Promise<FetchResult<TestData>> {
+}: EnhancedDataTableFetchProps<TestData>): Promise<
+  EnhancedDataTableFetchResult<TestData>
+> {
   let data: TestData[] = [
     {
       city: 'Hamburg',
@@ -183,12 +154,14 @@ function fetchData({
       )
     );
   }
-  data = data.sort(compareValues(orderBy, order));
 
-  const startRow = pageSize * pageIndex;
-  const endRow = startRow + pageSize;
-  let result: TestData[] = data.slice(startRow, endRow);
-  const totalCount = data.length;
+  data = sortTable(data, orderBy, order);
+
+  const { paginatedResult, totalCount } = paginateTable(
+    pageSize,
+    pageIndex,
+    data
+  );
 
   const renderStatusChip = (type: string) =>
     type === 'Automatic' ? (
@@ -197,8 +170,7 @@ function fetchData({
       <StatusChip label={type} color={'warning'} size={'small'} />
     );
 
-  // TODO: Fix types
-  result = result.map(entry => ({
+  const result = paginatedResult.map(entry => ({
     ...entry,
     type: renderStatusChip(entry.type as string),
   }));

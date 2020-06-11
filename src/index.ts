@@ -34,3 +34,5 @@ export * from './layouts/Page';
 export * from './layouts/PageWrapper';
 
 export * from './icons';
+
+export * from './utils/tableUtils';

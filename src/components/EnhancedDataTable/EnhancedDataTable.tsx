@@ -23,7 +23,7 @@ export interface EnhancedDataTableColumn<D> {
   sortable?: boolean;
 }
 
-export interface FetchProps<D> {
+export interface EnhancedDataTableFetchProps<D> {
   pageSize?: number;
   pageIndex?: number;
   filters?: Array<ActiveFilter<D>>;
@@ -31,7 +31,8 @@ export interface FetchProps<D> {
   orderBy?: keyof D;
 }
 
-export interface FetchResult<D> extends Omit<PaginationState, 'pageSize'> {
+export interface EnhancedDataTableFetchResult<D>
+  extends Omit<PaginationState, 'pageSize'> {
   data: D[];
 }
 
@@ -43,7 +44,9 @@ interface PaginationState {
 
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
-  fetchData: (fetchProps: FetchProps<D>) => Promise<FetchResult<D>>;
+  fetchData: (
+    fetchProps: EnhancedDataTableFetchProps<D>
+  ) => Promise<EnhancedDataTableFetchResult<D>>;
   headline?: string;
   columns: Array<EnhancedDataTableColumn<D>>;
   filters?: Array<Filter<D>>;
