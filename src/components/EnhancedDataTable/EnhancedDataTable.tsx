@@ -17,13 +17,16 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 
+export type EnhancedDataTableFetchData<D> = (
+  fetchProps: EnhancedDataTableFetchProps<D>
+) => Promise<EnhancedDataTableFetchResult<D>>;
 export interface EnhancedDataTableColumn<D> {
   accessor: keyof D;
   label: string;
   sortable?: boolean;
 }
 
-export interface EnhancedDataTableFetchProps<D> {
+interface EnhancedDataTableFetchProps<D> {
   pageSize?: number;
   pageIndex?: number;
   filters?: Array<ActiveFilter<D>>;
@@ -31,7 +34,7 @@ export interface EnhancedDataTableFetchProps<D> {
   orderBy?: keyof D;
 }
 
-export interface EnhancedDataTableFetchResult<D>
+interface EnhancedDataTableFetchResult<D>
   extends Omit<PaginationState, 'pageSize'> {
   data: D[];
 }
@@ -44,9 +47,7 @@ interface PaginationState {
 
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
-  fetchData: (
-    fetchProps: EnhancedDataTableFetchProps<D>
-  ) => Promise<EnhancedDataTableFetchResult<D>>;
+  fetchData: EnhancedDataTableFetchData<D>;
   headline?: string;
   columns: Array<EnhancedDataTableColumn<D>>;
   filters?: Array<Filter<D>>;
@@ -125,6 +126,7 @@ export function EnhancedDataTable<D extends object>(
 
   React.useEffect(() => {
     setData(undefined);
+    setSelectedRows([]);
     let isActive = true;
     fetchData({
       pageSize: paginationState.pageSize,

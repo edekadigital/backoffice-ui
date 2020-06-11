@@ -1,18 +1,74 @@
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
 import {
   EnhancedDataTable,
   EnhancedDataTableColumn,
   Filter,
-  EnhancedDataTableFetchResult,
-  EnhancedDataTableFetchProps,
   RowClickCallback,
+  EnhancedDataTableFetchData,
 } from './EnhancedDataTable';
-import { GetApp, Delete } from '../../icons';
+import { sortTable, paginateTable, StatusChip, GetApp, Delete } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
-import { StatusChip } from '../StatusChip';
-import { sortTable, paginateTable } from '../../utils/tableUtils';
 
+export default {
+  title: 'components/EnhancedDataTable',
+  component: EnhancedDataTable,
+  includeStories: [
+    'Default',
+    'Selectable',
+    'Clickable',
+    'Filterable',
+    'AllFunctionalities',
+  ],
+};
+
+export const Default = () => {
+  console.log('TEST');
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Paginatable and sortable table'}
+      columns={columnsDefault}
+    />
+  );
+};
+
+export const Selectable = () => (
+  <EnhancedDataTable
+    fetchData={fetchData}
+    headline={'Table with selectable rows'}
+    columns={columnsDefault}
+    selectionActions={selectionActions}
+  />
+);
+
+export const Clickable = () => (
+  <EnhancedDataTable
+    fetchData={fetchData}
+    headline={'Table with clickable rows'}
+    columns={columnsDefault}
+    onRowClick={clickAction}
+  />
+);
+
+export const Filterable = () => (
+  <EnhancedDataTable
+    fetchData={fetchData}
+    headline={'Filterable table'}
+    columns={columnsDefault}
+    filters={filters}
+  />
+);
+
+export const AllFunctionalities = () => (
+  <EnhancedDataTable
+    fetchData={fetchData}
+    headline={'Table with all functionalities'}
+    columns={columnsDefault}
+    selectionActions={selectionActions}
+    filters={filters}
+    onRowClick={clickAction}
+  />
+);
 interface TestData {
   city: string;
   age?: number;
@@ -20,7 +76,7 @@ interface TestData {
   type: string | React.ReactElement;
 }
 
-const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
+export const columnsDefault: Array<EnhancedDataTableColumn<TestData>> = [
   { accessor: 'name', label: 'Name' },
   { accessor: 'city', label: 'City', sortable: false },
   { accessor: 'age', label: 'Age' },
@@ -43,16 +99,13 @@ const filters: Array<Filter<TestData>> = [
     label: 'Age',
   },
 ];
-
-function fetchData({
+export const fetchData: EnhancedDataTableFetchData<TestData> = ({
   pageSize = 10,
   pageIndex = 0,
   filters,
   order,
   orderBy,
-}: EnhancedDataTableFetchProps<TestData>): Promise<
-  EnhancedDataTableFetchResult<TestData>
-> {
+}) => {
   let data: TestData[] = [
     {
       city: 'Hamburg',
@@ -178,7 +231,7 @@ function fetchData({
   return new Promise(resolve => {
     setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
   });
-}
+};
 
 const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
   TestData
@@ -198,48 +251,3 @@ const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
 const clickAction: RowClickCallback<TestData> = (data: TestData) => {
   console.log(data, 'Clicked row');
 };
-
-storiesOf('Components|EnhancedDataTable', module)
-  .add('default', () => (
-    <EnhancedDataTable
-      fetchData={fetchData}
-      headline={'Paginatable and sortable table'}
-      columns={columnsDefault}
-    />
-  ))
-  .add('selectable', () => (
-    <div style={{ width: 700, margin: 'auto' }}>
-      <EnhancedDataTable
-        fetchData={fetchData}
-        headline={'Table with selectable rows'}
-        columns={columnsDefault}
-        selectionActions={selectionActions}
-      />
-    </div>
-  ))
-  .add('clickable', () => (
-    <EnhancedDataTable
-      fetchData={fetchData}
-      headline={'Table with clickable rows'}
-      columns={columnsDefault}
-      onRowClick={clickAction}
-    />
-  ))
-  .add('filterable', () => (
-    <EnhancedDataTable
-      fetchData={fetchData}
-      headline={'Filterable table'}
-      columns={columnsDefault}
-      filters={filters}
-    />
-  ))
-  .add('all functionalities', () => (
-    <EnhancedDataTable
-      fetchData={fetchData}
-      headline={'Table with all functionalities'}
-      columns={columnsDefault}
-      selectionActions={selectionActions}
-      filters={filters}
-      onRowClick={clickAction}
-    />
-  ));
