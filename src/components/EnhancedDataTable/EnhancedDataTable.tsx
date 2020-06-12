@@ -48,15 +48,46 @@ interface PaginationState {
 
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
-  fetchData: EnhancedDataTableFetchData<D>;
-  headline?: string;
+  /**
+   * The core columns configuration object for the entire table.
+   */
   columns: Array<EnhancedDataTableColumn<D>>;
-  filters?: Array<Filter<D>>;
-  selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
-  selectionMenuDrawerWidth?: 'sm' | 'lg';
-  onRowClick?: RowClickCallback<D>;
-  rowsPerPageOptions?: number[];
+  /**
+   * Initial count of rows per page. Default is 10
+   */
   defaultPageSize?: number;
+  /**
+   * Function for fetching data and handling pagination, filtering and sorting.
+   * The served function is being called by the table itself.
+   */
+  fetchData: EnhancedDataTableFetchData<D>;
+  /**
+   * List of available (and initially active) filters
+   */
+  filters?: Array<Filter<D>>;
+  /**
+   * Table headline
+   */
+  headline?: string;
+  /**
+   * Callback function for clicking and returning an item (row).
+   * If no callback function is being served, the table rows will not be clickable.
+   */
+  onRowClick?: RowClickCallback<D>;
+  /**
+   * Customizes the options of the rows per page select field.
+   * If less than two options are available, no select field will be displayed.
+   */
+  rowsPerPageOptions?: number[];
+  /**
+   * List of available actions which are displayed in the selection menu, if more than one row is selected.
+   * If there is less than one action served, the table rows will not be selectable.
+   */
+  selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
+  /**
+   * Width of the selection menu drawer (displayed if more than one row is selected)
+   */
+  selectionMenuDrawerWidth?: 'sm' | 'lg';
 }
 
 export interface Filter<D> {
