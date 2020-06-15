@@ -7,7 +7,15 @@ import {
   EnhancedDataTableFetchData,
   ActiveFilter,
 } from './EnhancedDataTable';
-import { sortTable, paginateTable, StatusChip, GetApp, Delete } from '../..';
+import {
+  sortTable,
+  paginateTable,
+  StatusChip,
+  GetApp,
+  Delete,
+  Subtitle,
+  Image,
+} from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 
 export default {
@@ -475,7 +483,16 @@ export const WithAlternativeBody = () => {
   const alternativeTableBody = React.useMemo(
     () =>
       !!activeFilters && activeFilters.length < 1 ? (
-        <>No active filter has been set</>
+        <>
+          <Subtitle gutterBottom={true} color={'textSecondary'}>
+            No active filter has been set
+          </Subtitle>
+          <Image
+            src="https://via.placeholder.com/150"
+            alt="placeholder"
+            mode={'height'}
+          />
+        </>
       ) : (
         undefined
       ),

@@ -10,6 +10,7 @@ export * from './components/ContentGroup';
 export * from './components/DateField';
 export * from './components/EnhancedDataTable/EnhancedDataTable';
 export * from './components/IconButton';
+export * from './components/Image';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
 export * from './components/SelectField';

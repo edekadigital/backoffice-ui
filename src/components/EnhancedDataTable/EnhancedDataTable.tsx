@@ -129,9 +129,12 @@ const useStyles = makeStyles((theme: Theme) =>
         minHeight: theme.spacing(9),
       },
     },
-    alternativeContentWrapper: {
+    alternativeTableBodyWrapper: {
       padding: theme.spacing(7),
-      textAlign: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
     },
   })
 );
@@ -287,7 +290,7 @@ export function EnhancedDataTable<D extends object>(
   const renderTable = React.useMemo(() => {
     if (alternativeTableBody) {
       return (
-        <div className={classes.alternativeContentWrapper}>
+        <div className={classes.alternativeTableBodyWrapper}>
           {alternativeTableBody}
         </div>
       );
@@ -343,12 +346,8 @@ export function EnhancedDataTable<D extends object>(
       );
     } else {
       return (
-        <div className={classes.alternativeContentWrapper}>
-          <Subtitle
-            gutterBottom={true}
-            align={'center'}
-            color={'textSecondary'}
-          >
+        <div className={classes.alternativeTableBodyWrapper}>
+          <Subtitle gutterBottom={true} color={'textSecondary'}>
             Keine Datensätze gefunden
           </Subtitle>
           <Body align={'center'} variant={'body2'} color={'textSecondary'}>
