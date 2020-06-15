@@ -16,8 +16,8 @@ import {
   EnhancedDataTableSelectionMenu,
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
-import { Page } from '../../layouts/Page';
 import { Subtitle } from '../../typography/Subtitle';
+import { Body } from '../../typography/Body';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
@@ -50,6 +50,10 @@ interface PaginationState {
 
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
+  /**
+   * If provided, this React element will be rendered instead of the table body
+   */
+  alternativeTableBody?: React.ReactElement;
   /**
    * The core columns configuration object for the entire table.
    */
@@ -125,6 +129,9 @@ const useStyles = makeStyles((theme: Theme) =>
         minHeight: theme.spacing(9),
       },
     },
+    alternativeContentWrapper: {
+      padding: theme.spacing(7),
+    },
   })
 );
 
@@ -139,6 +146,7 @@ export function EnhancedDataTable<D extends object>(
   props: EnhancedDataTableProps<D>
 ) {
   const {
+    alternativeTableBody,
     headline,
     columns,
     filters,
@@ -276,6 +284,13 @@ export function EnhancedDataTable<D extends object>(
   ]);
 
   const renderTable = React.useMemo(() => {
+    if (alternativeTableBody) {
+      return (
+        <div className={classes.alternativeContentWrapper}>
+          {alternativeTableBody}
+        </div>
+      );
+    }
     if (!data) {
       return (
         <div
@@ -327,9 +342,18 @@ export function EnhancedDataTable<D extends object>(
       );
     } else {
       return (
-        <Page variant={'narrow'}>
-          <Subtitle align={'center'}>Keine Datensätze gefunden</Subtitle>
-        </Page>
+        <div className={classes.alternativeContentWrapper}>
+          <Subtitle
+            gutterBottom={true}
+            align={'center'}
+            color={'textSecondary'}
+          >
+            Keine Datensätze gefunden
+          </Subtitle>
+          <Body align={'center'} variant={'body2'} color={'textSecondary'}>
+            Korrigieren Sie die Filterung um passende Datensätze anzuzeigen.
+          </Body>
+        </div>
       );
     }
   }, [

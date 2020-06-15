@@ -5,6 +5,7 @@ import {
   Filter,
   RowClickCallback,
   EnhancedDataTableFetchData,
+  ActiveFilter,
 } from './EnhancedDataTable';
 import { sortTable, paginateTable, StatusChip, GetApp, Delete } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
@@ -377,6 +378,112 @@ export const Filterable = () => {
       headline={'Filterable table'}
       columns={columns}
       filters={filters}
+    />
+  );
+};
+
+export const WithAlternativeBody = () => {
+  const [activeFilters, setActiveFilters] = React.useState<
+    Array<ActiveFilter<TestData>> | undefined
+  >();
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const filters: Array<Filter<TestData>> = [
+    {
+      accessor: 'type',
+      label: 'Type',
+      selectorValues: ['Manual', 'Automatic'],
+    },
+    {
+      accessor: 'name',
+      label: 'Name',
+    },
+    {
+      accessor: 'age',
+      label: 'Age',
+    },
+  ];
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    pageSize = 10,
+    pageIndex = 0,
+    filters,
+    order,
+    orderBy,
+  }) => {
+    setActiveFilters(filters);
+    let data: TestData[] = [
+      {
+        city: 'Stockholm',
+        age: 32,
+        name: 'Cain Ward',
+        type: 'Manual',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    if (filters && filters.length > 0) {
+      data = data.filter(item =>
+        filters.every(filter =>
+          item[filter.accessor as keyof typeof item]
+            ?.toString()
+            .includes(filter.value)
+        )
+      );
+    }
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    const { paginatedResult, totalCount } = paginateTable(
+      pageSize,
+      pageIndex,
+      data
+    );
+
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
+        500
+      );
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const alternativeTableBody = React.useMemo(
+    () =>
+      !!activeFilters && activeFilters.length < 1 ? (
+        <>Minimum one active filter has to been set</>
+      ) : (
+        undefined
+      ),
+    [activeFilters]
+  );
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with minumum one active filter required'}
+      columns={columns}
+      filters={filters}
+      alternativeTableBody={alternativeTableBody}
     />
   );
 };

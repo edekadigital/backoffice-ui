@@ -1,11 +1,23 @@
 import * as React from 'react';
-import { Typography as MuiTypography, makeStyles } from '@material-ui/core';
+import {
+  Typography as MuiTypography,
+  makeStyles,
+  PropTypes,
+} from '@material-ui/core';
 
 export type BodyVariant = 'body1' | 'body2';
 
 export type BodyComponent = 'p' | 'span' | 'div';
 
-export type BodyColor = 'initial' | 'primary' | 'secondary' | 'error';
+export type BodyColor =
+  | 'initial'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'textPrimary'
+  | 'textSecondary';
+
+export type BodyAlign = 'left' | 'center' | 'right';
 
 export interface BodyProps {
   variant?: BodyVariant;
@@ -13,6 +25,7 @@ export interface BodyProps {
   color?: BodyColor;
   gutterBottom?: boolean;
   children: React.ReactNode;
+  align?: BodyAlign;
 }
 
 const useStyles = makeStyles({
