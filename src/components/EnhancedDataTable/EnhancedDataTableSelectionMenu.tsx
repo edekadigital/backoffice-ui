@@ -1,6 +1,5 @@
 import * as React from 'react';
 import MuiDrawer from '@material-ui/core/Drawer';
-import MuiContainer from '@material-ui/core/Container';
 import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -17,39 +16,36 @@ export interface EnhancedDataTableSelectionMenuProps<D extends object> {
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isAllRowsSelected: boolean;
   selectedRows: D[];
-  maxWidth: 'sm' | 'lg';
+  drawerPosition?: { left: number; width: number };
 }
 
-const useStyles = makeStyles<Theme>(theme => ({
-  drawerPaper: {
-    backgroundColor: theme.palette.primary.main,
-    color: 'white',
-  },
-  drawerActions: {
-    display: 'flex',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  drawerCheckbox: {
-    flexBasis: '45%',
-    paddingLeft: theme.spacing(2),
-  },
-  drawerButton: {
-    color: 'white',
-  },
-}));
+const useStyles = makeStyles<Theme, EnhancedDataTableSelectionMenuProps<any>>(
+  theme => ({
+    drawerPaper: ({ drawerPosition }) => ({
+      backgroundColor: theme.palette.primary.main,
+      color: 'white',
+      paddingLeft: drawerPosition?.left,
+    }),
+    drawerActions: ({ drawerPosition }) => ({
+      display: 'flex',
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+      maxWidth: drawerPosition?.width,
+    }),
+    drawerCheckbox: {
+      flexBasis: '45%',
+      paddingLeft: theme.spacing(2),
+    },
+    drawerButton: {
+      color: 'white',
+    },
+  })
+);
 export function EnhancedDataTableSelectionMenu<D extends object>(
   props: EnhancedDataTableSelectionMenuProps<D>
 ) {
-  const {
-    actions,
-    isAllRowsSelected,
-    onSelectAllClick,
-    selectedRows,
-    maxWidth,
-  } = props;
-  const classes = useStyles();
-
+  const { actions, isAllRowsSelected, onSelectAllClick, selectedRows } = props;
+  const classes = useStyles(props);
   const actionItems = actions.map(
     ({ icon, handler, showProgress = false }, index) => {
       const handleClick = () => handler(selectedRows);
@@ -84,12 +80,12 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
       open={isOpen}
       data-testid={'enhancedDataTable-selectionMenu'}
     >
-      <MuiContainer className={classes.drawerActions} maxWidth={maxWidth}>
+      <div className={classes.drawerActions}>
         <div className={classes.drawerCheckbox}>
           <MuiFormControlLabel control={control} label="Alle auswählen" />
         </div>
         <div>{actionItems}</div>
-      </MuiContainer>
+      </div>
     </MuiDrawer>
   );
 }

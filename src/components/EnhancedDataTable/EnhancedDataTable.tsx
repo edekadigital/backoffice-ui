@@ -92,10 +92,6 @@ export interface EnhancedDataTableProps<D extends object> {
    * If there is less than one action served, the table rows will not be selectable.
    */
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
-  /**
-   * Width of the selection menu drawer (displayed if more than one row is selected)
-   */
-  selectionMenuDrawerWidth?: 'sm' | 'lg';
 }
 
 export interface Filter<D> {
@@ -143,7 +139,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 EnhancedDataTable.defaultProps = {
   selectionActions: [],
-  selectionMenuDrawerWidth: 'lg',
   defaultPageSize: 10,
   rowsPerPageOptions: [5, 10, 25],
 };
@@ -158,7 +153,6 @@ export function EnhancedDataTable<D extends object>(
     filters,
     fetchData,
     selectionActions = [],
-    selectionMenuDrawerWidth = 'lg',
     onRowClick,
     defaultPageSize = 10,
     rowsPerPageOptions = [5, 10, 25],
@@ -180,6 +174,7 @@ export function EnhancedDataTable<D extends object>(
   );
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof D>();
+  const tableRef = React.useRef<HTMLDivElement>(null);
 
   const classes = useStyles();
 
@@ -273,21 +268,25 @@ export function EnhancedDataTable<D extends object>(
   };
 
   const selectionMenuDrawer = React.useMemo(() => {
-    return selectionActions.length > 0 ? (
-      <EnhancedDataTableSelectionMenu
-        actions={selectionActions}
-        onSelectAllClick={handleSelectAllClick}
-        selectedRows={selectedRows}
-        maxWidth={selectionMenuDrawerWidth}
-        isAllRowsSelected={isAllRowsSelected}
-      />
-    ) : null;
-  }, [
-    selectionActions,
-    selectedRows,
-    selectionMenuDrawerWidth,
-    isAllRowsSelected,
-  ]);
+    if (selectionActions.length > 0) {
+      let drawerPosition: { left: number; width: number } | undefined;
+      if (tableRef.current) {
+        drawerPosition = {
+          left: tableRef.current?.getBoundingClientRect().left,
+          width: tableRef.current?.getBoundingClientRect().width,
+        };
+      }
+      return (
+        <EnhancedDataTableSelectionMenu
+          actions={selectionActions}
+          onSelectAllClick={handleSelectAllClick}
+          selectedRows={selectedRows}
+          isAllRowsSelected={isAllRowsSelected}
+          drawerPosition={drawerPosition}
+        />
+      );
+    } else return <></>;
+  }, [selectionActions, selectedRows, isAllRowsSelected, tableRef]);
 
   const renderTable = React.useMemo(() => {
     if (alternativeTableBody) {
@@ -359,10 +358,13 @@ export function EnhancedDataTable<D extends object>(
       );
     }
   }, [
+    alternativeTableBody,
+    rowsPerPageOptions,
     data,
     columns,
     paginationState,
     selectedRows,
+    selectionActions,
     isAllRowsSelected,
     order,
     orderBy,
@@ -381,7 +383,7 @@ export function EnhancedDataTable<D extends object>(
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={tableRef}>
       <Paper className={classes.paper}>
         {renderToolbar}
         {renderTable}

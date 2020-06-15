@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { deDE } from '@material-ui/core/locale';
-import { ERROR, PRIMARY, SECONDARY } from '../constants';
+import { ERROR, PRIMARY, SECONDARY, SECONDARY_TEXT } from '../constants';
 
 const theme = createMuiTheme(
   {
@@ -10,6 +10,7 @@ const theme = createMuiTheme(
       secondary: { main: SECONDARY },
       error: { main: ERROR },
       background: { default: '#f5f5f5', paper: '#ffffff' },
+      text: { secondary: SECONDARY_TEXT },
     },
     typography: {
       h1: { fontWeight: 300 },
