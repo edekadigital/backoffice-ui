@@ -51,7 +51,8 @@ interface PaginationState {
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
   /**
-   * If provided, this React element will be rendered instead of the table body
+   * If provided, this React element will be rendered instead of the table body.
+   * Each child will be centered horizontally and rendered in a vertical row.
    */
   alternativeTableBody?: React.ReactElement;
   /**
@@ -68,7 +69,8 @@ export interface EnhancedDataTableProps<D extends object> {
    */
   fetchData: EnhancedDataTableFetchData<D>;
   /**
-   * List of available (and initially active) filters
+   * List of available (and initially active) filters.
+   * You can activate a given filter initially by setting its value property.
    */
   filters?: Array<Filter<D>>;
   /**
