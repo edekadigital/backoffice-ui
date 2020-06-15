@@ -10,7 +10,7 @@ import { sortTable, paginateTable, StatusChip, GetApp, Delete } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 
 export default {
-  title: 'components/EnhancedDataTable',
+  title: 'Components|EnhancedDataTable',
   component: EnhancedDataTable,
 };
 

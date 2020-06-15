@@ -16,6 +16,8 @@ import {
   EnhancedDataTableSelectionMenu,
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
+import { Page } from '../../layouts/Page';
+import { Subtitle } from '../../typography/Subtitle';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
@@ -177,16 +179,20 @@ export function EnhancedDataTable<D extends object>(
       filters: activeFilters,
       order,
       orderBy,
-    }).then(res => {
-      if (isActive) {
-        setPaginationState(prevPaginationState => ({
-          ...prevPaginationState,
-          pageIndex: res.pageIndex,
-          totalCount: res.totalCount,
-        }));
-        setData(res.data);
-      }
-    });
+    })
+      .then(res => {
+        if (isActive) {
+          setPaginationState(prevPaginationState => ({
+            ...prevPaginationState,
+            pageIndex: res.pageIndex,
+            totalCount: res.totalCount,
+          }));
+          setData(res.data);
+        }
+      })
+      .catch(() => {
+        setData([]);
+      });
 
     return () => {
       isActive = false;
@@ -269,9 +275,18 @@ export function EnhancedDataTable<D extends object>(
     isAllRowsSelected,
   ]);
 
-  const renderTable = React.useMemo(
-    () =>
-      data ? (
+  const renderTable = React.useMemo(() => {
+    if (!data) {
+      return (
+        <div
+          className={classes.loaderContainer}
+          data-testid={'enhancedDataTable-loading'}
+        >
+          <CircularProgress />
+        </div>
+      );
+    } else if (data && data.length > 0) {
+      return (
         <>
           <TableContainer data-testid={'enhancedDataTable-container'}>
             <Table>
@@ -306,26 +321,26 @@ export function EnhancedDataTable<D extends object>(
             labelRowsPerPage={'Einträge pro Seite'}
             classes={{ toolbar: classes.paginationToolbar }}
             data-testid={'enhancedDataTable-pagination'}
+            hidden={!data || !data.length}
           />
         </>
-      ) : (
-        <div
-          className={classes.loaderContainer}
-          data-testid={'enhancedDataTable-loading'}
-        >
-          <CircularProgress />
-        </div>
-      ),
-    [
-      data,
-      columns,
-      paginationState,
-      selectedRows,
-      isAllRowsSelected,
-      order,
-      orderBy,
-    ]
-  );
+      );
+    } else {
+      return (
+        <Page variant={'narrow'}>
+          <Subtitle align={'center'}>Keine Datensätze gefunden</Subtitle>
+        </Page>
+      );
+    }
+  }, [
+    data,
+    columns,
+    paginationState,
+    selectedRows,
+    isAllRowsSelected,
+    order,
+    orderBy,
+  ]);
 
   const renderToolbar = React.useMemo(
     () => (

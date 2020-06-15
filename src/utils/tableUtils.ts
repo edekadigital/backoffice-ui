@@ -1,10 +1,8 @@
 import { Order } from '../components/EnhancedDataTable/EnhancedDataTable';
 
-export function sortTable<T extends Partial<Record<keyof T, T[keyof T]>>>(
-  data: T[],
-  orderBy?: keyof T,
-  order?: Order
-) {
+export function sortTable<
+  T extends Partial<Record<keyof T, string | number | boolean>>
+>(data: T[], orderBy?: keyof T, order?: Order) {
   function compareValues(orderBy?: keyof T, order?: Order) {
     if (!orderBy || !order) return;
     return function innerSort(a: T, b: T) {

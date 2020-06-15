@@ -11,5 +11,8 @@
     ],
     "no-default-export": false,
     "jsx-no-lambda": false
+  },
+  "linterOptions": {
+    "exclude": ["**/*.stories.mdx"]
   }
 }
