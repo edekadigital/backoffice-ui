@@ -131,6 +131,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     alternativeContentWrapper: {
       padding: theme.spacing(7),
+      textAlign: 'center',
     },
   })
 );

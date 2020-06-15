@@ -417,6 +417,11 @@ export const WithAlternativeBody = () => {
     orderBy,
   }) => {
     setActiveFilters(filters);
+    if (!filters) {
+      return new Promise(resolve => {
+        resolve({ data: [], totalCount: 0, pageIndex: 0 });
+      });
+    }
     let data: TestData[] = [
       {
         city: 'Stockholm',
@@ -470,7 +475,7 @@ export const WithAlternativeBody = () => {
   const alternativeTableBody = React.useMemo(
     () =>
       !!activeFilters && activeFilters.length < 1 ? (
-        <>Minimum one active filter has to been set</>
+        <>No active filter has been set</>
       ) : (
         undefined
       ),
