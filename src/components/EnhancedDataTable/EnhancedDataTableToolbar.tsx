@@ -163,12 +163,11 @@ export function EnhancedDataTableToolbar<D>(
   }, [activeFilters, filters]);
 
   const renderHeadline = headline ? (
-    <Toolbar
-      className={classes.toolbar}
-      data-testid={'enhancedDataTable-filterBar-headline'}
-    >
+    <Toolbar className={classes.toolbar}>
       <Heading variant={'h6'}>
-        <strong>{headline}</strong>
+        <strong data-testid={'enhancedDataTable-filterBar-headline'}>
+          {headline}
+        </strong>
       </Heading>
     </Toolbar>
   ) : (

@@ -291,7 +291,10 @@ export function EnhancedDataTable<D extends object>(
   const renderTable = React.useMemo(() => {
     if (alternativeTableBody) {
       return (
-        <div className={classes.alternativeTableBodyWrapper}>
+        <div
+          className={classes.alternativeTableBodyWrapper}
+          data-testid={'enhancedDataTable-alternativeBody'}
+        >
           {alternativeTableBody}
         </div>
       );
@@ -347,7 +350,10 @@ export function EnhancedDataTable<D extends object>(
       );
     } else {
       return (
-        <div className={classes.alternativeTableBodyWrapper}>
+        <div
+          className={classes.alternativeTableBodyWrapper}
+          data-testid={'enhancedDataTable-emptyResult'}
+        >
           <Subtitle gutterBottom={true} color={'textSecondary'}>
             Keine Datensätze gefunden
           </Subtitle>
