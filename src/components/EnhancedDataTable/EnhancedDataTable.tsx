@@ -37,7 +37,7 @@ interface EnhancedDataTableFetchProps<D> {
   orderBy?: keyof D;
 }
 
-interface EnhancedDataTableFetchResult<D>
+export interface EnhancedDataTableFetchResult<D>
   extends Omit<PaginationState, 'pageSize'> {
   data: D[];
 }
@@ -60,7 +60,7 @@ export interface EnhancedDataTableProps<D extends object> {
    */
   columns: Array<EnhancedDataTableColumn<D>>;
   /**
-   * Initial count of rows per page. Default is 10
+   * Initial count of rows per page.
    */
   defaultPageSize?: number;
   /**
