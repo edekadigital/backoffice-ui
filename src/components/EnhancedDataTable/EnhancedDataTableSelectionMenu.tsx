@@ -19,33 +19,40 @@ export interface EnhancedDataTableSelectionMenuProps<D extends object> {
   drawerPosition?: { left: number; width: number };
 }
 
-const useStyles = makeStyles<Theme, EnhancedDataTableSelectionMenuProps<any>>(
-  theme => ({
-    drawerPaper: ({ drawerPosition }) => ({
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
-      paddingLeft: drawerPosition?.left,
-    }),
-    drawerActions: ({ drawerPosition }) => ({
-      display: 'flex',
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-      maxWidth: drawerPosition?.width,
-    }),
-    drawerCheckbox: {
-      flexBasis: '45%',
-      paddingLeft: theme.spacing(2),
-    },
-    drawerButton: {
-      color: 'white',
-    },
-  })
-);
+const useStyles = makeStyles<
+  Theme,
+  { drawerPosition?: { left: number; width: number } }
+>(theme => ({
+  drawerPaper: ({ drawerPosition }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
+    paddingLeft: drawerPosition?.left,
+  }),
+  drawerActions: ({ drawerPosition }) => ({
+    display: 'flex',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    maxWidth: drawerPosition?.width,
+  }),
+  drawerCheckbox: {
+    flexBasis: '45%',
+    paddingLeft: theme.spacing(2),
+  },
+  drawerButton: {
+    color: 'white',
+  },
+}));
 export function EnhancedDataTableSelectionMenu<D extends object>(
   props: EnhancedDataTableSelectionMenuProps<D>
 ) {
-  const { actions, isAllRowsSelected, onSelectAllClick, selectedRows } = props;
-  const classes = useStyles(props);
+  const {
+    actions,
+    isAllRowsSelected,
+    onSelectAllClick,
+    selectedRows,
+    drawerPosition,
+  } = props;
+  const classes = useStyles({ drawerPosition });
   const actionItems = actions.map(
     ({ icon, handler, showProgress = false }, index) => {
       const handleClick = () => handler(selectedRows);
