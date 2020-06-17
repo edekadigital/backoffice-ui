@@ -69,11 +69,15 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
     }
   );
 
+  const checkboxInputProps = {
+    'data-testid': 'enhancedDataTable-selectionMenu-selectAll',
+  } as React.InputHTMLAttributes<HTMLInputElement>;
+
   const control = (
     <CheckboxLight
       onChange={onSelectAllClick}
       checked={isAllRowsSelected}
-      data-testid={'enhancedDataTable-selectionMenu-selectAll'}
+      inputProps={checkboxInputProps}
     />
   );
 
@@ -86,6 +90,7 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
       classes={{ paper: classes.drawerPaper }}
       open={isOpen}
       data-testid={'enhancedDataTable-selectionMenu'}
+      data-open={isOpen}
     >
       <div className={classes.drawerActions}>
         <div className={classes.drawerCheckbox}>

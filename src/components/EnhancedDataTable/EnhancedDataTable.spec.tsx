@@ -7,8 +7,11 @@ import {
   EnhancedDataTableFetchData,
   EnhancedDataTableColumn,
   EnhancedDataTableFetchResult,
+  Filter,
 } from './EnhancedDataTable';
 import { paginateTable } from '../../utils/tableUtils';
+import { GetApp } from '../../icons';
+import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 
 interface TestData {
   city: string;
@@ -229,5 +232,248 @@ describe('<EnhancedDataTable />', () => {
     await wait();
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].pageIndex).toBe(1);
+  });
+
+  it('should be possible to click a row', async () => {
+    const clickHandler = jest.fn();
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        onRowClick={clickHandler}
+      />
+    );
+    await wait();
+    expect(queryByTestId('enhancedDataTable-head-emptyColumn')).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-body-row-click-0'));
+    expect(clickHandler).toBeCalledTimes(1);
+    expect(clickHandler).toHaveBeenCalledWith(testData[0]);
+    expect(
+      queryByTestId('enhancedDataTable-body-row-clickArrow-0')
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-body-row-clickArrow-0'));
+    expect(clickHandler).toBeCalledTimes(2);
+    expect(clickHandler).toHaveBeenCalledWith(testData[0]);
+
+    userEvent.click(getByTestId('enhancedDataTable-body-row-click-1'));
+    expect(clickHandler).toBeCalledTimes(3);
+    expect(clickHandler).toHaveBeenCalledWith(testData[1]);
+    expect(
+      queryByTestId('enhancedDataTable-body-row-clickArrow-1')
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-body-row-clickArrow-1'));
+    expect(clickHandler).toBeCalledTimes(4);
+    expect(clickHandler).toHaveBeenCalledWith(testData[1]);
+  });
+
+  it('should be possible to select a row and call a selection action', async () => {
+    const actionHandler = jest.fn();
+    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+      TestData
+    >> = [
+      {
+        icon: GetApp,
+        handler: actionHandler,
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        selectionActions={selectionActions}
+      />
+    );
+    await wait();
+    expect(queryByTestId('enhancedDataTable-head-selectAll')).toBeTruthy();
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('false');
+
+    userEvent.click(getByTestId('enhancedDataTable-body-row-select-0'));
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('true');
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu-action-0')
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-selectionMenu-action-0'));
+    expect(actionHandler).toBeCalledTimes(1);
+    expect(actionHandler).toHaveBeenCalledWith([testData[0]]);
+  });
+
+  it('should be possible to select all rows by clicking the checkbox in table head and call a selection action', async () => {
+    const actionHandler = jest.fn();
+    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+      TestData
+    >> = [
+      {
+        icon: GetApp,
+        handler: actionHandler,
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        selectionActions={selectionActions}
+      />
+    );
+    await wait();
+    expect(queryByTestId('enhancedDataTable-head-selectAll')).toBeTruthy();
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('false');
+
+    userEvent.click(getByTestId('enhancedDataTable-head-selectAll'));
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('true');
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu-action-0')
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-selectionMenu-action-0'));
+    expect(actionHandler).toBeCalledTimes(1);
+    expect(actionHandler).toHaveBeenCalledWith(testData);
+  });
+
+  it('should be possible to select all rows by clicking the checkbox in the selection menu and call a selection action', async () => {
+    const actionHandler = jest.fn();
+    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+      TestData
+    >> = [
+      {
+        icon: GetApp,
+        handler: actionHandler,
+      },
+    ];
+
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        selectionActions={selectionActions}
+      />
+    );
+    await wait();
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('false');
+
+    userEvent.click(getByTestId('enhancedDataTable-body-row-select-0'));
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('true');
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu-selectAll')
+    ).toBeTruthy();
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu-action-0')
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-selectionMenu-selectAll'));
+    userEvent.click(getByTestId('enhancedDataTable-selectionMenu-action-0'));
+    expect(actionHandler).toBeCalledTimes(1);
+    expect(actionHandler).toHaveBeenCalledWith(testData);
+  });
+
+  it('should be possible to sort', async () => {
+    const { getByTestId } = render(
+      <EnhancedDataTable columns={columns} fetchData={fetchDataFn} />
+    );
+    await wait();
+
+    userEvent.click(getByTestId('enhancedDataTable-head-column-sort-0'));
+    await wait();
+    expect(fetchDataFn).toHaveBeenCalledTimes(2);
+    expect(fetchDataFn.mock.calls[1][0].order).toBe('asc');
+    expect(fetchDataFn.mock.calls[1][0].orderBy).toBe(columns[0].accessor);
+
+    userEvent.click(getByTestId('enhancedDataTable-head-column-sort-0'));
+    await wait();
+    expect(fetchDataFn).toHaveBeenCalledTimes(3);
+    expect(fetchDataFn.mock.calls[2][0].order).toBe('desc');
+    expect(fetchDataFn.mock.calls[2][0].orderBy).toBe(columns[0].accessor);
+
+    // column should be not sortable
+    userEvent.click(getByTestId('enhancedDataTable-head-column-sort-1'));
+    await wait();
+    expect(fetchDataFn).toHaveBeenCalledTimes(3);
+
+    userEvent.click(getByTestId('enhancedDataTable-head-column-sort-2'));
+    await wait();
+    expect(fetchDataFn).toHaveBeenCalledTimes(4);
+    expect(fetchDataFn.mock.calls[3][0].order).toBe('asc');
+    expect(fetchDataFn.mock.calls[3][0].orderBy).toBe(columns[2].accessor);
+  });
+
+  it('should be possible to set and unset a text filter on a given column', async () => {
+    const filters: Array<Filter<TestData>> = [
+      {
+        accessor: 'name',
+        label: 'Name',
+      },
+      {
+        accessor: 'age',
+        label: 'Age',
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+      />
+    );
+    await wait();
+    expect(queryByTestId('enhancedDataTable-filterBar')).toBeTruthy();
+    expect(queryByTestId('enhancedDataTable-filterBar-add')).toBeTruthy();
+    // clicking add filter button should open the filter menu with the available filters
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      queryByTestId('enhancedDataTable-filterBar-filterMenu')
+    ).toBeTruthy();
+    // available filters should be rendered in a select list
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    // click first entry of available filters
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    // selected filter should match the clicked one
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectedFilter').innerHTML
+    ).toBe(filters[0].label);
+    // input field and submit button should be rendered
+    expect(queryByTestId('enhancedDataTable-filterBar-input')).toBeTruthy();
+    expect(queryByTestId('enhancedDataTable-filterBar-submit')).toBeTruthy();
+    // input filter value: 'filterValue'
+    userEvent.type(
+      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      'filterValue'
+    );
+    // submit filter value form
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await wait();
+    // expect fetchData function to have been called with selected filter and its defined value
+    expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
+      { ...filters[0], selectorValues: undefined, value: 'filterValue' },
+    ]);
+    // filter menu should be closed automatically and the active filter should be rendered
+    expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
+    expect(
+      queryByTestId('enhancedDataTable-activeFilter-0')?.firstChild?.textContent
+    ).toBe('Name: "filterValue"');
+    // clicking the active filter should remove it
+    userEvent.click(getByTestId('enhancedDataTable-activeFilter-0'));
+    await wait();
+    expect(fetchDataFn.mock.calls[2][0].filters).toStrictEqual([]);
+    expect(queryByTestId('enhancedDataTable-activeFilter-0')).toBeFalsy();
   });
 });

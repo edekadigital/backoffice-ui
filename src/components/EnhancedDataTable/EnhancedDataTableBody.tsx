@@ -73,12 +73,15 @@ export function EnhancedDataTableBody<D extends object>(
         const isSelected =
           selectable && selectedRows && selectedRows.indexOf(row) !== -1;
 
+        const checkboxInputProps = {
+          'data-testid': `enhancedDataTable-body-row-select-${index}`,
+        } as React.InputHTMLAttributes<HTMLInputElement>;
         const renderCheckbox = selectable ? (
           <TableCell padding="checkbox">
             <CheckboxDark
               checked={isSelected}
               onChange={() => onSelectRowClick(row)}
-              data-testid={`enhancedDataTable-body-row-select-${index}`}
+              inputProps={checkboxInputProps}
             />
           </TableCell>
         ) : (

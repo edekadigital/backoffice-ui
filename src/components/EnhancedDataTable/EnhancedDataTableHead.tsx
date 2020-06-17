@@ -45,8 +45,10 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
 
   const classes = useStyles();
 
-  const createSortHandler = (property: keyof D) => () => {
-    onRequestSort(property);
+  const createSortHandler = (property: keyof D, sortable: boolean) => () => {
+    if (sortable) {
+      onRequestSort(property);
+    }
   };
 
   const renderHeadCells = columns.map(
@@ -61,7 +63,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
           disabled={!sortable}
           active={orderBy === accessor}
           direction={orderBy === accessor ? order : 'asc'}
-          onClick={createSortHandler(accessor)}
+          onClick={createSortHandler(accessor, sortable)}
           data-testid={`enhancedDataTable-head-column-sort-${index}`}
         >
           {label}
@@ -70,12 +72,16 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     )
   );
 
+  const checkboxInputProps = {
+    'data-testid': 'enhancedDataTable-head-selectAll',
+  } as React.InputHTMLAttributes<HTMLInputElement>;
+
   const renderCheckbox = selectable ? (
     <TableCell padding="checkbox">
       <CheckboxDark
         onChange={onSelectAllClick}
         checked={isAllRowsSelected}
-        data-testid={'enhancedDataTable-head-selectAll'}
+        inputProps={checkboxInputProps}
       />
     </TableCell>
   ) : (
