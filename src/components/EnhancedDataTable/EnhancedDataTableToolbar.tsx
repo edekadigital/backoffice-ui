@@ -103,6 +103,7 @@ export function EnhancedDataTableToolbar<D>(
   const handleOpenFilterSelectorClick = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
+    if (!selectableFilters || selectableFilters.length < 1) return;
     setSelectedFilter(undefined);
     setPopoverAnchorEl(event.currentTarget);
   };
@@ -303,6 +304,7 @@ export function EnhancedDataTableToolbar<D>(
         transformOrigin={popoverTransformOrigin}
         classes={{ paper: classNamePopoverpaper }}
         data-testid={'enhancedDataTable-filterBar-filterMenu'}
+        data-open={isPopoverOpened}
       >
         {renderPopoverContent}
       </Popover>

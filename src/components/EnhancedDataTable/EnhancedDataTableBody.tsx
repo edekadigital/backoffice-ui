@@ -34,7 +34,7 @@ export function EnhancedDataTableBody<D extends object>(
   props: EnhancedDataTableBodyProps<D>
 ) {
   const {
-    data,
+    data = [],
     columns,
     selectable,
     selectedRows,
@@ -68,57 +68,55 @@ export function EnhancedDataTableBody<D extends object>(
     });
 
   const renderRows = React.useMemo(() => {
-    if (data) {
-      return data.map((row, index) => {
-        const isSelected =
-          selectable && selectedRows && selectedRows.indexOf(row) !== -1;
+    return data.map((row, index) => {
+      const isSelected =
+        selectable && selectedRows && selectedRows.indexOf(row) !== -1;
 
-        const checkboxInputProps = {
-          'data-testid': `enhancedDataTable-body-row-select-${index}`,
-        } as React.InputHTMLAttributes<HTMLInputElement>;
-        const renderCheckbox = selectable ? (
-          <TableCell padding="checkbox">
-            <CheckboxDark
-              checked={isSelected}
-              onChange={() => onSelectRowClick(row)}
-              inputProps={checkboxInputProps}
-            />
-          </TableCell>
-        ) : (
-          <></>
-        );
+      const checkboxInputProps = {
+        'data-testid': `enhancedDataTable-body-row-select-${index}`,
+      } as React.InputHTMLAttributes<HTMLInputElement>;
+      const renderCheckbox = selectable ? (
+        <TableCell padding="checkbox">
+          <CheckboxDark
+            checked={isSelected}
+            onChange={() => onSelectRowClick(row)}
+            inputProps={checkboxInputProps}
+          />
+        </TableCell>
+      ) : (
+        <></>
+      );
 
-        const renderArrowRight = !!onRowClick ? (
-          <TableCell
-            padding="checkbox"
-            onClick={() => !!onRowClick && onRowClick(row)}
-            data-testid={`enhancedDataTable-body-row-click-${index}`}
-          >
-            <IconButton
-              icon={ArrowForward}
-              data-testid={`enhancedDataTable-body-row-clickArrow-${index}`}
-            />
-          </TableCell>
-        ) : (
-          <></>
-        );
+      const renderArrowRight = !!onRowClick ? (
+        <TableCell
+          padding="checkbox"
+          onClick={() => !!onRowClick && onRowClick(row)}
+          data-testid={`enhancedDataTable-body-row-click-${index}`}
+        >
+          <IconButton
+            icon={ArrowForward}
+            data-testid={`enhancedDataTable-body-row-clickArrow-${index}`}
+          />
+        </TableCell>
+      ) : (
+        <></>
+      );
 
-        return (
-          <TableRow
-            hover={selectable || !!onRowClick}
-            role="checkbox"
-            tabIndex={-1}
-            key={index}
-            selected={isSelected}
-            data-testid={`enhancedDataTable-body-row-${index}`}
-          >
-            {renderCheckbox}
-            {renderColumns(row, index)}
-            {renderArrowRight}
-          </TableRow>
-        );
-      });
-    } else return <>No data</>;
+      return (
+        <TableRow
+          hover={selectable || !!onRowClick}
+          role="checkbox"
+          tabIndex={-1}
+          key={index}
+          selected={isSelected}
+          data-testid={`enhancedDataTable-body-row-${index}`}
+        >
+          {renderCheckbox}
+          {renderColumns(row, index)}
+          {renderArrowRight}
+        </TableRow>
+      );
+    });
   }, [data, selectedRows, selectable, onSelectRowClick, onRowClick, columns]);
 
   return (

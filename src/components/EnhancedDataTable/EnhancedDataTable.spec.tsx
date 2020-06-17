@@ -476,4 +476,144 @@ describe('<EnhancedDataTable />', () => {
     expect(fetchDataFn.mock.calls[2][0].filters).toStrictEqual([]);
     expect(queryByTestId('enhancedDataTable-activeFilter-0')).toBeFalsy();
   });
+
+  it('should be impossible to add a filter more than once', async () => {
+    const filters: Array<Filter<TestData>> = [
+      {
+        accessor: 'name',
+        label: 'Name',
+      },
+      {
+        accessor: 'age',
+        label: 'Age',
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+      />
+    );
+    await wait();
+    // add first filter
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.type(
+      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      'filterValue'
+    );
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await wait();
+
+    // add second filter - the previously added filter should not be available in the list
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    expect(
+      queryByTestId('enhancedDataTable-filterBar-selectFilter-1')
+    ).toBeFalsy();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.type(
+      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      'filterValue'
+    );
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await wait();
+
+    // all available filters are active - no further filters can be added
+    expect(
+      getByTestId('enhancedDataTable-filterBar-add').classList.contains(
+        'Mui-disabled'
+      )
+    ).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
+  });
+
+  it('should be to close the previously opened filter menu', async () => {
+    const filters: Array<Filter<TestData>> = [
+      {
+        accessor: 'name',
+        label: 'Name',
+      },
+      {
+        accessor: 'age',
+        label: 'Age',
+      },
+    ];
+
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+      />
+    );
+    await wait();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-close'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-filterMenu').getAttribute(
+        'data-open'
+      )
+    ).toBe('false');
+  });
+
+  it('should be possible to set and unset a filter on a given column by clicking a predefined filter value', async () => {
+    const filters: Array<Filter<TestData>> = [
+      {
+        accessor: 'name',
+        label: 'Name',
+        selectorValues: ['Cain Ward', 'Mullins Clemons'],
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+      />
+    );
+    await wait();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    expect(
+      queryByTestId('enhancedDataTable-filterBar-selectValue-0')
+    ).toBeTruthy();
+    expect(
+      queryByTestId('enhancedDataTable-filterBar-selectValue-1')
+    ).toBeTruthy();
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectValue-0').firstChild
+        ?.textContent
+    ).toBe(filters[0].selectorValues![0]);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectValue-1').firstChild
+        ?.textContent
+    ).toBe(filters[0].selectorValues![1]);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectValue-0'));
+    await wait();
+    expect(fetchDataFn).toBeCalledTimes(2);
+    expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
+      { ...filters[0], value: filters[0].selectorValues![0] },
+    ]);
+  });
 });
