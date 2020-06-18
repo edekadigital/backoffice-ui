@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Heading: React.FC<HeadingProps> = props => {
+export const Heading: React.FC<HeadingProps> = (props) => {
   const {
     variant = 'h2',
     component = 'h2',

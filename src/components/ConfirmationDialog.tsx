@@ -34,7 +34,9 @@ const useDialogStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = props => {
+export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
+  props
+) => {
   const {
     cancelLabel,
     confirmLabel,

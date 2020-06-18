@@ -7,9 +7,12 @@ export function sortTable<
     if (!orderBy || !order) return;
     return function innerSort(a: T, b: T) {
       let comparison = 0;
-
-      if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
-        if (!a.hasOwnProperty(orderBy)) {
+      Object.prototype.hasOwnProperty.call(a, orderBy);
+      if (
+        !Object.prototype.hasOwnProperty.call(a, orderBy) ||
+        !Object.prototype.hasOwnProperty.call(b, orderBy)
+      ) {
+        if (!Object.prototype.hasOwnProperty.call(a, orderBy)) {
           comparison = 1;
         } else {
           comparison = -1;

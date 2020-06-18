@@ -26,7 +26,7 @@ export interface IconButtonProps {
   showProgress?: boolean;
 }
 
-export const IconButton: React.FC<IconButtonProps> = props => {
+export const IconButton: React.FC<IconButtonProps> = (props) => {
   const {
     icon,
     color = 'default',

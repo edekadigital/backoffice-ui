@@ -22,7 +22,7 @@ export interface EnhancedDataTableSelectionMenuProps<D extends object> {
 const useStyles = makeStyles<
   Theme,
   { drawerPosition?: { left: number; width: number } }
->(theme => ({
+>((theme) => ({
   drawerPaper: ({ drawerPosition }) => ({
     backgroundColor: theme.palette.primary.main,
     color: 'white',

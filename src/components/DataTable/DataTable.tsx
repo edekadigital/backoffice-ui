@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import * as React from 'react';
 import MuiTable from '@material-ui/core/Table';
 import MuiTableContainer from '@material-ui/core/TableContainer';
@@ -98,8 +99,8 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       tableSelectionActions.length > 0
         ? [
             useRowSelect,
-            hooks => {
-              hooks.visibleColumns.push(columns => [
+            (hooks) => {
+              hooks.visibleColumns.push((columns) => [
                 {
                   id: 'selection',
                   Header: ({
@@ -143,7 +144,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     fetchData({
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
-    }).then(res => {
+    }).then((res) => {
       if (isActive) {
         setPaginationState({
           ...paginationState,
@@ -162,8 +163,8 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
 
   React.useEffect(() => {
     const selectRows = rows
-      .filter(row => selectedRowIds && selectedRowIds[`${row.id}`] === true)
-      .map(row => row.values);
+      .filter((row) => selectedRowIds && selectedRowIds[`${row.id}`] === true)
+      .map((row) => row.values);
 
     setSelectedRows(selectRows);
   }, [selectedRowIds, rows]);

@@ -11,7 +11,7 @@ describe('<FormFieldSet/>', () => {
   afterEach(cleanup);
 
   it('should render the form field set with title', () => {
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <FormFieldSet title={title}>
         <FormRow>
           <TextField label={label} />

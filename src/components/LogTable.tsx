@@ -11,7 +11,7 @@ export interface LogTableProps {
   rows: string[][];
 }
 
-export const LogTable: React.FC<LogTableProps> = props => {
+export const LogTable: React.FC<LogTableProps> = (props) => {
   const { columns, rows } = props;
 
   const tableHead = columns.map((column, index) => (

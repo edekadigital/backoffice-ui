@@ -57,7 +57,11 @@ storiesOf('Components|ReverseNavigation', module)
     };
     const label = 'Some Label';
     const status = <StatusChip label={label} icon={Check} />;
-    const action = <Button children={label} icon={Delete} variant="outlined" />;
+    const action = (
+      <Button icon={Delete} variant="outlined">
+        {label}
+      </Button>
+    );
     return (
       <Page>
         <ReverseNavigation

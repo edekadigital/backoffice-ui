@@ -103,7 +103,7 @@ export const Default = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -185,7 +185,7 @@ export const Selectable = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -205,11 +205,11 @@ export const Selectable = () => {
   >> = [
     {
       icon: GetApp,
-      handler: data => console.log(data, 'Make api call to get zip file'),
+      handler: (data) => console.log(data, 'Make api call to get zip file'),
     },
     {
       icon: Delete,
-      handler: data => {
+      handler: (data) => {
         console.log(data, 'Delete Rows');
       },
     },
@@ -264,7 +264,7 @@ export const Clickable = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -347,8 +347,8 @@ export const Filterable = () => {
     ];
 
     if (filters && filters.length > 0) {
-      data = data.filter(item =>
-        filters.every(filter =>
+      data = data.filter((item) =>
+        filters.every((filter) =>
           item[filter.accessor as keyof typeof item]
             ?.toString()
             .includes(filter.value)
@@ -366,7 +366,7 @@ export const Filterable = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -426,7 +426,7 @@ export const WithAlternativeBody = () => {
   }) => {
     setActiveFilters(filters);
     if (!filters) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve({ data: [], totalCount: 0, pageIndex: 0 });
       });
     }
@@ -446,8 +446,8 @@ export const WithAlternativeBody = () => {
     ];
 
     if (filters && filters.length > 0) {
-      data = data.filter(item =>
-        filters.every(filter =>
+      data = data.filter((item) =>
+        filters.every((filter) =>
           item[filter.accessor as keyof typeof item]
             ?.toString()
             .includes(filter.value)
@@ -465,7 +465,7 @@ export const WithAlternativeBody = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -493,9 +493,7 @@ export const WithAlternativeBody = () => {
             mode={'height'}
           />
         </>
-      ) : (
-        undefined
-      ),
+      ) : undefined,
     [activeFilters]
   );
 
@@ -570,8 +568,8 @@ export const AllFunctionalities = () => {
     ];
 
     if (filters && filters.length > 0) {
-      data = data.filter(item =>
-        filters.every(filter =>
+      data = data.filter((item) =>
+        filters.every((filter) =>
           item[filter.accessor as keyof typeof item]
             ?.toString()
             .includes(filter.value)
@@ -589,7 +587,7 @@ export const AllFunctionalities = () => {
       data
     );
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(
         () => resolve({ data: paginatedResult, totalCount, pageIndex }),
         500
@@ -626,11 +624,11 @@ export const AllFunctionalities = () => {
   >> = [
     {
       icon: GetApp,
-      handler: data => console.log(data, 'Make api call to get zip file'),
+      handler: (data) => console.log(data, 'Make api call to get zip file'),
     },
     {
       icon: Delete,
-      handler: data => {
+      handler: (data) => {
         console.log(data, 'Delete Rows');
       },
     },

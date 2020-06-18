@@ -14,7 +14,7 @@ export interface TableBarAction {
   handler: () => void;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableBarContainer: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const TableBar: React.FC<TableBarProps> = props => {
+export const TableBar: React.FC<TableBarProps> = (props) => {
   const { headline, actions = [] } = props;
 
   const classes = useStyles();
@@ -46,11 +46,9 @@ export const TableBar: React.FC<TableBarProps> = props => {
   const heading = React.useMemo(
     () =>
       headline ? (
-        <Heading
-          children={headline}
-          variant="h4"
-          data-testid="tablebar-heading"
-        />
+        <Heading variant="h4" data-testid="tablebar-heading">
+          {headline}
+        </Heading>
       ) : null,
     [headline]
   );

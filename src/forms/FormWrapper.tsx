@@ -12,7 +12,7 @@ export interface FormWrapperProps {
   onCancel?: FormWrapperHandler;
 }
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     maxWidth: theme.breakpoints.values['md'],
   },
@@ -21,7 +21,7 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const FormWrapper: React.FC<FormWrapperProps> = props => {
+export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
   const { children, submitLabel, cancelLabel, onSubmit, onCancel } = props;
 
   const classes = useStyles();

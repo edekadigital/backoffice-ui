@@ -42,7 +42,7 @@ const renderSource = (props: ImageSource, index: number) => (
   <source key={`source-item-${index}`} {...props} />
 );
 
-export const Image: React.FC<ImageProps> = props => {
+export const Image: React.FC<ImageProps> = (props) => {
   const { src, alt, sources = [] } = props;
   const classes = useStyles(props);
 

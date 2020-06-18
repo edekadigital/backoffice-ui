@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Subtitle: React.FC<SubtitleProps> = props => {
+export const Subtitle: React.FC<SubtitleProps> = (props) => {
   const {
     variant = 'subtitle1',
     component = 'p',

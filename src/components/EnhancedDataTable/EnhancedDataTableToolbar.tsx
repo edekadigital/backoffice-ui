@@ -114,7 +114,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const handleDeleteFilterClick = (filter: ActiveFilter<D>) => () => {
     const newActiveFilters = activeFilters.filter(
-      activeFilter => activeFilter !== filter
+      (activeFilter) => activeFilter !== filter
     );
     setActiveFilters(newActiveFilters as Array<ActiveFilter<D>> | []);
   };
@@ -149,12 +149,12 @@ export function EnhancedDataTableToolbar<D>(
       setSelectableFilters(
         filters
           .filter(
-            filter =>
+            (filter) =>
               activeFilters.filter(
-                activeFilter => activeFilter.accessor === filter.accessor
+                (activeFilter) => activeFilter.accessor === filter.accessor
               ).length < 1
           )
-          .map(item => ({
+          .map((item) => ({
             accessor: item.accessor,
             label: item.label,
             selectorValues: item.selectorValues,

@@ -1,0 +1,37 @@
+{
+  "extends": ["./node_modules/gts/", "plugin:react/recommended"],
+  "plugins": ["jest"],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "fetch": false
+  },
+  "env": {
+    "jest/globals": true,
+    "browser": true
+  },
+  "rules": {
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "react/display-name": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    },
+    {
+      "files": ["**/*.stories.tsx"],
+      "rules": {
+        "node/no-extraneous-import": "off"
+      }
+    }
+  ]
+}

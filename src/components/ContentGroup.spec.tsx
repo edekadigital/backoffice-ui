@@ -13,7 +13,7 @@ describe('<ContentGroup/>', () => {
   it('should render the content group component with title', () => {
     const { getByTestId } = render(
       <ContentGroup title={title}>
-        <div>'test'</div>
+        <div>test</div>
       </ContentGroup>
     );
 

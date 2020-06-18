@@ -21,7 +21,7 @@ interface TableDrawerProps {
   maxWidth: 'sm' | 'lg';
 }
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   drawerPaper: {
     backgroundColor: theme.palette.primary.main,
     color: 'white',

@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const StatusChip: React.FC<StatusChipProps> = props => {
+export const StatusChip: React.FC<StatusChipProps> = (props) => {
   const { label, icon, size = 'medium' } = props;
   const classes = useStyles(props);
 

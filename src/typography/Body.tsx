@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  Typography as MuiTypography,
-  makeStyles,
-  PropTypes,
-} from '@material-ui/core';
+import { Typography as MuiTypography, makeStyles } from '@material-ui/core';
 
 export type BodyVariant = 'body1' | 'body2';
 
@@ -34,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Body: React.FC<BodyProps> = props => {
+export const Body: React.FC<BodyProps> = (props) => {
   const {
     variant = 'body1',
     component = 'p',

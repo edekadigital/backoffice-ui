@@ -17,7 +17,7 @@ interface SimpleMenuProps {
   items: MenuItemAction[];
 }
 
-export const SimpleMenu: React.FC<SimpleMenuProps> = props => {
+export const SimpleMenu: React.FC<SimpleMenuProps> = (props) => {
   const { items } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

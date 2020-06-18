@@ -164,7 +164,7 @@ export function EnhancedDataTable<D extends object>(
   );
   const [activeFilters, setActiveFilters] = React.useState<
     Array<ActiveFilter<D>> | []
-  >(filters?.filter(filter => filter.value) as Array<ActiveFilter<D>>);
+  >(filters?.filter((filter) => filter.value) as Array<ActiveFilter<D>>);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
       pageSize: defaultPageSize,
@@ -189,9 +189,9 @@ export function EnhancedDataTable<D extends object>(
       order,
       orderBy,
     })
-      .then(res => {
+      .then((res) => {
         if (isActive) {
-          setPaginationState(prevPaginationState => ({
+          setPaginationState((prevPaginationState) => ({
             ...prevPaginationState,
             pageIndex: res.pageIndex,
             totalCount: res.totalCount,
@@ -234,7 +234,7 @@ export function EnhancedDataTable<D extends object>(
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPaginationState(prevPaginationState => ({
+    setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
       pageIndex: newPage,
     }));
@@ -243,7 +243,7 @@ export function EnhancedDataTable<D extends object>(
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setPaginationState(prevPaginationState => ({
+    setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
       pageSize: Number(event.target.value),
       pageIndex: 0,

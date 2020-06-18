@@ -58,7 +58,7 @@ export function EnhancedDataTableBody<D extends object>(
           key={column.accessor as React.Key}
           align="left"
           onClick={() => !!onRowClick && onRowClick(row)}
-          style={{ cursor: !!onRowClick ? 'pointer' : 'default' }}
+          style={{ cursor: onRowClick ? 'pointer' : 'default' }}
           className={classes.tableCell}
           data-testid={`enhancedDataTable-body-row-${rowIndex}-column-${index}`}
         >
@@ -87,7 +87,7 @@ export function EnhancedDataTableBody<D extends object>(
         <></>
       );
 
-      const renderArrowRight = !!onRowClick ? (
+      const renderArrowRight = onRowClick ? (
         <TableCell
           padding="checkbox"
           onClick={() => !!onRowClick && onRowClick(row)}

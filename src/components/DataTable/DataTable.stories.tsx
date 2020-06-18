@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/display-name */
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { DataTable, Apps, ExitToApp, GetApp, Delete, Page } from '../..';
@@ -127,7 +129,7 @@ function getData({
   const result = data.slice(startRow, endRow);
   const totalCount = data.length;
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => resolve({ data: result, totalCount, pageIndex }), 500);
   });
 }
@@ -159,13 +161,11 @@ storiesOf('Components|DataTable', module).add('with checkboxes', () => {
   const actions = [
     {
       icon: GetApp,
-      // tslint:disable-next-line: no-any
       handler: (data: any[]) =>
         console.log(data, 'Make api call to get zip file'),
     },
     {
       icon: Delete,
-      // tslint:disable-next-line: no-any
       handler: (data: any[]) => {
         console.log(data, 'Delete Rows');
       },
