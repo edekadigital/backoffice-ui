@@ -59,7 +59,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * @deprecated Use EnhancedDataTable instead
+ */
 export function DataTable<D extends object>(props: DataTableProps<D>) {
+  console.warn(
+    'DataTable component is deprecated and will be removed in the future. Please use EnhancedDataTable component instead.'
+  );
+
   const [data, setData] = React.useState<D[]>([]);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
