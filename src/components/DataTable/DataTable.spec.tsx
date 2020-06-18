@@ -14,7 +14,7 @@ const columns = [
   { Header: 'Some', accessor: 'some' },
   { Header: 'Data', accessor: 'data' },
 ];
-
+// tslint:disable: deprecation
 describe('<DataTable>', () => {
   afterEach(cleanup);
 
