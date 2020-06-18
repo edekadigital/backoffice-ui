@@ -9,8 +9,11 @@ export function sortTable<
       let comparison = 0;
 
       if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
-        if (!a.hasOwnProperty(orderBy)) comparison = 1;
-        else comparison = -1;
+        if (!a.hasOwnProperty(orderBy)) {
+          comparison = 1;
+        } else {
+          comparison = -1;
+        }
       } else {
         const varA =
           typeof a[orderBy] === 'string'
