@@ -155,6 +155,22 @@ describe('<EnhancedDataTable />', () => {
       getByTestId('enhancedDataTable-emptyResult').firstChild?.textContent
     ).toBe('Keine Datensätze gefunden');
   });
+
+  it('should render a null result info if fetch data function promise is being rejected', async () => {
+    const fetchRejected: EnhancedDataTableFetchData<TestData> = () => {
+      return Promise.reject();
+    };
+    const { queryByTestId, getByTestId } = render(
+      <EnhancedDataTable columns={columns} fetchData={fetchRejected} />
+    );
+    await wait();
+    expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
+    expect(
+      getByTestId('enhancedDataTable-emptyResult').firstChild?.textContent
+    ).toBe('Keine Datensätze gefunden');
+  });
   it('should render an alternative table body component if provided', async () => {
     const alternativeBody = (
       <div data-testid="alternativeBodyContent">alternativeBodyContent</div>
@@ -246,7 +262,7 @@ describe('<EnhancedDataTable />', () => {
     );
     await wait();
     expect(queryByTestId('enhancedDataTable-head-emptyColumn')).toBeTruthy();
-    userEvent.click(getByTestId('enhancedDataTable-body-row-click-0'));
+    userEvent.click(getByTestId('enhancedDataTable-body-row-0-column-0'));
     expect(clickHandler).toBeCalledTimes(1);
     expect(clickHandler).toHaveBeenCalledWith(testData[0]);
     expect(
@@ -267,7 +283,7 @@ describe('<EnhancedDataTable />', () => {
     expect(clickHandler).toHaveBeenCalledWith(testData[1]);
   });
 
-  it('should be possible to select a row and call a selection action', async () => {
+  it('should be possible to select a row, call a selection action and unselect the selected row', async () => {
     const actionHandler = jest.fn();
     const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
       TestData
@@ -301,9 +317,15 @@ describe('<EnhancedDataTable />', () => {
     userEvent.click(getByTestId('enhancedDataTable-selectionMenu-action-0'));
     expect(actionHandler).toBeCalledTimes(1);
     expect(actionHandler).toHaveBeenCalledWith([testData[0]]);
+
+    // unselect
+    userEvent.click(getByTestId('enhancedDataTable-body-row-select-0'));
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('false');
   });
 
-  it('should be possible to select all rows by clicking the checkbox in table head and call a selection action', async () => {
+  it('should be possible to select and unselect all rows by clicking the checkbox in table head and call a selection action', async () => {
     const actionHandler = jest.fn();
     const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
       TestData
@@ -337,6 +359,12 @@ describe('<EnhancedDataTable />', () => {
     userEvent.click(getByTestId('enhancedDataTable-selectionMenu-action-0'));
     expect(actionHandler).toBeCalledTimes(1);
     expect(actionHandler).toHaveBeenCalledWith(testData);
+
+    // unselect
+    userEvent.click(getByTestId('enhancedDataTable-head-selectAll'));
+    expect(
+      getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
+    ).toBe('false');
   });
 
   it('should be possible to select all rows by clicking the checkbox in the selection menu and call a selection action', async () => {
@@ -615,5 +643,29 @@ describe('<EnhancedDataTable />', () => {
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
       { ...filters[0], value: filters[0].selectorValues![0] },
     ]);
+  });
+
+  it('should be possible to render any element in a table cell', async () => {
+    const TestComponent: React.FC = ({ children }) => (
+      <div data-testid={'custom-component'}>{children}</div>
+    );
+
+    const columns: Array<EnhancedDataTableColumn<TestData>> = [
+      { accessor: 'name', label: 'Name', component: TestComponent },
+      { accessor: 'city', label: 'City' },
+      { accessor: 'age', label: 'Age' },
+    ];
+
+    const { getAllByTestId, queryAllByTestId } = render(
+      <EnhancedDataTable columns={columns} fetchData={fetchDataFn} />
+    );
+    await wait();
+    expect(queryAllByTestId('custom-component').length).toBe(2);
+    expect(getAllByTestId('custom-component')[0].innerHTML).toBe(
+      testData[0].name
+    );
+    expect(getAllByTestId('custom-component')[1].innerHTML).toBe(
+      testData[1].name
+    );
   });
 });

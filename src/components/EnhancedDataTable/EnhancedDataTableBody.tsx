@@ -13,7 +13,7 @@ import { IconButton } from '../IconButton';
 import { ArrowForward } from '../../icons';
 
 export interface EnhancedDataTableBodyProps<D> {
-  data?: D[];
+  data: D[];
   columns: Array<EnhancedDataTableColumn<D>>;
   selectable: boolean;
   selectedRows?: D[];
@@ -34,7 +34,7 @@ export function EnhancedDataTableBody<D extends object>(
   props: EnhancedDataTableBodyProps<D>
 ) {
   const {
-    data = [],
+    data,
     columns,
     selectable,
     selectedRows,
@@ -44,7 +44,7 @@ export function EnhancedDataTableBody<D extends object>(
 
   const classes = useStyles();
 
-  const renderColumns = (row: object, rowIndex: number) =>
+  const renderColumns = (row: D, rowIndex: number) =>
     columns.map((column, index) => {
       const renderColumn = column.component ? (
         <column.component>
@@ -57,7 +57,7 @@ export function EnhancedDataTableBody<D extends object>(
         <TableCell
           key={column.accessor as React.Key}
           align="left"
-          onClick={() => !!onRowClick && onRowClick(row as D)}
+          onClick={() => !!onRowClick && onRowClick(row)}
           style={{ cursor: !!onRowClick ? 'pointer' : 'default' }}
           className={classes.tableCell}
           data-testid={`enhancedDataTable-body-row-${rowIndex}-column-${index}`}
