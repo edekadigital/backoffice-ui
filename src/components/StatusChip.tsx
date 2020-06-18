@@ -56,7 +56,9 @@ export const StatusChip: React.FC<StatusChipProps> = props => {
     const iconProps = {
       classes: { root: classes.icon },
     };
-    chipProps.icon = <IconComponent {...iconProps} />;
+    chipProps.icon = (
+      <IconComponent data-testid={'statusChip-icon'} {...iconProps} />
+    );
   }
 
   return <Chip {...chipProps} />;

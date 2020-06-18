@@ -22,7 +22,7 @@ export interface ImageProps {
   mode?: ImageMode;
   sources?: ImageSource[];
 }
-
+/* istanbul ignore next */
 const useStyles = makeStyles<unknown, ImageProps>({
   root: {},
   img: ({ mode = 'width', position = 'relative' }) => ({
