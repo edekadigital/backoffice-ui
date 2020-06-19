@@ -142,33 +142,30 @@ describe('<EnhancedDataTable />', () => {
         resolve({ data: [], totalCount: 0, pageIndex: 0 });
       });
     };
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId, getByText } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchEmpty} />
     );
     await wait();
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
-    expect(
-      getByTestId('enhancedDataTable-emptyResult').firstChild?.textContent
-    ).toBe('Keine Datensätze gefunden');
+    expect(getByText('Keine Datensätze gefunden')).toBeTruthy();
   });
 
   it('should render a null result info if fetch data function promise is being rejected', async () => {
     const fetchRejected: EnhancedDataTableFetchData<TestData> = () => {
       return Promise.reject();
     };
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId, getByText } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchRejected} />
     );
     await wait();
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
-    expect(
-      getByTestId('enhancedDataTable-emptyResult').firstChild?.textContent
-    ).toBe('Keine Datensätze gefunden');
+    expect(getByText('Keine Datensätze gefunden')).toBeTruthy();
   });
+
   it('should render an alternative table body component if provided', async () => {
     const alternativeBody = (
       <div data-testid="alternativeBodyContent">alternativeBodyContent</div>
@@ -229,6 +226,7 @@ describe('<EnhancedDataTable />', () => {
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].pageSize).toBe(2);
   });
+
   it('should be possible to paginate', async () => {
     const { container } = render(
       <EnhancedDataTable
@@ -568,7 +566,7 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
   });
 
-  it('should be to close the previously opened filter menu', async () => {
+  it('should be possible to close the previously opened filter menu', async () => {
     const filters: Array<Filter<TestData>> = [
       {
         accessor: 'name',
@@ -598,7 +596,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBe('false');
   });
 
-  it('should be possible to set and unset a filter on a given column by clicking a predefined filter value', async () => {
+  it('should be possible to set a filter on a given column by clicking a predefined filter value', async () => {
     const filters: Array<Filter<TestData>> = [
       {
         accessor: 'name',
