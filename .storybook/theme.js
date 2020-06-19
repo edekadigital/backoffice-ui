@@ -5,5 +5,5 @@ export default create({
   appBorderRadius: 0,
   brandTitle: 'EDEKA Backoffice UI',
   brandUrl: '/',
-  brandImage: '/logo_edeka_hdpi.png',
+  brandImage: './logo_edeka_hdpi.png',
 });
