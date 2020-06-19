@@ -62,13 +62,11 @@ describe('<EnhancedDataTable />', () => {
   afterEach(cleanup);
 
   it('should render a loading indicator if data is undefined', async () => {
-    const fetchUndefined: EnhancedDataTableFetchData<TestData> = () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data: TestData[] = undefined as any;
-      return new Promise((resolve) => {
-        resolve({ data, totalCount: 0, pageIndex: 0 });
-      });
-    };
+    const fetchUndefined: EnhancedDataTableFetchData<TestData> = () =>
+      Promise.resolve({
+        totalCount: 0,
+        pageIndex: 0,
+      } as EnhancedDataTableFetchResult<TestData>);
     const { container, queryByTestId } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchUndefined} />
     );
