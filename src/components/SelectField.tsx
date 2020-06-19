@@ -15,7 +15,7 @@ export interface SelectFieldProps {
   value?: TextFieldValue;
 }
 
-export const SelectField: React.FC<SelectFieldProps> = props => {
+export const SelectField: React.FC<SelectFieldProps> = (props) => {
   const { menuItems, ...additionalProps } = props;
 
   const menuItemList = menuItems.map((item, index) => (

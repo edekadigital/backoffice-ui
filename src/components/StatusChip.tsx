@@ -18,8 +18,7 @@ const colorMap: { [k: string]: string } = {
   success: SUCCESS,
   error: ERROR,
 };
-
-export interface StatusChipProps {
+export interface StatusChipProps extends Pick<ChipProps, 'size'> {
   label: string;
   color?: StatusChipColor;
   icon?: React.ElementType<SvgIconProps>;
@@ -41,11 +40,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const StatusChip: React.FC<StatusChipProps> = props => {
-  const { label, icon } = props;
+export const StatusChip: React.FC<StatusChipProps> = (props) => {
+  const { label, icon, size = 'medium' } = props;
   const classes = useStyles(props);
 
   const chipProps: ChipProps = {
+    size,
     label,
     variant: 'outlined',
     classes: { root: classes.root }, // TODO
@@ -56,7 +56,9 @@ export const StatusChip: React.FC<StatusChipProps> = props => {
     const iconProps = {
       classes: { root: classes.icon },
     };
-    chipProps.icon = <IconComponent {...iconProps} />;
+    chipProps.icon = (
+      <IconComponent data-testid={'statusChip-icon'} {...iconProps} />
+    );
   }
 
   return <Chip {...chipProps} />;

@@ -5,7 +5,12 @@ export type SubtitleVariant = 'subtitle1' | 'subtitle2';
 
 export type SubtitleComponent = 'p' | 'span' | 'div';
 
-export type SubtitleColor = 'initial' | 'primary' | 'secondary';
+export type SubtitleColor =
+  | 'initial'
+  | 'primary'
+  | 'secondary'
+  | 'textPrimary'
+  | 'textSecondary';
 
 export type SubtitleAlign = 'left' | 'center' | 'right';
 
@@ -24,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Subtitle: React.FC<SubtitleProps> = props => {
+export const Subtitle: React.FC<SubtitleProps> = (props) => {
   const {
     variant = 'subtitle1',
     component = 'p',

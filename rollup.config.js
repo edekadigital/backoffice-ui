@@ -10,7 +10,7 @@ const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const cjs = [
   {
     input: 'src/index.ts',
-    output: { file: `lib/cjs/index.js`, format: 'cjs' },
+    output: { file: 'lib/cjs/index.js', format: 'cjs' },
     external: isBareModuleId,
     plugins: [
       nodeResolve({
@@ -34,7 +34,7 @@ const cjs = [
 const esm = [
   {
     input: 'src/index.ts',
-    output: { file: `lib/esm/index.js`, format: 'esm' },
+    output: { file: 'lib/esm/index.js', format: 'esm' },
     external: isBareModuleId,
     plugins: [
       nodeResolve({

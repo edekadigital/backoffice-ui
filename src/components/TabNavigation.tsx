@@ -20,7 +20,7 @@ export interface TabNavigationProps<T> {
   gutterBottom?: boolean;
 }
 
-const useStyles = makeStyles<Theme, { gutterBottom: boolean }>(theme => ({
+const useStyles = makeStyles<Theme, { gutterBottom: boolean }>((theme) => ({
   root: ({ gutterBottom }) => ({
     marginBottom: theme.spacing(gutterBottom ? 3 : 0),
   }),

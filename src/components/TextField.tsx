@@ -51,7 +51,7 @@ const useLabelStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const TextField: React.FC<TextFieldProps> = props => {
+export const TextField: React.FC<TextFieldProps> = (props) => {
   const { type = 'text', required = false, ...additionalProps } = props;
   const inputClasses = useInputStyles();
   const labelClasses = useLabelStyles();

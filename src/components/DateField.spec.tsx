@@ -67,8 +67,14 @@ describe('<DateField />', () => {
     const labelResult = getByTestId('textField-input')! as HTMLInputElement;
     await userEvent.type(labelResult, '3.');
     expect(labelResult.value).toEqual('03');
-    await userEvent.type(labelResult, '03.4.');
+    await userEvent.type(labelResult, '4.');
     expect(labelResult.value).toEqual('03.04');
+  });
+
+  it('should set separation dots correctly', async () => {
+    const { getByTestId } = render(<DateField label={label} />);
+
+    const labelResult = getByTestId('textField-input')! as HTMLInputElement;
     await userEvent.type(labelResult, '11111');
     expect(labelResult.value).toEqual('11.11.1');
   });

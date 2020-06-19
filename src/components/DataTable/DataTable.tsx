@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import * as React from 'react';
 import MuiTable from '@material-ui/core/Table';
 import MuiTableContainer from '@material-ui/core/TableContainer';
@@ -7,9 +8,9 @@ import {
   TableHead,
   TableBody,
   TableDrawer,
-  TableSelectionActions,
   TableBar,
   TableBarAction,
+  TableSelectionActions,
 } from './index';
 import { CheckboxDark } from '../..';
 import {
@@ -65,7 +66,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * @deprecated Use EnhancedDataTable instead
+ */
 export function DataTable<D extends object>(props: DataTableProps<D>) {
+  console.warn(
+    'DataTable component is deprecated and will be removed in the future. Please use EnhancedDataTable component instead.'
+  );
+
   const [data, setData] = React.useState<D[]>([]);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
@@ -91,8 +99,8 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
       tableSelectionActions.length > 0
         ? [
             useRowSelect,
-            hooks => {
-              hooks.visibleColumns.push(columns => [
+            (hooks) => {
+              hooks.visibleColumns.push((columns) => [
                 {
                   id: 'selection',
                   Header: ({
@@ -136,7 +144,7 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
     fetchData({
       pageSize: paginationState.pageSize,
       pageIndex: paginationState.pageIndex,
-    }).then(res => {
+    }).then((res) => {
       if (isActive) {
         setPaginationState({
           ...paginationState,
@@ -155,8 +163,8 @@ export function DataTable<D extends object>(props: DataTableProps<D>) {
 
   React.useEffect(() => {
     const selectRows = rows
-      .filter(row => selectedRowIds && selectedRowIds[`${row.id}`] === true)
-      .map(row => row.values);
+      .filter((row) => selectedRowIds && selectedRowIds[`${row.id}`] === true)
+      .map((row) => row.values);
 
     setSelectedRows(selectRows);
   }, [selectedRowIds, rows]);

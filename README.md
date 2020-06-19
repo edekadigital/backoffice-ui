@@ -1,4 +1,5 @@
 [![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
+[![npm version](https://badge.fury.io/js/%40edekadigital%2Fbackoffice-ui.svg)](https://badge.fury.io/js/%40edekadigital%2Fbackoffice-ui)
 
 # Backoffice UI
 

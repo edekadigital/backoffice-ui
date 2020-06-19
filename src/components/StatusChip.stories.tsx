@@ -5,6 +5,7 @@ import { StatusChip, Delete, Schedule, Check, FormRow } from '..'; // @edekadigi
 
 storiesOf('Components|StatusChip', module)
   .add('default', () => <StatusChip label="Some label" />)
+  .add('default small', () => <StatusChip size={'small'} label="Some label" />)
   .add('with icon', () => <StatusChip label="Some label" icon={Check} />)
   .add('info', () => <StatusChip label="Some label" color="info" />)
   .add('success', () => <StatusChip label="Some label" color="success" />)

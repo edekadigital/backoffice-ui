@@ -30,25 +30,15 @@ describe('<ButtonBar />', () => {
       clicked = true;
     };
 
-    let clicked2 = 'fcb';
-    const handleClick2 = () => {
-      clicked2 = 'wird meister';
-    };
-
     const { getByTestId } = render(
       <ButtonBar>
         <div data-testid={testButton1} onClick={handleClick}>
           {textButton1}
         </div>
-        <div data-testid={testButton2} onClick={handleClick2}>
-          {textButton2}
-        </div>
       </ButtonBar>
     );
 
     fireEvent.click(getByTestId(testButton1));
-    expect(clicked).toBe(true);
-    fireEvent.click(getByTestId(testButton2));
     expect(clicked).toBe(true);
   });
 });

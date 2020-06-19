@@ -8,7 +8,9 @@ export * from './components/ButtonBar';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/DateField';
+export * from './components/EnhancedDataTable/EnhancedDataTable';
 export * from './components/IconButton';
+export * from './components/Image';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
 export * from './components/SelectField';
@@ -33,3 +35,5 @@ export * from './layouts/Page';
 export * from './layouts/PageWrapper';
 
 export * from './icons';
+
+export * from './utils/tableUtils';

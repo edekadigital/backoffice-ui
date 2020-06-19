@@ -51,6 +51,7 @@ export { default as Menu } from '@material-ui/icons/Menu';
 export { default as Message } from '@material-ui/icons/Message';
 export { default as MoreHoriz } from '@material-ui/icons/MoreHoriz';
 export { default as MoreVert } from '@material-ui/icons/MoreVert';
+export { default as MyLocation } from '@material-ui/icons/MyLocation';
 export { default as NavigateBefore } from '@material-ui/icons/NavigateBefore';
 export { default as NavigateNext } from '@material-ui/icons/NavigateNext';
 export { default as Notifications } from '@material-ui/icons/Notifications';

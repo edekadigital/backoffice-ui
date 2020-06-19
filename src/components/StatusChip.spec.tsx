@@ -15,14 +15,10 @@ describe('<StatusChip/>', () => {
   });
 
   it('should render the status chip with icon', () => {
-    const { getByText, container } = render(
+    const { getByText, queryByTestId } = render(
       <StatusChip label={label} icon={ArrowDropDown} />
     );
-
-    const iconResult = container.querySelector<HTMLOrSVGImageElement>(
-      '[role="presentation"]'
-    );
-    expect(iconResult).toBeTruthy();
+    expect(queryByTestId('statusChip-icon')).toBeTruthy();
     expect(getByText(label)!).toBeTruthy();
   });
 });

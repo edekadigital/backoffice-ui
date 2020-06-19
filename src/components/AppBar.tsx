@@ -17,7 +17,7 @@ export interface AppBarProps {
   gutterBottom?: boolean;
 }
 
-const useStyles = makeStyles<Theme, AppBarProps>(theme => ({
+const useStyles = makeStyles<Theme, AppBarProps>((theme) => ({
   root: ({ gutterBottom }) => ({
     background: theme.palette.background.paper,
     marginBottom: theme.spacing(gutterBottom ? 3 : 0),
@@ -46,7 +46,7 @@ const useStyles = makeStyles<Theme, AppBarProps>(theme => ({
   },
 }));
 
-export const AppBar: React.FC<AppBarProps> = props => {
+export const AppBar: React.FC<AppBarProps> = (props) => {
   const { actions = [], children } = props;
   const classes = useStyles(props);
 

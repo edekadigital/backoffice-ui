@@ -17,29 +17,27 @@ describe('<Subtitle/>', () => {
 
   it('should render the subtitle component with secondary color', () => {
     const { getByTestId } = render(
-      <Subtitle
-        color="secondary"
-        data-testid={subtitleId}
-      >
+      <Subtitle color="secondary" data-testid={subtitleId}>
         {subtitleContent}
       </Subtitle>
     );
 
     expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
-    expect(getByTestId(subtitleId)!.classList).toContain('MuiTypography-colorSecondary');
+    expect(getByTestId(subtitleId)!.classList).toContain(
+      'MuiTypography-colorSecondary'
+    );
   });
 
   it('should render the subtitle component with align center', () => {
     const { getByTestId } = render(
-      <Subtitle
-        align="center"
-        data-testid={subtitleId}
-      >
+      <Subtitle align="center" data-testid={subtitleId}>
         {subtitleContent}
       </Subtitle>
     );
 
     expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
-    expect(getByTestId(subtitleId)!.classList).toContain('MuiTypography-alignCenter');
+    expect(getByTestId(subtitleId)!.classList).toContain(
+      'MuiTypography-alignCenter'
+    );
   });
 });

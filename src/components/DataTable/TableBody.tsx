@@ -12,7 +12,7 @@ export interface TableRowProps<D extends object> {
   selectedRowIds: false | Record<IdType<D>, boolean>;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableBody: {
     backgroundColor: theme.palette.background.paper,
   },

@@ -13,7 +13,7 @@ describe('<ContentGroup/>', () => {
   it('should render the content group component with title', () => {
     const { getByTestId } = render(
       <ContentGroup title={title}>
-        <div>'test'</div>
+        <div>test</div>
       </ContentGroup>
     );
 
@@ -23,7 +23,7 @@ describe('<ContentGroup/>', () => {
   it('should render the content group component title tag', () => {
     const { getByTestId } = render(
       <ContentGroup>
-        <div data-testid='title-id' >{title}</div>
+        <div data-testid="title-id">{title}</div>
       </ContentGroup>
     );
 
@@ -34,10 +34,10 @@ describe('<ContentGroup/>', () => {
     const { getByTestId } = render(
       <ContentGroup title={title}>
         <FormRow>
-          <TextField label={label} data-testid='label1'/>
+          <TextField label={label} data-testid="label1" />
         </FormRow>
         <FormRow>
-          <TextField label={label2} data-testid='label2'/>
+          <TextField label={label2} data-testid="label2" />
         </FormRow>
       </ContentGroup>
     );

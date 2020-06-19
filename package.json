@@ -17,32 +17,30 @@
   ],
   "scripts": {
     "start": "npm run storybook",
-    "storybook": "start-storybook -p 8000 -c .storybook",
-    "build-storybook": "build-storybook -c .storybook -o public",
+    "storybook": "start-storybook -p 8000 -c .storybook -s .storybook/assets",
+    "build-storybook": "build-storybook -c .storybook -s .storybook/assets -o public",
     "build": "npm run build-bundles && npm run build-types",
     "build-bundles": "rollup -c",
     "build-types": "tsc -p tsconfig.types.json --outDir ./lib/types",
     "test": "jest --coverage",
     "show-coverage-report": "open -a \"Google Chrome\" coverage/lcov-report/index.html",
-    "check": "gts check",
+    "check": "tsc --noemit && gts check",
     "fix": "gts fix",
     "clean": "gts clean",
     "prepublishOnly": "npm run build",
     "format": "prettier \"**/*.{ts,json,md,tsx}\" --write"
   },
-  "huskyTemporaryDeactivated": {
+  "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test"
+      "pre-commit": "tsc --noemit && lint-staged"
     }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "gts fix",
-      "git add"
+      "gts fix"
     ],
     "*.{json,md,js}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "peerDependencies": {
@@ -55,30 +53,36 @@
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
-    "@storybook/react": "^5.3.13",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^8.0.3",
-    "@types/jest": "^24.9.0",
+    "@storybook/addon-docs": "^5.3.19",
+    "@storybook/addon-viewport": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/react": "^5.3.19",
+    "@storybook/theming": "^5.3.19",
+    "@testing-library/react": "^10.3.0",
+    "@testing-library/user-event": "^12.0.2",
+    "@types/jest": "^26.0.0",
     "@types/node": "^12.12.25",
-    "@types/react": "^16.9.19",
-    "@types/react-dom": "^16.9.5",
+    "@types/react": "^16.9.38",
+    "@types/react-dom": "^16.9.8",
     "@types/react-table": "^7.0.16",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "gts": "^1.1.2",
-    "husky": "^3.0.9",
-    "jest": "^25.1.0",
-    "lint-staged": "^10.0.2",
-    "prettier": "^1.19.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-react": "^7.20.0",
+    "gts": "^2.0.2",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^16.13.1",
     "rollup": "^1.29.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "tslint-react": "^4.2.0",
     "typescript": "^3.7.5"
   },
   "dependencies": {
@@ -88,6 +92,7 @@
     "@material-ui/lab": "^4.0.0-alpha.40",
     "@material-ui/styles": "^4.5.0",
     "clsx": "^1.0.4",
+    "object-fit-images": "^3.2.4",
     "react-number-format": "^4.3.1",
     "react-table": "^7.0.4"
   },

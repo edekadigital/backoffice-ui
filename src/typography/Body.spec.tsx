@@ -11,9 +11,7 @@ describe('<Body />', () => {
 
   it('should render the body component', () => {
     const { getByText } = render(
-      <Body data-testid={bodyId}>
-        {bodyContent}
-      </Body>
+      <Body data-testid={bodyId}>{bodyContent}</Body>
     );
 
     expect(getByText(bodyContent)!).toBeTruthy();
@@ -21,14 +19,13 @@ describe('<Body />', () => {
 
   it('should render the body component with primary color', () => {
     const { getByTestId } = render(
-      <Body
-        color={'primary'}
-        data-testid={bodyId}
-      >
+      <Body color={'primary'} data-testid={bodyId}>
         {bodyContent}
       </Body>
     );
 
-    expect(getByTestId(bodyId)!.classList).toContain('MuiTypography-colorPrimary');
+    expect(getByTestId(bodyId)!.classList).toContain(
+      'MuiTypography-colorPrimary'
+    );
   });
 });

@@ -4,7 +4,7 @@ import { TextField, TextFieldProps } from './TextField';
 
 export type DateFieldProps = Omit<TextFieldProps, 'type' | 'adornment'>;
 
-export const DateField: React.FC<DateFieldProps> = props => {
+export const DateField: React.FC<DateFieldProps> = (props) => {
   const handleButtonKeyPress = (event: React.KeyboardEvent) => {
     /* istanbul ignore next */
     const createNewEvent = (eventName: string) => {

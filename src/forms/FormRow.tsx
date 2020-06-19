@@ -71,7 +71,7 @@ function mapJustifyToJustifyContent(
   }
 }
 
-const useStyles = makeStyles<Theme, SanitizedFormProps>(theme => ({
+const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
   root: ({ gutterBottom, maxWidth }) => {
     let maxWidthValue: number | undefined = undefined;
 
@@ -90,7 +90,7 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>(theme => ({
   },
 }));
 
-export const FormRow: React.FC<FormRowProps> = rawProps => {
+export const FormRow: React.FC<FormRowProps> = (rawProps) => {
   const props = getSanitizedProps(rawProps);
   const { children, gridLayout, justify } = props;
   const classes = useStyles(props);

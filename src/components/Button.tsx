@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-export const Button: React.FC<ButtonProps> = props => {
+export const Button: React.FC<ButtonProps> = (props) => {
   const {
     variant = 'contained',
     icon,

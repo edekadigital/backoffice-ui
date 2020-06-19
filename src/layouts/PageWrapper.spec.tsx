@@ -24,7 +24,7 @@ describe('<PageWrapper />', () => {
 
   it('should render the page wrapper component with page and button bar as content', () => {
     const { getByTestId, container } = render(
-      <Page variant="narrow" data-testid='pagetestid'>
+      <Page variant="narrow" data-testid="pagetestid">
         <ButtonBar>
           <Button data-testid={buttonTestId}>{label}</Button>
         </ButtonBar>
