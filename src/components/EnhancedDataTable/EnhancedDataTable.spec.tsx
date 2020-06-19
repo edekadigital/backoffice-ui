@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, wait } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import {
@@ -44,13 +44,8 @@ const fetchData: EnhancedDataTableFetchData<TestData> = ({
   pageSize = 10,
   pageIndex = 0,
 }) => {
-  const { paginatedResult, totalCount } = paginateTable(
-    pageSize,
-    pageIndex,
-    testData
-  );
   return new Promise((resolve) => {
-    resolve({ data: paginatedResult, totalCount, pageIndex });
+    resolve(paginateTable(pageSize, pageIndex, testData));
   });
 };
 
@@ -70,7 +65,7 @@ describe('<EnhancedDataTable />', () => {
     const { container, queryByTestId } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchUndefined} />
     );
-    await wait(() => expect(container).toBeTruthy());
+    await waitFor(() => expect(container).toBeTruthy());
     expect(queryByTestId('enhancedDataTable-loading')).toBeTruthy();
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
@@ -83,7 +78,7 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-loading')).toBeTruthy();
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
-    await wait();
+    await waitFor(() => {});
   });
 
   it('should render the enhanced table component if data is provided', async () => {
@@ -94,7 +89,7 @@ describe('<EnhancedDataTable />', () => {
         headline={'Headline'}
       />
     );
-    await wait(() => expect(container).toBeTruthy());
+    await waitFor(() => expect(container).toBeTruthy());
     expect(fetchDataFn).toBeCalledTimes(1);
     expect(fetchDataFn).toHaveBeenCalledWith({
       filters: undefined,
@@ -145,7 +140,7 @@ describe('<EnhancedDataTable />', () => {
     const { queryByTestId, getByText } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchEmpty} />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
@@ -159,7 +154,7 @@ describe('<EnhancedDataTable />', () => {
     const { queryByTestId, getByText } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchRejected} />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
@@ -177,7 +172,7 @@ describe('<EnhancedDataTable />', () => {
         alternativeTableBody={alternativeBody}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-alternativeBody')).toBeTruthy();
@@ -195,7 +190,7 @@ describe('<EnhancedDataTable />', () => {
         defaultPageSize={1}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(
       container.querySelector('.MuiTablePagination-select')?.firstChild
         ?.textContent
@@ -212,7 +207,7 @@ describe('<EnhancedDataTable />', () => {
         defaultPageSize={1}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn.mock.calls[0][0].pageSize).toBe(1);
     userEvent.click(container.querySelector('.MuiTablePagination-select')!);
     const paginationSelectItems = baseElement.querySelectorAll(
@@ -222,7 +217,7 @@ describe('<EnhancedDataTable />', () => {
     expect(paginationSelectItems[0].textContent).toBe('1');
     expect(paginationSelectItems[1].textContent).toBe('2');
     userEvent.click(paginationSelectItems[1]);
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].pageSize).toBe(2);
   });
@@ -236,12 +231,12 @@ describe('<EnhancedDataTable />', () => {
         defaultPageSize={1}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn.mock.calls[0][0].pageIndex).toBe(0);
     userEvent.click(
       container.querySelectorAll('button[title="Nächste Seite"]')[1]!
     );
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].pageIndex).toBe(1);
   });
@@ -256,7 +251,7 @@ describe('<EnhancedDataTable />', () => {
         onRowClick={clickHandler}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-head-emptyColumn')).toBeTruthy();
     userEvent.click(getByTestId('enhancedDataTable-body-row-0-column-0'));
     expect(clickHandler).toBeCalledTimes(1);
@@ -297,7 +292,7 @@ describe('<EnhancedDataTable />', () => {
         selectionActions={selectionActions}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-head-selectAll')).toBeTruthy();
     expect(
       getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
@@ -339,7 +334,7 @@ describe('<EnhancedDataTable />', () => {
         selectionActions={selectionActions}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-head-selectAll')).toBeTruthy();
     expect(
       getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
@@ -381,7 +376,7 @@ describe('<EnhancedDataTable />', () => {
         selectionActions={selectionActions}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(
       getByTestId('enhancedDataTable-selectionMenu').getAttribute('data-open')
     ).toBe('false');
@@ -406,27 +401,27 @@ describe('<EnhancedDataTable />', () => {
     const { getByTestId } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchDataFn} />
     );
-    await wait();
+    await waitFor(() => {});
 
     userEvent.click(getByTestId('enhancedDataTable-head-column-sort-0'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].order).toBe('asc');
     expect(fetchDataFn.mock.calls[1][0].orderBy).toBe(columns[0].accessor);
 
     userEvent.click(getByTestId('enhancedDataTable-head-column-sort-0'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(3);
     expect(fetchDataFn.mock.calls[2][0].order).toBe('desc');
     expect(fetchDataFn.mock.calls[2][0].orderBy).toBe(columns[0].accessor);
 
     // column should be not sortable
     userEvent.click(getByTestId('enhancedDataTable-head-column-sort-1'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(3);
 
     userEvent.click(getByTestId('enhancedDataTable-head-column-sort-2'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(4);
     expect(fetchDataFn.mock.calls[3][0].order).toBe('asc');
     expect(fetchDataFn.mock.calls[3][0].orderBy).toBe(columns[2].accessor);
@@ -451,7 +446,7 @@ describe('<EnhancedDataTable />', () => {
         filters={filters}
       />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryByTestId('enhancedDataTable-filterBar')).toBeTruthy();
     expect(queryByTestId('enhancedDataTable-filterBar-add')).toBeTruthy();
     // clicking add filter button should open the filter menu with the available filters
@@ -484,7 +479,7 @@ describe('<EnhancedDataTable />', () => {
     );
     // submit filter value form
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
-    await wait();
+    await waitFor(() => {});
     // expect fetchData function to have been called with selected filter and its defined value
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
       { ...filters[0], selectorValues: undefined, value: 'filterValue' },
@@ -496,7 +491,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBe('Name: "filterValue"');
     // clicking the active filter should remove it
     userEvent.click(getByTestId('enhancedDataTable-activeFilter-0'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn.mock.calls[2][0].filters).toStrictEqual([]);
     expect(queryByTestId('enhancedDataTable-activeFilter-0')).toBeFalsy();
   });
@@ -520,7 +515,7 @@ describe('<EnhancedDataTable />', () => {
         filters={filters}
       />
     );
-    await wait();
+    await waitFor(() => {});
     // add first filter
     userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
     expect(
@@ -537,7 +532,7 @@ describe('<EnhancedDataTable />', () => {
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
-    await wait();
+    await waitFor(() => {});
 
     // add second filter - the previously added filter should not be available in the list
     userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
@@ -554,7 +549,7 @@ describe('<EnhancedDataTable />', () => {
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
-    await wait();
+    await waitFor(() => {});
 
     // all available filters are active - no further filters can be added
     expect(
@@ -585,7 +580,7 @@ describe('<EnhancedDataTable />', () => {
         filters={filters}
       />
     );
-    await wait();
+    await waitFor(() => {});
     userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
     userEvent.click(getByTestId('enhancedDataTable-filterBar-close'));
@@ -612,7 +607,7 @@ describe('<EnhancedDataTable />', () => {
         filters={filters}
       />
     );
-    await wait();
+    await waitFor(() => {});
     userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
     expect(
       getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
@@ -634,7 +629,7 @@ describe('<EnhancedDataTable />', () => {
         ?.textContent
     ).toBe(filters[0].selectorValues![1]);
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectValue-0'));
-    await wait();
+    await waitFor(() => {});
     expect(fetchDataFn).toBeCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
       { ...filters[0], value: filters[0].selectorValues![0] },
@@ -655,7 +650,7 @@ describe('<EnhancedDataTable />', () => {
     const { getAllByTestId, queryAllByTestId } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchDataFn} />
     );
-    await wait();
+    await waitFor(() => {});
     expect(queryAllByTestId('custom-component').length).toBe(2);
     expect(getAllByTestId('custom-component')[0].innerHTML).toBe(
       testData[0].name

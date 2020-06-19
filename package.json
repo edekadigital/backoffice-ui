@@ -17,14 +17,14 @@
   ],
   "scripts": {
     "start": "npm run storybook",
-    "storybook": "start-storybook -p 8000 -c .storybook -s ./public",
-    "build-storybook": "build-storybook -c .storybook -o public",
+    "storybook": "start-storybook -p 8000 -c .storybook -s .storybook/assets",
+    "build-storybook": "build-storybook -c .storybook -s .storybook/assets -o public",
     "build": "npm run build-bundles && npm run build-types",
     "build-bundles": "rollup -c",
     "build-types": "tsc -p tsconfig.types.json --outDir ./lib/types",
     "test": "jest --coverage",
     "show-coverage-report": "open -a \"Google Chrome\" coverage/lcov-report/index.html",
-    "check": "gts check",
+    "check": "tsc --noemit && gts check",
     "fix": "gts fix",
     "clean": "gts clean",
     "prepublishOnly": "npm run build",
@@ -37,12 +37,11 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "gts fix",
-      "git add"
+      "tsc --noemit",
+      "gts fix"
     ],
     "*.{json,md,js}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "peerDependencies": {

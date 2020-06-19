@@ -52,6 +52,7 @@ export function paginateTable<T>(
 
   return {
     totalCount,
-    paginatedResult,
+    data: paginatedResult,
+    pageIndex,
   };
 }

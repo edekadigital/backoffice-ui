@@ -18,7 +18,7 @@ export interface EnhancedDataTableHeadProps<D> {
   selectable: boolean;
   isAllRowsSelected: boolean;
   onRequestSort: (property: keyof D) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelectAllClick: React.ChangeEventHandler<HTMLInputElement>;
   clickable?: boolean;
 }
 

@@ -3,33 +3,28 @@ import { render } from '../test-utils';
 import { cleanup } from '@testing-library/react';
 import { Image } from '..';
 
+const src =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg==';
+
 describe('<Image />', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
     const altText = 'Some alt text';
-    const { container } = render(
-      <Image
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
-        alt={altText}
-      />
-    );
+    const { container } = render(<Image src={src} alt={altText} />);
     const imageElement = container.querySelector<HTMLImageElement>('img');
     expect(imageElement!.alt).toEqual(altText);
   });
 
   it('should render the component (with multiple sources)', () => {
     const alt = 'Some alt text';
-    const src =
-      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg==';
 
     const ImageProps = {
       src,
       alt,
       sources: [
         {
-          srcSet:
-            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg== 2x, data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg',
+          srcSet: `${src} 2x, ${src}`,
         },
       ],
     };

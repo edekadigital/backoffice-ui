@@ -24,8 +24,8 @@ export interface EnhancedDataTableBodyProps<D> {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tableCell: {
-      paddingTop: theme.spacing(1.8),
-      paddingBottom: theme.spacing(1.8),
+      paddingTop: theme.spacing(1.75),
+      paddingBottom: theme.spacing(1.75),
     },
   })
 );

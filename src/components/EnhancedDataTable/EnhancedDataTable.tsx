@@ -159,9 +159,6 @@ export function EnhancedDataTable<D extends object>(
   } = props;
   const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
-  const [isAllRowsSelected, setIsAllRowsSelected] = React.useState<boolean>(
-    false
-  );
   const [activeFilters, setActiveFilters] = React.useState<
     Array<ActiveFilter<D>> | []
   >(filters?.filter((filter) => filter.value) as Array<ActiveFilter<D>>);
@@ -175,7 +172,7 @@ export function EnhancedDataTable<D extends object>(
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof D>();
   const tableRef = React.useRef<HTMLDivElement>(null);
-
+  const isAllRowsSelected = !!data && selectedRows.length === data.length;
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -214,11 +211,6 @@ export function EnhancedDataTable<D extends object>(
     order,
     orderBy,
   ]);
-
-  React.useEffect(
-    () => setIsAllRowsSelected(!!data && selectedRows.length === data.length),
-    [data, selectedRows]
-  );
 
   const handleActiveFilters = (filters: Array<ActiveFilter<D>>) => {
     setActiveFilters(filters);
@@ -376,16 +368,13 @@ export function EnhancedDataTable<D extends object>(
     orderBy,
   ]);
 
-  const renderToolbar = React.useMemo(
-    () => (
-      <EnhancedDataTableToolbar
-        filters={filters}
-        setActiveFilters={handleActiveFilters}
-        activeFilters={activeFilters}
-        headline={headline}
-      />
-    ),
-    [filters, handleActiveFilters, activeFilters, headline]
+  const renderToolbar = (
+    <EnhancedDataTableToolbar
+      filters={filters}
+      setActiveFilters={handleActiveFilters}
+      activeFilters={activeFilters}
+      headline={headline}
+    />
   );
 
   return (

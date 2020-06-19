@@ -97,17 +97,8 @@ export const Default = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 
@@ -179,17 +170,8 @@ export const Selectable = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 
@@ -258,17 +240,8 @@ export const Clickable = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 
@@ -360,17 +333,8 @@ export const Filterable = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 
@@ -459,17 +423,8 @@ export const WithAlternativeBody = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 
@@ -581,17 +536,8 @@ export const AllFunctionalities = () => {
     data = sortTable(data, orderBy, order);
 
     // import {paginateTable} from 'utils/tableUtils'
-    const { paginatedResult, totalCount } = paginateTable(
-      pageSize,
-      pageIndex,
-      data
-    );
-
     return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({ data: paginatedResult, totalCount, pageIndex }),
-        500
-      );
+      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
     });
   };
 

@@ -134,7 +134,6 @@ function getData({
   });
 }
 
-// tslint:disable: deprecation
 storiesOf('Components|DataTable', module).add('default', () => {
   const actions = [
     {
