@@ -32,12 +32,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "tsc --noemit && lint-staged"
     }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "tsc --noemit",
       "gts fix"
     ],
     "*.{json,md,js}": [
