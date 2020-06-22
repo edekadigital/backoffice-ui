@@ -1,67 +1,71 @@
 import * as React from 'react';
 
-import { storiesOf } from '@storybook/react';
 import { Button, Delete, ArrowForward, CloudDownload } from '..'; // @edekadigital/backoffice-ui
 
-storiesOf('Components|Button', module)
-  .add('contained', () => <Button>Some Label</Button>)
-  .add('contained (disabled)', () => (
-    <Button disabled={true}>Some Label</Button>
-  ))
-  .add('contained with icon', () => (
-    <Button variant="contained" icon={Delete}>
-      Some Label
-    </Button>
-  ))
-  .add('contained with icon (right)', () => (
-    <Button variant="contained" icon={ArrowForward} iconPosition="right">
-      Some Label
-    </Button>
-  ))
-  .add('text', () => <Button variant="text">Some Label</Button>)
-  .add('text (disabled)', () => (
-    <Button variant="text" disabled={true}>
-      Some Label
-    </Button>
-  ))
-  .add('text with icon', () => (
-    <Button variant="text" icon={Delete}>
-      Some Label
-    </Button>
-  ))
-  .add('text with icon (right)', () => (
-    <Button variant="text" icon={ArrowForward} iconPosition="right">
-      Some Label
-    </Button>
-  ))
-  .add('outlined', () => <Button variant="outlined">Some Label</Button>)
-  .add('outlined (disabled)', () => (
-    <Button variant="outlined" disabled={true}>
-      Some Label
-    </Button>
-  ))
-  .add('outlined with icon', () => (
-    <Button variant="outlined" icon={Delete}>
-      Some Label
-    </Button>
-  ))
-  .add('outlined with icon (right)', () => (
-    <Button variant="outlined" icon={ArrowForward} iconPosition="right">
-      Some Label
-    </Button>
-  ))
-  .add('download', () => (
-    <Button
-      variant="text"
-      icon={CloudDownload}
-      href="data:text/plain;base64,TG9yZW0gSXBzdW0="
-      download="file.txt"
-    >
-      Some Label
-    </Button>
-  ))
-  .add('progress', () => (
-    <Button variant="text" showProgress={true}>
-      Some Label
-    </Button>
-  ));
+export default {
+  title: 'Components|Button',
+  component: Button,
+};
+
+export const Contained = () => <Button>Some Label</Button>;
+export const ContainedAndDisabled = () => (
+  <Button disabled={true}>Some Label</Button>
+);
+export const ContainedWithIcon = () => (
+  <Button variant="contained" icon={Delete}>
+    Some Label
+  </Button>
+);
+export const ContainedWithIconRight = () => (
+  <Button variant="contained" icon={ArrowForward} iconPosition="right">
+    Some Label
+  </Button>
+);
+export const Text = () => <Button variant="text">Some Label</Button>;
+export const TextDisabled = () => (
+  <Button variant="text" disabled={true}>
+    Some Label
+  </Button>
+);
+export const TextWithIcon = () => (
+  <Button variant="text" icon={Delete}>
+    Some Label
+  </Button>
+);
+export const TextWithIconRight = () => (
+  <Button variant="text" icon={ArrowForward} iconPosition="right">
+    Some Label
+  </Button>
+);
+export const Outlined = () => <Button variant="outlined">Some Label</Button>;
+export const OutlinedDisbaled = () => (
+  <Button variant="outlined" disabled={true}>
+    Some Label
+  </Button>
+);
+export const OutlinedWithIcon = () => (
+  <Button variant="outlined" icon={Delete}>
+    Some Label
+  </Button>
+);
+export const OutlinedWithIconRight = () => (
+  <Button variant="outlined" icon={ArrowForward} iconPosition="right">
+    Some Label
+  </Button>
+);
+export const Download = () => (
+  <Button
+    variant="text"
+    icon={CloudDownload}
+    href="data:text/plain;base64,TG9yZW0gSXBzdW0="
+    download="file.txt"
+  >
+    Some Label
+  </Button>
+);
+
+export const Progress = () => (
+  <Button variant="text" showProgress={true}>
+    Some Label
+  </Button>
+);

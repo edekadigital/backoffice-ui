@@ -75,3 +75,8 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     />
   );
 };
+
+TextField.defaultProps = {
+  type: 'text',
+  required: false,
+};

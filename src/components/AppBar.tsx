@@ -82,3 +82,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
     </div>
   );
 };
+
+AppBar.defaultProps = {
+  actions: [],
+};

@@ -49,3 +49,8 @@ export const Body: React.FC<BodyProps> = (props) => {
     </MuiTypography>
   );
 };
+
+Body.defaultProps = {
+  variant: 'body1',
+  component: 'p',
+};

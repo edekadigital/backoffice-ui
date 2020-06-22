@@ -94,3 +94,9 @@ export const Button: React.FC<ButtonProps> = (props) => {
     </MuiButton>
   );
 };
+
+Button.defaultProps = {
+  variant: 'contained',
+  iconPosition: 'left',
+  showProgress: false,
+};
