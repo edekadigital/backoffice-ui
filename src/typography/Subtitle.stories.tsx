@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import { storiesOf } from '@storybook/react';
 import { Subtitle } from '..'; // @edekadigital/backoffice-ui
 
 export default {
