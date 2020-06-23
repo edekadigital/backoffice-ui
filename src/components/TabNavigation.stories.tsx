@@ -15,6 +15,7 @@ export default {
   component: TabNavigation,
 };
 
+// @ts-expect-error
 TabNavigation.defaultProps = {
   gutterBottom: false,
   linkComponent: 'button',

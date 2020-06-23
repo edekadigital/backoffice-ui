@@ -23,6 +23,7 @@ export default {
   component: EnhancedDataTable,
 };
 
+// @ts-expect-error
 EnhancedDataTable.defaultProps = {
   selectionActions: [],
   defaultPageSize: 10,
