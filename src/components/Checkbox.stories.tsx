@@ -1,11 +1,14 @@
 import * as React from 'react';
-
-import { storiesOf } from '@storybook/react';
 import { CheckboxDark, CheckboxLight } from '..'; // @edekadigital/backoffice-ui
 
-storiesOf('Components|Checkbox', module).add('dark & light', () => (
+export default {
+  title: 'Components|Checkbox',
+  component: [CheckboxDark, CheckboxLight],
+};
+
+export const DarkAndLight = () => (
   <>
     <CheckboxDark />
     <CheckboxLight />
   </>
-));
+);

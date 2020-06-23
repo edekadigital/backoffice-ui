@@ -23,6 +23,12 @@ export default {
   component: EnhancedDataTable,
 };
 
+(EnhancedDataTable as React.FC).defaultProps = {
+  selectionActions: [],
+  defaultPageSize: 10,
+  rowsPerPageOptions: [5, 10, 25],
+};
+
 export const Default = () => {
   interface TestData {
     city: string;

@@ -1,29 +1,43 @@
 import * as React from 'react';
-
-import { storiesOf } from '@storybook/react';
 import { SearchField } from '..'; // @edekadigital/backoffice-ui
 
-const handleChange = (value: string) => {
-  console.log(`Change: ${value}`);
+export default {
+  title: 'Components|SearchField',
+  component: SearchField,
 };
 
-const handleSubmit = (value: string) => {
-  console.log(`Submit: ${value}`);
-};
+export const Default = () => {
+  const handleChange = (value: string) => {
+    console.log(`Change: ${value}`);
+  };
 
-storiesOf('Components|SearchField', module)
-  .add('default', () => (
+  const handleSubmit = (value: string) => {
+    console.log(`Submit: ${value}`);
+  };
+  return (
     <SearchField
       placeholder="Search"
       onChange={handleChange}
       onSubmit={handleSubmit}
     />
-  ))
-  .add('progress', () => (
+  );
+};
+
+export const Progress = () => {
+  const handleChange = (value: string) => {
+    console.log(`Change: ${value}`);
+  };
+
+  const handleSubmit = (value: string) => {
+    console.log(`Submit: ${value}`);
+  };
+
+  return (
     <SearchField
       placeholder="Search"
       progress={true}
       onChange={handleChange}
       onSubmit={handleSubmit}
     />
-  ));
+  );
+};

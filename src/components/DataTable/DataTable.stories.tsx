@@ -134,7 +134,7 @@ function getData({
   });
 }
 
-storiesOf('Components|DataTable', module).add('default', () => {
+storiesOf('Components|DataTable (DEPRECATED)', module).add('default', () => {
   const actions = [
     {
       icon: Apps,
@@ -156,34 +156,37 @@ storiesOf('Components|DataTable', module).add('default', () => {
   );
 });
 
-storiesOf('Components|DataTable', module).add('with checkboxes', () => {
-  const actions = [
-    {
-      icon: GetApp,
-      handler: (data: any[]) =>
-        console.log(data, 'Make api call to get zip file'),
-    },
-    {
-      icon: Delete,
-      handler: (data: any[]) => {
-        console.log(data, 'Delete Rows');
+storiesOf('Components|DataTable (DEPRECATED)', module).add(
+  'with checkboxes',
+  () => {
+    const actions = [
+      {
+        icon: GetApp,
+        handler: (data: any[]) =>
+          console.log(data, 'Make api call to get zip file'),
       },
-    },
-  ];
+      {
+        icon: Delete,
+        handler: (data: any[]) => {
+          console.log(data, 'Delete Rows');
+        },
+      },
+    ];
 
-  const pagination = {
-    labelRowsPerPage: 'Zeilen pro Seite',
-    rowsPerPageOptions: [10, 20, 30],
-  };
-  return (
-    <Page paddingBottom={true}>
-      <DataTable
-        headline="This is a table"
-        columns={columns}
-        fetchData={getData}
-        tableSelectionActions={actions}
-        pagination={pagination}
-      />
-    </Page>
-  );
-});
+    const pagination = {
+      labelRowsPerPage: 'Zeilen pro Seite',
+      rowsPerPageOptions: [10, 20, 30],
+    };
+    return (
+      <Page paddingBottom={true}>
+        <DataTable
+          headline="This is a table"
+          columns={columns}
+          fetchData={getData}
+          tableSelectionActions={actions}
+          pagination={pagination}
+        />
+      </Page>
+    );
+  }
+);

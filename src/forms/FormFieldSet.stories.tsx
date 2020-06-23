@@ -1,38 +1,42 @@
 import * as React from 'react';
-
-import { storiesOf } from '@storybook/react';
 import { FormFieldSet, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
-storiesOf('Forms|FormFieldSet', module)
-  .add('default', () => (
-    <FormFieldSet>
-      <FormRow>
-        <TextField label="Some Label" />
-        <TextField label="Some Label" />
-      </FormRow>
-    </FormFieldSet>
-  ))
-  .add('with title', () => (
+export default {
+  title: 'Forms|FormFieldSet',
+  component: FormFieldSet,
+};
+
+export const Default = () => (
+  <FormFieldSet>
+    <FormRow>
+      <TextField label="Some Label" />
+      <TextField label="Some Label" />
+    </FormRow>
+  </FormFieldSet>
+);
+
+export const WithTitle = () => (
+  <FormFieldSet title="Lorem ipsum">
+    <FormRow>
+      <TextField label="Some Label" />
+      <TextField label="Some Label" />
+    </FormRow>
+  </FormFieldSet>
+);
+
+export const Multiple = () => (
+  <>
     <FormFieldSet title="Lorem ipsum">
       <FormRow>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
     </FormFieldSet>
-  ))
-  .add('multiple', () => (
-    <>
-      <FormFieldSet title="Lorem ipsum">
-        <FormRow>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-      </FormFieldSet>
-      <FormFieldSet title="Lorem ipsum">
-        <FormRow>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-      </FormFieldSet>
-    </>
-  ));
+    <FormFieldSet title="Lorem ipsum">
+      <FormRow>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+    </FormFieldSet>
+  </>
+);

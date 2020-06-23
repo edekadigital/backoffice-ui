@@ -1,9 +1,11 @@
 import * as React from 'react';
-
-import { storiesOf } from '@storybook/react';
 import { Button, FormRow, useSnackbar } from '..'; // @edekadigital/backoffice-ui
 
-storiesOf('Global|Snackbar', module).add('Snackbar', () => {
+export default {
+  title: 'Global|Snackbar',
+};
+
+export const Snackbar = () => {
   const message = 'Lorem ipsum dolor sit amet.';
 
   const StoryComponent = () => {
@@ -27,4 +29,4 @@ storiesOf('Global|Snackbar', module).add('Snackbar', () => {
   };
 
   return <StoryComponent />;
-});
+};
