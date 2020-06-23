@@ -23,8 +23,7 @@ export default {
   component: EnhancedDataTable,
 };
 
-// @ts-expect-error
-EnhancedDataTable.defaultProps = {
+(EnhancedDataTable as React.FC).defaultProps = {
   selectionActions: [],
   defaultPageSize: 10,
   rowsPerPageOptions: [5, 10, 25],

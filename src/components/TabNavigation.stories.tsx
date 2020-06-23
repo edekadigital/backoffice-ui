@@ -15,8 +15,7 @@ export default {
   component: TabNavigation,
 };
 
-// @ts-expect-error
-TabNavigation.defaultProps = {
+(TabNavigation as React.FC).defaultProps = {
   gutterBottom: false,
   linkComponent: 'button',
 };
