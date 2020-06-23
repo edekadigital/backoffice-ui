@@ -7,6 +7,12 @@ export default {
   component: Button,
 };
 
+Button.defaultProps = {
+  variant: 'contained',
+  iconPosition: 'left',
+  showProgress: false,
+};
+
 export const Contained = () => <Button>Some Label</Button>;
 export const ContainedAndDisabled = () => (
   <Button disabled={true}>Some Label</Button>

@@ -137,12 +137,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-EnhancedDataTable.defaultProps = {
-  selectionActions: [],
-  defaultPageSize: 10,
-  rowsPerPageOptions: [5, 10, 25],
-};
-
 export function EnhancedDataTable<D extends object>(
   props: EnhancedDataTableProps<D>
 ) {

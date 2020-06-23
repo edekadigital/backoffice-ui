@@ -51,8 +51,3 @@ export const Heading: React.FC<HeadingProps> = (props) => {
     </MuiTypography>
   );
 };
-
-Heading.defaultProps = {
-  variant: 'h2',
-  component: 'h2',
-};

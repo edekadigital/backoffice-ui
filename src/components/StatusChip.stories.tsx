@@ -6,6 +6,10 @@ export default {
   component: StatusChip,
 };
 
+StatusChip.defaultProps = {
+  size: 'medium',
+};
+
 export const Default = () => <StatusChip label="Some label" />;
 export const Small = () => <StatusChip size={'small'} label="Some label" />;
 export const WithIcon = () => <StatusChip label="Some label" icon={Check} />;

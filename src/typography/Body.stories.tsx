@@ -6,6 +6,11 @@ export default {
   component: Body,
 };
 
+Body.defaultProps = {
+  variant: 'body1',
+  component: 'p',
+};
+
 export const Default = () => (
   <Body>
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,

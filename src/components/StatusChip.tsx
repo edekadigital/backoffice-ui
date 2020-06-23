@@ -63,7 +63,3 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   return <Chip {...chipProps} />;
 };
-
-StatusChip.defaultProps = {
-  size: 'medium',
-};

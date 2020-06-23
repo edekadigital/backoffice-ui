@@ -104,8 +104,3 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
     </div>
   );
 }
-
-TabNavigation.defaultProps = {
-  gutterBottom: false,
-  linkComponent: 'button',
-};

@@ -7,6 +7,10 @@ export default {
   component: ReverseNavigation,
 };
 
+ReverseNavigation.defaultProps = {
+  floatingBackButton: true,
+};
+
 export const DefaultWithFloatingBackButton = () => {
   const handleBackClick = () => {
     console.log('handleBackClick');

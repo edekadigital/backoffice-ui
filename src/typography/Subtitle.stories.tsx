@@ -6,6 +6,11 @@ export default {
   component: Subtitle,
 };
 
+Subtitle.defaultProps = {
+  variant: 'subtitle1',
+  component: 'p',
+};
+
 export const Default = () => (
   <Subtitle>
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,

@@ -48,8 +48,3 @@ export const Subtitle: React.FC<SubtitleProps> = (props) => {
     </MuiTypography>
   );
 };
-
-Subtitle.defaultProps = {
-  variant: 'subtitle1',
-  component: 'p',
-};

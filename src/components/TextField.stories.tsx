@@ -6,6 +6,11 @@ export default {
   component: TextField,
 };
 
+TextField.defaultProps = {
+  type: 'text',
+  required: false,
+};
+
 export const Default = () => <TextField label="Some label" />;
 export const Required = () => <TextField label="Some label" required={true} />;
 export const WithPlaceholder = () => (

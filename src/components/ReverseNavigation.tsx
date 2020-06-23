@@ -84,7 +84,3 @@ export const ReverseNavigation: React.FC<ReverseNavigationProps> = (props) => {
     </div>
   );
 };
-
-ReverseNavigation.defaultProps = {
-  floatingBackButton: true,
-};

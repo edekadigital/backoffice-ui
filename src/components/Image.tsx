@@ -60,9 +60,3 @@ export const Image: React.FC<ImageProps> = (props) => {
     </picture>
   );
 };
-
-Image.defaultProps = {
-  sources: [],
-  mode: 'width',
-  position: 'relative',
-};
