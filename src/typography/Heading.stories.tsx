@@ -17,55 +17,61 @@ export const Default = () => (
   </Heading>
 );
 
-export const Primary = () => (
+export const ColorTextPrimary = () => (
+  <Heading color="textPrimary">
+    Lorem ipsum dolor <strong>sit amet</strong>
+  </Heading>
+);
+
+export const ColorTextSecondary = () => (
+  <Heading color="textSecondary">
+    Lorem ipsum dolor <strong>sit amet</strong>
+  </Heading>
+);
+
+export const ColorPrimary = () => (
   <Heading color="primary">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const Secondary = () => (
-  <Heading color="secondary">
-    Lorem ipsum dolor <strong>sit amet</strong>
-  </Heading>
-);
-
-export const Center = () => (
+export const AlignCenter = () => (
   <Heading align="center">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H1 = () => (
+export const VariantH1 = () => (
   <Heading variant="h1">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H2 = () => (
+export const VariantH2 = () => (
   <Heading variant="h2">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H3 = () => (
+export const VariantH3 = () => (
   <Heading variant="h3">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H4 = () => (
+export const VariantH4 = () => (
   <Heading variant="h4">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H5 = () => (
+export const VariantH5 = () => (
   <Heading variant="h5">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>
 );
 
-export const H6 = () => (
+export const VariantH6 = () => (
   <Heading variant="h6">
     Lorem ipsum dolor <strong>sit amet</strong>
   </Heading>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiCheckbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { grey } from '@material-ui/core/colors';
-
+// TODO: Refactor
 export const CheckboxLight = withStyles({
   root: {
     color: grey[100],

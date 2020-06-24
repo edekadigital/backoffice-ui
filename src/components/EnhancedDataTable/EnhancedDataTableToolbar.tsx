@@ -15,7 +15,6 @@ import {
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
 import { Heading } from '../../typography/Heading';
-import { LIGHT_GREY, WHITE, PRIMARY } from '../../constants/colors';
 import { Button } from '../Button';
 import { TextField } from '../TextField';
 import clsx from 'clsx';
@@ -31,7 +30,7 @@ export interface EnhancedDataTableToolbarProps<D> {
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
-      borderBottom: `solid 1px ${LIGHT_GREY}`,
+      borderBottom: `solid 1px ${theme.palette.grey[300]}`,
       paddingLeft: theme.spacing(2),
       [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
         minHeight: theme.spacing(9),
@@ -61,8 +60,8 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
       },
     },
     filterTitleToolbar: {
-      color: `${WHITE}`,
-      background: `${PRIMARY}`,
+      color: `${theme.palette.primary.contrastText}`,
+      background: `${theme.palette.primary.main}`,
       fontSize: theme.spacing(2),
       paddingLeft: theme.spacing(2),
       flexGrow: 1,

@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/styles';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
+export type ButtonColor = 'default' | 'primary' | 'secondary';
+
 export type ButtonComponent = React.ElementType<MuiButtonProps>;
 
 export type ButtonType = 'submit' | 'reset' | 'button';
@@ -21,6 +23,7 @@ export type ButtonIconPosition = 'left' | 'right';
 export interface ButtonProps {
   children: React.ReactNode;
   className?: string;
+  color?: ButtonColor;
   component?: ButtonComponent;
   disabled?: boolean;
   download?: string | boolean;
@@ -29,6 +32,7 @@ export interface ButtonProps {
   iconPosition?: ButtonIconPosition;
   onClick?: React.MouseEventHandler;
   showProgress?: boolean;
+  size?: 'small' | 'medium' | 'large';
   target?: string;
   type?: ButtonType;
   variant?: ButtonVariant;
@@ -89,7 +93,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
   }, [IconComponent, iconPosition, children, classes]);
 
   return (
-    <MuiButton variant={variant} color="primary" {...additionalProps}>
+    <MuiButton variant={variant} {...additionalProps}>
       {content}
     </MuiButton>
   );

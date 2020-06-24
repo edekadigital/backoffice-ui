@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Chip, Theme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ChipProps } from '@material-ui/core/Chip';
-import { SUCCESS, ERROR, WARNING, PRIMARY } from '../constants';
 import { makeStyles } from '@material-ui/styles';
 
 export type StatusChipColor =
@@ -12,12 +11,6 @@ export type StatusChipColor =
   | 'warning'
   | 'info';
 
-const colorMap: { [k: string]: string } = {
-  info: PRIMARY,
-  warning: WARNING,
-  success: SUCCESS,
-  error: ERROR,
-};
 export interface StatusChipProps extends Pick<ChipProps, 'size'> {
   label: string;
   color?: StatusChipColor;
@@ -27,11 +20,17 @@ export interface StatusChipProps extends Pick<ChipProps, 'size'> {
 const useStyles = makeStyles((theme: Theme) => ({
   root: (props: StatusChipProps) => {
     const sanitizedColorName: StatusChipColor = props.color || 'default';
+    const colorMap: { [k: string]: string } = {
+      info: theme.palette.primary.main,
+      warning: theme.palette.warning.dark,
+      success: theme.palette.success.main,
+      error: theme.palette.error.dark,
+    };
     return {
       color:
         sanitizedColorName in colorMap
           ? colorMap[sanitizedColorName]
-          : theme.palette.grey[600],
+          : theme.palette.grey[500],
       borderColor: 'currentColor',
     };
   },

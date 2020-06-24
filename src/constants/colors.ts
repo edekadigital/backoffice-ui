@@ -1,8 +1,25 @@
-export const PRIMARY = '#1b66b3';
-export const SECONDARY = '#fce531';
-export const ERROR = '#d0021b';
-export const WARNING = '#ffa000';
-export const SUCCESS = '#43a047';
-export const SECONDARY_TEXT = 'rgba(0, 0, 0, 0.54)';
-export const LIGHT_GREY = '#e0e0e0';
-export const WHITE = '#ffffff';
+export const edekaBlue = {
+  50: '#e3f2fb',
+  100: '#bcdef6',
+  200: '#92c9f1',
+  300: '#69b4ea',
+  400: '#4ba5e7',
+  500: '#3096e3',
+  600: '#2988d6',
+  700: '#2076c4',
+  900: '#0d4993',
+  main: '#1a65b2',
+};
+
+export const edekaYellow = {
+  50: '#fffce6',
+  100: '#fef7c2',
+  200: '#fef199',
+  300: '#fdec70',
+  400: '#fbe750',
+  600: '#fad22c',
+  700: '#f8ba25',
+  800: '#f6a21e',
+  900: '#f17811',
+  main: '#fce531',
+};

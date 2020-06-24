@@ -25,7 +25,7 @@ const useStyles = makeStyles<
 >((theme) => ({
   drawerPaper: ({ drawerPosition }) => ({
     backgroundColor: theme.palette.primary.main,
-    color: 'white',
+    color: theme.palette.primary.contrastText,
     paddingLeft: drawerPosition?.left,
   }),
   drawerActions: ({ drawerPosition }) => ({
@@ -39,7 +39,7 @@ const useStyles = makeStyles<
     paddingLeft: theme.spacing(2),
   },
   drawerButton: {
-    color: 'white',
+    color: theme.palette.primary.contrastText,
   },
 }));
 export function EnhancedDataTableSelectionMenu<D extends object>(

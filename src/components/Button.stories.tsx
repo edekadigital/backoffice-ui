@@ -13,8 +13,14 @@ Button.defaultProps = {
   showProgress: false,
 };
 
-export const Contained = () => <Button>Some Label</Button>;
-export const ContainedAndDisabled = () => (
+export const Default = () => <Button>Some Label</Button>;
+export const ContainedColorPrimary = () => (
+  <Button color={'primary'}>Some Label</Button>
+);
+export const ContainedColorSecondary = () => (
+  <Button color={'secondary'}>Some Label</Button>
+);
+export const ContainedDisabled = () => (
   <Button disabled={true}>Some Label</Button>
 );
 export const ContainedWithIcon = () => (
@@ -27,7 +33,19 @@ export const ContainedWithIconRight = () => (
     Some Label
   </Button>
 );
+export const ContainedSmall = () => <Button size={'small'}>Some Label</Button>;
+export const ContainedLarge = () => <Button size={'large'}>Some Label</Button>;
 export const Text = () => <Button variant="text">Some Label</Button>;
+export const TextColorPrimary = () => (
+  <Button variant="text" color={'primary'}>
+    Some Label
+  </Button>
+);
+export const TextColorSecondary = () => (
+  <Button variant="text" color={'secondary'}>
+    Some Label
+  </Button>
+);
 export const TextDisabled = () => (
   <Button variant="text" disabled={true}>
     Some Label
@@ -43,7 +61,28 @@ export const TextWithIconRight = () => (
     Some Label
   </Button>
 );
+export const TextSmall = () => (
+  <Button variant="text" size={'small'}>
+    Some Label
+  </Button>
+);
+export const TextLarge = () => (
+  <Button variant="text" size={'large'}>
+    Some Label
+  </Button>
+);
+
 export const Outlined = () => <Button variant="outlined">Some Label</Button>;
+export const OutlinedColorPrimary = () => (
+  <Button variant="outlined" color={'primary'}>
+    Some Label
+  </Button>
+);
+export const OutlinedColorSecondary = () => (
+  <Button variant="outlined" color={'secondary'}>
+    Some Label
+  </Button>
+);
 export const OutlinedDisbaled = () => (
   <Button variant="outlined" disabled={true}>
     Some Label
@@ -59,6 +98,17 @@ export const OutlinedWithIconRight = () => (
     Some Label
   </Button>
 );
+export const OutlinedSmall = () => (
+  <Button variant="outlined" size={'small'}>
+    Some Label
+  </Button>
+);
+export const OutlinedLarge = () => (
+  <Button variant="outlined" size={'large'}>
+    Some Label
+  </Button>
+);
+
 export const Download = () => (
   <Button
     variant="text"

@@ -8,7 +8,6 @@ export type BodyComponent = 'p' | 'span' | 'div';
 export type BodyColor =
   | 'initial'
   | 'primary'
-  | 'secondary'
   | 'error'
   | 'textPrimary'
   | 'textSecondary';

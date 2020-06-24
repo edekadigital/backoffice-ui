@@ -8,7 +8,6 @@ export type SubtitleComponent = 'p' | 'span' | 'div';
 export type SubtitleColor =
   | 'initial'
   | 'primary'
-  | 'secondary'
   | 'textPrimary'
   | 'textSecondary';
 
