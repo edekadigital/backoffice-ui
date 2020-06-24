@@ -15,9 +15,9 @@ describe('<Subtitle/>', () => {
     expect(getByText(subtitleContent)!).toBeTruthy();
   });
 
-  it('should render the subtitle component with secondary color', () => {
+  it('should render the subtitle component with textSecondary color', () => {
     const { getByTestId } = render(
-      <Subtitle color="secondary" data-testid={subtitleId}>
+      <Subtitle color="textSecondary" data-testid={subtitleId}>
         {subtitleContent}
       </Subtitle>
     );

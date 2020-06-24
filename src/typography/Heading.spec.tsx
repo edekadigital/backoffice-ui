@@ -14,9 +14,9 @@ describe('<Heading />', () => {
     expect(getByText(headingContent)).toBeTruthy();
   });
 
-  it('should render the heading component with secondary color', () => {
+  it('should render the heading component with textSecondary color', () => {
     const { getByTestId } = render(
-      <Heading color={'secondary'} data-testid={headingTestId}>
+      <Heading color={'textSecondary'} data-testid={headingTestId}>
         {headingContent}
       </Heading>
     );
