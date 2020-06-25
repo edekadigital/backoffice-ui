@@ -35,6 +35,6 @@ describe('<PageWrapper />', () => {
     expect(getByTestId(buttonTestId)!).toBeTruthy();
     expect(getByTestId(buttonTestId)!.textContent).toEqual(label);
     const narrowDiv = container.querySelectorAll<HTMLDivElement>('div');
-    expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthSm');
+    expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthLg');
   });
 });
