@@ -42,7 +42,7 @@ export const FormFieldSet: React.FC<FormFieldSetProps> = ({
   );
 
   return (
-    <Paper role="group" className={classes.root}>
+    <Paper role="group" className={classes.root} elevation={0}>
       {renderedTitle}
       {children}
     </Paper>

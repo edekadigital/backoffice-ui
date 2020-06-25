@@ -373,7 +373,7 @@ export function EnhancedDataTable<D extends object>(
 
   return (
     <div className={classes.root} ref={tableRef}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={0}>
         {renderToolbar}
         {renderTable}
       </Paper>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import shadows from '@material-ui/core/styles/shadows';
 import { grey, red, common } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
 import { edekaBlue, edekaYellow } from '../constants';
@@ -42,6 +43,13 @@ const theme = createMuiTheme(
       },
     },
     overrides: {
+      MuiButton: {
+        contained: {
+          '&:hover': {
+            boxShadow: shadows[8],
+          },
+        },
+      },
       MuiFormHelperText: {
         root: {
           paddingLeft: 8,

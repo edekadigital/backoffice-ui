@@ -21,7 +21,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ colors }) => {
           marginBottom: 16,
           padding: 16,
           paddingLeft: 0,
-          marginTop: 5,
+          marginTop: 16,
           display: 'flex',
         }}
       >
@@ -92,7 +92,6 @@ const Colors = () => {
 
 const AllColors = () => {
   const theme = useTheme<Theme>();
-  console.log(theme.palette);
 
   const palettes = [
     'action',
