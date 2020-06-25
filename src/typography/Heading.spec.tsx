@@ -23,7 +23,7 @@ describe('<Heading />', () => {
 
     expect(getByTestId(headingTestId).textContent).toEqual(headingContent);
     expect(getByTestId(headingTestId).classList).toContain(
-      'MuiTypography-colorSecondary'
+      'MuiTypography-colorTextSecondary'
     );
   });
 

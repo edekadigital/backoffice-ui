@@ -24,7 +24,7 @@ describe('<Subtitle/>', () => {
 
     expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
     expect(getByTestId(subtitleId)!.classList).toContain(
-      'MuiTypography-colorSecondary'
+      'MuiTypography-colorTextSecondary'
     );
   });
 
