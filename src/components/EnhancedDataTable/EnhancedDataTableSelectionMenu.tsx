@@ -91,6 +91,7 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
       open={isOpen}
       data-testid={'enhancedDataTable-selectionMenu'}
       data-open={isOpen}
+      PaperProps={{ elevation: 8 }}
     >
       <div className={classes.drawerActions}>
         <div className={classes.drawerCheckbox}>

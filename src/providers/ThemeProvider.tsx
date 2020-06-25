@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/';
 import shadows from '@material-ui/core/styles/shadows';
 import { grey, red, common } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
@@ -40,6 +40,15 @@ const theme = createMuiTheme(
       },
       button: {
         lineHeight: 1.71,
+      },
+    },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 2520,
       },
     },
     overrides: {

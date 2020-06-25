@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import { Search } from '../icons';
 import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
 
 export interface SearchFieldProps {
   placeholder: string;
@@ -15,13 +16,13 @@ export interface SearchFieldProps {
   progress?: boolean;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     position: 'relative',
     overflow: 'hidden',
   },
   form: {
-    padding: '2px 4px',
+    padding: theme.spacing(0.25, 0.5),
     display: 'flex',
     alignItems: 'center',
   },
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
     left: 0,
     width: '100%',
   },
-});
+}));
 
 export const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,

@@ -47,7 +47,7 @@ export const WithReverseNavigation = () => {
   const clickHandler = () => {};
 
   return (
-    <Page>
+    <Page paddingBottom={true}>
       <ReverseNavigation onBackClick={clickHandler} gutterBottom={true}>
         LoremIpsum
       </ReverseNavigation>
