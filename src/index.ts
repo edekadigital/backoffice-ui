@@ -19,7 +19,6 @@ export * from './components/Switch';
 export * from './components/TabNavigation';
 export * from './components/TextField';
 export * from './components/LogTable';
-export * from './components/DataTable/DataTable';
 export * from './components/Checkbox';
 
 export * from './forms/FormWrapper';
