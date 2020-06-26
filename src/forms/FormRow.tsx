@@ -95,7 +95,7 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
   const { children, gridLayout, justify } = props;
   const classes = useStyles(props);
 
-  const gridItemSizeSm = (12 / gridLayout.length) as FormRowItemSize;
+  const gridItemSizeSm = Math.floor(12 / gridLayout.length) as FormRowItemSize;
 
   const items = children.map((tempChild, index) => (
     <Grid
