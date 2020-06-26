@@ -102,6 +102,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     classes: labelClasses,
     shrink: true,
     required,
+    'data-testid': 'textField-label',
   };
   return (
     <MuiTextField
@@ -111,6 +112,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       InputProps={InputProps}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
+      data-testid={'test'}
       inputProps={{ 'data-testid': 'textField-input' }}
       variant={'outlined'}
     />

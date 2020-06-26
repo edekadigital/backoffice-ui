@@ -14,11 +14,11 @@ describe('<DateField />', () => {
   afterEach(cleanup);
 
   it('should render the date field component with placeholder', () => {
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <DateField label={label} placeholder={placeholder} />
     );
 
-    expect(getByText(label).textContent).toBeTruthy();
+    expect(getByTestId('textField-label').textContent).toBe(label);
     const labelResult = getByTestId('textField-input')! as HTMLInputElement;
     expect(labelResult.placeholder).toEqual(placeholder);
   });

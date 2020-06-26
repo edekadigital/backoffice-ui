@@ -17,21 +17,20 @@ describe('<SelectField/>', () => {
   afterEach(cleanup);
 
   it('should render the select field component', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <SelectField label={label} menuItems={items} />
     );
 
-    const labelResult = container.querySelector<HTMLLabelElement>('label');
-    expect(labelResult!.textContent).toEqual(label);
+    expect(getByTestId('textField-label').textContent).toEqual(label);
   });
 
   it('should render the select field component in disabled mode', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <SelectField label={label} menuItems={items} disabled={true} />
     );
-
-    const diabledInput = container.querySelector<HTMLInputElement>('input');
-    expect(diabledInput!.type).toEqual('hidden');
+    expect(getByTestId('textField-input').parentElement?.classList).toContain(
+      'Mui-disabled'
+    );
   });
 
   it('should render the select field component with preselected item and disabled', () => {
@@ -49,11 +48,10 @@ describe('<SelectField/>', () => {
   });
 
   it('should render the select field component without items', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <SelectField label={label} menuItems={emptyItems} />
     );
 
-    const labelResult = container.querySelector<HTMLLabelElement>('label');
-    expect(labelResult!.textContent).toEqual(label);
+    expect(getByTestId('textField-label').textContent).toEqual(label);
   });
 });
