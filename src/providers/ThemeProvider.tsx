@@ -59,12 +59,6 @@ const theme = createMuiTheme(
           },
         },
       },
-      MuiFormHelperText: {
-        root: {
-          paddingLeft: 8,
-          paddingRight: 8,
-        },
-      },
       MuiSelect: {
         select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
       },

@@ -4,6 +4,11 @@ import { TextField } from '..'; // @edekadigital/backoffice-ui
 export default {
   title: 'Components|TextField',
   component: TextField,
+  decorators: [
+    (storyFn: () => React.ReactNode) => (
+      <div style={{ margin: 10 }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 TextField.defaultProps = {
@@ -13,6 +18,7 @@ TextField.defaultProps = {
 
 export const Default = () => <TextField label="Some label" />;
 export const Required = () => <TextField label="Some label" required={true} />;
+export const Disabled = () => <TextField label="Some label" disabled={true} />;
 export const WithPlaceholder = () => (
   <TextField label="Some label" placeholder="Placeholder" />
 );

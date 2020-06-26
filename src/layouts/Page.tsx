@@ -8,7 +8,6 @@ export type PageChildren = React.ReactNode | React.ReactNode[];
 
 export interface PageProps {
   variant?: PageVariant;
-  children: PageChildren;
   paddingBottom?: boolean;
 }
 
@@ -37,7 +36,7 @@ export const Page: React.FC<PageProps> = (props) => {
   const classes = useStyles({ paddingBottom });
   const maxWidth = variant === 'narrow' ? 'lg' : false;
 
-  return (
+  return children ? (
     <Container
       maxWidth={maxWidth}
       disableGutters={true}
@@ -45,5 +44,7 @@ export const Page: React.FC<PageProps> = (props) => {
     >
       {children}
     </Container>
+  ) : (
+    <></>
   );
 };

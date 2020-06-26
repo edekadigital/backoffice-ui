@@ -4,6 +4,11 @@ import { SelectField } from './SelectField';
 export default {
   title: 'Components|SelectField',
   component: SelectField,
+  decorators: [
+    (storyFn: () => React.ReactNode) => (
+      <div style={{ margin: 10 }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 export const Default = () => {
