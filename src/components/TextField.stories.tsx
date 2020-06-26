@@ -14,6 +14,7 @@ export default {
 TextField.defaultProps = {
   type: 'text',
   required: false,
+  inputTestId: 'textField-input',
 };
 
 export const Default = () => <TextField label="Some label" />;

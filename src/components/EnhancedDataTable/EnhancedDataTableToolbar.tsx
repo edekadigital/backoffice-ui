@@ -224,7 +224,7 @@ export function EnhancedDataTableToolbar<D>(
         <TextField
           label="Enthält..."
           onChange={handleFilterValueChange}
-          data-testid={'enhancedDataTable-filterBar-input'}
+          inputTestId={'enhancedDataTable-filterBar-input'}
         />
         <Button
           variant={'text'}

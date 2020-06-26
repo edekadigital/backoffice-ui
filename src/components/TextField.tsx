@@ -50,6 +50,10 @@ export interface TextFieldProps {
    */
   id?: string;
   /**
+   * Overwrites the default `data-testid` for the input element.
+   */
+  inputTestId?: string;
+  /**
    * Name attribute of the input element.
    */
   name?: string;
@@ -92,7 +96,12 @@ const useLabelStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const TextField: React.FC<TextFieldProps> = (props) => {
-  const { type = 'text', required = false, ...additionalProps } = props;
+  const {
+    type = 'text',
+    required = false,
+    inputTestId = 'textField-input',
+    ...additionalProps
+  } = props;
   const inputClasses = useInputStyles();
   const labelClasses = useLabelStyles();
   const InputProps = {
@@ -112,8 +121,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       InputProps={InputProps}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
-      data-testid={'test'}
-      inputProps={{ 'data-testid': 'textField-input' }}
+      inputProps={{ 'data-testid': inputTestId }}
       variant={'outlined'}
     />
   );
