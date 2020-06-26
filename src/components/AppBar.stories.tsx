@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AppBar, ExitToApp, Apps } from '..'; // @edekadigital/backoffice-ui
+import { AppBarActions } from './AppBar';
 
 export default {
   title: 'Components|AppBar',
@@ -10,17 +11,49 @@ AppBar.defaultProps = {
   actions: [],
 };
 
-export const Default = () => (
-  <AppBar>
-    <strong>Lorem</strong>Ipsum
-  </AppBar>
+export const Default = () => <AppBar>Lorem Ipsum</AppBar>;
+
+export const Transparent = () => (
+  <AppBar color="transparent">Lorem Ipsum</AppBar>
 );
 
 export const WithActions = () => {
-  const actions = [
+  const actions: AppBarActions = [
     {
       icon: Apps,
-      handler: () => console.log('to dashboard'),
+      menuType: 'list',
+      items: [
+        {
+          label: 'Lorem',
+          icon: Apps,
+          handler: () => {
+            console.log('sub');
+          },
+        },
+      ],
+    },
+    {
+      icon: ExitToApp,
+      handler: () => console.log('signout'),
+    },
+  ];
+  return <AppBar actions={actions}>Lorem Ipsum</AppBar>;
+};
+
+export const TransparentWithActions = () => {
+  const actions: AppBarActions = [
+    {
+      icon: Apps,
+      menuType: 'list',
+      items: [
+        {
+          label: 'Lorem',
+          icon: Apps,
+          handler: () => {
+            console.log('sub');
+          },
+        },
+      ],
     },
     {
       icon: ExitToApp,
@@ -28,8 +61,8 @@ export const WithActions = () => {
     },
   ];
   return (
-    <AppBar actions={actions}>
-      <strong>Lorem</strong>Ipsum
+    <AppBar actions={actions} color="transparent">
+      Lorem Ipsum
     </AppBar>
   );
 };
