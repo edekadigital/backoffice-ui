@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { FormFieldSet, FormRow, TextField } from '..';
+import { FormFieldSet, FormRow } from '..';
 import { render } from '../test-utils';
 
 const title = 'some title';
@@ -14,45 +14,45 @@ describe('<FormFieldSet/>', () => {
     const { getByText } = render(
       <FormFieldSet title={title}>
         <FormRow>
-          <TextField label={label} />
-          <TextField label={label2} />
+          <div>{label}</div>
+          <div>{label2}</div>
         </FormRow>
       </FormFieldSet>
     );
 
-    expect(getByText(title)!).toBeTruthy();
-    expect(getByText(label)!).toBeTruthy();
-    expect(getByText(label2)!).toBeTruthy();
+    expect(getByText(title)).toBeTruthy();
+    expect(getByText(label)).toBeTruthy();
+    expect(getByText(label2)).toBeTruthy();
   });
 
   it('should render multiple form field sets', () => {
-    const { queryByText } = render(
+    const { getAllByText } = render(
       <div>
         <FormFieldSet title={title}>
           <FormRow>
-            <TextField label={'label'} />
-            <TextField label={label} />
+            <div>{label}</div>
+            <div>{label}</div>
           </FormRow>
           <FormRow>
-            <TextField label={'label'} />
-            <TextField label={'label'} />
+            <div>{label}</div>
+            <div>{label}</div>
           </FormRow>
         </FormFieldSet>
         <FormFieldSet>
           <FormRow>
-            <TextField label={'label2'} />
-            <TextField label={'label2'} />
+            <div>{label2}</div>
+            <div>{label2}</div>
           </FormRow>
           <FormRow>
-            <TextField label={'label2'} />
-            <TextField label={label2} />
+            <div>{label2}</div>
+            <div>{label2}</div>
           </FormRow>
         </FormFieldSet>
       </div>
     );
 
-    expect(queryByText(title)!).toBeTruthy();
-    expect(queryByText(label)!).toBeTruthy();
-    expect(queryByText(label2)!).toBeTruthy();
+    expect(getAllByText(title)).toHaveLength(1);
+    expect(getAllByText(label)).toHaveLength(4);
+    expect(getAllByText(label2)).toHaveLength(4);
   });
 });
