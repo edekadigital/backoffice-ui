@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonColor = 'default' | 'primary' | 'secondary';
+export type ButtonColor = 'inherit' | 'default' | 'primary' | 'secondary';
 
 export type ButtonComponent = React.ElementType<MuiButtonProps>;
 

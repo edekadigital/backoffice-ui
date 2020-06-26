@@ -4,14 +4,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 import { ButtonProps } from './Button';
-
-export type IconButtonColor = 'default' | 'primary' | 'inherit';
-
-export type IconButtonComponent = React.ElementType<ButtonBaseProps>;
-
-export type IconButtonType = 'submit' | 'reset' | 'button';
 
 export interface IconButtonProps
   extends Omit<ButtonProps, 'icon' | 'size' | 'variant' | 'iconPosition'> {
