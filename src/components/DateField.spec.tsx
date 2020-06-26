@@ -24,7 +24,7 @@ describe('<DateField />', () => {
   });
 
   it('should render the date field component with error message', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <DateField
         label={label}
         placeholder={placeholder}
@@ -34,15 +34,9 @@ describe('<DateField />', () => {
       />
     );
 
-    expect(getByTestId('datefield-id').children[2].textContent).toEqual(
-      errorText
-    );
-    expect(getByTestId('datefield-id').children[1].classList).toContain(
-      'Mui-error'
-    );
-    expect(getByTestId('datefield-id').children[2].classList).toContain(
-      'Mui-error'
-    );
+    const errorMessage = getByText(errorText);
+    expect(errorMessage).toBeTruthy();
+    expect(errorMessage.classList).toContain('Mui-error');
   });
 
   it('should trigger onChange for component date field', async () => {
