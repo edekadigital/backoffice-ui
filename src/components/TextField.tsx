@@ -23,7 +23,7 @@ export interface TextFieldProps {
   /**
    * The label content.
    */
-  label: string;
+  label?: string;
   /**
    * This prop helps users to fill forms faster, especially on mobile devices.
    * The name can be confusing, as it's more like an autofill.
@@ -38,6 +38,10 @@ export interface TextFieldProps {
    */
   disabled?: boolean;
   /**
+   * End InputAdornment for this component, e.g an icon Button
+   */
+  endAdornment?: React.ReactElement;
+  /**
    * If `true`, the label will be displayed in an error state.
    */
   error?: boolean;
@@ -49,6 +53,10 @@ export interface TextFieldProps {
    * The `id` of the input element. Use this prop to make `label` and `helperText` accessible for screen readers.
    */
   id?: string;
+  /**
+   * Pass a ref to the input element.
+   */
+  inputRef?: React.RefObject<HTMLInputElement>;
   /**
    * Overwrites the default `data-testid` for the input element.
    */
@@ -97,6 +105,7 @@ const useLabelStyles = makeStyles((theme: Theme) => ({
 
 export const TextField: React.FC<TextFieldProps> = (props) => {
   const {
+    endAdornment,
     type = 'text',
     required = false,
     inputTestId = 'textField-input',
@@ -106,6 +115,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   const labelClasses = useLabelStyles();
   const InputProps = {
     classes: inputClasses,
+    endAdornment: endAdornment,
   };
   const InputLabelProps = {
     classes: labelClasses,

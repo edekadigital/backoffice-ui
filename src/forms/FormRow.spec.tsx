@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { FormRow, TextField } from '..';
+import { FormRow } from '..';
 import { render } from '../test-utils';
 
 const label = 'some label';

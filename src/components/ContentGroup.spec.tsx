@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { ContentGroup, FormRow, TextField } from '..';
+import { ContentGroup, FormRow } from '..';
 import { render } from '../test-utils';
 
 describe('<ContentGroup/>', () => {

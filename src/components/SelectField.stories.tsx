@@ -6,7 +6,7 @@ export default {
   component: SelectField,
   decorators: [
     (storyFn: () => React.ReactNode) => (
-      <div style={{ margin: 10 }}>{storyFn()}</div>
+      <div style={{ margin: 50 }}>{storyFn()}</div>
     ),
   ],
 };
@@ -77,13 +77,15 @@ export const Controlled = () => {
   };
 
   return (
-    <div style={{ width: '50%', margin: 'auto' }}>
-      <SelectField
-        menuItems={menuItems}
-        value={value}
-        onChange={handleChange}
-        label="Some label"
-      />
-    </div>
+    <SelectField
+      menuItems={menuItems}
+      value={value}
+      onChange={handleChange}
+      label="Some label"
+    />
   );
+};
+
+SelectField.defaultProps = {
+  required: false,
 };

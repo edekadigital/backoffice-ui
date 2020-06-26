@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TextField } from '..'; // @edekadigital/backoffice-ui
+import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
+import { InputAdornment, IconButton } from '@material-ui/core';
 
 export default {
   title: 'Components|TextField',
@@ -35,6 +36,22 @@ export const WithError = () => (
 export const WithValue = () => (
   <TextField label="Some label" value="Some value" />
 );
+
+export const WithTextAdornment = () => {
+  const adornment = <InputAdornment position="end">Test</InputAdornment>;
+  return <TextField label="Some label" endAdornment={adornment} />;
+};
+
+export const WithIconButtonAdornment = () => {
+  const adornment = (
+    <InputAdornment position="end">
+      <IconButton onClick={() => {}} onMouseDown={() => {}} edge="end">
+        <Visibility />
+      </IconButton>
+    </InputAdornment>
+  );
+  return <TextField label="Some label" endAdornment={adornment} />;
+};
 
 export const Password = () => (
   <TextField label="Password" required={true} type="password" />
