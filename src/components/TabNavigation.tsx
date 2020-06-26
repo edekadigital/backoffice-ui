@@ -39,7 +39,7 @@ export interface TabNavigationProps<T> {
    */
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
   /**
-   * If `true`, the app bar will have a bottom margin.
+   * If `true`, the tab navigation bar will have a bottom margin.
    */
   gutterBottom?: boolean;
 }

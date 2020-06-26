@@ -21,7 +21,7 @@ export interface FormRowProps {
    */
   children: React.ReactNode | React.ReactNode[];
   /**
-   * If `true`, the app bar will have a bottom margin.
+   * If `true`, the form row will have a bottom margin.
    */
   gutterBottom?: boolean | number;
   /**

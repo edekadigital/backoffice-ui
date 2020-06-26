@@ -12,7 +12,7 @@ export interface PageProps {
    */
   variant?: PageVariant;
   /**
-   * If `true`, the app bar will have a bottom padding.
+   * If `true`, the page will have a bottom padding.
    */
   paddingBottom?: boolean;
 }

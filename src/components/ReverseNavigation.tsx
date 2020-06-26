@@ -19,7 +19,7 @@ export interface ReverseNavigationProps {
    */
   floatingBackButton?: boolean;
   /**
-   * If `true`, the app bar will have a bottom margin.
+   * If `true`, the reverse navigation will have a bottom margin.
    */
   gutterBottom?: boolean;
   /**
