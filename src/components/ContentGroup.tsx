@@ -5,8 +5,13 @@ import { makeStyles } from '@material-ui/styles';
 import { Heading, HeadingComponent } from '../typography/Heading';
 
 export interface ContentGroupProps {
-  children: React.ReactNode;
+  /**
+   * The title to show
+   */
   title?: string;
+  /**
+   * The component to be used for showing the title.
+   */
   titleComponent?: HeadingComponent;
 }
 

@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonBaseProps } from '@material-ui/core/ButtonBase';
+import { ButtonProps } from './Button';
 
 export type IconButtonColor = 'default' | 'primary' | 'inherit';
 
@@ -12,18 +13,12 @@ export type IconButtonComponent = React.ElementType<ButtonBaseProps>;
 
 export type IconButtonType = 'submit' | 'reset' | 'button';
 
-export interface IconButtonProps {
+export interface IconButtonProps
+  extends Omit<ButtonProps, 'icon' | 'size' | 'variant' | 'iconPosition'> {
+  /**
+   * The icon to show
+   */
   icon: React.ElementType<SvgIconProps>;
-  className?: string;
-  color?: IconButtonColor;
-  component?: IconButtonComponent;
-  disabled?: boolean;
-  download?: string | boolean;
-  href?: string;
-  onClick?: React.MouseEventHandler;
-  target?: string;
-  type?: IconButtonType;
-  showProgress?: boolean;
 }
 
 export const IconButton: React.FC<IconButtonProps> = (props) => {

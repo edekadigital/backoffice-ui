@@ -12,8 +12,17 @@ export type StatusChipColor =
   | 'info';
 
 export interface StatusChipProps extends Pick<ChipProps, 'size'> {
+  /**
+   * The label content.
+   */
   label: string;
+  /**
+   * The color of the status chip.
+   */
   color?: StatusChipColor;
+  /**
+   * Additional icon to show.
+   */
   icon?: React.ElementType<SvgIconProps>;
 }
 

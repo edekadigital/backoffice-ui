@@ -14,12 +14,26 @@ export type SubtitleColor =
 export type SubtitleAlign = 'left' | 'center' | 'right';
 
 export interface SubtitleProps {
+  /**
+   * The variant to use.
+   */
   variant?: SubtitleVariant;
+  /**
+   * The component to be used for rendering the Headline
+   */
   component?: SubtitleComponent;
+  /**
+   * Defines the text color. Only theme colors are allowed.
+   */
   color?: SubtitleColor;
+  /**
+   * Defines how the subtitle should be aligned.
+   */
   align?: SubtitleAlign;
+  /**
+   * If `true`, the subitle will have a bottom margin.
+   */
   gutterBottom?: boolean;
-  children: React.ReactNode;
 }
 
 const useStyles = makeStyles({

@@ -22,12 +22,26 @@ export type HeadingColor =
 export type HeadingAlign = 'left' | 'center' | 'right';
 
 export interface HeadingProps {
+  /**
+   * The variant to use.
+   */
   variant?: HeadingVariant;
+  /**
+   * The component to be used for rendering the Headline
+   */
   component?: HeadingComponent;
+  /**
+   * Defines the text color. Only theme colors are allowed.
+   */
   color?: HeadingColor;
+  /**
+   * Defines how the headline should be aligned.
+   */
   align?: HeadingAlign;
+  /**
+   * If `true`, the headline will have a bottom margin.
+   */
   gutterBottom?: boolean;
-  children: React.ReactNode;
 }
 
 const useStyles = makeStyles({

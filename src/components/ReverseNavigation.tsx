@@ -6,11 +6,25 @@ import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
 
 export interface ReverseNavigationProps {
+  /**
+   * Callback fired when the the back button is clicked
+   */
   onBackClick: React.MouseEventHandler;
+  /**
+   * Additional action items to show, e.g. a button.
+   */
   action?: React.ReactNode;
-  children?: React.ReactNode;
+  /**
+   * If `true`, the back button will be floating left. Default is set to `true`.
+   */
   floatingBackButton?: boolean;
+  /**
+   * If `true`, the app bar will have a bottom margin.
+   */
   gutterBottom?: boolean;
+  /**
+   * Additional text to show.
+   */
   infoBarContent?: React.ReactNode;
 }
 

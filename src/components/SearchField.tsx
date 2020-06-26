@@ -10,9 +10,21 @@ import { Theme } from '@material-ui/core';
 import { TextField } from './TextField';
 
 export interface SearchFieldProps {
+  /**
+   * The short hint displayed in the input before the user enters a value.
+   */
   placeholder: string;
+  /**
+   * Callback fired when the value is changed.
+   */
   onChange?: (value: string) => void;
+  /**
+   * Callback fired when the form is submitted.
+   */
   onSubmit?: (value: string) => void;
+  /**
+   * If `true`, the progress bar will be visible.
+   */
   progress?: boolean;
 }
 

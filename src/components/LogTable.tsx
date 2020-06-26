@@ -7,7 +7,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
 export interface LogTableProps {
+  /**
+   * The column names to show
+   */
   columns: string[];
+  /**
+   * The rows to show in the table body.
+   */
   rows: string[][];
 }
 

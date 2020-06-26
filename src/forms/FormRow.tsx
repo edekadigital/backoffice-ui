@@ -16,10 +16,25 @@ export type FormRowJustify =
 export type FormRowItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
 
 export interface FormRowProps {
+  /**
+   * The elements (children) to be rendered in the form row
+   */
   children: React.ReactNode | React.ReactNode[];
+  /**
+   * If `true`, the app bar will have a bottom margin.
+   */
   gutterBottom?: boolean | number;
+  /**
+   * Justifies the form row items. Default is `flex-start` (css)
+   */
   justify?: FormRowJustify;
+  /**
+   * Specifies the grid layout to use for the form row. Default are 12 equally wide columns.
+   */
   gridLayout?: FormRowItemSize[];
+  /**
+   * Specifies the maximum width of the form row container.
+   */
   maxWidth?: Breakpoint | number;
 }
 

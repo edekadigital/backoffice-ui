@@ -7,7 +7,13 @@ export type PageVariant = 'default' | 'narrow';
 export type PageChildren = React.ReactNode | React.ReactNode[];
 
 export interface PageProps {
+  /**
+   * The page variant to use, while `narrow` will set a maximum width (static).
+   */
   variant?: PageVariant;
+  /**
+   * If `true`, the app bar will have a bottom padding.
+   */
   paddingBottom?: boolean;
 }
 
