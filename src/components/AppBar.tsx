@@ -1,21 +1,42 @@
 import * as React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import MuiAppBar from '@material-ui/core/AppBar';
 import MuiIconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/styles';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { Theme } from '@material-ui/core';
+import MuiMenu from '@material-ui/core/Menu';
+import MuiMenuItem from '@material-ui/core/MenuItem';
+import MuiListItemIcon from '@material-ui/core/ListItemIcon';
+import MuiListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Theme, makeStyles, SvgIconProps } from '@material-ui/core';
+import clsx from 'clsx';
 
-export interface AppBarAction {
+// "colorTransparent" key is missing in type definition for AppBar prop "classes"
+type AppBarClasses = never;
+
+export interface AppBarActionItem {
   icon: React.ElementType<SvgIconProps>;
-  handler: () => void;
+  handler: React.MouseEventHandler<HTMLElement>;
 }
+
+export interface AppBarActionMenuItem extends AppBarActionItem {
+  label: string;
+}
+
+export interface AppBarActionMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'list' | 'grid';
+  items: AppBarActionMenuItem[];
+}
+
+export type AppBarActions = (AppBarActionItem | AppBarActionMenu)[];
 
 export interface AppBarProps {
   /**
    * Action icon buttons and its handlers
    */
-  actions?: AppBarAction[];
+  actions?: AppBarActions;
+  color?: 'default' | 'primary' | 'transparent';
+  children: React.ReactNode;
   /**
    * If `true`, the app bar will have a bottom margin.
    */
@@ -24,66 +45,127 @@ export interface AppBarProps {
 
 const useStyles = makeStyles<Theme, AppBarProps>((theme) => ({
   root: ({ gutterBottom }) => ({
-    background: theme.palette.background.paper,
     marginBottom: theme.spacing(gutterBottom ? 3 : 0),
   }),
-  outer: {
-    margin: '0 auto',
-    display: 'flex',
-    width: '100%',
-    height: 70,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  grow: {
+    flexGrow: 1,
   },
-  titleWrapper: {
-    flex: '1 1 100%',
-    overflow: 'hidden',
-  },
-  title: {
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-  actionsWrapper: {
-    flex: '0 0 auto',
-    display: 'flex',
-    overflow: 'hidden',
+}));
+
+const useAppBarStyles = makeStyles((theme) => ({
+  colorTransparent: {
+    color: theme.palette.primary.main,
   },
 }));
 
 export const AppBar: React.FC<AppBarProps> = (props) => {
-  const { actions = [], children } = props;
-  const classes = useStyles(props);
+  const { actions = [], children, color } = props;
 
-  const actionItems = actions.map(({ icon, handler }, index) => {
+  const [activeMenu, setActiveMenu] = React.useState<{
+    anchorEl: HTMLElement;
+    index: number;
+  } | null>(null);
+
+  const classes = useStyles(props);
+  const appBarClasses = useAppBarStyles();
+
+  const closeMenu = () => {
+    setActiveMenu(null);
+  };
+
+  const actionItems = actions.map((tempAction, index) => {
+    const {
+      handler = (event: React.MouseEvent<HTMLElement>) =>
+        setActiveMenu((prev) =>
+          prev && prev.index === index
+            ? null
+            : { index, anchorEl: event.currentTarget }
+        ),
+      icon,
+    } = tempAction as AppBarActionItem;
+
     const IconComponent = icon;
-    const handleClick = () => handler();
+
     return (
       <div key={`action-item-${index}`}>
-        <MuiIconButton color="default" onClick={handleClick}>
+        <MuiIconButton color="inherit" onClick={handler}>
           <IconComponent fontSize="small" />
         </MuiIconButton>
       </div>
     );
   });
 
+  const actionMenus = actions.map((tempAction, actionIndex) => {
+    if ('menuType' in tempAction) {
+      const action = tempAction as AppBarActionMenu;
+
+      const isMenuOpen =
+        activeMenu !== null && activeMenu.index === actionIndex;
+      const { anchorEl } = activeMenu || {};
+      const key = `app-bar-action-menu-${actionIndex}`;
+
+      const items = action.items.map((tempItem, itemIndex) => {
+        const key = `app-bar-action-item-${actionIndex}-${itemIndex}`;
+
+        const IconComponent = tempItem.icon;
+
+        const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+          tempItem.handler(event);
+          closeMenu();
+        };
+
+        return (
+          <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+            <MuiListItemIcon>
+              <IconComponent fontSize="small" />
+            </MuiListItemIcon>
+            <MuiListItemText primary={tempItem.label} />
+          </MuiMenuItem>
+        );
+      });
+
+      return (
+        <MuiMenu
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          keepMounted={true}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          getContentAnchorEl={null}
+          open={isMenuOpen}
+          onClose={closeMenu}
+          key={key}
+          data-testid={key}
+        >
+          {items}
+        </MuiMenu>
+      );
+    } else {
+      return null;
+    }
+  });
+
   return (
-    <div className={classes.root}>
-      <Container maxWidth={false}>
-        <div className={classes.outer}>
-          <div className={classes.titleWrapper}>
-            <Typography
-              component="h1"
-              variant="h6"
-              className={classes.title}
-              data-testid="appBar-title"
-            >
-              {children}
-            </Typography>
-          </div>
-          <div className={classes.actionsWrapper}>{actionItems}</div>
-        </div>
-      </Container>
+    <div className={clsx(classes.root, classes.grow)}>
+      <MuiAppBar
+        position="static"
+        color={color}
+        elevation={0}
+        classes={appBarClasses as AppBarClasses}
+      >
+        <Toolbar>
+          <Typography
+            component="h1"
+            variant="h6"
+            className={classes.title}
+            data-testid="appBar-title"
+          >
+            {children}
+          </Typography>
+          <div className={classes.grow}></div>
+          {actionItems}
+          {actionMenus}
+        </Toolbar>
+      </MuiAppBar>
     </div>
   );
 };
