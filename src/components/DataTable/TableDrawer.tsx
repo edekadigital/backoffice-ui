@@ -5,7 +5,9 @@ import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CellValue } from 'react-table';
-import { IconButton, CheckboxLight } from '../..';
+import { IconButton } from '../IconButton';
+import { CheckboxLight } from '../Checkbox';
+
 export interface TableSelectionActions {
   icon: React.ElementType<SvgIconProps>;
   handler: (selectedRows: CellValue[]) => void;

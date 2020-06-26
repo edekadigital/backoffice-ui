@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading } from '../../typography/Heading';
 import { makeStyles, Box, SvgIconProps, Divider } from '@material-ui/core';
 import MuiIconButton from '@material-ui/core/IconButton';
-import { ButtonBar } from '../..';
+import { ButtonBar } from '../ButtonBar';
 
 export interface TableBarProps {
   actions?: TableBarAction[];

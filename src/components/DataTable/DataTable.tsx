@@ -12,7 +12,6 @@ import {
   TableBarAction,
   TableSelectionActions,
 } from './index';
-import { CheckboxDark } from '../..';
 import {
   useTable,
   useRowSelect,
@@ -25,6 +24,7 @@ import {
   CellValue,
 } from 'react-table';
 import { makeStyles } from '@material-ui/core/styles';
+import { CheckboxDark } from '../Checkbox';
 
 export interface FetchProps {
   pageSize: number | undefined;

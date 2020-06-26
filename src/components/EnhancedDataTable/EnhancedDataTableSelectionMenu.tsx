@@ -3,7 +3,8 @@ import MuiDrawer from '@material-ui/core/Drawer';
 import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { IconButton, CheckboxLight } from '../..';
+import { IconButton } from '../IconButton';
+import { CheckboxLight } from '../Checkbox';
 
 export interface EnhancedDataTableSelectionMenuActions<D> {
   icon: React.ElementType<SvgIconProps>;

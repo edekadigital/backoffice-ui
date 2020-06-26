@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Heading, HeadingComponent } from '..';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Heading, HeadingComponent } from '../typography/Heading';
 
 export interface ContentGroupProps {
   children: React.ReactNode;
