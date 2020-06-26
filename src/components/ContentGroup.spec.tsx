@@ -34,10 +34,10 @@ describe('<ContentGroup/>', () => {
     const { getByTestId } = render(
       <ContentGroup title={title}>
         <FormRow>
-          <TextField label={label} data-testid="label1" />
+          <div data-testid="label1">{label}</div>
         </FormRow>
         <FormRow>
-          <TextField label={label2} data-testid="label2" />
+          <div data-testid="label2">{label2}</div>
         </FormRow>
       </ContentGroup>
     );
