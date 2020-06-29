@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, ExitToApp, Apps } from '..'; // @edekadigital/backoffice-ui
+import { AppBar, ExitToApp, Apps, OpenInNew, Person, Star } from '..'; // @edekadigital/backoffice-ui
 import { AppBarActions } from './AppBar';
 
 export default {
@@ -21,13 +21,61 @@ export const WithActions = () => {
   const actions: AppBarActions = [
     {
       icon: Apps,
+      menuType: 'grid',
+      items: [
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 1');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 2');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 3');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 4');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 5');
+          },
+        },
+      ],
+    },
+    {
+      icon: Person,
       menuType: 'list',
       items: [
         {
-          label: 'Lorem',
-          icon: Apps,
+          label: 'Lorem ipsum',
+          icon: OpenInNew,
           handler: () => {
-            console.log('sub');
+            console.log('change password');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: ExitToApp,
+          handler: () => {
+            console.log('signout');
           },
         },
       ],
@@ -44,13 +92,61 @@ export const TransparentWithActions = () => {
   const actions: AppBarActions = [
     {
       icon: Apps,
+      menuType: 'grid',
+      items: [
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 1');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 2');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 3');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 4');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: Star,
+          handler: () => {
+            console.log('app 5');
+          },
+        },
+      ],
+    },
+    {
+      icon: Person,
       menuType: 'list',
       items: [
         {
-          label: 'Lorem',
-          icon: Apps,
+          label: 'Lorem ipsum',
+          icon: OpenInNew,
           handler: () => {
-            console.log('sub');
+            console.log('change password');
+          },
+        },
+        {
+          label: 'Lorem ipsum',
+          icon: ExitToApp,
+          handler: () => {
+            console.log('signout');
           },
         },
       ],

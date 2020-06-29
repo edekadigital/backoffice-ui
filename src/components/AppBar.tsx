@@ -7,7 +7,12 @@ import MuiListItemIcon from '@material-ui/core/ListItemIcon';
 import MuiListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Theme, makeStyles, SvgIconProps } from '@material-ui/core';
+import {
+  Theme,
+  makeStyles,
+  SvgIconProps,
+  PopoverOrigin,
+} from '@material-ui/core';
 import clsx from 'clsx';
 
 // "colorTransparent" key is missing in type definition for AppBar prop "classes"
@@ -30,17 +35,31 @@ export interface AppBarActionMenu {
 
 export type AppBarActions = (AppBarActionItem | AppBarActionMenu)[];
 
+interface AppBarMenuProps {
+  index: number;
+  items: AppBarActionMenuItem[];
+  open: boolean;
+  anchorEl?: HTMLElement;
+  onClose: Function;
+}
+
 export interface AppBarProps {
   /**
    * Action icon buttons and its handlers
    */
   actions?: AppBarActions;
+  /**
+   * The background color of the app bar. It supports those theme colors that make sense for this component.
+   */
   color?: 'default' | 'primary' | 'transparent';
   /**
    * If `true`, the app bar will have a bottom margin.
    */
   gutterBottom?: boolean;
 }
+
+const anchorOrigin: PopoverOrigin = { vertical: 'bottom', horizontal: 'right' };
+const transformOrigin: PopoverOrigin = { vertical: 'top', horizontal: 'right' };
 
 const useStyles = makeStyles<Theme, AppBarProps>((theme) => ({
   root: ({ gutterBottom }) => ({
@@ -56,6 +75,101 @@ const useAppBarStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
 }));
+
+const useListMenuIconStyles = makeStyles((theme) => ({
+  root: {
+    minWidth: theme.spacing(4.5),
+  },
+}));
+
+const AppBarListMenu: React.FC<AppBarMenuProps> = ({
+  index,
+  items,
+  open,
+  anchorEl,
+  onClose,
+}) => {
+  const iconClasses = useListMenuIconStyles();
+
+  const renderItems = items.map((tempItem, itemIndex) => {
+    const key = `app-bar-menu-item-${index}-${itemIndex}`;
+
+    const IconComponent = tempItem.icon;
+
+    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+      tempItem.handler(event);
+      onClose();
+    };
+
+    return (
+      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+        <MuiListItemIcon classes={iconClasses}>
+          <IconComponent fontSize="small" />
+        </MuiListItemIcon>
+        <MuiListItemText primary={tempItem.label} />
+      </MuiMenuItem>
+    );
+  });
+
+  return (
+    <MuiMenu
+      anchorEl={anchorEl}
+      anchorOrigin={anchorOrigin}
+      keepMounted={true}
+      transformOrigin={transformOrigin}
+      getContentAnchorEl={null}
+      open={open}
+      onClose={() => onClose()}
+    >
+      {renderItems}
+    </MuiMenu>
+  );
+};
+
+const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
+  index,
+  items,
+  open,
+  anchorEl,
+  onClose,
+}) => {
+  // TODO
+  const iconClasses = useListMenuIconStyles();
+
+  const renderItems = items.map((tempItem, itemIndex) => {
+    const key = `app-bar-menu-item-${index}-${itemIndex}`;
+
+    const IconComponent = tempItem.icon;
+
+    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+      tempItem.handler(event);
+      onClose();
+    };
+
+    return (
+      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+        <MuiListItemIcon classes={iconClasses}>
+          <IconComponent fontSize="small" />
+        </MuiListItemIcon>
+        <MuiListItemText primary={tempItem.label} />
+      </MuiMenuItem>
+    );
+  });
+
+  return (
+    <MuiMenu
+      anchorEl={anchorEl}
+      anchorOrigin={anchorOrigin}
+      keepMounted={true}
+      transformOrigin={transformOrigin}
+      getContentAnchorEl={null}
+      open={open}
+      onClose={() => onClose()}
+    >
+      {renderItems}
+    </MuiMenu>
+  );
+};
 
 export const AppBar: React.FC<AppBarProps> = (props) => {
   const { actions = [], children, color } = props;
@@ -94,50 +208,39 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
     );
   });
 
-  const actionMenus = actions.map((tempAction, actionIndex) => {
+  const actionMenus = actions.map((tempAction, index) => {
     if ('menuType' in tempAction) {
       const action = tempAction as AppBarActionMenu;
-
-      const isMenuOpen =
-        activeMenu !== null && activeMenu.index === actionIndex;
-      const { anchorEl } = activeMenu || {};
-      const key = `app-bar-action-menu-${actionIndex}`;
-
-      const items = action.items.map((tempItem, itemIndex) => {
-        const key = `app-bar-action-item-${actionIndex}-${itemIndex}`;
-
-        const IconComponent = tempItem.icon;
-
-        const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
-          tempItem.handler(event);
-          closeMenu();
-        };
-
-        return (
-          <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
-            <MuiListItemIcon>
-              <IconComponent fontSize="small" />
-            </MuiListItemIcon>
-            <MuiListItemText primary={tempItem.label} />
-          </MuiMenuItem>
-        );
-      });
-
-      return (
-        <MuiMenu
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          keepMounted={true}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          getContentAnchorEl={null}
-          open={isMenuOpen}
-          onClose={closeMenu}
-          key={key}
-          data-testid={key}
-        >
-          {items}
-        </MuiMenu>
-      );
+      const { items } = action;
+      const anchorEl = activeMenu?.anchorEl;
+      const open = activeMenu?.index === index;
+      const key = `app-bar-action-menu-${index}`;
+      switch (action.menuType) {
+        case 'list':
+          return (
+            <AppBarListMenu
+              index={index}
+              items={items}
+              anchorEl={anchorEl}
+              open={open}
+              key={key}
+              onClose={closeMenu}
+            />
+          );
+        case 'grid':
+          return (
+            <AppBarGridMenu
+              index={index}
+              items={items}
+              anchorEl={anchorEl}
+              open={open}
+              key={key}
+              onClose={closeMenu}
+            />
+          );
+        default:
+          return null;
+      }
     } else {
       return null;
     }
