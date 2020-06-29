@@ -82,6 +82,55 @@ const useListMenuIconStyles = makeStyles((theme) => ({
   },
 }));
 
+const useGridMenuStyles = makeStyles((theme) => ({
+  paper: {
+    maxWidth: 280,
+    maxHeight: 380,
+  },
+  list: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: theme.spacing(1),
+  },
+}));
+
+const useGridMenuItemStyles = makeStyles((theme) => ({
+  root: {
+    flex: '0 0 50%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: theme.shape.borderRadius,
+  },
+}));
+
+const useGridMenuIconStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(0.5),
+    padding: theme.spacing(1),
+    minWidth: 0,
+    borderWidth: 1,
+    borderColor: theme.palette.grey[300],
+    borderStyle: 'solid',
+    borderRadius: theme.shape.borderRadius,
+    transition: theme.transitions.create('border-color'),
+    ['.MuiListItem-button:hover &']: {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}));
+
+const useGridMenuTextStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    whiteSpace: 'normal',
+  },
+}));
+
 const AppBarListMenu: React.FC<AppBarMenuProps> = ({
   index,
   items,
@@ -133,8 +182,10 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
   anchorEl,
   onClose,
 }) => {
-  // TODO
-  const iconClasses = useListMenuIconStyles();
+  const menuClasses = useGridMenuStyles();
+  const itemClasses = useGridMenuItemStyles();
+  const iconClasses = useGridMenuIconStyles();
+  const textClasses = useGridMenuTextStyles();
 
   const renderItems = items.map((tempItem, itemIndex) => {
     const key = `app-bar-menu-item-${index}-${itemIndex}`;
@@ -147,17 +198,25 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
     };
 
     return (
-      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+      <MuiMenuItem
+        onClick={handleClick}
+        key={key}
+        data-testid={key}
+        classes={itemClasses}
+      >
         <MuiListItemIcon classes={iconClasses}>
-          <IconComponent fontSize="small" />
+          <IconComponent fontSize="small" color="primary" />
         </MuiListItemIcon>
-        <MuiListItemText primary={tempItem.label} />
+        <Typography variant="caption" align="center" classes={textClasses}>
+          {tempItem.label}
+        </Typography>
       </MuiMenuItem>
     );
   });
 
   return (
     <MuiMenu
+      classes={menuClasses}
       anchorEl={anchorEl}
       anchorOrigin={anchorOrigin}
       keepMounted={true}

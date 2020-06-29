@@ -31,14 +31,14 @@ export const WithActions = () => {
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor',
           icon: Star,
           handler: () => {
             console.log('app 2');
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor sit amet',
           icon: Star,
           handler: () => {
             console.log('app 3');
@@ -52,7 +52,7 @@ export const WithActions = () => {
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor',
           icon: Star,
           handler: () => {
             console.log('app 5');
@@ -102,14 +102,14 @@ export const TransparentWithActions = () => {
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor',
           icon: Star,
           handler: () => {
             console.log('app 2');
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor sit amet',
           icon: Star,
           handler: () => {
             console.log('app 3');
@@ -123,7 +123,7 @@ export const TransparentWithActions = () => {
           },
         },
         {
-          label: 'Lorem ipsum',
+          label: 'Lorem ipsum dolor',
           icon: Star,
           handler: () => {
             console.log('app 5');
