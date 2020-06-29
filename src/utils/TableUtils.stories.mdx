@@ -1,0 +1,41 @@
+import { Meta, Description } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils|Table Utils" />
+
+## Table Utils
+
+The backoffice ui design system offers two helper functions for handling client side sorting (`sortTable`) and pagination (`paginateTable`).
+
+### sortTable(data: T[], orderBy?: keyof T, order?: Order)
+
+Sorts an array of objects alphabetically and numerically by a specific key `orderBy` in a ascending (`asc`) or descending (`desc`) `order`.
+
+| Name        | Description                                                                                 |
+|-------------|---------------------------------------------------------------------------------------------|
+| __data__    | The data to sort, where `T` is the type of `data`.<br/>_T[] _                               |
+| __orderBy__ | The key property of data to order by. Must be a valid key of data.<br/>_keyof T_            |
+| __order__   | The order direction. Must be `asc` for ascending or `desc` for descending order.<br/>_Order_|
+
+```js
+const data = [{lorem:'ipsum', foo:'bar'}, {lorem:'dolor', foo:'baz'}];
+const sortedData = sortData(data, 'foo', 'desc');
+console.log(sortedData);
+// [{lorem:'dolor', foo:'baz'}, {lorem:'ipsum', foo:'bar'}]
+```
+
+### paginateTable(pageSize: number, pageIndex: number, data: T[])
+
+Handles pagination by slicing the provided data according to the given `pageSize` and `pageIndex`.
+
+| Name         | Description                                                          |
+|--------------|----------------------------------------------------------------------|
+| __pageSize__ | Rows per page.<br/>_number_                                          |
+| __pageIndex__| The selected page to show.<br/>_number_                              |
+| __data__     | The data to be paginated, where `T` is the type of `data`.<br/>_T[] _|
+
+```js
+const data = [{lorem:'ipsum', foo:'bar'}, {lorem:'dolor', foo:'baz'}];
+const paginationResult = paginateTable(1, 0, data);
+console.log(paginationResult);
+// { totalCount: 2, data: [{lorem:'ipsum', foo:'bar'}], pageIndex: 0 }
+```
