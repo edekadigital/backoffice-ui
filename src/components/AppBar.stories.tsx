@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, ExitToApp, Apps, OpenInNew, Person, Star } from '..'; // @edekadigital/backoffice-ui
+import { AppBar, Logout, Apps, OpenInNew, Person, Star } from '..'; // @edekadigital/backoffice-ui
 import { AppBarActions } from './AppBar';
 
 export default {
@@ -73,7 +73,7 @@ export const WithActions = () => {
         },
         {
           label: 'Lorem ipsum',
-          icon: ExitToApp,
+          icon: Logout,
           handler: () => {
             console.log('signout');
           },
@@ -81,7 +81,7 @@ export const WithActions = () => {
       ],
     },
     {
-      icon: ExitToApp,
+      icon: Logout,
       handler: () => console.log('signout'),
     },
   ];
@@ -144,7 +144,7 @@ export const TransparentWithActions = () => {
         },
         {
           label: 'Lorem ipsum',
-          icon: ExitToApp,
+          icon: Logout,
           handler: () => {
             console.log('signout');
           },
@@ -152,7 +152,7 @@ export const TransparentWithActions = () => {
       ],
     },
     {
-      icon: ExitToApp,
+      icon: Logout,
       handler: () => console.log('signout'),
     },
   ];
