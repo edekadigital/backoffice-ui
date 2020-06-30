@@ -141,7 +141,7 @@ const AppBarListMenu: React.FC<AppBarMenuProps> = ({
   const iconClasses = useListMenuIconStyles();
 
   const renderItems = items.map((tempItem, itemIndex) => {
-    const key = `app-bar-menu-item-${index}-${itemIndex}`;
+    const key = `appBar-menuItem-${index}-${itemIndex}`;
 
     const IconComponent = tempItem.icon;
 
@@ -188,7 +188,7 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
   const textClasses = useGridMenuTextStyles();
 
   const renderItems = items.map((tempItem, itemIndex) => {
-    const key = `app-bar-menu-item-${index}-${itemIndex}`;
+    const key = `appBar-menuItem-${index}-${itemIndex}`;
 
     const IconComponent = tempItem.icon;
 
@@ -248,22 +248,22 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
   const actionItems = actions.map((tempAction, index) => {
     const {
       handler = (event: React.MouseEvent<HTMLElement>) =>
-        setActiveMenu((prev) =>
-          prev && prev.index === index
-            ? null
-            : { index, anchorEl: event.currentTarget }
-        ),
+        setActiveMenu({ index, anchorEl: event.currentTarget }),
       icon,
     } = tempAction as AppBarActionItem;
 
     const IconComponent = icon;
+    const key = `appBar-actionItem-${index}`;
 
     return (
-      <div key={`action-item-${index}`}>
-        <MuiIconButton color="inherit" onClick={handler}>
-          <IconComponent fontSize="small" />
-        </MuiIconButton>
-      </div>
+      <MuiIconButton
+        color="inherit"
+        onClick={handler}
+        key={key}
+        data-testid={key}
+      >
+        <IconComponent fontSize="small" />
+      </MuiIconButton>
     );
   });
 
@@ -273,19 +273,8 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
       const { items } = action;
       const anchorEl = activeMenu?.anchorEl;
       const open = activeMenu?.index === index;
-      const key = `app-bar-action-menu-${index}`;
+      const key = `appBar-actionMenu-${index}`;
       switch (action.menuType) {
-        case 'list':
-          return (
-            <AppBarListMenu
-              index={index}
-              items={items}
-              anchorEl={anchorEl}
-              open={open}
-              key={key}
-              onClose={closeMenu}
-            />
-          );
         case 'grid':
           return (
             <AppBarGridMenu
@@ -297,8 +286,18 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
               onClose={closeMenu}
             />
           );
+        case 'list':
         default:
-          return null;
+          return (
+            <AppBarListMenu
+              index={index}
+              items={items}
+              anchorEl={anchorEl}
+              open={open}
+              key={key}
+              onClose={closeMenu}
+            />
+          );
       }
     } else {
       return null;
