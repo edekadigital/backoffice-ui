@@ -12,8 +12,14 @@ export interface AppBarAction {
 }
 
 export interface AppBarProps {
+  /**
+   * Action icon buttons and its handlers
+   * @default []
+   */
   actions?: AppBarAction[];
-  children?: React.ReactNode;
+  /**
+   * If `true`, the app bar will have a bottom margin.
+   */
   gutterBottom?: boolean;
 }
 

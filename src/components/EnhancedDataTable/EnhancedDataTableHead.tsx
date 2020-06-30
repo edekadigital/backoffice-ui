@@ -9,7 +9,7 @@ import {
   Theme,
   createStyles,
 } from '@material-ui/core';
-import { CheckboxDark } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 
 export interface EnhancedDataTableHeadProps<D> {
   columns: Array<EnhancedDataTableColumn<D>>;
@@ -78,7 +78,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
 
   const renderCheckbox = selectable ? (
     <TableCell padding="checkbox">
-      <CheckboxDark
+      <Checkbox
         onChange={onSelectAllClick}
         checked={isAllRowsSelected}
         inputProps={checkboxInputProps}

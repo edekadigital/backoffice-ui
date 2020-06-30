@@ -6,10 +6,6 @@ export default {
   component: AppBar,
 };
 
-AppBar.defaultProps = {
-  actions: [],
-};
-
 export const Default = () => (
   <AppBar>
     <strong>Lorem</strong>Ipsum

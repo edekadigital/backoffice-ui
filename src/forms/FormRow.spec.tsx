@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { FormRow, TextField } from '..';
+import { FormRow } from '..';
 import { render } from '../test-utils';
 
 const label = 'some label';
@@ -14,8 +14,8 @@ describe('<FormRow/>', () => {
   it('should render the form row', () => {
     const { getByText } = render(
       <FormRow>
-        <TextField label={label} />
-        <TextField label={label2} />
+        <div>{label}</div>
+        <div>{label2}</div>
       </FormRow>
     );
 
@@ -27,10 +27,10 @@ describe('<FormRow/>', () => {
     const { getByText } = render(
       <>
         <FormRow>
-          <TextField label={label} />
+          <div>{label}</div>
         </FormRow>
         <FormRow>
-          <TextField label={label2} />
+          <div>{label2}</div>
         </FormRow>
       </>
     );
@@ -42,8 +42,8 @@ describe('<FormRow/>', () => {
   it('should render the form row with width as number', () => {
     const { getByText } = render(
       <FormRow maxWidth={20} gutterBottom={true}>
-        <TextField label={label} />
-        <TextField label={label2} />
+        <div>{label}</div>
+        <div>{label2}</div>
       </FormRow>
     );
 
@@ -54,10 +54,10 @@ describe('<FormRow/>', () => {
   it('should render the form row with more children than layout can handle', () => {
     const { getByText } = render(
       <FormRow maxWidth={20} gutterBottom={true} gridLayout={[2, 2, 2, 2, 2]}>
-        <TextField label={label} />
-        <TextField label={label2} />
-        <TextField label={label3} />
-        <TextField label={label4} />
+        <div>{label}</div>
+        <div>{label2}</div>
+        <div>{label3}</div>
+        <div>{label4}</div>
       </FormRow>
     );
 
@@ -70,8 +70,8 @@ describe('<FormRow/>', () => {
   it('should render the form row with width as a string', () => {
     const { getByTestId, getByText } = render(
       <FormRow maxWidth={'md'} gutterBottom={true}>
-        <TextField label={label} />
-        <TextField label={label2} />
+        <div>{label}</div>
+        <div>{label2}</div>
       </FormRow>
     );
     expect(getByText(label)!).toBeTruthy();

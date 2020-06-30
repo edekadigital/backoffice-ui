@@ -1,14 +1,26 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Button } from '..';
-import { ButtonBar } from '..';
+import { Button } from '../components/Button';
+import { ButtonBar } from '../components/ButtonBar';
 
 export type FormWrapperHandler = () => void;
 
 export interface FormWrapperProps {
+  /**
+   * The label text of the submit button.
+   */
   submitLabel: string;
+  /**
+   * The label text of the cancel button.
+   */
   cancelLabel?: string;
+  /**
+   * Callback fired when the form is submitted.
+   */
   onSubmit: FormWrapperHandler;
+  /**
+   * Callback fired when the cancel button is clicked.
+   */
   onCancel?: FormWrapperHandler;
 }
 

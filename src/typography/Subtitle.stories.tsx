@@ -6,11 +6,6 @@ export default {
   component: Subtitle,
 };
 
-Subtitle.defaultProps = {
-  variant: 'subtitle1',
-  component: 'p',
-};
-
 export const Default = () => (
   <Subtitle>
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
@@ -18,35 +13,42 @@ export const Default = () => (
   </Subtitle>
 );
 
-export const Primary = () => (
+export const ColorTextPrimary = () => (
+  <Subtitle color="textPrimary">
+    Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  </Subtitle>
+);
+
+export const ColorTextSecondary = () => (
+  <Subtitle color="textSecondary">
+    Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  </Subtitle>
+);
+
+export const ColorPrimary = () => (
   <Subtitle color="primary">
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   </Subtitle>
 );
 
-export const Secondary = () => (
-  <Subtitle color="secondary">
-    Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  </Subtitle>
-);
-
-export const Center = () => (
+export const AlignCenter = () => (
   <Subtitle align="center">
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   </Subtitle>
 );
 
-export const Subtitle1 = () => (
+export const VariantSubtitle1 = () => (
   <Subtitle variant="subtitle1">
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   </Subtitle>
 );
 
-export const Subtitle2 = () => (
+export const VariantSubtitle2 = () => (
   <Subtitle variant="subtitle2">
     Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

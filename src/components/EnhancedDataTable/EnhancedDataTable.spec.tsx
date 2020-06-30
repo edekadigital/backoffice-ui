@@ -474,7 +474,7 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-filterBar-submit')).toBeTruthy();
     // input filter value: 'filterValue'
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     // submit filter value form
@@ -528,7 +528,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBe(filters[1].label);
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
@@ -545,7 +545,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBeFalsy();
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));

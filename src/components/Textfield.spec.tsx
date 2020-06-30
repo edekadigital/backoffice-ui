@@ -13,7 +13,7 @@ describe('<TextField />', () => {
   afterEach(cleanup);
 
   it('should render the text field component', () => {
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <TextField
         label={label}
         name={name}
@@ -28,6 +28,14 @@ describe('<TextField />', () => {
     expect(inputResult.name).toEqual(name);
     expect(inputResult.placeholder).toEqual(placeholder);
     expect(inputResult.value).toEqual(value);
-    expect(getByText(label)!).toBeTruthy();
+    expect(getByTestId('textField-label').textContent).toEqual(label);
+  });
+
+  it('should render the text field component with an adornment', () => {
+    const adornment = <div data-testid={'adornment'}>adornment</div>;
+    const { getByTestId } = render(
+      <TextField data-testid={'textfield-id'} endAdornment={adornment} />
+    );
+    expect(getByTestId('adornment').textContent).toBe('adornment');
   });
 });

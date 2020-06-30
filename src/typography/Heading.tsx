@@ -13,17 +13,37 @@ export type HeadingComponent =
   | 'span'
   | 'div';
 
-export type HeadingColor = 'initial' | 'primary' | 'secondary';
+export type HeadingColor =
+  | 'initial'
+  | 'primary'
+  | 'textPrimary'
+  | 'textSecondary';
 
 export type HeadingAlign = 'left' | 'center' | 'right';
 
 export interface HeadingProps {
+  /**
+   * The variant to use.
+   * @default "h2"
+   */
   variant?: HeadingVariant;
+  /**
+   * The component to be used for rendering the Headline
+   * @default "h2"
+   */
   component?: HeadingComponent;
+  /**
+   * Defines the text color. Only theme colors are allowed.
+   */
   color?: HeadingColor;
+  /**
+   * Defines how the headline should be aligned.
+   */
   align?: HeadingAlign;
+  /**
+   * If `true`, the headline will have a bottom margin.
+   */
   gutterBottom?: boolean;
-  children: React.ReactNode;
 }
 
 const useStyles = makeStyles({

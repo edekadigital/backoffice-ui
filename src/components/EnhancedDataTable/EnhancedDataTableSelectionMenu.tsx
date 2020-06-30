@@ -3,7 +3,8 @@ import MuiDrawer from '@material-ui/core/Drawer';
 import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { IconButton, CheckboxLight } from '../..';
+import { IconButton } from '../IconButton';
+import { Checkbox } from '../Checkbox';
 
 export interface EnhancedDataTableSelectionMenuActions<D> {
   icon: React.ElementType<SvgIconProps>;
@@ -25,7 +26,7 @@ const useStyles = makeStyles<
 >((theme) => ({
   drawerPaper: ({ drawerPosition }) => ({
     backgroundColor: theme.palette.primary.main,
-    color: 'white',
+    color: theme.palette.primary.contrastText,
     paddingLeft: drawerPosition?.left,
   }),
   drawerActions: ({ drawerPosition }) => ({
@@ -39,7 +40,7 @@ const useStyles = makeStyles<
     paddingLeft: theme.spacing(2),
   },
   drawerButton: {
-    color: 'white',
+    color: theme.palette.primary.contrastText,
   },
 }));
 export function EnhancedDataTableSelectionMenu<D extends object>(
@@ -74,10 +75,11 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
   } as React.InputHTMLAttributes<HTMLInputElement>;
 
   const control = (
-    <CheckboxLight
+    <Checkbox
       onChange={onSelectAllClick}
       checked={isAllRowsSelected}
       inputProps={checkboxInputProps}
+      inverted={true}
     />
   );
 
@@ -91,6 +93,7 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
       open={isOpen}
       data-testid={'enhancedDataTable-selectionMenu'}
       data-open={isOpen}
+      PaperProps={{ elevation: 8 }}
     >
       <div className={classes.drawerActions}>
         <div className={classes.drawerCheckbox}>

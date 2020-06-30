@@ -1,8 +1,65 @@
 import * as React from 'react';
 import NumberFormat from 'react-number-format';
-import { TextField, TextFieldProps } from './TextField';
-
-export type DateFieldProps = Omit<TextFieldProps, 'type' | 'adornment'>;
+import { TextField } from './TextField';
+export interface DateFieldProps {
+  /**
+   * The label content.
+   */
+  label?: string;
+  /**
+   * This prop helps users to fill forms faster, especially on mobile devices.
+   * The name can be confusing, as it's more like an autofill.
+   */
+  autoComplete?: string;
+  /**
+   * The default value of the input element.
+   */
+  defaultValue?: string | number;
+  /**
+   * If `true`, the input element will be `disabled`.
+   */
+  disabled?: boolean;
+  /**
+   * If `true`, the label will be displayed in an error state.
+   */
+  error?: boolean;
+  /**
+   * The helper text content.
+   */
+  helperText?: string;
+  /**
+   * The `id` of the input element. Use this prop to make `label` and `helperText` accessible for screen readers.
+   */
+  id?: string;
+  /**
+   * Pass a ref to the input element.
+   */
+  inputRef?: React.RefObject<HTMLInputElement>;
+  /**
+   * Overwrites the default `data-testid` for the input element.
+   */
+  inputTestId?: string;
+  /**
+   * Name attribute of the input element.
+   */
+  name?: string;
+  /**
+   * Callback fired when the value is changed.
+   */
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  /**
+   * The short hint displayed in the input before the user enters a value.
+   */
+  placeholder?: string;
+  /**
+   * If `true`, the label is displayed as required and the input element will be required
+   */
+  required?: boolean;
+  /**
+   * The value of the input element, required for a controlled component.
+   */
+  value?: string | number;
+}
 
 export const DateField: React.FC<DateFieldProps> = (props) => {
   const handleButtonKeyPress = (event: React.KeyboardEvent) => {

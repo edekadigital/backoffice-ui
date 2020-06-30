@@ -5,15 +5,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { PRIMARY, SUCCESS, ERROR, WARNING } from '../constants/colors';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   default: { backgroundColor: theme.palette.grey[600] },
-  success: { backgroundColor: SUCCESS },
-  error: { backgroundColor: ERROR },
-  warning: { backgroundColor: WARNING },
-  info: { backgroundColor: PRIMARY },
+  success: { backgroundColor: theme.palette.success.main },
+  error: { backgroundColor: theme.palette.error.main },
+  warning: { backgroundColor: theme.palette.warning.main },
+  info: { backgroundColor: theme.palette.primary.main },
 }));
 
 export type SnackbarVariant =

@@ -7,7 +7,7 @@ import {
   Theme,
   createStyles,
 } from '@material-ui/core';
-import { CheckboxDark } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 import { EnhancedDataTableColumn, RowClickCallback } from './EnhancedDataTable';
 import { IconButton } from '../IconButton';
 import { ArrowForward } from '../../icons';
@@ -77,7 +77,7 @@ export function EnhancedDataTableBody<D extends object>(
       } as React.InputHTMLAttributes<HTMLInputElement>;
       const renderCheckbox = selectable ? (
         <TableCell padding="checkbox">
-          <CheckboxDark
+          <Checkbox
             checked={isSelected}
             onChange={() => onSelectRowClick(row)}
             inputProps={checkboxInputProps}

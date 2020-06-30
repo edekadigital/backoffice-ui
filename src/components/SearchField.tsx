@@ -1,44 +1,40 @@
 import * as React from 'react';
 import {
-  Paper as MuiPaper,
-  InputBase as MuiInputBase,
   IconButton as MuiIconButton,
   LinearProgress as MuiLinearProgress,
 } from '@material-ui/core';
 import { Search } from '../icons';
 import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
+import { TextField } from './TextField';
 
 export interface SearchFieldProps {
+  /**
+   * The short hint displayed in the input before the user enters a value.
+   */
   placeholder: string;
+  /**
+   * Callback fired when the value is changed.
+   */
   onChange?: (value: string) => void;
+  /**
+   * Callback fired when the form is submitted.
+   */
   onSubmit?: (value: string) => void;
+  /**
+   * If `true`, the progress bar will be visible.
+   */
   progress?: boolean;
 }
 
-const useStyles = makeStyles({
-  paper: {
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  form: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  input: {
-    marginLeft: 8,
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
+const useStyles = makeStyles((theme: Theme) => ({
   progress: {
     position: 'absolute',
-    bottom: 0,
     left: 0,
     width: '100%',
+    marginTop: -theme.spacing(0.5),
   },
-});
+}));
 
 export const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,
@@ -73,25 +69,25 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   ) : null;
 
   return (
-    <MuiPaper elevation={1} className={classes.paper}>
-      <form className={classes.form} onSubmit={handleFormSubmit}>
-        <MuiInputBase
-          className={classes.input}
-          placeholder={placeholder}
-          inputRef={inputRef}
-          onChange={handleInputChange}
-          inputProps={{ 'data-testid': 'searchField-input' }}
-        />
-        <MuiIconButton
-          className={classes.iconButton}
-          aria-label={placeholder}
-          type="submit"
-          data-testid="searchField-submit"
-        >
-          <Search />
-        </MuiIconButton>
-      </form>
+    <form onSubmit={handleFormSubmit}>
+      <TextField
+        disabled={progress}
+        placeholder={placeholder}
+        inputRef={inputRef}
+        onChange={handleInputChange}
+        inputTestId={'searchField-input'}
+        endAdornment={
+          <MuiIconButton
+            aria-label={placeholder}
+            type="submit"
+            disabled={progress}
+            data-testid="searchField-submit"
+          >
+            <Search />
+          </MuiIconButton>
+        }
+      />
       {progressBar}
-    </MuiPaper>
+    </form>
   );
 };

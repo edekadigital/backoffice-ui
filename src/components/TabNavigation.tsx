@@ -7,16 +7,42 @@ import clsx from 'clsx';
 import { Divider, fade, Theme } from '@material-ui/core';
 
 export interface TabNavigationItem<T> {
+  /**
+   * The content of the label.
+   */
   label: string;
+  /**
+   * The value of the tab item.
+   */
   value: T;
+  /**
+   * If `true`, a vertical devider will be shown before the tab item
+   */
   divider?: boolean;
 }
 
 export interface TabNavigationProps<T> {
+  /**
+   * The link component to use. Default component is `button`
+   * @default "button"
+   */
   linkComponent?: React.ElementType;
+  /**
+   * The tab items to show.
+   */
   items: Array<TabNavigationItem<T>>;
+  /**
+   * The tab item to be selected and active.
+   */
   value: T;
+  /**
+   * Callback fired when a tab item is clicked.
+   */
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
+  /**
+   * If `true`, the tab navigation bar will have a bottom margin.
+   * @default false
+   */
   gutterBottom?: boolean;
 }
 
