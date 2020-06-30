@@ -49,6 +49,7 @@ export interface SelectFieldProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   /**
    * If `true`, the label is displayed as required and the input element will be required
+   * @default false
    */
   required?: boolean;
   /**

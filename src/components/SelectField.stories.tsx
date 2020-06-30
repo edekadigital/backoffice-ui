@@ -87,7 +87,3 @@ export const Controlled = () => {
     />
   );
 };
-
-SelectField.defaultProps = {
-  required: false,
-};
