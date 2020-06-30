@@ -63,6 +63,7 @@ export interface TextFieldProps {
   inputRef?: React.RefObject<HTMLInputElement>;
   /**
    * Overwrites the default `data-testid` for the input element.
+   * @default "textField-input"
    */
   inputTestId?: string;
   /**
@@ -79,6 +80,7 @@ export interface TextFieldProps {
   placeholder?: string;
   /**
    * If `true`, the label is displayed as required and the input element will be required
+   * @default false
    */
   required?: boolean;
   /**
@@ -89,6 +91,7 @@ export interface TextFieldProps {
   select?: boolean;
   /**
    * Type of the input element. It should be a valid HTML5 input type.
+   * @default "text"
    */
   type?: TextFieldType;
   /**

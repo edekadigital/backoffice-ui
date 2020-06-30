@@ -1,24 +1,60 @@
 import * as React from 'react';
-import { TextField, TextFieldProps } from './TextField';
+import { TextField, TextFieldValue } from './TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export interface SelectFieldProps
-  extends Pick<
-    TextFieldProps,
-    | 'disabled'
-    | 'error'
-    | 'helperText'
-    | 'id'
-    | 'label'
-    | 'name'
-    | 'onChange'
-    | 'required'
-    | 'value'
-  > {
+export interface SelectFieldMenuItem {
+  value: string | number;
+  label: string;
+}
+export interface SelectFieldProps {
   /**
-   * The menu items for the select input field
+   * The label content.
    */
-  menuItems: Array<{ value: string | number; label: string }>;
+  label?: string;
+  /**
+   * If `true`, the input element will be `disabled`.
+   */
+  disabled?: boolean;
+  /**
+   * If `true`, the label will be displayed in an error state.
+   */
+  error?: boolean;
+  /**
+   * The helper text content.
+   */
+  helperText?: string;
+  /**
+   * The `id` of the input element. Use this prop to make `label` and `helperText` accessible for screen readers.
+   */
+  id?: string;
+  /**
+   * Pass a ref to the input element.
+   */
+  inputRef?: React.RefObject<HTMLInputElement>;
+  /**
+   * Overwrites the default `data-testid` for the input element.
+   */
+  inputTestId?: string;
+  /**
+   * The menu items for the select input field (see `SelectFieldMenuItem`)
+   */
+  menuItems: SelectFieldMenuItem[];
+  /**
+   * Name attribute of the input element.
+   */
+  name?: string;
+  /**
+   * Callback fired when the value is changed.
+   */
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  /**
+   * If `true`, the label is displayed as required and the input element will be required
+   */
+  required?: boolean;
+  /**
+   * The value of the input element, required for a controlled component.
+   */
+  value?: TextFieldValue;
 }
 
 export const SelectField: React.FC<SelectFieldProps> = (props) => {

@@ -7,12 +7,6 @@ export default {
   component: Image,
 };
 
-Image.defaultProps = {
-  sources: [],
-  mode: 'width',
-  position: 'relative',
-};
-
 export const Default = () => (
   <Image
     src="https://via.placeholder.com/1920x1080/000000/404040"

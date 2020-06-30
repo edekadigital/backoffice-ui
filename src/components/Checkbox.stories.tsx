@@ -14,7 +14,3 @@ export const Inverted = () => (
   </div>
 );
 export const Disabled = () => <Checkbox disabled={true} />;
-
-Checkbox.defaultProps = {
-  inverted: false,
-};

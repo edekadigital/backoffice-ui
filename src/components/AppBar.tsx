@@ -14,6 +14,7 @@ export interface AppBarAction {
 export interface AppBarProps {
   /**
    * Action icon buttons and its handlers
+   * @default []
    */
   actions?: AppBarAction[];
   /**

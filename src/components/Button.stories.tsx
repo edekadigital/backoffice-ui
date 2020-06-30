@@ -7,12 +7,6 @@ export default {
   component: Button,
 };
 
-Button.defaultProps = {
-  variant: 'contained',
-  iconPosition: 'left',
-  showProgress: false,
-};
-
 export const Default = () => <Button>Some Label</Button>;
 export const ContainedColorPrimary = () => (
   <Button color={'primary'}>Some Label</Button>

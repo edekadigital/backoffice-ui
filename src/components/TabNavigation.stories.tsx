@@ -15,11 +15,6 @@ export default {
   component: TabNavigation,
 };
 
-(TabNavigation as React.FC).defaultProps = {
-  gutterBottom: false,
-  linkComponent: 'button',
-};
-
 export const Default = () => {
   const navigationItems: Array<TabNavigationItem<number>> = [
     {

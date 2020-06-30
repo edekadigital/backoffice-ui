@@ -12,12 +12,6 @@ export default {
   ],
 };
 
-TextField.defaultProps = {
-  type: 'text',
-  required: false,
-  inputTestId: 'textField-input',
-};
-
 export const Default = () => <TextField label="Some label" />;
 export const Required = () => <TextField label="Some label" required={true} />;
 export const Disabled = () => <TextField label="Some label" disabled={true} />;

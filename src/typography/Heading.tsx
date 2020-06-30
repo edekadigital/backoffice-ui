@@ -24,10 +24,12 @@ export type HeadingAlign = 'left' | 'center' | 'right';
 export interface HeadingProps {
   /**
    * The variant to use.
+   * @default "h2"
    */
   variant?: HeadingVariant;
   /**
    * The component to be used for rendering the Headline
+   * @default "h2"
    */
   component?: HeadingComponent;
   /**

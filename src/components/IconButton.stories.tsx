@@ -28,7 +28,3 @@ export const Download = () => (
 export const Progress = () => (
   <IconButton color="primary" icon={ArrowForward} showProgress={true} />
 );
-
-IconButton.defaultProps = {
-  edge: false,
-};
