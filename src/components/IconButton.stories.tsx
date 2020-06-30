@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import { IconButton, ArrowForward } from '..'; // @edekadigital/backoffice-ui
+import { IconButton, ArrowForward, Button } from '..'; // @edekadigital/backoffice-ui
 import { CloudDownload } from '../icons';
 
 export default {
   title: 'Components|IconButton',
   component: IconButton,
+  subcomponents: { Button },
 };
 
 export const Default = () => <IconButton icon={ArrowForward} />;
@@ -27,3 +28,7 @@ export const Download = () => (
 export const Progress = () => (
   <IconButton color="primary" icon={ArrowForward} showProgress={true} />
 );
+
+IconButton.defaultProps = {
+  edge: false,
+};

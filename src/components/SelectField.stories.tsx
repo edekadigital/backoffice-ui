@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { SelectField } from './SelectField';
+import { TextField } from './TextField';
 
 export default {
   title: 'Components|SelectField',
   component: SelectField,
+  subcomponents: { TextField },
   decorators: [
     (storyFn: () => React.ReactNode) => (
       <div style={{ margin: 50 }}>{storyFn()}</div>

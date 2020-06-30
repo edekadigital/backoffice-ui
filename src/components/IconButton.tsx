@@ -3,15 +3,20 @@ import {
   IconButton as MuiIconButton,
   CircularProgress,
 } from '@material-ui/core';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonProps } from './Button';
 
+type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 export interface IconButtonProps
-  extends Omit<ButtonProps, 'icon' | 'size' | 'variant' | 'iconPosition'> {
+  extends RequiredBy<
+    Omit<ButtonProps, 'size' | 'variant' | 'iconPosition'>,
+    'icon'
+  > {
   /**
-   * The icon to show
+   * If given, uses a negative margin to counteract the padding on one side
+   * (this is often helpful for aligning the left or right side of the icon
+   * with content above or below, without ruining the border size and shape).
    */
-  icon: React.ElementType<SvgIconProps>;
+  edge?: 'start' | 'end' | false;
 }
 
 export const IconButton: React.FC<IconButtonProps> = (props) => {

@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { TextField as MuiTextField, Theme } from '@material-ui/core';
+import {
+  TextField as MuiTextField,
+  Theme,
+  InputAdornment,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export type TextFieldValue = string | number;
@@ -115,7 +119,9 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   const labelClasses = useLabelStyles();
   const InputProps = {
     classes: inputClasses,
-    endAdornment: endAdornment,
+    endAdornment: endAdornment ? (
+      <InputAdornment position="end">{endAdornment}</InputAdornment>
+    ) : undefined,
   };
   const InputLabelProps = {
     classes: labelClasses,

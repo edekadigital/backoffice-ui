@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   IconButton as MuiIconButton,
   LinearProgress as MuiLinearProgress,
-  InputAdornment,
 } from '@material-ui/core';
 import { Search } from '../icons';
 import { makeStyles } from '@material-ui/styles';
@@ -70,29 +69,25 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   ) : null;
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
-        <TextField
-          disabled={progress}
-          placeholder={placeholder}
-          inputRef={inputRef}
-          onChange={handleInputChange}
-          inputTestId={'searchField-input'}
-          endAdornment={
-            <InputAdornment position="end">
-              <MuiIconButton
-                aria-label={placeholder}
-                type="submit"
-                disabled={progress}
-                data-testid="searchField-submit"
-              >
-                <Search />
-              </MuiIconButton>
-            </InputAdornment>
-          }
-        />
-      </form>
+    <form onSubmit={handleFormSubmit}>
+      <TextField
+        disabled={progress}
+        placeholder={placeholder}
+        inputRef={inputRef}
+        onChange={handleInputChange}
+        inputTestId={'searchField-input'}
+        endAdornment={
+          <MuiIconButton
+            aria-label={placeholder}
+            type="submit"
+            disabled={progress}
+            data-testid="searchField-submit"
+          >
+            <Search />
+          </MuiIconButton>
+        }
+      />
       {progressBar}
-    </div>
+    </form>
   );
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
-import { InputAdornment, IconButton } from '@material-ui/core';
+import { IconButton } from './IconButton';
 
 export default {
   title: 'Components|TextField',
@@ -38,17 +38,13 @@ export const WithValue = () => (
 );
 
 export const WithTextAdornment = () => {
-  const adornment = <InputAdornment position="end">Test</InputAdornment>;
+  const adornment = <>Test</>;
   return <TextField label="Some label" endAdornment={adornment} />;
 };
 
 export const WithIconButtonAdornment = () => {
   const adornment = (
-    <InputAdornment position="end">
-      <IconButton onClick={() => {}} onMouseDown={() => {}} edge="end">
-        <Visibility />
-      </IconButton>
-    </InputAdornment>
+    <IconButton onClick={() => {}} icon={Visibility} edge="end" />
   );
   return <TextField label="Some label" endAdornment={adornment} />;
 };
