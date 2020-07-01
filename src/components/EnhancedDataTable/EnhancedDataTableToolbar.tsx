@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  MenuItem,
 } from '@material-ui/core';
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
@@ -122,13 +123,6 @@ export function EnhancedDataTableToolbar<D>(
     setSelectedFilter(selectedFilter as ActiveFilter<D>);
   };
 
-  const handleFilterValueSelectClick = (value: string) => {
-    if (selectedFilter?.accessor) {
-      setActiveFilters(activeFilters.concat({ ...selectedFilter!, value }));
-      setPopoverAnchorEl(null);
-    }
-  };
-
   const handleFilterValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -207,35 +201,30 @@ export function EnhancedDataTableToolbar<D>(
     <></>
   );
 
-  const popoverFilterForm = selectedFilter?.selectorValues ? (
-    selectedFilter.selectorValues.map((filterValue, index) => (
-      <ListItem
-        key={filterValue}
-        button={true}
-        onClick={() => handleFilterValueSelectClick(filterValue)}
-        data-testid={`enhancedDataTable-filterBar-selectValue-${index}`}
-      >
-        <ListItemText primary={filterValue} />
-      </ListItem>
-    ))
-  ) : (
-    <form onSubmit={handleFilterSubmit}>
-      <Paper className={classes.popoverFormPaper}>
-        <TextField
-          label="Enthält..."
-          onChange={handleFilterValueChange}
-          inputTestId={'enhancedDataTable-filterBar-input'}
-        />
-        <Button
-          variant={'text'}
-          type={'submit'}
-          disabled={selectedFilter && !selectedFilter.value}
-          data-testid={'enhancedDataTable-filterBar-submit'}
+  const popoverFilterFormInput = selectedFilter?.selectorValues ? (
+    <TextField
+      label="Auswahl"
+      onChange={handleFilterValueChange}
+      select
+      inputTestId={'enhancedDataTable-filterBar-selectValue'}
+    >
+      {selectedFilter.selectorValues.map((filterValue, index) => (
+        <MenuItem
+          key={filterValue}
+          value={filterValue}
+          data-testid={`enhancedDataTable-filterBar-selectValue-${index}`}
         >
-          Anwenden
-        </Button>
-      </Paper>
-    </form>
+          {filterValue}
+        </MenuItem>
+      ))}
+    </TextField>
+  ) : (
+    <TextField
+      label="Enthält..."
+      onChange={handleFilterValueChange}
+      inputTestId={'enhancedDataTable-filterBar-input'}
+      autoFocus={true}
+    />
   );
 
   const renderPopoverContent = selectedFilter ? (
@@ -258,7 +247,20 @@ export function EnhancedDataTableToolbar<D>(
           data-testid={'enhancedDataTable-filterBar-close'}
         />
       </Toolbar>
-      {popoverFilterForm}
+      <form onSubmit={handleFilterSubmit}>
+        <Paper className={classes.popoverFormPaper}>
+          {popoverFilterFormInput}
+          <Button
+            variant={'text'}
+            color={'primary'}
+            type={'submit'}
+            disabled={selectedFilter && !selectedFilter.value}
+            data-testid={'enhancedDataTable-filterBar-submit'}
+          >
+            Anwenden
+          </Button>
+        </Paper>
+      </form>
     </>
   ) : (
     <List>{popoverFilterList}</List>

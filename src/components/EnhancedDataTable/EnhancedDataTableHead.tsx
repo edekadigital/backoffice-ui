@@ -20,6 +20,7 @@ export interface EnhancedDataTableHeadProps<D> {
   onRequestSort: (property: keyof D) => void;
   onSelectAllClick: React.ChangeEventHandler<HTMLInputElement>;
   clickable?: boolean;
+  selectedRowsCount?: number;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,6 +42,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     onRequestSort,
     onSelectAllClick,
     clickable,
+    selectedRowsCount = 0,
   } = props;
 
   const classes = useStyles();
@@ -79,6 +81,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
   const renderCheckbox = selectable ? (
     <TableCell padding="checkbox">
       <Checkbox
+        indeterminate={!isAllRowsSelected && selectedRowsCount > 0}
         onChange={onSelectAllClick}
         checked={isAllRowsSelected}
         inputProps={checkboxInputProps}
