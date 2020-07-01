@@ -1,3 +1,5 @@
+export { createSvgIcon } from '@material-ui/core';
+
 export * from './providers/BackofficeUiProvider';
 export * from './providers/ThemeProvider';
 export * from './providers/SnackbarProvider';
