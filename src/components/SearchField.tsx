@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   IconButton as MuiIconButton,
   LinearProgress as MuiLinearProgress,
-  InputAdornment,
 } from '@material-ui/core';
 import { Search } from '../icons';
 import { makeStyles } from '@material-ui/styles';
