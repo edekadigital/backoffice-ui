@@ -11,6 +11,7 @@ export interface ContentGroupProps {
   title?: string;
   /**
    * The component to be used for showing the title.
+   * @default "h3"
    */
   titleComponent?: HeadingComponent;
 }

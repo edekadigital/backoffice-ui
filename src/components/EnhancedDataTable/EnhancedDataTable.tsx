@@ -61,6 +61,7 @@ export interface EnhancedDataTableProps<D extends object> {
   columns: Array<EnhancedDataTableColumn<D>>;
   /**
    * Initial count of rows per page.
+   * @default 10
    */
   defaultPageSize?: number;
   /**
@@ -85,11 +86,13 @@ export interface EnhancedDataTableProps<D extends object> {
   /**
    * Customizes the options of the rows per page select field.
    * If less than two options are available, no select field will be displayed.
+   * @default [5, 10, 25]
    */
   rowsPerPageOptions?: number[];
   /**
    * List of available actions which are displayed in the selection menu, if more than one row is selected.
    * If there is less than one action served, the table rows will not be selectable.
+   * @default []
    */
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
 }

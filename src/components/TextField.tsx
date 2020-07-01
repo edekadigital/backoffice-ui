@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { TextField as MuiTextField, Theme } from '@material-ui/core';
+import {
+  TextField as MuiTextField,
+  Theme,
+  InputAdornment,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export type TextFieldValue = string | number;
@@ -59,6 +63,7 @@ export interface TextFieldProps {
   inputRef?: React.RefObject<HTMLInputElement>;
   /**
    * Overwrites the default `data-testid` for the input element.
+   * @default "textField-input"
    */
   inputTestId?: string;
   /**
@@ -75,6 +80,7 @@ export interface TextFieldProps {
   placeholder?: string;
   /**
    * If `true`, the label is displayed as required and the input element will be required
+   * @default false
    */
   required?: boolean;
   /**
@@ -85,6 +91,7 @@ export interface TextFieldProps {
   select?: boolean;
   /**
    * Type of the input element. It should be a valid HTML5 input type.
+   * @default "text"
    */
   type?: TextFieldType;
   /**
@@ -115,7 +122,9 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   const labelClasses = useLabelStyles();
   const InputProps = {
     classes: inputClasses,
-    endAdornment: endAdornment,
+    endAdornment: endAdornment ? (
+      <InputAdornment position="end">{endAdornment}</InputAdornment>
+    ) : undefined,
   };
   const InputLabelProps = {
     classes: labelClasses,

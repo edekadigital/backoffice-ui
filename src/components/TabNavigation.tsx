@@ -24,6 +24,7 @@ export interface TabNavigationItem<T> {
 export interface TabNavigationProps<T> {
   /**
    * The link component to use. Default component is `button`
+   * @default "button"
    */
   linkComponent?: React.ElementType;
   /**
@@ -40,6 +41,7 @@ export interface TabNavigationProps<T> {
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
   /**
    * If `true`, the tab navigation bar will have a bottom margin.
+   * @default false
    */
   gutterBottom?: boolean;
 }

@@ -11,7 +11,7 @@ export type StatusChipColor =
   | 'warning'
   | 'info';
 
-export interface StatusChipProps extends Pick<ChipProps, 'size'> {
+export interface StatusChipProps {
   /**
    * The label content.
    */
@@ -24,6 +24,11 @@ export interface StatusChipProps extends Pick<ChipProps, 'size'> {
    * Additional icon to show.
    */
   icon?: React.ElementType<SvgIconProps>;
+  /**
+   * The size of the chip.
+   * @default "medium"
+   */
+  size?: 'small' | 'medium';
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

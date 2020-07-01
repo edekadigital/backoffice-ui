@@ -46,6 +46,7 @@ interface AppBarMenuProps {
 export interface AppBarProps {
   /**
    * Action icon buttons and its handlers
+   * @default []
    */
   actions?: AppBarActions;
   /**

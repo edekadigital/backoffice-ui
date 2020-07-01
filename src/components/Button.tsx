@@ -49,6 +49,7 @@ export interface ButtonProps {
   icon?: ButtonIcon;
   /**
    * Sets the postion of the provided icon in the button compontent
+   * @default "left"
    */
   iconPosition?: ButtonIconPosition;
   /**
@@ -57,6 +58,7 @@ export interface ButtonProps {
   onClick?: React.MouseEventHandler;
   /**
    * If `true` a loading spinner will be shown.
+   * @default false
    */
   showProgress?: boolean;
   /**
@@ -73,6 +75,7 @@ export interface ButtonProps {
   type?: ButtonType;
   /**
    * The variant to use.
+   * @default "contained"
    */
   variant?: ButtonVariant;
 }

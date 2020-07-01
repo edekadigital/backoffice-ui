@@ -16,10 +16,12 @@ export type SubtitleAlign = 'left' | 'center' | 'right';
 export interface SubtitleProps {
   /**
    * The variant to use.
+   * @default "subtitle1"
    */
   variant?: SubtitleVariant;
   /**
    * The component to be used for rendering the Headline
+   * @default "p"
    */
   component?: SubtitleComponent;
   /**

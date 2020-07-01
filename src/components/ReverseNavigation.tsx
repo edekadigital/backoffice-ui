@@ -16,6 +16,7 @@ export interface ReverseNavigationProps {
   action?: React.ReactNode;
   /**
    * If `true`, the back button will be floating left. Default is set to `true`.
+   * @default true
    */
   floatingBackButton?: boolean;
   /**

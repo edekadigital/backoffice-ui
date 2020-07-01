@@ -80,6 +80,7 @@
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
     "rollup": "^2.18.0",
+    "storybook-addon-react-docgen": "^1.2.40",
     "storybook-icon-gallery": "^1.2.1",
     "typescript": "^3.9.5"
   },

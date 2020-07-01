@@ -4,7 +4,7 @@ import MuiFormControlLabel from '@material-ui/core/FormControlLabel';
 import { Theme, SvgIconProps } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { IconButton } from '../IconButton';
-import { CheckboxLight } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 
 export interface EnhancedDataTableSelectionMenuActions<D> {
   icon: React.ElementType<SvgIconProps>;
@@ -75,10 +75,11 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
   } as React.InputHTMLAttributes<HTMLInputElement>;
 
   const control = (
-    <CheckboxLight
+    <Checkbox
       onChange={onSelectAllClick}
       checked={isAllRowsSelected}
       inputProps={checkboxInputProps}
+      inverted={true}
     />
   );
 

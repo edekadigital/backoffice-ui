@@ -17,10 +17,12 @@ export type BodyAlign = 'left' | 'center' | 'right';
 export interface BodyProps {
   /**
    * The variant to use (controls size)
+   * @default "body1"
    */
   variant?: BodyVariant;
   /**
    * Defines the component where the text should be rendered in
+   * @default p
    */
   component?: BodyComponent;
   /**

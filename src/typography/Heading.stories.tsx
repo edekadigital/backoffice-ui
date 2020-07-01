@@ -6,11 +6,6 @@ export default {
   component: Heading,
 };
 
-Heading.defaultProps = {
-  variant: 'h2',
-  component: 'h2',
-};
-
 export const Default = () => (
   <Heading>
     Lorem ipsum dolor <strong>sit amet</strong>

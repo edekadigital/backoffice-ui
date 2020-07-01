@@ -26,14 +26,17 @@ export interface ImageProps {
   alt: string;
   /**
    * The image position, can be `relative` or `absolute`.
+   * @default "relative"
    */
   position?: ImagePosition;
   /**
    * Sets the mode how the image should be rendered.
+   * @default "width"
    */
   mode?: ImageMode;
   /**
    * The image sources.
+   * @default []
    */
   sources?: ImageSource[];
 }

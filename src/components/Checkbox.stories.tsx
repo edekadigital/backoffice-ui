@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { CheckboxDark, CheckboxLight } from '..'; // @edekadigital/backoffice-ui
+import { Checkbox } from '..'; // @edekadigital/backoffice-ui
+import { edekaBlue } from '../constants/colors';
 
 export default {
   title: 'Components|Checkbox',
-  component: [CheckboxDark, CheckboxLight],
+  component: Checkbox,
 };
 
-export const DarkAndLight = () => (
-  <>
-    <CheckboxDark />
-    <CheckboxLight />
-  </>
+export const Default = () => <Checkbox />;
+export const Inverted = () => (
+  <div style={{ background: `${edekaBlue.main}` }}>
+    <Checkbox inverted={true} />
+  </div>
 );
+export const Disabled = () => <Checkbox disabled={true} />;
