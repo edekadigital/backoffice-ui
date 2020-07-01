@@ -620,7 +620,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBeTruthy();
     expect(
       queryByTestId('enhancedDataTable-filterBar-selectValue-1')
-    ).toBeVisible();
+    ).toBeTruthy();
 
     expect(
       getByTestId('enhancedDataTable-filterBar-selectValue-0').firstChild
