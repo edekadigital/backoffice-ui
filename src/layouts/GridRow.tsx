@@ -20,6 +20,7 @@ type GridItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
 
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = 'auto', children } = props;
+
   const renderGrid = () => {
     if (children && Array.isArray(children) && children.length > 1) {
       switch (gridVariant) {
@@ -27,43 +28,25 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
           let gridSize = Math.floor(12 / children.length) as GridItemSize;
           gridSize = gridSize < 3 ? 3 : gridSize;
           return children.map((child, index) => (
-            <Grid
-              item
-              key={index}
-              xs={12}
-              sm={6}
-              md={gridSize}
-              lg={gridSize}
-              xl={gridSize}
-            >
+            <Grid item key={index} xs={12} sm={6} md={gridSize}>
               {child}
             </Grid>
           ));
         }
         case 'narrowLeft':
-          return children.map((child, index) =>
-            index % 2 === 0 ? (
-              <Grid item key={index} md={4} lg={4} xl={4} xs={12} sm={6}>
-                {child}
-              </Grid>
-            ) : (
-              <Grid item key={index} md={8} lg={8} xl={8} xs={12} sm={6}>
-                {child}
-              </Grid>
-            )
-          );
         case 'narrowRight':
-          return children.map((child, index) =>
-            index % 2 === 0 ? (
-              <Grid item key={index} md={8} lg={8} xl={8} xs={12} sm={6}>
+          return children.map((child, index) => {
+            const i = gridVariant === 'narrowLeft' ? index : index + 1;
+            return i % 2 === 0 ? (
+              <Grid item key={index} xs={12} sm={6} md={4}>
                 {child}
               </Grid>
             ) : (
-              <Grid item key={index} md={4} lg={4} xl={4} xs={12} sm={6}>
+              <Grid item key={index} xs={12} sm={6} md={8}>
                 {child}
               </Grid>
-            )
-          );
+            );
+          });
         default:
           return (
             <Grid item xs={12}>
@@ -80,8 +63,10 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
     }
   };
   return (
-    <Grid container spacing={2}>
-      {renderGrid()}
-    </Grid>
+    <div style={{ overflowX: 'hidden' }}>
+      <Grid container spacing={3}>
+        {renderGrid()}
+      </Grid>
+    </div>
   );
 };
