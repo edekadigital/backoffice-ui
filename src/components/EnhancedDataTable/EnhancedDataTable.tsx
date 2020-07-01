@@ -311,6 +311,7 @@ export function EnhancedDataTable<D extends object>(
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
                 clickable={!!onRowClick}
+                selectedRowsCount={selectedRows.length}
               />
               <EnhancedDataTableBody
                 columns={columns}

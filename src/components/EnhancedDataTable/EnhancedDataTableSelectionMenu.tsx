@@ -38,6 +38,7 @@ const useStyles = makeStyles<
   drawerCheckbox: {
     flexBasis: '45%',
     paddingLeft: theme.spacing(2),
+    alignSelf: 'center',
   },
   drawerButton: {
     color: theme.palette.primary.contrastText,
@@ -76,6 +77,7 @@ export function EnhancedDataTableSelectionMenu<D extends object>(
 
   const control = (
     <Checkbox
+      indeterminate={!isAllRowsSelected && selectedRows.length > 0}
       onChange={onSelectAllClick}
       checked={isAllRowsSelected}
       inputProps={checkboxInputProps}

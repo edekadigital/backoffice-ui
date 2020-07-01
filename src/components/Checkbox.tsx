@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MuiCheckbox from '@material-ui/core/Checkbox';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme, fade } from '@material-ui/core/styles';
 
 export interface CheckboxProps {
   /**
@@ -23,6 +23,10 @@ export interface CheckboxProps {
    * Pass a ref to the `input` element.
    */
   inputRef?: React.RefObject<HTMLInputElement>;
+  /**
+   * If `true`, the component appears indeterminate.
+   */
+  indeterminate?: boolean;
   /**
    * If set to `true` the colors of the checkbox are inverted.
    * This might be helpful e.g. if the checkbox is being placed on a dark background.
@@ -59,11 +63,18 @@ const useStyles = makeStyles<Theme, CheckboxProps>((theme: Theme) => ({
         ? theme.palette.primary.contrastText
         : theme.palette.primary.main,
     },
+    '&:hover, &.Mui-checked:hover': {
+      backgroundColor: inverted
+        ? fade(theme.palette.primary.contrastText, 0.04)
+        : fade(theme.palette.primary.main, 0.04),
+    },
   }),
 }));
 
 export const Checkbox: React.FC<CheckboxProps> = (props) => {
   const { inverted, ...additionalProps } = props;
   const classes = useStyles({ inverted });
-  return <MuiCheckbox classes={classes} {...additionalProps} />;
+  return (
+    <MuiCheckbox classes={classes} color={'primary'} {...additionalProps} />
+  );
 };

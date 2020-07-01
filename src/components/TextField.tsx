@@ -3,6 +3,7 @@ import {
   TextField as MuiTextField,
   Theme,
   InputAdornment,
+  SelectProps as MuiSelectProps,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -33,6 +34,10 @@ export interface TextFieldProps {
    * The name can be confusing, as it's more like an autofill.
    */
   autoComplete?: string;
+  /**
+   * If `true`, the input element will be focused during the first mount.
+   */
+  autoFocus?: boolean;
   /**
    * The default value of the input element.
    */
@@ -132,15 +137,25 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     required,
     'data-testid': 'textField-label',
   };
+
+  const selectProps = props.select
+    ? ({
+        SelectDisplayProps: { 'data-testid': inputTestId },
+      } as MuiSelectProps)
+    : {};
+
+  const inputProps = !props.select ? { 'data-testid': inputTestId } : {};
+
   return (
     <MuiTextField
       {...additionalProps}
+      SelectProps={selectProps}
       type={type}
       required={required}
       InputProps={InputProps}
       InputLabelProps={InputLabelProps}
       fullWidth={true}
-      inputProps={{ 'data-testid': inputTestId }}
+      inputProps={inputProps}
       variant={'outlined'}
     />
   );
