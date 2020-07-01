@@ -16,7 +16,7 @@ export interface GridRowProps {
   gridVariant?: GridVariant;
 }
 
-type GridItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
+type GridItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12;
 
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = 'auto', children } = props;
@@ -38,11 +38,11 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
           return children.map((child, index) => {
             const i = gridVariant === 'narrowLeft' ? index : index + 1;
             return i % 2 === 0 ? (
-              <Grid item key={index} xs={12} sm={6} md={4}>
+              <Grid item key={index} xs={12} md={4}>
                 {child}
               </Grid>
             ) : (
-              <Grid item key={index} xs={12} sm={6} md={8}>
+              <Grid item key={index} xs={12} md={8}>
                 {child}
               </Grid>
             );
