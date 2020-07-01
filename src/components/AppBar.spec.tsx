@@ -1,84 +1,160 @@
 import * as React from 'react';
 import { cleanup, fireEvent } from '@testing-library/react';
-import { AppBar, Apps, ArrowDropDown, IconButton } from '..';
+import { AppBar, Logout } from '..';
 import userEvent from '@testing-library/user-event';
 import { render } from '../test-utils';
-
-const label = 'Some Label';
+import { AppBarActions } from './AppBar';
 
 describe('<AppBar />', () => {
   afterEach(cleanup);
 
   it('should render the app bar component', () => {
-    const { container } = render(<AppBar>{label}</AppBar>);
-
-    expect(container.textContent).toEqual(label);
+    const { container } = render(<AppBar gutterBottom>Some title</AppBar>);
+    expect(container).toBeTruthy();
   });
 
-  it('should click the button on the app bar component', () => {
-    let click = false;
-    const handleClick = () => {
-      click = true;
-    };
+  it('should render the label', () => {
+    const { getByTestId } = render(<AppBar>Some title</AppBar>);
+    expect(getByTestId('appBar-title').textContent).toEqual('Some title');
+  });
 
-    const { container } = render(<AppBar>{label}</AppBar>);
+  it('should render action item and call its handler', () => {
+    const icon = Logout;
+    const handler = jest.fn();
+
+    const actions: AppBarActions = [
+      {
+        icon,
+        handler,
+      },
+    ];
 
     const { getByTestId } = render(
-      <IconButton
-        icon={ArrowDropDown}
-        onClick={handleClick}
-        data-testid="iconbutton"
-      />
+      <AppBar actions={actions}>Some title</AppBar>
     );
-
-    userEvent.click(getByTestId('iconbutton'));
-    expect(container.textContent).toEqual(label);
-    expect(click).toBe(true);
+    userEvent.click(getByTestId('appBar-actionItem-0'));
+    expect(handler).toBeCalledTimes(1);
   });
 
-  it('should render the app bar component with action button', () => {
-    const testAction = [
+  it('should render grid menu and close after pressing escape key', () => {
+    const icon = Logout;
+    const handler = jest.fn();
+
+    const actions: AppBarActions = [
       {
-        icon: Apps,
-        handler: () => console.log('test'),
+        icon,
+        menuType: 'grid',
+        items: [
+          {
+            label: 'Some item',
+            icon,
+            handler,
+          },
+        ],
       },
     ];
 
-    const { container } = render(
-      <AppBar actions={testAction} gutterBottom={true} data-testid="appbar-id">
-        {label}
-      </AppBar>
+    const { getByTestId } = render(
+      <AppBar actions={actions}>Some title</AppBar>
     );
 
-    expect(container.textContent).toEqual(label);
-    const actionButton = container.querySelector<HTMLButtonElement>('button');
-    expect(actionButton!).toBeTruthy();
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+    userEvent.click(getByTestId('appBar-actionItem-0'));
+    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
+    fireEvent.keyDown(getByTestId('appBar-menuItem-0-0'), {
+      key: 'Esc',
+      code: 'Esc',
+    });
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
   });
 
-  it('should notice onClick event in app bar', () => {
-    let clicked = false;
-    const clickHandler = () => {
-      clicked = true;
-    };
+  it('should render grid menu and call item handler and close menu afterwards', () => {
+    const icon = Logout;
+    const handler = jest.fn();
 
-    const testAction = [
+    const actions: AppBarActions = [
       {
-        icon: Apps,
-        handler: clickHandler,
+        icon,
+        menuType: 'grid',
+        items: [
+          {
+            label: 'Some item',
+            icon,
+            handler,
+          },
+        ],
       },
     ];
 
-    const { container } = render(
-      <AppBar actions={testAction} gutterBottom={true}>
-        {label}
-      </AppBar>
+    const { getByTestId } = render(
+      <AppBar actions={actions}>Some title</AppBar>
     );
 
-    expect(container.textContent).toEqual(label);
+    userEvent.click(getByTestId('appBar-actionItem-0'));
+    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
+    userEvent.click(getByTestId('appBar-menuItem-0-0'));
+    expect(handler).toBeCalledTimes(1);
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+  });
 
-    const buttonResult = container.querySelector<HTMLButtonElement>('button');
-    expect(buttonResult!).toBeTruthy();
-    fireEvent.click(buttonResult!);
-    expect(clicked).toBe(true);
+  it('should render list menu and close after pressing escape key', () => {
+    const icon = Logout;
+    const handler = jest.fn();
+
+    const actions: AppBarActions = [
+      {
+        icon,
+        menuType: 'list',
+        items: [
+          {
+            label: 'Some item',
+            icon,
+            handler,
+          },
+        ],
+      },
+    ];
+
+    const { getByTestId } = render(
+      <AppBar actions={actions}>Some title</AppBar>
+    );
+
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+    userEvent.click(getByTestId('appBar-actionItem-0'));
+    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
+    fireEvent.keyDown(getByTestId('appBar-menuItem-0-0'), {
+      key: 'Esc',
+      code: 'Esc',
+    });
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+  });
+
+  it('should render list menu and call item handler and close menu afterwards', () => {
+    const icon = Logout;
+    const handler = jest.fn();
+
+    const actions: AppBarActions = [
+      {
+        icon,
+        menuType: 'list',
+        items: [
+          {
+            label: 'Some item',
+            icon,
+            handler,
+          },
+        ],
+      },
+    ];
+
+    const { getByTestId } = render(
+      <AppBar actions={actions}>Some title</AppBar>
+    );
+
+    userEvent.click(getByTestId('appBar-actionItem-0'));
+    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
+    userEvent.click(getByTestId('appBar-menuItem-0-0'));
+    expect(handler).toBeCalledTimes(1);
+    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
   });
 });

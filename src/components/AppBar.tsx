@@ -1,14 +1,46 @@
 import * as React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import MuiAppBar from '@material-ui/core/AppBar';
 import MuiIconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/styles';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { Theme } from '@material-ui/core';
+import MuiMenu from '@material-ui/core/Menu';
+import MuiMenuItem from '@material-ui/core/MenuItem';
+import MuiListItemIcon from '@material-ui/core/ListItemIcon';
+import MuiListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import {
+  Theme,
+  makeStyles,
+  SvgIconProps,
+  PopoverOrigin,
+} from '@material-ui/core';
+import clsx from 'clsx';
 
-export interface AppBarAction {
+// "colorTransparent" key is missing in type definition for AppBar prop "classes"
+type AppBarClasses = never;
+
+export interface AppBarActionItem {
   icon: React.ElementType<SvgIconProps>;
-  handler: () => void;
+  handler: React.MouseEventHandler<HTMLElement>;
+}
+
+export interface AppBarActionMenuItem extends AppBarActionItem {
+  label: string;
+}
+
+export interface AppBarActionMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'list' | 'grid';
+  items: AppBarActionMenuItem[];
+}
+
+export type AppBarActions = (AppBarActionItem | AppBarActionMenu)[];
+
+interface AppBarMenuProps {
+  index: number;
+  items: AppBarActionMenuItem[];
+  open: boolean;
+  anchorEl?: HTMLElement;
+  onClose: Function;
 }
 
 export interface AppBarProps {
@@ -16,75 +48,285 @@ export interface AppBarProps {
    * Action icon buttons and its handlers
    * @default []
    */
-  actions?: AppBarAction[];
+  actions?: AppBarActions;
+  /**
+   * The background color of the app bar. It supports those theme colors that make sense for this component.
+   */
+  color?: 'default' | 'primary' | 'transparent';
   /**
    * If `true`, the app bar will have a bottom margin.
    */
   gutterBottom?: boolean;
 }
 
+const anchorOrigin: PopoverOrigin = { vertical: 'bottom', horizontal: 'right' };
+const transformOrigin: PopoverOrigin = { vertical: 'top', horizontal: 'right' };
+
 const useStyles = makeStyles<Theme, AppBarProps>((theme) => ({
   root: ({ gutterBottom }) => ({
-    background: theme.palette.background.paper,
     marginBottom: theme.spacing(gutterBottom ? 3 : 0),
   }),
-  outer: {
-    margin: '0 auto',
-    display: 'flex',
-    width: '100%',
-    height: 70,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  titleWrapper: {
-    flex: '1 1 100%',
-    overflow: 'hidden',
-  },
-  title: {
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-  actionsWrapper: {
-    flex: '0 0 auto',
-    display: 'flex',
-    overflow: 'hidden',
+  grow: {
+    flexGrow: 1,
   },
 }));
 
-export const AppBar: React.FC<AppBarProps> = (props) => {
-  const { actions = [], children } = props;
-  const classes = useStyles(props);
+const useAppBarStyles = makeStyles((theme) => ({
+  colorTransparent: {
+    color: theme.palette.primary.main,
+  },
+}));
 
-  const actionItems = actions.map(({ icon, handler }, index) => {
-    const IconComponent = icon;
-    const handleClick = () => handler();
+const useListMenuIconStyles = makeStyles((theme) => ({
+  root: {
+    minWidth: theme.spacing(4.5),
+  },
+}));
+
+const useGridMenuStyles = makeStyles((theme) => ({
+  paper: {
+    maxWidth: 280,
+    maxHeight: 380,
+  },
+  list: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: theme.spacing(1),
+  },
+}));
+
+const useGridMenuItemStyles = makeStyles((theme) => ({
+  root: {
+    flex: '0 0 50%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: theme.shape.borderRadius,
+  },
+}));
+
+const useGridMenuIconStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(0.5),
+    padding: theme.spacing(1),
+    minWidth: 0,
+    borderWidth: 1,
+    borderColor: theme.palette.grey[300],
+    borderStyle: 'solid',
+    borderRadius: theme.shape.borderRadius,
+    transition: theme.transitions.create('border-color'),
+    ['.MuiListItem-button:hover &']: {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}));
+
+const useGridMenuTextStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    whiteSpace: 'normal',
+  },
+}));
+
+const AppBarListMenu: React.FC<AppBarMenuProps> = ({
+  index,
+  items,
+  open,
+  anchorEl,
+  onClose,
+}) => {
+  const iconClasses = useListMenuIconStyles();
+
+  const renderItems = items.map((tempItem, itemIndex) => {
+    const key = `appBar-menuItem-${index}-${itemIndex}`;
+
+    const IconComponent = tempItem.icon;
+
+    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+      tempItem.handler(event);
+      onClose();
+    };
+
     return (
-      <div key={`action-item-${index}`}>
-        <MuiIconButton color="default" onClick={handleClick}>
+      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+        <MuiListItemIcon classes={iconClasses}>
           <IconComponent fontSize="small" />
-        </MuiIconButton>
-      </div>
+        </MuiListItemIcon>
+        <MuiListItemText primary={tempItem.label} />
+      </MuiMenuItem>
     );
   });
 
   return (
-    <div className={classes.root}>
-      <Container maxWidth={false}>
-        <div className={classes.outer}>
-          <div className={classes.titleWrapper}>
-            <Typography
-              component="h1"
-              variant="h6"
-              className={classes.title}
-              data-testid="appBar-title"
-            >
-              {children}
-            </Typography>
-          </div>
-          <div className={classes.actionsWrapper}>{actionItems}</div>
-        </div>
-      </Container>
+    <MuiMenu
+      anchorEl={anchorEl}
+      anchorOrigin={anchorOrigin}
+      keepMounted={true}
+      transformOrigin={transformOrigin}
+      getContentAnchorEl={null}
+      open={open}
+      onClose={() => onClose()}
+    >
+      {renderItems}
+    </MuiMenu>
+  );
+};
+
+const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
+  index,
+  items,
+  open,
+  anchorEl,
+  onClose,
+}) => {
+  const menuClasses = useGridMenuStyles();
+  const itemClasses = useGridMenuItemStyles();
+  const iconClasses = useGridMenuIconStyles();
+  const textClasses = useGridMenuTextStyles();
+
+  const renderItems = items.map((tempItem, itemIndex) => {
+    const key = `appBar-menuItem-${index}-${itemIndex}`;
+
+    const IconComponent = tempItem.icon;
+
+    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+      tempItem.handler(event);
+      onClose();
+    };
+
+    return (
+      <MuiMenuItem
+        onClick={handleClick}
+        key={key}
+        data-testid={key}
+        classes={itemClasses}
+      >
+        <MuiListItemIcon classes={iconClasses}>
+          <IconComponent fontSize="small" color="primary" />
+        </MuiListItemIcon>
+        <Typography variant="caption" align="center" classes={textClasses}>
+          {tempItem.label}
+        </Typography>
+      </MuiMenuItem>
+    );
+  });
+
+  return (
+    <MuiMenu
+      classes={menuClasses}
+      anchorEl={anchorEl}
+      anchorOrigin={anchorOrigin}
+      keepMounted={true}
+      transformOrigin={transformOrigin}
+      getContentAnchorEl={null}
+      open={open}
+      onClose={() => onClose()}
+    >
+      {renderItems}
+    </MuiMenu>
+  );
+};
+
+export const AppBar: React.FC<AppBarProps> = (props) => {
+  const { actions = [], children, color } = props;
+
+  const [activeMenu, setActiveMenu] = React.useState<{
+    anchorEl: HTMLElement;
+    index: number;
+  } | null>(null);
+
+  const classes = useStyles(props);
+  const appBarClasses = useAppBarStyles();
+
+  const closeMenu = () => {
+    setActiveMenu(null);
+  };
+
+  const actionItems = actions.map((tempAction, index) => {
+    const {
+      handler = (event: React.MouseEvent<HTMLElement>) =>
+        setActiveMenu({ index, anchorEl: event.currentTarget }),
+      icon,
+    } = tempAction as AppBarActionItem;
+
+    const IconComponent = icon;
+    const key = `appBar-actionItem-${index}`;
+
+    return (
+      <MuiIconButton
+        color="inherit"
+        onClick={handler}
+        key={key}
+        data-testid={key}
+      >
+        <IconComponent fontSize="small" />
+      </MuiIconButton>
+    );
+  });
+
+  const actionMenus = actions.map((tempAction, index) => {
+    if ('menuType' in tempAction) {
+      const action = tempAction as AppBarActionMenu;
+      const { items } = action;
+      const anchorEl = activeMenu?.anchorEl;
+      const open = activeMenu?.index === index;
+      const key = `appBar-actionMenu-${index}`;
+      switch (action.menuType) {
+        case 'grid':
+          return (
+            <AppBarGridMenu
+              index={index}
+              items={items}
+              anchorEl={anchorEl}
+              open={open}
+              key={key}
+              onClose={closeMenu}
+            />
+          );
+        case 'list':
+        default:
+          return (
+            <AppBarListMenu
+              index={index}
+              items={items}
+              anchorEl={anchorEl}
+              open={open}
+              key={key}
+              onClose={closeMenu}
+            />
+          );
+      }
+    } else {
+      return null;
+    }
+  });
+
+  return (
+    <div className={clsx(classes.root, classes.grow)}>
+      <MuiAppBar
+        position="static"
+        color={color}
+        elevation={0}
+        classes={appBarClasses as AppBarClasses}
+      >
+        <Toolbar>
+          <Typography
+            component="h1"
+            variant="h6"
+            className={classes.title}
+            data-testid="appBar-title"
+          >
+            {children}
+          </Typography>
+          <div className={classes.grow}></div>
+          {actionItems}
+          {actionMenus}
+        </Toolbar>
+      </MuiAppBar>
     </div>
   );
 };
