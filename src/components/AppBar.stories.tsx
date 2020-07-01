@@ -16,6 +16,10 @@ export const Transparent = () => (
 export const WithActions = () => {
   const actions: AppBarActions = [
     {
+      icon: Star,
+      handler: () => console.log('some action'),
+    },
+    {
       icon: Apps,
       menuType: 'grid',
       items: [
@@ -75,10 +79,6 @@ export const WithActions = () => {
           },
         },
       ],
-    },
-    {
-      icon: Logout,
-      handler: () => console.log('signout'),
     },
   ];
   return <AppBar actions={actions}>Lorem Ipsum</AppBar>;
@@ -87,6 +87,10 @@ export const WithActions = () => {
 export const TransparentWithActions = () => {
   const actions: AppBarActions = [
     {
+      icon: Star,
+      handler: () => console.log('some action'),
+    },
+    {
       icon: Apps,
       menuType: 'grid',
       items: [
@@ -146,10 +150,6 @@ export const TransparentWithActions = () => {
           },
         },
       ],
-    },
-    {
-      icon: Logout,
-      handler: () => console.log('signout'),
     },
   ];
   return (
