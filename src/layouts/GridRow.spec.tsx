@@ -17,7 +17,6 @@ describe('<GridRow />', () => {
         <div data-testid="column1">column1</div>
       </GridRow>
     );
-
     expect(getByTestId('gridRow')).toBeTruthy();
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
     expect(getByTestId('column1').textContent).toBe('column1');
@@ -32,6 +31,7 @@ describe('<GridRow />', () => {
     );
 
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
   });
@@ -43,8 +43,10 @@ describe('<GridRow />', () => {
         <div data-testid="column2">column2</div>
       </GridRow>
     );
-
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
+    expect(getByTestId('gridRow-item-0')).toHaveClass('MuiGrid-grid-md-4');
+    expect(getByTestId('gridRow-item-1')).toHaveClass('MuiGrid-grid-md-8');
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
   });
@@ -58,6 +60,9 @@ describe('<GridRow />', () => {
     );
 
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
+    expect(getByTestId('gridRow-item-0')).toHaveClass('MuiGrid-grid-md-8');
+    expect(getByTestId('gridRow-item-1')).toHaveClass('MuiGrid-grid-md-4');
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
   });
@@ -72,6 +77,8 @@ describe('<GridRow />', () => {
     );
 
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
+    expect(getByTestId('gridRow-item-2')).toBeTruthy();
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
     expect(getByTestId('column3').textContent).toBe('column3');
@@ -88,6 +95,9 @@ describe('<GridRow />', () => {
     );
 
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
+    expect(getByTestId('gridRow-item-2')).toBeTruthy();
+    expect(getByTestId('gridRow-item-3')).toBeTruthy();
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
     expect(getByTestId('column3').textContent).toBe('column3');
@@ -96,7 +106,7 @@ describe('<GridRow />', () => {
 
   it('should render the grid row component even if there are more children provided than columns defined', () => {
     const { getByTestId } = render(
-      <GridRow>
+      <GridRow gridVariant={'6-6'}>
         <div data-testid="column1">column1</div>
         <div data-testid="column2">column2</div>
         <div data-testid="column3">column3</div>
@@ -104,8 +114,13 @@ describe('<GridRow />', () => {
     );
 
     expect(getByTestId('gridRow-item-0')).toBeTruthy();
+    expect(getByTestId('gridRow-item-1')).toBeTruthy();
+    expect(getByTestId('gridRow-item-2')).toBeTruthy();
     expect(getByTestId('column1').textContent).toBe('column1');
     expect(getByTestId('column2').textContent).toBe('column2');
     expect(getByTestId('column3').textContent).toBe('column3');
+    expect(getByTestId('gridRow-item-0')).toHaveClass('MuiGrid-grid-md-6');
+    expect(getByTestId('gridRow-item-1')).toHaveClass('MuiGrid-grid-md-6');
+    expect(getByTestId('gridRow-item-2')).toHaveClass('MuiGrid-grid-md-6');
   });
 });
