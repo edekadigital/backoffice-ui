@@ -10,8 +10,6 @@ export interface GridRowProps {
   gridVariant?: GridVariant;
 }
 
-type GridItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12;
-
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = '12', children } = props;
 
