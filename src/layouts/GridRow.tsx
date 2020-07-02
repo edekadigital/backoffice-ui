@@ -20,19 +20,38 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
     switch (gridVariant) {
       case '6-6':
         return children.map((child, index) => (
-          <Grid item key={index} xs={12} md={6}>
+          <Grid
+            item
+            key={index}
+            xs={12}
+            md={6}
+            data-testid={`gridRow-item-${index}`}
+          >
             {child}
           </Grid>
         ));
       case '4-4-4':
         return children.map((child, index) => (
-          <Grid item key={index} xs={12} md={4}>
+          <Grid
+            item
+            key={index}
+            xs={12}
+            md={4}
+            data-testid={`gridRow-item-${index}`}
+          >
             {child}
           </Grid>
         ));
       case '3-3-3-3':
         return children.map((child, index) => (
-          <Grid item key={index} xs={12} sm={6} md={3}>
+          <Grid
+            item
+            key={index}
+            xs={12}
+            sm={6}
+            md={3}
+            data-testid={`gridRow-item-${index}`}
+          >
             {child}
           </Grid>
         ));
@@ -41,18 +60,30 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
         return children.map((child, index) => {
           const i = gridVariant === '4-8' ? index : index + 1;
           return i % 2 === 0 ? (
-            <Grid item key={index} xs={12} md={4}>
+            <Grid
+              item
+              key={index}
+              xs={12}
+              md={4}
+              data-testid={`gridRow-item-${index}`}
+            >
               {child}
             </Grid>
           ) : (
-            <Grid item key={index} xs={12} md={8}>
+            <Grid
+              item
+              key={index}
+              xs={12}
+              md={8}
+              data-testid={`gridRow-item-${index}`}
+            >
               {child}
             </Grid>
           );
         });
       default:
         return children.map((child, index) => (
-          <Grid item key={index} xs={12}>
+          <Grid item key={index} xs={12} data-testid={`gridRow-item-${index}`}>
             {child}
           </Grid>
         ));
@@ -61,7 +92,7 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
 
   return (
     <div style={{ overflowX: 'hidden' }}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} data-testid={'gridRow'}>
         {renderGrid()}
       </Grid>
     </div>
