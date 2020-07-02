@@ -10,6 +10,12 @@ export interface GridRowProps {
   gridVariant?: GridVariant;
 }
 
+/**
+ * | Test ID             | Description          |
+ * | ------------------- | -------------------- |
+ * | `gridRow`           | Grid container       |
+ * | `gridRow-item-{n}`  | Grid item _n_        |
+ */
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = '12' } = props;
   const children = Array.isArray(props.children)
