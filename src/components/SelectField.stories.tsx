@@ -8,7 +8,7 @@ export default {
   subcomponents: { TextField },
   decorators: [
     (storyFn: () => React.ReactNode) => (
-      <div style={{ margin: 50 }}>{storyFn()}</div>
+      <div style={{ margin: 120 }}>{storyFn()}</div>
     ),
   ],
 };
