@@ -138,7 +138,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     'data-testid': 'textField-label',
   };
 
-  const selectProps = props.select
+  const SelectProps = props.select
     ? ({
         SelectDisplayProps: { 'data-testid': inputTestId },
       } as MuiSelectProps)
@@ -149,7 +149,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   return (
     <MuiTextField
       {...additionalProps}
-      SelectProps={selectProps}
+      SelectProps={SelectProps}
       type={type}
       required={required}
       InputProps={InputProps}

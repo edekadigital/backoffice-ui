@@ -62,14 +62,6 @@ const theme = createMuiTheme(
       MuiSelect: {
         select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
       },
-      MuiMenuItem: {
-        root: {
-          '&.Mui-selected, &.Mui-selected:hover': {
-            backgroundColor: edekaBlue.main,
-            color: common.white,
-          },
-        },
-      },
       MuiTableRow: {
         root: {
           '&.Mui-selected, &.Mui-selected:hover': {
