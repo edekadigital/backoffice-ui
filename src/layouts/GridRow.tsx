@@ -1,17 +1,11 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
 
-export type GridVariant = 'auto' | 'narrowLeft' | 'narrowRight';
-
+export type GridVariant = '12' | '6-6' | '4-8' | '8-4' | '4-4-4' | '3-3-3-3';
 export interface GridRowProps {
   /**
    * Defines the grid layout.
-   * `auto` makes the items (children) equitably share the available space,
-   * while no more than four columns would be placed in one line. If more than 4 items are provided,
-   * the following items will be wrapped into the next line automatically.
-   * `narrowLeft` represents a static *4-8* and `narrowRight` a static *8-4* grid layout where only two
-   * items are lined up in one line. Further items are wrapped into the next line automatically.
-   * @default "auto"
+   * @default "12"
    */
   gridVariant?: GridVariant;
 }
@@ -19,24 +13,33 @@ export interface GridRowProps {
 type GridItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12;
 
 export const GridRow: React.FC<GridRowProps> = (props) => {
-  const { gridVariant = 'auto', children } = props;
+  const { gridVariant = '12', children } = props;
 
   const renderGrid = () => {
     if (children && Array.isArray(children) && children.length > 1) {
       switch (gridVariant) {
-        case 'auto': {
-          let gridSize = Math.floor(12 / children.length) as GridItemSize;
-          gridSize = gridSize < 3 ? 3 : gridSize;
+        case '6-6':
           return children.map((child, index) => (
-            <Grid item key={index} xs={12} sm={6} md={gridSize}>
+            <Grid item key={index} xs={12} md={6}>
               {child}
             </Grid>
           ));
-        }
-        case 'narrowLeft':
-        case 'narrowRight':
+        case '4-4-4':
+          return children.map((child, index) => (
+            <Grid item key={index} xs={12} md={4}>
+              {child}
+            </Grid>
+          ));
+        case '3-3-3-3':
+          return children.map((child, index) => (
+            <Grid item key={index} xs={12} sm={6} md={3}>
+              {child}
+            </Grid>
+          ));
+        case '4-8':
+        case '8-4':
           return children.map((child, index) => {
-            const i = gridVariant === 'narrowLeft' ? index : index + 1;
+            const i = gridVariant === '4-8' ? index : index + 1;
             return i % 2 === 0 ? (
               <Grid item key={index} xs={12} md={4}>
                 {child}
@@ -48,11 +51,11 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
             );
           });
         default:
-          return (
-            <Grid item xs={12}>
-              {children}
+          return children.map((child, index) => (
+            <Grid item key={index} xs={12}>
+              {child}
             </Grid>
-          );
+          ));
       }
     } else {
       return (
@@ -62,6 +65,7 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
       );
     }
   };
+
   return (
     <div style={{ overflowX: 'hidden' }}>
       <Grid container spacing={3}>

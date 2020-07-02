@@ -16,47 +16,36 @@ const ChildComponent: React.FC = ({ children }) => (
 export const Default = () => (
   <GridRow>
     <ChildComponent>Column 1</ChildComponent>
-    <ChildComponent>Column 2</ChildComponent>
-    <ChildComponent>Column 3</ChildComponent>
-    <ChildComponent>Column 4</ChildComponent>
   </GridRow>
 );
 
-export const AutoOneColumn = () => (
-  <GridRow>
-    <ChildComponent>Column 1</ChildComponent>
-  </GridRow>
-);
-
-export const AutoTwoColumns = () => (
-  <GridRow>
+export const VariantA = () => (
+  <GridRow gridVariant={'6-6'}>
     <ChildComponent>Column 1</ChildComponent>
     <ChildComponent>Column 2</ChildComponent>
   </GridRow>
 );
-
-export const AutoThreeColumns = () => (
-  <GridRow>
+export const VariantB = () => (
+  <GridRow gridVariant={'4-8'}>
     <ChildComponent>Column 1</ChildComponent>
     <ChildComponent>Column 2</ChildComponent>
-    <ChildComponent>Column 3</ChildComponent>
   </GridRow>
 );
-
-export const AutoMultipleColumns = () => (
-  <GridRow>
+export const VariantC = () => (
+  <GridRow gridVariant={'8-4'}>
+    <ChildComponent>Column 1</ChildComponent>
+    <ChildComponent>Column 2</ChildComponent>
+  </GridRow>
+);
+export const VariantD = () => (
+  <GridRow gridVariant={'4-4-4'}>
     <ChildComponent>Column 1</ChildComponent>
     <ChildComponent>Column 2</ChildComponent>
     <ChildComponent>Column 3</ChildComponent>
-    <ChildComponent>Column 4</ChildComponent>
-    <ChildComponent>Column 5</ChildComponent>
-    <ChildComponent>Column 6</ChildComponent>
-    <ChildComponent>Column 7</ChildComponent>
   </GridRow>
 );
-
-export const NarrowLeft = () => (
-  <GridRow gridVariant={'narrowLeft'}>
+export const VariantE = () => (
+  <GridRow gridVariant={'3-3-3-3'}>
     <ChildComponent>Column 1</ChildComponent>
     <ChildComponent>Column 2</ChildComponent>
     <ChildComponent>Column 3</ChildComponent>
@@ -64,11 +53,22 @@ export const NarrowLeft = () => (
   </GridRow>
 );
 
-export const NarrowRight = () => (
-  <GridRow gridVariant={'narrowRight'}>
-    <ChildComponent>Column 1</ChildComponent>
-    <ChildComponent>Column 2</ChildComponent>
-    <ChildComponent>Column 3</ChildComponent>
-    <ChildComponent>Column 4</ChildComponent>
-  </GridRow>
-);
+VariantA.story = {
+  name: 'Variant "6-6"',
+};
+
+VariantB.story = {
+  name: 'Variant "4-8"',
+};
+
+VariantC.story = {
+  name: 'Variant "8-4"',
+};
+
+VariantD.story = {
+  name: 'Variant "4-4-4"',
+};
+
+VariantE.story = {
+  name: 'Variant "3-3-3-3"',
+};
