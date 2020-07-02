@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID             | Description          |
+ * | ------------------- | -------------------- |
+ * | `statusChip-icon`   | icon                 |
+ */
 export const StatusChip: React.FC<StatusChipProps> = (props) => {
   const { label, icon, size = 'medium' } = props;
   const classes = useStyles(props);

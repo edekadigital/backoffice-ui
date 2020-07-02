@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID               | Description          |
+ * | --------------------- | -------------------- |
+ * | `searchField-input`   | Input field          |
+ * | `searchField-submit`  | Submit button        |
+ */
 export const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,
   progress,

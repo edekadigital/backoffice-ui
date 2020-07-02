@@ -58,6 +58,14 @@ const useDialogStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                                     | Description                 |
+ * | ------------------------------------------- | --------------------------- |
+ * | `confirmationDialog-title`                  | Dialog title                |
+ * | `confirmationDialog-message`                | Dialog message              |
+ * | `confirmationDialog-cancel`                 | Cancel button               |
+ * | `confirmationDialog-confirm`                | Confirm button              |
+ */
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
   props
 ) => {

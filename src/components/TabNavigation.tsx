@@ -73,6 +73,12 @@ const useStyles = makeStyles<Theme, { gutterBottom: boolean }>((theme) => ({
   },
 }));
 
+/**
+ * | Test ID                        | Description              |
+ * | ------------------------------ | ------------------------ |
+ * | `tabNavigation`                | tab navigation container |
+ * | `tabNavigation-item-{index}`   | tab item                 |
+ */
 export function TabNavigation<T>(props: TabNavigationProps<T>) {
   const {
     items,

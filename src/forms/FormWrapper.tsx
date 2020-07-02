@@ -33,6 +33,13 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
+/**
+ * | Test ID             | Description              |
+ * | ------------------- | ------------------------ |
+ * | `formWrapper-form`  | container                |
+ * | `formWrapper-cancel`| cancel button            |
+ * | `formWrapper-submit`| submit button            |
+ */
 export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
   const { children, submitLabel, cancelLabel, onSubmit, onCancel } = props;
 

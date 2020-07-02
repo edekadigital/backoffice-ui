@@ -58,6 +58,11 @@ export interface SelectFieldProps {
   value?: TextFieldValue;
 }
 
+/**
+ * | Test ID                      | Description          |
+ * | ---------------------------- | -------------------- |
+ * | `selectField-item-{index}`   | Select item          |
+ */
 export const SelectField: React.FC<SelectFieldProps> = (props) => {
   const { menuItems, ...additionalProps } = props;
 

@@ -17,6 +17,13 @@ export interface LogTableProps {
   rows: string[][];
 }
 
+/**
+ * | Test ID                           | Description          |
+ * | --------------------------------- | -------------------- |
+ * | `logTable-row-${index}`           | Table row            |
+ * | `logTable-th-${index}`            | Table head column    |
+ * | `logTable-td-${rowIndex}-${index}`| Table body cell      |
+ */
 export const LogTable: React.FC<LogTableProps> = (props) => {
   const { columns, rows } = props;
 

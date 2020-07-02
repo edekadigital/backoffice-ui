@@ -115,6 +115,12 @@ const useLabelStyles = makeStyles((theme: Theme) => ({
   root: { color: theme.palette.text.primary },
 }));
 
+/**
+ * | Test ID             | Description              |
+ * | ------------------- | ------------------------ |
+ * | `textField-input`   | input field              |
+ * | `textField-label`   | input label              |
+ */
 export const TextField: React.FC<TextFieldProps> = (props) => {
   const {
     endAdornment,

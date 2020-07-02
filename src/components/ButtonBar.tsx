@@ -14,6 +14,11 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
+/**
+ * | Test ID                                     | Description                                     |
+ * | ------------------------------------------- | ----------------------------------------------- |
+ * | `buttonBar-item-${index}`                   | Item in button bar                              |
+ */
 export const ButtonBar: React.FC = (props) => {
   const children = Array.isArray(props.children)
     ? props.children
@@ -22,7 +27,11 @@ export const ButtonBar: React.FC = (props) => {
   const items = children.map((tempChild, index) => {
     const key = `button-bar-item-${index}`;
     return (
-      <div key={key} className={classes.item}>
+      <div
+        key={key}
+        className={classes.item}
+        data-testId={`buttonBar-item-${index}`}
+      >
         {tempChild}
       </div>
     );

@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                           | Description          |
+ * | --------------------------------- | -------------------- |
+ * | `contentGroup-title`              | Title                |
+ */
 export const ContentGroup: React.FC<ContentGroupProps> = ({
   title,
   titleComponent = 'h3',

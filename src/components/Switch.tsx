@@ -36,6 +36,11 @@ export interface SwitchProps {
   ) => void;
 }
 
+/**
+ * | Test ID          | Description                |
+ * | ---------------- | -------------------------- |
+ * | `switch-input`   | switch input field/button  |
+ */
 export const Switch: React.FC<SwitchProps> = (props) => {
   const { label, ...additionalProps } = props;
   const inputProps = {

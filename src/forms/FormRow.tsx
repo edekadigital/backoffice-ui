@@ -105,6 +105,11 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
   },
 }));
 
+/**
+ * | Test ID                 | Description              |
+ * | ----------------------- | ------------------------ |
+ * | `formRow-item-${index}` | form row item            |
+ */
 export const FormRow: React.FC<FormRowProps> = (rawProps) => {
   const props = getSanitizedProps(rawProps);
   const { children, gridLayout, justify } = props;
