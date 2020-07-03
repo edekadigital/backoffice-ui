@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Theme } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
 
 export type GridVariant = '12' | '6-6' | '4-8' | '8-4' | '4-4-4' | '3-3-3-3';
 export interface GridRowProps {
@@ -8,7 +9,18 @@ export interface GridRowProps {
    * @default "12"
    */
   gridVariant?: GridVariant;
+  /**
+   * If `true`, the grid row will have a bottom margin.
+   */
+  gutterBottom?: boolean;
 }
+
+const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
+  container: ({ gutterBottom }) => ({
+    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+    overflowX: 'hidden',
+  }),
+}));
 
 /**
  * | Test ID             | Description          |
@@ -18,6 +30,7 @@ export interface GridRowProps {
  */
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = '12' } = props;
+  const classes = useStyles(props);
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children];
@@ -97,7 +110,7 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
   };
 
   return (
-    <div style={{ overflowX: 'hidden' }}>
+    <div className={classes.container}>
       <Grid container spacing={3} data-testid={'gridRow'}>
         {renderGrid()}
       </Grid>
