@@ -16,11 +16,16 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
   }),
 }));
 
+/**
+ * | Test ID           | Description          |
+ * | ----------------- | -------------------- |
+ * | `paper`           | Paper container      |
+ */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
 
   return (
-    <MuiPaper variant={'outlined'} classes={classes}>
+    <MuiPaper variant={'outlined'} classes={classes} data-testId={'paper'}>
       {props.children}
     </MuiPaper>
   );

@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Heading, Body } from '..';
+import { Heading, Body, BackofficeUiProvider } from '..';
 
 export default {
   title: 'Components|Paper',
   component: Paper,
+  parameters: {
+    props: {
+      propTablesExclude: [Heading, Body, BackofficeUiProvider],
+    },
+  },
 };
 
 export const Default = () => (
