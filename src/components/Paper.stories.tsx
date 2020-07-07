@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Heading, Body, BackofficeUiProvider } from '..';
+import { Heading, Body, BackofficeUiProvider, Button } from '..';
+import { Switch } from './Switch';
+import { FormRow } from '../forms/FormRow';
+import { StatusChip } from './StatusChip';
+import { MyLocation } from '../icons';
+import { GridRow } from '../layouts/GridRow';
+import { TextField } from './TextField';
+import { ButtonBar } from './ButtonBar';
 
 export default {
   title: 'Components|Paper',
@@ -52,4 +59,34 @@ export const Multiple = () => (
       </Body>
     </Paper>
   </>
+);
+
+export const FormExample = () => (
+  <GridRow gridVariant={'4-8'}>
+    <Paper>
+      <Body>Form title</Body>
+      <Body variant={'body2'} color={'textSecondary'} gutterBottom>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua.
+      </Body>
+      <FormRow justify={'space-between'} gutterBottom>
+        <Switch label={'Automatic'} />
+        <div style={{ textAlign: 'right' }}>
+          <StatusChip label={'Manual'} icon={MyLocation} size={'small'} />
+        </div>
+      </FormRow>
+      <FormRow gutterBottom>
+        <TextField label={'Value A (Decimal)'} />
+      </FormRow>
+      <FormRow gutterBottom>
+        <TextField label={'Value B (Decimal)'} />
+      </FormRow>
+      <ButtonBar align={'right'}>
+        <Button variant={'contained'} color={'primary'}>
+          Update data
+        </Button>
+      </ButtonBar>
+    </Paper>
+  </GridRow>
 );

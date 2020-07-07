@@ -61,7 +61,7 @@ function getSanitizedProps(props: FormRowProps): SanitizedFormProps {
   }
   return {
     children: Array.isArray(children) ? children : [children],
-    gutterBottom: gutterBottom === true ? 2 : +gutterBottom,
+    gutterBottom: gutterBottom === true ? 3 : +gutterBottom,
     justify: mapJustifyToJustifyContent(justify),
     gridLayout: tempGridLayout,
     maxWidth,
@@ -131,7 +131,12 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} justify={justify} spacing={GRID_SPACING}>
+      <Grid
+        container={true}
+        justify={justify}
+        alignItems="center"
+        spacing={GRID_SPACING}
+      >
         {items}
       </Grid>
     </div>
