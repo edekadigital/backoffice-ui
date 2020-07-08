@@ -14,6 +14,7 @@ import {
   PopoverOrigin,
 } from '@material-ui/core';
 import clsx from 'clsx';
+import { ServiceIcon } from './internal';
 
 // "colorTransparent" key is missing in type definition for AppBar prop "classes"
 type AppBarClasses = never;
@@ -97,6 +98,10 @@ const useGridMenuStyles = makeStyles((theme) => ({
 
 const useGridMenuItemStyles = makeStyles((theme) => ({
   root: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     flex: '0 0 50%',
     display: 'flex',
     flexDirection: 'column',
@@ -107,14 +112,6 @@ const useGridMenuItemStyles = makeStyles((theme) => ({
 
 const useGridMenuIconStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(0.5),
-    padding: theme.spacing(1),
-    minWidth: 0,
-    borderWidth: 1,
-    borderColor: theme.palette.grey[300],
-    borderStyle: 'solid',
-    borderRadius: theme.shape.borderRadius,
     transition: theme.transitions.create('border-color'),
     ['.MuiListItem-button:hover &']: {
       borderColor: theme.palette.primary.main,
@@ -124,10 +121,7 @@ const useGridMenuIconStyles = makeStyles((theme) => ({
 
 const useGridMenuTextStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
     whiteSpace: 'normal',
   },
 }));
@@ -185,13 +179,11 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
 }) => {
   const menuClasses = useGridMenuStyles();
   const itemClasses = useGridMenuItemStyles();
-  const iconClasses = useGridMenuIconStyles();
+  const serviceIconClasses = useGridMenuIconStyles();
   const textClasses = useGridMenuTextStyles();
 
   const renderItems = items.map((tempItem, itemIndex) => {
     const key = `appBar-menuItem-${index}-${itemIndex}`;
-
-    const IconComponent = tempItem.icon;
 
     const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
       tempItem.handler(event);
@@ -205,9 +197,7 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
         data-testid={key}
         classes={itemClasses}
       >
-        <MuiListItemIcon classes={iconClasses}>
-          <IconComponent fontSize="small" color="primary" />
-        </MuiListItemIcon>
+        <ServiceIcon icon={tempItem.icon} className={serviceIconClasses.root} />
         <Typography variant="caption" align="center" classes={textClasses}>
           {tempItem.label}
         </Typography>
