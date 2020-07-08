@@ -3,7 +3,7 @@ import { SvgIconProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
 export interface ServiceIconProps {
-  icon: React.ElementType<SvgIconProps>;
+  icon: React.ElementType<SvgIconProps> | string;
   className?: string;
 }
 
@@ -17,15 +17,21 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: 'solid',
     borderRadius: theme.shape.borderRadius,
   },
+  image: {
+    display: 'block',
+    width: 20,
+    height: 20,
+  },
 }));
 
 export const ServiceIcon: React.FC<ServiceIconProps> = (props) => {
   const classes = useStyles();
   const rootClassName = clsx(classes.root, props.className);
-  const IconComponent = props.icon;
-  return (
-    <div className={rootClassName}>
-      <IconComponent fontSize="small" color="primary" />
-    </div>
-  );
+  const content =
+    typeof props.icon === 'string' ? (
+      <img src={props.icon} className={classes.image} />
+    ) : (
+      <props.icon fontSize="small" color="primary" />
+    );
+  return <div className={rootClassName}>{content}</div>;
 };

@@ -24,21 +24,45 @@ export interface AppBarActionItem {
   handler: React.MouseEventHandler<HTMLElement>;
 }
 
-export interface AppBarActionMenuItem extends AppBarActionItem {
+export interface AppBarActionListMenuItem extends AppBarActionItem {
   label: string;
 }
 
-export interface AppBarActionMenu {
-  icon: React.ElementType<SvgIconProps>;
-  menuType: 'list' | 'grid';
-  items: AppBarActionMenuItem[];
+export interface AppBarActionGridMenuItem
+  extends Omit<AppBarActionItem, 'icon'> {
+  icon: React.ElementType<SvgIconProps> | string;
+  label: string;
 }
 
-export type AppBarActions = (AppBarActionItem | AppBarActionMenu)[];
+export interface AppBarActionListMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'list';
+  items: AppBarActionListMenuItem[];
+}
 
-interface AppBarMenuProps {
+export interface AppBarActionGridMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'grid';
+  items: AppBarActionGridMenuItem[];
+}
+
+export type AppBarActions = (
+  | AppBarActionItem
+  | AppBarActionListMenu
+  | AppBarActionGridMenu
+)[];
+
+interface AppBarActionListMenuProps {
   index: number;
-  items: AppBarActionMenuItem[];
+  items: AppBarActionListMenuItem[];
+  open: boolean;
+  anchorEl?: HTMLElement;
+  onClose: Function;
+}
+
+interface AppBarActionGridMenuProps {
+  index: number;
+  items: AppBarActionGridMenuItem[];
   open: boolean;
   anchorEl?: HTMLElement;
   onClose: Function;
@@ -126,7 +150,7 @@ const useGridMenuTextStyles = makeStyles((theme) => ({
   },
 }));
 
-const AppBarListMenu: React.FC<AppBarMenuProps> = ({
+const AppBarListMenu: React.FC<AppBarActionListMenuProps> = ({
   index,
   items,
   open,
@@ -170,7 +194,7 @@ const AppBarListMenu: React.FC<AppBarMenuProps> = ({
   );
 };
 
-const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
+const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
   index,
   items,
   open,
@@ -267,17 +291,15 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
 
   const actionMenus = actions.map((tempAction, index) => {
     if ('menuType' in tempAction) {
-      const action = tempAction as AppBarActionMenu;
-      const { items } = action;
       const anchorEl = activeMenu?.anchorEl;
       const open = activeMenu?.index === index;
       const key = `appBar-actionMenu-${index}`;
-      switch (action.menuType) {
+      switch (tempAction.menuType) {
         case 'grid':
           return (
             <AppBarGridMenu
               index={index}
-              items={items}
+              items={tempAction.items}
               anchorEl={anchorEl}
               open={open}
               key={key}
@@ -289,7 +311,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
           return (
             <AppBarListMenu
               index={index}
-              items={items}
+              items={tempAction.items}
               anchorEl={anchorEl}
               open={open}
               key={key}

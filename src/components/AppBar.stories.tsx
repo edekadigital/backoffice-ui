@@ -14,6 +14,9 @@ export const Transparent = () => (
 );
 
 export const WithActions = () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const bitmapIcon = require('../assets/bitmap-icon.png');
+
   const actions: AppBarActions = [
     {
       icon: Star,
@@ -25,7 +28,7 @@ export const WithActions = () => {
       items: [
         {
           label: 'Lorem ipsum',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 1');
           },
@@ -39,7 +42,7 @@ export const WithActions = () => {
         },
         {
           label: 'Lorem ipsum dolor sit amet',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 3');
           },
@@ -53,7 +56,7 @@ export const WithActions = () => {
         },
         {
           label: 'Lorem ipsum dolor',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 5');
           },
@@ -85,6 +88,9 @@ export const WithActions = () => {
 };
 
 export const TransparentWithActions = () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const bitmapIcon = require('../assets/bitmap-icon.png');
+
   const actions: AppBarActions = [
     {
       icon: Star,
@@ -96,7 +102,7 @@ export const TransparentWithActions = () => {
       items: [
         {
           label: 'Lorem ipsum',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 1');
           },
@@ -110,7 +116,7 @@ export const TransparentWithActions = () => {
         },
         {
           label: 'Lorem ipsum dolor sit amet',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 3');
           },
@@ -124,7 +130,7 @@ export const TransparentWithActions = () => {
         },
         {
           label: 'Lorem ipsum dolor',
-          icon: Star,
+          icon: bitmapIcon,
           handler: () => {
             console.log('app 5');
           },
