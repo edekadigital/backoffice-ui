@@ -24,17 +24,17 @@ export interface ServiceTileProps {
    */
   description?: string;
   /**
-   * The URL to link to when the button is clicked.
+   * The callback function for the button
    */
-  href: string;
+  onClick: () => void;
   /**
    * The label of the tile button.
    */
   buttonLabel: string;
   /**
-   * The optional service version tag to show.
+   * The optional service info to show.
    */
-  version?: string;
+  info?: string;
 }
 
 const useCardHeaderStyles = makeStyles<Theme, ServiceTileProps>((theme) => ({
@@ -65,11 +65,11 @@ const useCardContentStyles = makeStyles((theme: Theme) => ({
  * | `serviceTile-icon`        | icon            |
  * | `serviceTile-title`       | title           |
  * | `serviceTile-description` | description     |
- * | `serviceTile-version`     | version text    |
+ * | `serviceTile-info`        | info text       |
  * | `serviceTile-button`      | button          |
  */
 export const ServiceTile: React.FC<ServiceTileProps> = (props) => {
-  const { title, icon, description, href, buttonLabel, version } = props;
+  const { title, icon, description, onClick, buttonLabel, info } = props;
   const headerClasses = useCardHeaderStyles(props);
   const contentClasses = useCardContentStyles();
 
@@ -107,12 +107,12 @@ export const ServiceTile: React.FC<ServiceTileProps> = (props) => {
           <Body
             variant={'body2'}
             color={'textSecondary'}
-            data-testid="serviceTile-version"
+            data-testid="serviceTile-info"
           >
-            {version}
+            {info}
           </Body>
           <Button
-            href={href}
+            onClick={onClick}
             size={'small'}
             color={'primary'}
             data-testid="serviceTile-button"

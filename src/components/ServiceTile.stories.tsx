@@ -16,13 +16,17 @@ export const Default = () => (
       'Description - Lorem Ipsum dolor sit amet dolor lorem Ipsum dolor avec sit amet'
     }
     buttonLabel={'open'}
-    version={'1.2.2'}
-    href="#"
+    info={'1.2.2'}
+    onClick={() => console.log('Button clicked')}
   />
 );
 
 export const Minimal = () => (
-  <ServiceTile title={'Tile A'} buttonLabel={'open'} href="#" />
+  <ServiceTile
+    title={'Tile A'}
+    buttonLabel={'open'}
+    onClick={() => console.log('Button clicked')}
+  />
 );
 
 export const MultipleInGridRow = () => (
@@ -34,8 +38,8 @@ export const MultipleInGridRow = () => (
         'Description - Lorem Ipsum dolor sit amet dolor lorem Ipsum dolor avec sit amet'
       }
       buttonLabel={'open'}
-      version={'1.2.2'}
-      href="#"
+      info={'1.2.2'}
+      onClick={() => console.log('Button clicked')}
     />
     <ServiceTile
       title={'Tile B'}
@@ -44,8 +48,8 @@ export const MultipleInGridRow = () => (
         'Description - Lorem Ipsum dolor sit amet dolor lorem Ipsum dolor avec sit amet'
       }
       buttonLabel={'open'}
-      version={'1.2.2'}
-      href="#"
+      info={'1.2.2'}
+      onClick={() => console.log('Button clicked')}
     />
   </GridRow>
 );
