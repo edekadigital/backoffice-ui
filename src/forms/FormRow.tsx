@@ -61,7 +61,7 @@ function getSanitizedProps(props: FormRowProps): SanitizedFormProps {
   }
   return {
     children: Array.isArray(children) ? children : [children],
-    gutterBottom: gutterBottom === true ? 2 : +gutterBottom,
+    gutterBottom: gutterBottom === true ? 3 : +gutterBottom,
     justify: mapJustifyToJustifyContent(justify),
     gridLayout: tempGridLayout,
     maxWidth,
@@ -73,14 +73,12 @@ function mapJustifyToJustifyContent(
 ): GridJustification {
   /* istanbul ignore next */
   switch (justify) {
-    case 'auto':
-      return 'flex-start';
-    case 'left':
-      return 'flex-start';
     case 'right':
       return 'flex-end';
     case 'space-between':
       return 'space-between';
+    case 'left':
+    case 'auto':
     default:
       return 'flex-start';
   }
@@ -102,6 +100,13 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
       ),
       maxWidth: maxWidthValue,
     };
+  },
+  item: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    '&:not(:only-child):last-child': {
+      justifyContent: 'flex-end',
+    },
   },
 }));
 
@@ -125,13 +130,19 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
       xs={12}
       key={`form-row-item-${index}`}
       data-testid={`formRow-item-${index}`}
+      className={classes.item}
     >
       {tempChild}
     </Grid>
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} justify={justify} spacing={GRID_SPACING}>
+      <Grid
+        container={true}
+        justify={justify}
+        alignItems="center"
+        spacing={GRID_SPACING}
+      >
         {items}
       </Grid>
     </div>

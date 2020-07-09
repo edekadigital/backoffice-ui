@@ -12,3 +12,10 @@ export const Default = () => (
     <Button variant="text">Lorem ipsum</Button>
   </ButtonBar>
 );
+
+export const RightAligned = () => (
+  <ButtonBar align={'right'}>
+    <Button>Lorem ipsum</Button>
+    <Button variant="text">Lorem ipsum</Button>
+  </ButtonBar>
+);

@@ -1,14 +1,23 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles<Theme>((theme) => ({
+export interface ButtonBarProps {
+  /**
+   * Aligns the items to the `left` or `right`.
+   * @default "left"
+   */
+  align?: 'left' | 'right';
+}
+
+const useStyles = makeStyles<Theme, ButtonBarProps>((theme) => ({
   root: {
     margin: theme.spacing(-2),
   },
-  wrapper: {
+  wrapper: ({ align = 'left' }) => ({
     display: 'flex',
     flexDirection: 'row',
-  },
+    justifyContent: align === 'right' ? 'flex-end' : 'initial',
+  }),
   item: {
     margin: theme.spacing(2),
   },
@@ -19,18 +28,18 @@ const useStyles = makeStyles<Theme>((theme) => ({
  * | ------------------------------------------- | ----------------------------------------------- |
  * | `buttonBar-item-${index}`                   | Item in button bar                              |
  */
-export const ButtonBar: React.FC = (props) => {
+export const ButtonBar: React.FC<ButtonBarProps> = (props) => {
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children];
-  const classes = useStyles();
+  const classes = useStyles(props);
   const items = children.map((tempChild, index) => {
     const key = `button-bar-item-${index}`;
     return (
       <div
         key={key}
         className={classes.item}
-        data-testId={`buttonBar-item-${index}`}
+        data-testid={`buttonBar-item-${index}`}
       >
         {tempChild}
       </div>

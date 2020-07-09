@@ -14,6 +14,7 @@ import {
   PopoverOrigin,
 } from '@material-ui/core';
 import clsx from 'clsx';
+import { ServiceIcon } from './internal';
 
 // "colorTransparent" key is missing in type definition for AppBar prop "classes"
 type AppBarClasses = never;
@@ -23,21 +24,45 @@ export interface AppBarActionItem {
   handler: React.MouseEventHandler<HTMLElement>;
 }
 
-export interface AppBarActionMenuItem extends AppBarActionItem {
+export interface AppBarActionListMenuItem extends AppBarActionItem {
   label: string;
 }
 
-export interface AppBarActionMenu {
-  icon: React.ElementType<SvgIconProps>;
-  menuType: 'list' | 'grid';
-  items: AppBarActionMenuItem[];
+export interface AppBarActionGridMenuItem
+  extends Omit<AppBarActionItem, 'icon'> {
+  icon: React.ElementType<SvgIconProps> | string;
+  label: string;
 }
 
-export type AppBarActions = (AppBarActionItem | AppBarActionMenu)[];
+export interface AppBarActionListMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'list';
+  items: AppBarActionListMenuItem[];
+}
 
-interface AppBarMenuProps {
+export interface AppBarActionGridMenu {
+  icon: React.ElementType<SvgIconProps>;
+  menuType: 'grid';
+  items: AppBarActionGridMenuItem[];
+}
+
+export type AppBarActions = (
+  | AppBarActionItem
+  | AppBarActionListMenu
+  | AppBarActionGridMenu
+)[];
+
+interface AppBarActionListMenuProps {
   index: number;
-  items: AppBarActionMenuItem[];
+  items: AppBarActionListMenuItem[];
+  open: boolean;
+  anchorEl?: HTMLElement;
+  onClose: Function;
+}
+
+interface AppBarActionGridMenuProps {
+  index: number;
+  items: AppBarActionGridMenuItem[];
   open: boolean;
   anchorEl?: HTMLElement;
   onClose: Function;
@@ -97,6 +122,7 @@ const useGridMenuStyles = makeStyles((theme) => ({
 
 const useGridMenuItemStyles = makeStyles((theme) => ({
   root: {
+    padding: theme.spacing(2, 1, 1, 1),
     flex: '0 0 50%',
     display: 'flex',
     flexDirection: 'column',
@@ -107,14 +133,6 @@ const useGridMenuItemStyles = makeStyles((theme) => ({
 
 const useGridMenuIconStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(0.5),
-    padding: theme.spacing(1),
-    minWidth: 0,
-    borderWidth: 1,
-    borderColor: theme.palette.grey[300],
-    borderStyle: 'solid',
-    borderRadius: theme.shape.borderRadius,
     transition: theme.transitions.create('border-color'),
     ['.MuiListItem-button:hover &']: {
       borderColor: theme.palette.primary.main,
@@ -124,15 +142,12 @@ const useGridMenuIconStyles = makeStyles((theme) => ({
 
 const useGridMenuTextStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
     whiteSpace: 'normal',
   },
 }));
 
-const AppBarListMenu: React.FC<AppBarMenuProps> = ({
+const AppBarListMenu: React.FC<AppBarActionListMenuProps> = ({
   index,
   items,
   open,
@@ -176,7 +191,7 @@ const AppBarListMenu: React.FC<AppBarMenuProps> = ({
   );
 };
 
-const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
+const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
   index,
   items,
   open,
@@ -185,13 +200,11 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
 }) => {
   const menuClasses = useGridMenuStyles();
   const itemClasses = useGridMenuItemStyles();
-  const iconClasses = useGridMenuIconStyles();
+  const serviceIconClasses = useGridMenuIconStyles();
   const textClasses = useGridMenuTextStyles();
 
   const renderItems = items.map((tempItem, itemIndex) => {
     const key = `appBar-menuItem-${index}-${itemIndex}`;
-
-    const IconComponent = tempItem.icon;
 
     const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
       tempItem.handler(event);
@@ -205,9 +218,7 @@ const AppBarGridMenu: React.FC<AppBarMenuProps> = ({
         data-testid={key}
         classes={itemClasses}
       >
-        <MuiListItemIcon classes={iconClasses}>
-          <IconComponent fontSize="small" color="primary" />
-        </MuiListItemIcon>
+        <ServiceIcon icon={tempItem.icon} className={serviceIconClasses.root} />
         <Typography variant="caption" align="center" classes={textClasses}>
           {tempItem.label}
         </Typography>
@@ -277,17 +288,15 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
 
   const actionMenus = actions.map((tempAction, index) => {
     if ('menuType' in tempAction) {
-      const action = tempAction as AppBarActionMenu;
-      const { items } = action;
       const anchorEl = activeMenu?.anchorEl;
       const open = activeMenu?.index === index;
       const key = `appBar-actionMenu-${index}`;
-      switch (action.menuType) {
+      switch (tempAction.menuType) {
         case 'grid':
           return (
             <AppBarGridMenu
               index={index}
-              items={items}
+              items={tempAction.items}
               anchorEl={anchorEl}
               open={open}
               key={key}
@@ -299,7 +308,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
           return (
             <AppBarListMenu
               index={index}
-              items={items}
+              items={tempAction.items}
               anchorEl={anchorEl}
               open={open}
               key={key}
