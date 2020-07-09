@@ -20,11 +20,12 @@ deploy:
     email: $NPM_EMAIL
     api_key: $NPM_TOKEN
     skip_cleanup: true
+    tag: next
     on:
       tags: true
       repo: edekadigital/backoffice-ui
       node: 10
-      condition: "$TRAVIS_OS_NAME = linux"
+      condition: '$TRAVIS_OS_NAME = linux'
   - provider: pages
     local_dir: public
     target_branch: gh-pages
