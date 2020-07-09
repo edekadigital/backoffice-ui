@@ -67,9 +67,7 @@ export const FormExample = () => (
       </Body>
       <FormRow justify={'space-between'} gutterBottom>
         <Switch label={'Automatic'} />
-        <div style={{ textAlign: 'right' }}>
-          <StatusChip label={'Manual'} icon={MyLocation} size={'small'} />
-        </div>
+        <StatusChip label={'Manual'} icon={MyLocation} size={'small'} />
       </FormRow>
       <FormRow gutterBottom>
         <TextField label={'Value A (Decimal)'} />

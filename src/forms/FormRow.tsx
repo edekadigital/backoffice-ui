@@ -103,6 +103,12 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
       maxWidth: maxWidthValue,
     };
   },
+  item: {
+    '&:not(:only-child):last-child': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+  },
 }));
 
 /**
@@ -125,6 +131,7 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
       xs={12}
       key={`form-row-item-${index}`}
       data-testid={`formRow-item-${index}`}
+      className={classes.item}
     >
       {tempChild}
     </Grid>
