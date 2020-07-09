@@ -73,14 +73,12 @@ function mapJustifyToJustifyContent(
 ): GridJustification {
   /* istanbul ignore next */
   switch (justify) {
-    case 'auto':
-      return 'flex-start';
-    case 'left':
-      return 'flex-start';
     case 'right':
       return 'flex-end';
     case 'space-between':
       return 'space-between';
+    case 'left':
+    case 'auto':
     default:
       return 'flex-start';
   }
@@ -104,8 +102,9 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
     };
   },
   item: {
+    display: 'flex',
+    justifyContent: 'flex-start',
     '&:not(:only-child):last-child': {
-      display: 'flex',
       justifyContent: 'flex-end',
     },
   },
