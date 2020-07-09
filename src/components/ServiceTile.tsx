@@ -46,14 +46,12 @@ const useCardHeaderStyles = makeStyles<Theme, ServiceTileProps>((theme) => ({
 const useCardContentStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingTop: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     '&:last-child': {
       paddingBottom: theme.spacing(1),
       paddingRight: theme.spacing(1),
-      display: 'flex',
-      alignItems: 'center',
-      '& > *:first-child': {
-        flexGrow: 1,
-      },
     },
   },
 }));
