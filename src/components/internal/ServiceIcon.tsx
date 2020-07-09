@@ -29,9 +29,21 @@ export const ServiceIcon: React.FC<ServiceIconProps> = (props) => {
   const rootClassName = clsx(classes.root, props.className);
   const content =
     typeof props.icon === 'string' ? (
-      <img src={props.icon} className={classes.image} />
+      <img
+        src={props.icon}
+        className={classes.image}
+        data-testid="serviceIcon-image"
+      />
     ) : (
-      <props.icon fontSize="small" color="primary" />
+      <props.icon
+        fontSize="small"
+        color="primary"
+        data-testid="serviceIcon-icon"
+      />
     );
-  return <div className={rootClassName}>{content}</div>;
+  return (
+    <div className={rootClassName} data-testid="serviceIcon">
+      {content}
+    </div>
+  );
 };
