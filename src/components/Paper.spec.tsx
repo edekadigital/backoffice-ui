@@ -9,7 +9,7 @@ describe('<Paper />', () => {
   it('should render the paper component', () => {
     const { getByTestId } = render(
       <Paper>
-        <div data-testId={'paperContent'}>Lorem</div>
+        <div data-testid={'paperContent'}>Lorem</div>
       </Paper>
     );
     expect(getByTestId('paper')).toBeTruthy();
@@ -19,7 +19,7 @@ describe('<Paper />', () => {
   it('should render the paper component with bottom margin', () => {
     const { getByTestId } = render(
       <Paper gutterBottom={true}>
-        <div data-testId={'paperContent'}>Lorem</div>
+        <div data-testid={'paperContent'}>Lorem</div>
       </Paper>
     );
     expect(getByTestId('paper')).toBeTruthy();

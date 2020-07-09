@@ -25,7 +25,7 @@ export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
 
   return (
-    <MuiPaper variant={'outlined'} classes={classes} data-testId={'paper'}>
+    <MuiPaper variant={'outlined'} classes={classes} data-testid={'paper'}>
       {props.children}
     </MuiPaper>
   );

@@ -39,7 +39,7 @@ export const ButtonBar: React.FC<ButtonBarProps> = (props) => {
       <div
         key={key}
         className={classes.item}
-        data-testId={`buttonBar-item-${index}`}
+        data-testid={`buttonBar-item-${index}`}
       >
         {tempChild}
       </div>
