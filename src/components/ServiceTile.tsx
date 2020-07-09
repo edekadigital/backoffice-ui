@@ -26,7 +26,7 @@ export interface ServiceTileProps {
   /**
    * The callback function for the button
    */
-  onClick: () => void;
+  onClick: React.MouseEventHandler<HTMLElement>;
   /**
    * The label of the tile button.
    */
