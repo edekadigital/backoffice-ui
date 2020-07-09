@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Heading, Body, BackofficeUiProvider, Button } from '..';
+import { Heading, Body, Button } from '..';
 import { Switch } from './Switch';
 import { FormRow } from '../forms/FormRow';
 import { StatusChip } from './StatusChip';
@@ -12,11 +12,6 @@ import { ButtonBar } from './ButtonBar';
 export default {
   title: 'Components|Paper',
   component: Paper,
-  parameters: {
-    props: {
-      propTablesExclude: [Heading, Body, BackofficeUiProvider],
-    },
-  },
 };
 
 export const Default = () => (
