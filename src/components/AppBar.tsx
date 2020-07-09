@@ -122,10 +122,7 @@ const useGridMenuStyles = makeStyles((theme) => ({
 
 const useGridMenuItemStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    padding: theme.spacing(2, 1, 1, 1),
     flex: '0 0 50%',
     display: 'flex',
     flexDirection: 'column',
