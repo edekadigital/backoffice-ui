@@ -76,8 +76,6 @@ describe('<FormRow/>', () => {
     );
     expect(getByText(label)!).toBeTruthy();
     expect(getByText(label2)!).toBeTruthy();
-    expect(getByTestId('formRow-item-0').classList[4]).toContain(
-      'MuiGrid-grid-md-'
-    );
+    expect(getByTestId('formRow-item-0')).toHaveClass('MuiGrid-grid-md-6');
   });
 });
