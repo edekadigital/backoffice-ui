@@ -163,10 +163,11 @@ export const FullExample = () => {
     <PageWrapper>
       <AppBar actions={actions} gutterBottom={true} color={'transparent'} />
       <Page variant={'narrow'} paddingBottom>
-        <GridRow gridVariant={'4-8'} gutterBottom>
+        <GridRow gridVariant={'4-4-4'} gutterBottom>
           <Heading variant={'h4'}>
             Wilkommen zurück in Ihrem Backoffice!
           </Heading>
+          <></>
           <Image sources={sources} src={img2x} alt="Some alt text" />
         </GridRow>
         <GridRow gridVariant={'3-3-3-3'}>
