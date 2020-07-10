@@ -170,6 +170,9 @@ export const FullExample = () => {
           <></>
           <Image sources={sources} src={img2x} alt="Some alt text" />
         </GridRow>
+        <GridRow>
+          <Heading variant={'h6'}>Ihre Backoffice Anwendungen</Heading>
+        </GridRow>
         <GridRow gridVariant={'3-3-3-3'}>
           <ServiceTile
             title={'Tile A'}
