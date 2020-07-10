@@ -110,10 +110,14 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
   };
 
   return (
-    <div className={classes.container}>
-      <Grid container spacing={3} data-testid={'gridRow'} alignItems={'center'}>
-        {renderGrid()}
-      </Grid>
-    </div>
+    <Grid
+      container
+      spacing={3}
+      data-testid={'gridRow'}
+      alignItems={'center'}
+      classes={classes}
+    >
+      {renderGrid()}
+    </Grid>
   );
 };
