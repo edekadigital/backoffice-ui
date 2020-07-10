@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import { Button } from './Button';
 import { ServiceIcon } from './internal/ServiceIcon';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { Container } from '@material-ui/core';
 
 export interface ServiceTileProps {
   /**
@@ -88,37 +87,35 @@ export const ServiceTile: React.FC<ServiceTileProps> = (props) => {
   ) : null;
 
   return (
-    <Container maxWidth={'xs'} disableGutters>
-      <Card variant="outlined" data-testid="serviceTile">
-        <CardHeader
-          title={title}
-          avatar={headerIcon}
-          titleTypographyProps={{
-            variant: 'subtitle1',
-            'data-testid': 'serviceTile-title',
-          }}
-          classes={headerClasses}
-        />
-        {renderContent}
-        <Divider />
-        <CardContent classes={{ root: contentClasses.root }}>
-          <Body
-            variant={'body2'}
-            color={'textSecondary'}
-            data-testid="serviceTile-info"
-          >
-            {info}
-          </Body>
-          <Button
-            onClick={onClick}
-            size={'small'}
-            color={'primary'}
-            data-testid="serviceTile-button"
-          >
-            {buttonLabel}
-          </Button>
-        </CardContent>
-      </Card>
-    </Container>
+    <Card variant="outlined" data-testid="serviceTile">
+      <CardHeader
+        title={title}
+        avatar={headerIcon}
+        titleTypographyProps={{
+          variant: 'subtitle1',
+          'data-testid': 'serviceTile-title',
+        }}
+        classes={headerClasses}
+      />
+      {renderContent}
+      <Divider />
+      <CardContent classes={{ root: contentClasses.root }}>
+        <Body
+          variant={'body2'}
+          color={'textSecondary'}
+          data-testid="serviceTile-info"
+        >
+          {info}
+        </Body>
+        <Button
+          onClick={onClick}
+          size={'small'}
+          color={'primary'}
+          data-testid="serviceTile-button"
+        >
+          {buttonLabel}
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
