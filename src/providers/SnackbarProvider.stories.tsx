@@ -5,17 +5,22 @@ export default {
   title: 'Global|Snackbar',
 };
 
-export const Snackbar = () => {
-  const message = 'Lorem ipsum dolor sit amet.';
+export const Default = () => {
+  const title = 'Lorem ipsum dolor sit amet.';
+  const message = 'Stet clita kasd gubergren, no sea takimata.';
 
   const StoryComponent = () => {
     const snackbar = useSnackbar();
 
-    const showDefault = () => snackbar.push(message);
-    const showInfo = () => snackbar.push(message, { variant: 'info' });
-    const showSuccess = () => snackbar.push(message, { variant: 'success' });
-    const showError = () => snackbar.push(message, { variant: 'error' });
-    const showWarning = () => snackbar.push(message, { variant: 'warning' });
+    const showDefault = () => snackbar.push({ title, message });
+    const showInfo = () =>
+      snackbar.push({ title, message }, { variant: 'info' });
+    const showSuccess = () =>
+      snackbar.push({ title, message }, { variant: 'success' });
+    const showError = () =>
+      snackbar.push({ title, message }, { variant: 'error' });
+    const showWarning = () =>
+      snackbar.push({ title, message }, { variant: 'warning' });
 
     return (
       <FormRow>

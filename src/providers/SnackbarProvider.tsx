@@ -1,39 +1,41 @@
 import * as React from 'react';
-import { useContext, useMemo, useState, useRef, ReactNode } from 'react';
+import { useContext, useMemo, useState, useRef } from 'react';
 import { Theme } from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
+import { Alert as MuiAlert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  default: { backgroundColor: theme.palette.grey[600] },
   success: { backgroundColor: theme.palette.success.main },
   error: { backgroundColor: theme.palette.error.main },
   warning: { backgroundColor: theme.palette.warning.main },
   info: { backgroundColor: theme.palette.primary.main },
 }));
 
-export type SnackbarVariant =
-  | 'default'
-  | 'info'
-  | 'success'
-  | 'error'
-  | 'warning';
+export type SnackbarVariant = 'info' | 'success' | 'error' | 'warning';
+
+export type SnackbarPosition = 'top' | 'bottom';
 
 interface SnackbarOptions {
   variant?: SnackbarVariant;
-}
-
-interface SnackbarContextValue {
-  push: (message: string, options?: SnackbarOptions) => void;
+  position?: SnackbarPosition;
 }
 
 interface SnackbarContent {
+  title?: string;
   message: string;
-  variant: SnackbarVariant;
 }
+
+type PushCallback = (
+  content: SnackbarContent,
+  options?: SnackbarOptions
+) => void;
+
+interface SnackbarContextValue {
+  push: PushCallback;
+}
+
+interface SnackbarProps extends SnackbarContent, SnackbarOptions {}
 
 const noop = () => {};
 
@@ -47,14 +49,10 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={4} variant="filled" {...props} />;
 }
 
-const SnackbarMessage: React.FC = ({ children }) => (
-  <span data-testid="snackbar-message">{children}</span>
-);
-
-export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
+export const SnackbarProvider: React.FC = (props) => {
   const [open, setOpen] = useState(false);
-  const [snackbarContent, setSnackbarContent] = useState<SnackbarContent>();
-  const queueRef = useRef<SnackbarContent[]>([]);
+  const [snackbarContent, setSnackbarContent] = useState<SnackbarProps>();
+  const queueRef = useRef<SnackbarProps[]>([]);
 
   const classes = useStyles();
   const alertClasses = {
@@ -64,9 +62,9 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
     filledInfo: classes.info,
   };
 
-  const push = (message: string, options: SnackbarOptions = {}) => {
-    const { variant = 'default' } = options;
-    queueRef.current.push({ message, variant });
+  const push: PushCallback = (content, options = {}) => {
+    const { variant = 'info', position = 'bottom' } = options;
+    queueRef.current.push({ ...content, variant, position });
 
     if (open) {
       setOpen(false);
@@ -96,11 +94,25 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const value = useMemo(() => ({ push }), [push]);
 
   const snackbar = useMemo(() => {
-    if (snackbarContent && snackbarContent.variant !== 'default') {
+    if (snackbarContent) {
+      let anchorOrigin: SnackbarOrigin;
+      switch (snackbarContent?.position) {
+        case 'top':
+          anchorOrigin = { horizontal: 'center', vertical: 'top' };
+          break;
+        case 'bottom':
+        default:
+          anchorOrigin = { horizontal: 'left', vertical: 'bottom' };
+      }
+
+      const alertTitle = snackbarContent.title ? (
+        <AlertTitle>{snackbarContent.title}</AlertTitle>
+      ) : null;
+
       return (
         <Snackbar
           open={open}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          anchorOrigin={anchorOrigin}
           autoHideDuration={5000}
           onClose={handleClose}
           onExited={handleExited}
@@ -110,40 +122,14 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
             onClose={handleClose}
             classes={alertClasses}
           >
-            <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
+            {alertTitle}
+            <span data-testid="snackbar-message">
+              {snackbarContent.message}
+            </span>
           </Alert>
         </Snackbar>
       );
-    } else if (snackbarContent) {
-      const action = (
-        <IconButton
-          aria-label="close"
-          color="inherit"
-          onClick={handleClose}
-          size="small"
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      );
-
-      const message = (
-        <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
-      );
-
-      return (
-        <Snackbar
-          open={open}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          autoHideDuration={5000}
-          onClose={handleClose}
-          onExited={handleExited}
-          action={action}
-          ContentProps={{ message }}
-        />
-      );
-    } else {
-      return null;
-    }
+    } else return null;
   }, [snackbarContent, open]);
 
   return (
