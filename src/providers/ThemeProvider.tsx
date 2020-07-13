@@ -1,16 +1,40 @@
 import * as React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/';
 import shadows from '@material-ui/core/styles/shadows';
-import { grey, red, common } from '@material-ui/core/colors';
+import { grey, red, common, orange, green } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
 import { edekaBlue, edekaYellow } from '../constants';
 
 const theme = createMuiTheme(
   {
+    customPalette: {
+      primary: {
+        contrastTextLight: '#0d3c61',
+      },
+      success: {
+        contrastTextLight: '#1e4620',
+      },
+      error: {
+        contrastTextLight: '#611a15',
+      },
+      warning: {
+        contrastTextLight: '#663c00',
+      },
+    },
     palette: {
-      primary: { main: edekaBlue.main },
+      primary: { main: edekaBlue.main, light: edekaBlue[50] },
       secondary: { main: edekaYellow.main },
-      error: { main: red[700], light: red[500], dark: red[900] },
+      warning: {
+        main: orange[500],
+        light: orange[50],
+        dark: orange[700],
+      },
+      error: {
+        main: red[700],
+        light: red[50],
+        dark: red[900],
+      },
+      success: { main: green[500], light: green[50], dark: green[700] },
       background: { default: grey[100], paper: common.white },
     },
     typography: {
@@ -77,3 +101,38 @@ const theme = createMuiTheme(
 export const ThemeProvider: React.FC = ({ children }) => (
   <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 );
+
+declare module '@material-ui/core/styles/createMuiTheme' {
+  interface Theme {
+    customPalette: {
+      primary: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      success: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      warning: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      error: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+    };
+  }
+  interface ThemeOptions {
+    customPalette: {
+      primary: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      success: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      warning: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+      error: {
+        contrastTextLight: React.CSSProperties['color'];
+      };
+    };
+  }
+}

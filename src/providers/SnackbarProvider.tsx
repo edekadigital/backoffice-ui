@@ -4,12 +4,39 @@ import { Theme } from '@material-ui/core';
 import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { Alert as MuiAlert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
+import { Body } from '../typography/Body';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  success: { backgroundColor: theme.palette.success.main },
-  error: { backgroundColor: theme.palette.error.main },
-  warning: { backgroundColor: theme.palette.warning.main },
-  info: { backgroundColor: theme.palette.primary.main },
+  success: {
+    backgroundColor: theme.palette.success.light,
+    color: theme.customPalette.success.contrastTextLight,
+    '& > .MuiAlert-icon': {
+      color: theme.palette.success.dark,
+    },
+  },
+  error: {
+    backgroundColor: theme.palette.error.light,
+    color: theme.customPalette.error.contrastTextLight,
+    '& > .MuiAlert-icon': {
+      color: theme.palette.error.dark,
+    },
+  },
+  warning: {
+    backgroundColor: theme.palette.warning.light,
+    color: theme.customPalette.warning.contrastTextLight,
+    '& > .MuiAlert-icon': {
+      color: theme.palette.warning.dark,
+    },
+  },
+  info: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.customPalette.primary.contrastTextLight,
+  },
+  action: {
+    paddingTop: theme.spacing(0.625),
+    paddingBottom: theme.spacing(0.625),
+    alignItems: 'start',
+  },
 }));
 
 export type SnackbarVariant = 'info' | 'success' | 'error' | 'warning';
@@ -60,6 +87,7 @@ export const SnackbarProvider: React.FC = (props) => {
     filledError: classes.error,
     filledWarning: classes.warning,
     filledInfo: classes.info,
+    action: classes.action,
   };
 
   const push: PushCallback = (content, options = {}) => {
@@ -123,9 +151,9 @@ export const SnackbarProvider: React.FC = (props) => {
             classes={alertClasses}
           >
             {alertTitle}
-            <span data-testid="snackbar-message">
+            <Body variant={'body2'} data-testid="snackbar-message">
               {snackbarContent.message}
-            </span>
+            </Body>
           </Alert>
         </Snackbar>
       );
