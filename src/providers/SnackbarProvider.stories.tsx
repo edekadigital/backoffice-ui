@@ -30,6 +30,20 @@ export const withTitle = () => {
   return <StoryComponent />;
 };
 
+export const positionTop = () => {
+  const title = 'Lorem ipsum dolor sit amet.';
+  const message = 'Stet clita kasd gubergren, no sea takimata.';
+
+  const StoryComponent = () => {
+    const snackbar = useSnackbar();
+    const showDefault = () =>
+      snackbar.push({ title, message }, { position: 'top' });
+
+    return <Button onClick={showDefault}>default</Button>;
+  };
+  return <StoryComponent />;
+};
+
 export const Info = () => {
   const title = 'Lorem ipsum dolor sit amet.';
   const message = 'Stet clita kasd gubergren, no sea takimata.';
