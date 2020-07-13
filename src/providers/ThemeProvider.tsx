@@ -7,20 +7,6 @@ import { edekaBlue, edekaYellow } from '../constants';
 
 const theme = createMuiTheme(
   {
-    customPalette: {
-      primary: {
-        contrastTextLight: '#0d3c61',
-      },
-      success: {
-        contrastTextLight: '#1e4620',
-      },
-      error: {
-        contrastTextLight: '#611a15',
-      },
-      warning: {
-        contrastTextLight: '#663c00',
-      },
-    },
     palette: {
       primary: { main: edekaBlue.main, light: edekaBlue[50] },
       secondary: { main: edekaYellow.main },
@@ -101,38 +87,3 @@ const theme = createMuiTheme(
 export const ThemeProvider: React.FC = ({ children }) => (
   <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 );
-
-declare module '@material-ui/core/styles/createMuiTheme' {
-  interface Theme {
-    customPalette: {
-      primary: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      success: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      warning: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      error: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-    };
-  }
-  interface ThemeOptions {
-    customPalette: {
-      primary: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      success: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      warning: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-      error: {
-        contrastTextLight: React.CSSProperties['color'];
-      };
-    };
-  }
-}

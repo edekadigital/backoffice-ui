@@ -5,32 +5,33 @@ import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { Alert as MuiAlert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import { Body } from '../typography/Body';
+import { darken } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   success: {
     backgroundColor: theme.palette.success.light,
-    color: theme.customPalette.success.contrastTextLight,
+    color: darken(theme.palette.success.dark!, 0.5),
     '& > .MuiAlert-icon': {
       color: theme.palette.success.dark,
     },
   },
   error: {
     backgroundColor: theme.palette.error.light,
-    color: theme.customPalette.error.contrastTextLight,
+    color: darken(theme.palette.error.dark!, 0.5),
     '& > .MuiAlert-icon': {
       color: theme.palette.error.dark,
     },
   },
   warning: {
     backgroundColor: theme.palette.warning.light,
-    color: theme.customPalette.warning.contrastTextLight,
+    color: darken(theme.palette.warning.dark!, 0.5),
     '& > .MuiAlert-icon': {
       color: theme.palette.warning.dark,
     },
   },
   info: {
     backgroundColor: theme.palette.primary.light,
-    color: theme.customPalette.primary.contrastTextLight,
+    color: darken(theme.palette.primary.dark!, 0.5),
   },
   action: {
     paddingTop: theme.spacing(0.625),
