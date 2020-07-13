@@ -18,7 +18,7 @@ import {
   Public,
   Notifications,
   ServiceTiles,
-  ServiceTileProps,
+  ServiceTileItemProps,
 } from '..'; // @edekadigital/backoffice-ui
 import { PageWrapper } from './PageWrapper';
 import { GridRow } from './GridRow';
@@ -163,7 +163,7 @@ export const FullExample = () => {
     },
   ];
 
-  const services: ServiceTileProps[] = [
+  const services: ServiceTileItemProps[] = [
     {
       title: 'Tile A',
       icon: Star,

@@ -10,7 +10,7 @@ import { ServiceIcon } from './internal/ServiceIcon';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import Grid from '@material-ui/core/Grid';
 
-export interface ServiceTileProps {
+export interface ServiceTileItemProps {
   /**
    * The service title.
    */
@@ -41,7 +41,7 @@ export interface ServiceTilesProps {
   /**
    * The service tiles to show. (see: `ServiceTileProps`)
    */
-  services: ServiceTileProps[];
+  services: ServiceTileItemProps[];
 }
 
 const useCardStyles = makeStyles(() => ({
@@ -52,11 +52,13 @@ const useCardStyles = makeStyles(() => ({
   }),
 }));
 
-const useCardHeaderStyles = makeStyles<Theme, ServiceTileProps>((theme) => ({
-  root: ({ description }) => ({
-    paddingBottom: description ? 0 : theme.spacing(2),
-  }),
-}));
+const useCardHeaderStyles = makeStyles<Theme, ServiceTileItemProps>(
+  (theme) => ({
+    root: ({ description }) => ({
+      paddingBottom: description ? 0 : theme.spacing(2),
+    }),
+  })
+);
 
 const useCardContentStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -73,9 +75,9 @@ const useCardContentStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const ServiceTile: React.FC<ServiceTileProps & { index: number }> = (
-  props
-) => {
+export const ServiceTileItem: React.FC<
+  ServiceTileItemProps & { index: number }
+> = (props) => {
   const { title, icon, description, onClick, buttonLabel, info, index } = props;
   const cardClasses = useCardStyles();
   const headerClasses = useCardHeaderStyles(props);
@@ -159,7 +161,7 @@ export const ServiceTiles: React.FC<ServiceTilesProps> = (
 
   const serviceTiles = props.services.map((serviceTileProps, index) => (
     <Grid item key={index} xs={12} sm={6} md={3}>
-      <ServiceTile {...serviceTileProps} index={index} />
+      <ServiceTileItem {...serviceTileProps} index={index} />
     </Grid>
   ));
   return (

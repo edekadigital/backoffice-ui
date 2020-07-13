@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { ServiceTiles, ServiceTile, ServiceTileProps } from './ServiceTiles';
+import {
+  ServiceTiles,
+  ServiceTileItem,
+  ServiceTileItemProps,
+} from './ServiceTiles';
 import {
   Star,
   MyLocation,
@@ -11,11 +15,11 @@ import {
 export default {
   title: 'Components|ServiceTiles',
   component: ServiceTiles,
-  subcomponents: { ServiceTileProps: ServiceTile },
+  subcomponents: { ServiceTileProps: ServiceTileItem },
 };
 
 export const Default = () => {
-  const services: ServiceTileProps[] = [
+  const services: ServiceTileItemProps[] = [
     {
       title: 'Tile A',
       icon: Star,
@@ -30,7 +34,7 @@ export const Default = () => {
 };
 
 export const Minimal = () => {
-  const services: ServiceTileProps[] = [
+  const services: ServiceTileItemProps[] = [
     {
       title: 'Tile A',
       buttonLabel: 'open',
@@ -41,7 +45,7 @@ export const Minimal = () => {
 };
 
 export const MultipleInGridRow = () => {
-  const services: ServiceTileProps[] = [
+  const services: ServiceTileItemProps[] = [
     {
       title: 'Tile A',
       icon: Star,
