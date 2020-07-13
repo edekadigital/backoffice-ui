@@ -1,16 +1,26 @@
 import * as React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/';
 import shadows from '@material-ui/core/styles/shadows';
-import { grey, red, common } from '@material-ui/core/colors';
+import { grey, red, common, orange, green } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
 import { edekaBlue, edekaYellow } from '../constants';
 
 const theme = createMuiTheme(
   {
     palette: {
-      primary: { main: edekaBlue.main },
+      primary: { main: edekaBlue.main, light: edekaBlue[50] },
       secondary: { main: edekaYellow.main },
-      error: { main: red[700], light: red[500], dark: red[900] },
+      warning: {
+        main: orange[500],
+        light: orange[50],
+        dark: orange[700],
+      },
+      error: {
+        main: red[700],
+        light: red[50],
+        dark: red[900],
+      },
+      success: { main: green[500], light: green[50], dark: green[700] },
       background: { default: grey[100], paper: common.white },
     },
     typography: {
