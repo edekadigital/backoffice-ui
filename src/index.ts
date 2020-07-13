@@ -17,7 +17,7 @@ export * from './components/Paper';
 export * from './components/ReverseNavigation';
 export * from './components/SearchField';
 export * from './components/SelectField';
-export * from './components/ServiceTile';
+export * from './components/ServiceTiles';
 export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TabNavigation';
