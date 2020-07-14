@@ -31,17 +31,21 @@ export interface EnhancedDataTableToolbarProps<D> {
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      overflow: 'hidden',
       borderBottom: `solid 1px ${theme.palette.grey[300]}`,
       paddingLeft: theme.spacing(2),
       [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
         minHeight: theme.spacing(9),
       },
     },
+    filterToolbar: {
+      marginLeft: -theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
     chipRoot: {
-      marginLeft: theme.spacing(2),
-      '&:first-child': {
-        marginLeft: 0,
-      },
+      margin: theme.spacing(1),
     },
     chipOutlined: {
       borderStyle: 'dashed',
@@ -283,7 +287,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const renderFilterBar = filters ? (
     <Toolbar
-      className={classes.toolbar}
+      className={clsx(classes.toolbar, classes.filterToolbar)}
       data-testid={'enhancedDataTable-filterBar'}
     >
       {renderActiveFilters}
