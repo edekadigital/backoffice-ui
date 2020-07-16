@@ -30,6 +30,34 @@ export const withTitle = () => {
   return <StoryComponent />;
 };
 
+export const customAutoHideDuration = () => {
+  const title = 'Lorem ipsum dolor sit amet.';
+  const message = 'Stet clita kasd gubergren, no sea takimata.';
+
+  const StoryComponent = () => {
+    const snackbar = useSnackbar();
+    const showDefault = () =>
+      snackbar.push({ title, message }, { autoHideDuration: 1000 });
+
+    return <Button onClick={showDefault}>default</Button>;
+  };
+  return <StoryComponent />;
+};
+
+export const sticky = () => {
+  const title = 'Lorem ipsum dolor sit amet.';
+  const message = 'Stet clita kasd gubergren, no sea takimata.';
+
+  const StoryComponent = () => {
+    const snackbar = useSnackbar();
+    const showDefault = () =>
+      snackbar.push({ title, message }, { autoHideDuration: null });
+
+    return <Button onClick={showDefault}>default</Button>;
+  };
+  return <StoryComponent />;
+};
+
 export const positionTop = () => {
   const title = 'Lorem ipsum dolor sit amet.';
   const message = 'Stet clita kasd gubergren, no sea takimata.';

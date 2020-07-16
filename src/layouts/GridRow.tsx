@@ -17,7 +17,7 @@ export interface GridRowProps {
 
 const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
   container: ({ gutterBottom }) => ({
-    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+    marginBottom: theme.spacing(gutterBottom ? 1.5 : 0),
     overflowX: 'hidden',
   }),
 }));

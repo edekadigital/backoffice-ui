@@ -47,6 +47,7 @@ export type SnackbarPosition = 'top' | 'bottom';
 interface SnackbarOptions {
   variant?: SnackbarVariant;
   position?: SnackbarPosition;
+  autoHideDuration?: number | null;
 }
 
 interface SnackbarContent {
@@ -92,8 +93,12 @@ export const SnackbarProvider: React.FC = (props) => {
   };
 
   const push: PushCallback = (content, options = {}) => {
-    const { variant = 'info', position = 'bottom' } = options;
-    queueRef.current.push({ ...content, variant, position });
+    const {
+      variant = 'info',
+      position = 'bottom',
+      autoHideDuration = 6000,
+    } = options;
+    queueRef.current.push({ ...content, variant, position, autoHideDuration });
 
     if (open) {
       setOpen(false);
@@ -142,7 +147,7 @@ export const SnackbarProvider: React.FC = (props) => {
         <Snackbar
           open={open}
           anchorOrigin={anchorOrigin}
-          autoHideDuration={5000}
+          autoHideDuration={snackbarContent.autoHideDuration}
           onClose={handleClose}
           onExited={handleExited}
         >

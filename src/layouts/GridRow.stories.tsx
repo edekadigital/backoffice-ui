@@ -62,7 +62,7 @@ export const MultipleGridRows = () => (
     <GridRow gridVariant={'12'} gutterBottom>
       <ChildComponent>Row 2 Column 1</ChildComponent>
     </GridRow>
-    <GridRow gridVariant={'4-4-4'}>
+    <GridRow gridVariant={'4-4-4'} gutterBottom>
       <ChildComponent>Row 3 Column 1</ChildComponent>
       <ChildComponent>Row 3 Column 2</ChildComponent>
       <ChildComponent>Row 3 Column 3</ChildComponent>
