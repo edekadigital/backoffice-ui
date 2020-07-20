@@ -24,7 +24,7 @@ deploy:
       tags: true
       repo: edekadigital/backoffice-ui
       node: 10
-      condition: "$TRAVIS_OS_NAME = linux"
+      condition: '$TRAVIS_OS_NAME = linux'
   - provider: pages
     local_dir: public
     target_branch: gh-pages
@@ -32,4 +32,4 @@ deploy:
     skip_cleanup: true
     keep_history: true
     on:
-      branch: release/2.0.0
+      branch: master
