@@ -38,6 +38,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
         minHeight: theme.spacing(9),
+        height: theme.spacing(9),
       },
     },
     filterToolbar: {

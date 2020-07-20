@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   action: {
     paddingTop: theme.spacing(0.625),
     paddingBottom: theme.spacing(0.625),
-    alignItems: 'start',
+    alignItems: 'flex-start',
   },
 }));
 
