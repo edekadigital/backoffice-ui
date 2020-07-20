@@ -1,4 +1,6 @@
 export { createSvgIcon } from '@material-ui/core';
+export { useMediaQuery } from '@material-ui/core';
+export { useTheme } from '@material-ui/core';
 
 export * from './providers/BackofficeUiProvider';
 export * from './providers/ThemeProvider';
@@ -11,6 +13,7 @@ export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/DateField';
 export * from './components/EnhancedDataTable/EnhancedDataTable';
+export * from './components/Hide';
 export * from './components/IconButton';
 export * from './components/Image';
 export * from './components/Paper';
