@@ -27,6 +27,6 @@ describe('<Page />', () => {
 
     expect(getByText(pageContent)!).toBeTruthy();
     const narrowDiv = container.querySelectorAll<HTMLDivElement>('div');
-    expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthSm');
+    expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthLg');
   });
 });

@@ -11,11 +11,11 @@ import {
   List,
   ListItem,
   ListItemText,
+  MenuItem,
 } from '@material-ui/core';
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
 import { Heading } from '../../typography/Heading';
-import { LIGHT_GREY, WHITE, PRIMARY } from '../../constants/colors';
 import { Button } from '../Button';
 import { TextField } from '../TextField';
 import clsx from 'clsx';
@@ -31,17 +31,22 @@ export interface EnhancedDataTableToolbarProps<D> {
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
-      borderBottom: `solid 1px ${LIGHT_GREY}`,
+      display: 'flex',
+      flexWrap: 'wrap',
+      overflow: 'hidden',
+      borderBottom: `solid 1px ${theme.palette.grey[300]}`,
       paddingLeft: theme.spacing(2),
       [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
         minHeight: theme.spacing(9),
+        height: theme.spacing(9),
       },
     },
+    filterToolbar: {
+      marginLeft: -theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
     chipRoot: {
-      marginLeft: theme.spacing(2),
-      '&:first-child': {
-        marginLeft: 0,
-      },
+      margin: theme.spacing(1),
     },
     chipOutlined: {
       borderStyle: 'dashed',
@@ -61,8 +66,8 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
       },
     },
     filterTitleToolbar: {
-      color: `${WHITE}`,
-      background: `${PRIMARY}`,
+      color: `${theme.palette.primary.contrastText}`,
+      background: `${theme.palette.primary.main}`,
       fontSize: theme.spacing(2),
       paddingLeft: theme.spacing(2),
       flexGrow: 1,
@@ -121,13 +126,6 @@ export function EnhancedDataTableToolbar<D>(
 
   const handleFilterSelectClick = (selectedFilter: Filter<D>) => {
     setSelectedFilter(selectedFilter as ActiveFilter<D>);
-  };
-
-  const handleFilterValueSelectClick = (value: string) => {
-    if (selectedFilter?.accessor) {
-      setActiveFilters(activeFilters.concat({ ...selectedFilter!, value }));
-      setPopoverAnchorEl(null);
-    }
   };
 
   const handleFilterValueChange = (
@@ -208,35 +206,30 @@ export function EnhancedDataTableToolbar<D>(
     <></>
   );
 
-  const popoverFilterForm = selectedFilter?.selectorValues ? (
-    selectedFilter.selectorValues.map((filterValue, index) => (
-      <ListItem
-        key={filterValue}
-        button={true}
-        onClick={() => handleFilterValueSelectClick(filterValue)}
-        data-testid={`enhancedDataTable-filterBar-selectValue-${index}`}
-      >
-        <ListItemText primary={filterValue} />
-      </ListItem>
-    ))
-  ) : (
-    <form onSubmit={handleFilterSubmit}>
-      <Paper className={classes.popoverFormPaper}>
-        <TextField
-          label="Enthält..."
-          onChange={handleFilterValueChange}
-          data-testid={'enhancedDataTable-filterBar-input'}
-        />
-        <Button
-          variant={'text'}
-          type={'submit'}
-          disabled={selectedFilter && !selectedFilter.value}
-          data-testid={'enhancedDataTable-filterBar-submit'}
+  const popoverFilterFormInput = selectedFilter?.selectorValues ? (
+    <TextField
+      label="Auswahl"
+      onChange={handleFilterValueChange}
+      select
+      inputTestId={'enhancedDataTable-filterBar-selectValue'}
+    >
+      {selectedFilter.selectorValues.map((filterValue, index) => (
+        <MenuItem
+          key={filterValue}
+          value={filterValue}
+          data-testid={`enhancedDataTable-filterBar-selectValue-${index}`}
         >
-          Anwenden
-        </Button>
-      </Paper>
-    </form>
+          {filterValue}
+        </MenuItem>
+      ))}
+    </TextField>
+  ) : (
+    <TextField
+      label="Enthält..."
+      onChange={handleFilterValueChange}
+      inputTestId={'enhancedDataTable-filterBar-input'}
+      autoFocus={true}
+    />
   );
 
   const renderPopoverContent = selectedFilter ? (
@@ -259,7 +252,20 @@ export function EnhancedDataTableToolbar<D>(
           data-testid={'enhancedDataTable-filterBar-close'}
         />
       </Toolbar>
-      {popoverFilterForm}
+      <form onSubmit={handleFilterSubmit}>
+        <Paper className={classes.popoverFormPaper}>
+          {popoverFilterFormInput}
+          <Button
+            variant={'text'}
+            color={'primary'}
+            type={'submit'}
+            disabled={selectedFilter && !selectedFilter.value}
+            data-testid={'enhancedDataTable-filterBar-submit'}
+          >
+            Anwenden
+          </Button>
+        </Paper>
+      </form>
     </>
   ) : (
     <List>{popoverFilterList}</List>
@@ -282,7 +288,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const renderFilterBar = filters ? (
     <Toolbar
-      className={classes.toolbar}
+      className={clsx(classes.toolbar, classes.filterToolbar)}
       data-testid={'enhancedDataTable-filterBar'}
     >
       {renderActiveFilters}

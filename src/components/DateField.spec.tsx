@@ -14,17 +14,17 @@ describe('<DateField />', () => {
   afterEach(cleanup);
 
   it('should render the date field component with placeholder', () => {
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <DateField label={label} placeholder={placeholder} />
     );
 
-    expect(getByText(label).textContent).toBeTruthy();
+    expect(getByTestId('textField-label').textContent).toBe(label);
     const labelResult = getByTestId('textField-input')! as HTMLInputElement;
     expect(labelResult.placeholder).toEqual(placeholder);
   });
 
   it('should render the date field component with error message', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <DateField
         label={label}
         placeholder={placeholder}
@@ -34,15 +34,9 @@ describe('<DateField />', () => {
       />
     );
 
-    expect(getByTestId('datefield-id').children[2].textContent).toEqual(
-      errorText
-    );
-    expect(getByTestId('datefield-id').children[1].classList).toContain(
-      'Mui-error'
-    );
-    expect(getByTestId('datefield-id').children[2].classList).toContain(
-      'Mui-error'
-    );
+    const errorMessage = getByText(errorText);
+    expect(errorMessage).toBeTruthy();
+    expect(errorMessage.classList).toContain('Mui-error');
   });
 
   it('should trigger onChange for component date field', async () => {

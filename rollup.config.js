@@ -1,5 +1,5 @@
-const babel = require('rollup-plugin-babel');
-const nodeResolve = require('rollup-plugin-node-resolve');
+const { default: babel } = require('@rollup/plugin-babel');
+const { default: nodeResolve } = require('@rollup/plugin-node-resolve');
 
 function isBareModuleId(id) {
   return !id.startsWith('.') && !id.startsWith('/');
@@ -21,6 +21,7 @@ const cjs = [
         extensions,
         babelrc: false,
         exclude: /node_modules/,
+        babelHelpers: 'bundled',
         presets: [
           ['@babel/env', { loose: true }],
           '@babel/react',
@@ -45,13 +46,13 @@ const esm = [
         extensions,
         babelrc: false,
         exclude: /node_modules/,
-        runtimeHelpers: true,
+        babelHelpers: 'runtime',
         presets: [
           ['@babel/env', { loose: true }],
           '@babel/react',
           '@babel/typescript',
         ],
-        plugins: [['@babel/transform-runtime', { useESModules: true }]],
+        plugins: [['@babel/plugin-transform-runtime', { useESModules: true }]],
       }),
     ],
   },

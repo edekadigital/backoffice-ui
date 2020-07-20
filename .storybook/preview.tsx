@@ -8,7 +8,6 @@ const ThemeDecorator = (storyFn: () => React.ReactNode) => (
   <BackofficeUiProvider>{storyFn()}</BackofficeUiProvider>
 );
 addDecorator(ThemeDecorator);
-
 addParameters({
   viewport: {
     viewports: INITIAL_VIEWPORTS,

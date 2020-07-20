@@ -8,7 +8,6 @@ export type BodyComponent = 'p' | 'span' | 'div';
 export type BodyColor =
   | 'initial'
   | 'primary'
-  | 'secondary'
   | 'error'
   | 'textPrimary'
   | 'textSecondary';
@@ -16,11 +15,27 @@ export type BodyColor =
 export type BodyAlign = 'left' | 'center' | 'right';
 
 export interface BodyProps {
+  /**
+   * The variant to use (controls size)
+   * @default "body1"
+   */
   variant?: BodyVariant;
+  /**
+   * Defines the component where the text should be rendered in
+   * @default p
+   */
   component?: BodyComponent;
+  /**
+   * Defines the text color. Only theme colors are allowed.
+   */
   color?: BodyColor;
+  /**
+   * If `true`, the body text will have a bottom margin.
+   */
   gutterBottom?: boolean;
-  children: React.ReactNode;
+  /**
+   * Defines how the body text should be aligned.
+   */
   align?: BodyAlign;
 }
 

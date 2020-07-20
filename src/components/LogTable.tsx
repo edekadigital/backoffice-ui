@@ -7,10 +7,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
 export interface LogTableProps {
+  /**
+   * The column names to show
+   */
   columns: string[];
+  /**
+   * The rows to show in the table body.
+   */
   rows: string[][];
 }
 
+/**
+ * | Test ID                           | Description          |
+ * | --------------------------------- | -------------------- |
+ * | `logTable-row-${index}`           | Table row            |
+ * | `logTable-th-${index}`            | Table head column    |
+ * | `logTable-td-${rowIndex}-${index}`| Table body cell      |
+ */
 export const LogTable: React.FC<LogTableProps> = (props) => {
   const { columns, rows } = props;
 

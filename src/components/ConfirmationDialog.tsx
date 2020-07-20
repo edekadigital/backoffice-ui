@@ -12,13 +12,37 @@ import { Theme } from '@material-ui/core';
 import { Button } from './Button';
 
 export interface ConfirmationDialogProps {
+  /**
+   * The label for the cancel button
+   */
   cancelLabel: string;
+  /**
+   * The label for the confirm button
+   */
   confirmLabel: string;
+  /**
+   * The message to show.
+   */
   message: React.ReactNode | string;
+  /**
+   * Handles the visibility of the dialog. If set to `true` the dialog will be visible.
+   */
   open: boolean;
+  /**
+   * The title text to show.
+   */
   title: React.ReactNode | string;
+  /**
+   * Callback fired when the cancel button has been clicked.
+   */
   onCancel?: React.ReactEventHandler<{}>;
+  /**
+   * Callback fired when the close button has been clicked.
+   */
   onClose?: React.ReactEventHandler<{}>;
+  /**
+   * Callback fired when the confirm button has been clicked.
+   */
   onConfirm?: React.ReactEventHandler<{}>;
 }
 
@@ -34,6 +58,14 @@ const useDialogStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                                     | Description                 |
+ * | ------------------------------------------- | --------------------------- |
+ * | `confirmationDialog-title`                  | Dialog title                |
+ * | `confirmationDialog-message`                | Dialog message              |
+ * | `confirmationDialog-cancel`                 | Cancel button               |
+ * | `confirmationDialog-confirm`                | Confirm button              |
+ */
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
   props
 ) => {

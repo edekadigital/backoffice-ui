@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export interface FormFieldSetProps {
+  /**
+   * The title to show.
+   */
   title?: string;
 }
 
@@ -20,6 +23,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID             | Description              |
+ * | ------------------- | ------------------------ |
+ * | `formFieldSet-title`| title                    |
+ */
 export const FormFieldSet: React.FC<FormFieldSetProps> = ({
   title,
   children,
@@ -42,7 +50,7 @@ export const FormFieldSet: React.FC<FormFieldSetProps> = ({
   );
 
   return (
-    <Paper role="group" className={classes.root}>
+    <Paper role="group" className={classes.root} elevation={0}>
       {renderedTitle}
       {children}
     </Paper>

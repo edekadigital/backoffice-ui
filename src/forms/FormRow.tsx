@@ -16,10 +16,25 @@ export type FormRowJustify =
 export type FormRowItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
 
 export interface FormRowProps {
+  /**
+   * The elements (children) to be rendered in the form row
+   */
   children: React.ReactNode | React.ReactNode[];
+  /**
+   * If `true`, the form row will have a bottom margin.
+   */
   gutterBottom?: boolean | number;
+  /**
+   * Justifies the form row items. Default is `flex-start` (css)
+   */
   justify?: FormRowJustify;
+  /**
+   * Specifies the grid layout to use for the form row. Default are 12 equally wide columns.
+   */
   gridLayout?: FormRowItemSize[];
+  /**
+   * Specifies the maximum width of the form row container.
+   */
   maxWidth?: Breakpoint | number;
 }
 
@@ -46,7 +61,7 @@ function getSanitizedProps(props: FormRowProps): SanitizedFormProps {
   }
   return {
     children: Array.isArray(children) ? children : [children],
-    gutterBottom: gutterBottom === true ? 2 : +gutterBottom,
+    gutterBottom: gutterBottom === true ? 3 : +gutterBottom,
     justify: mapJustifyToJustifyContent(justify),
     gridLayout: tempGridLayout,
     maxWidth,
@@ -58,14 +73,12 @@ function mapJustifyToJustifyContent(
 ): GridJustification {
   /* istanbul ignore next */
   switch (justify) {
-    case 'auto':
-      return 'flex-start';
-    case 'left':
-      return 'flex-start';
     case 'right':
       return 'flex-end';
     case 'space-between':
       return 'space-between';
+    case 'left':
+    case 'auto':
     default:
       return 'flex-start';
   }
@@ -88,14 +101,26 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
       maxWidth: maxWidthValue,
     };
   },
+  item: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    '&:not(:only-child):last-child': {
+      justifyContent: 'flex-end',
+    },
+  },
 }));
 
+/**
+ * | Test ID                 | Description              |
+ * | ----------------------- | ------------------------ |
+ * | `formRow-item-${index}` | form row item            |
+ */
 export const FormRow: React.FC<FormRowProps> = (rawProps) => {
   const props = getSanitizedProps(rawProps);
   const { children, gridLayout, justify } = props;
   const classes = useStyles(props);
 
-  const gridItemSizeSm = (12 / gridLayout.length) as FormRowItemSize;
+  const gridItemSizeSm = Math.floor(12 / gridLayout.length) as FormRowItemSize;
 
   const items = children.map((tempChild, index) => (
     <Grid
@@ -105,13 +130,19 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
       xs={12}
       key={`form-row-item-${index}`}
       data-testid={`formRow-item-${index}`}
+      className={classes.item}
     >
       {tempChild}
     </Grid>
   ));
   return (
     <div className={classes.root}>
-      <Grid container={true} justify={justify} spacing={GRID_SPACING}>
+      <Grid
+        container={true}
+        justify={justify}
+        alignItems="center"
+        spacing={GRID_SPACING}
+      >
         {items}
       </Grid>
     </div>

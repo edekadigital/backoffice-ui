@@ -6,11 +6,26 @@ import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
 
 export interface ReverseNavigationProps {
+  /**
+   * Callback fired when the the back button is clicked
+   */
   onBackClick: React.MouseEventHandler;
+  /**
+   * Additional action items to show, e.g. a button.
+   */
   action?: React.ReactNode;
-  children?: React.ReactNode;
+  /**
+   * If `true`, the back button will be floating left. Default is set to `true`.
+   * @default true
+   */
   floatingBackButton?: boolean;
+  /**
+   * If `true`, the reverse navigation will have a bottom margin.
+   */
   gutterBottom?: boolean;
+  /**
+   * Additional text to show.
+   */
   infoBarContent?: React.ReactNode;
 }
 
@@ -42,6 +57,14 @@ const useStyles = makeStyles<Theme, ReverseNavigationProps>((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                    | Description          |
+ * | -------------------------- | -------------------- |
+ * | `reverseNavigation-back`   | Back button          |
+ * | `reverseNavigation-title`  | Title                |
+ * | `reverseNavigation-infoBar`| Info bar container   |
+ * | `reverseNavigation-actions`| Actions container    |
+ */
 export const ReverseNavigation: React.FC<ReverseNavigationProps> = (props) => {
   const { onBackClick, children, infoBarContent, action } = props;
   const classes = useStyles(props);

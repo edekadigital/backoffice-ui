@@ -16,10 +16,28 @@ export type ImageMode =
 export type ImageSource = React.SourceHTMLAttributes<HTMLSourceElement>;
 
 export interface ImageProps {
+  /**
+   * The image source path.
+   */
   src: string;
+  /**
+   * The image alt tag.
+   */
   alt: string;
+  /**
+   * The image position, can be `relative` or `absolute`.
+   * @default "relative"
+   */
   position?: ImagePosition;
+  /**
+   * Sets the mode how the image should be rendered.
+   * @default "width"
+   */
   mode?: ImageMode;
+  /**
+   * The image sources.
+   * @default []
+   */
   sources?: ImageSource[];
 }
 /* istanbul ignore next */

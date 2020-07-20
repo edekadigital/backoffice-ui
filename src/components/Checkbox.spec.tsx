@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { cleanup } from '@testing-library/react';
-import { CheckboxDark, CheckboxLight } from './Checkbox';
+import { Checkbox } from './Checkbox';
 import { render } from '../test-utils';
 
 const label = 'Some Label';
@@ -9,12 +9,12 @@ const label = 'Some Label';
 describe('<Checkbox>', () => {
   afterEach(cleanup);
 
-  it('should render the component CheckboxLight', () => {
-    const { container } = render(<CheckboxLight>{label}</CheckboxLight>);
+  it('should render the component Checkbox', () => {
+    const { container } = render(<Checkbox>{label}</Checkbox>);
     expect(container).toBeTruthy();
   });
-  it('should render the component CheckboxDark', () => {
-    const { container } = render(<CheckboxDark>{label}</CheckboxDark>);
+  it('should render the component Checkbox with inverted colors', () => {
+    const { container } = render(<Checkbox inverted={true}>{label}</Checkbox>);
     expect(container).toBeTruthy();
   });
 });

@@ -1,40 +1,70 @@
 import * as React from 'react';
-import { useContext, useMemo, useState, useRef, ReactNode } from 'react';
+import { useContext, useMemo, useState, useRef } from 'react';
 import { Theme } from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { PRIMARY, SUCCESS, ERROR, WARNING } from '../constants/colors';
+import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
+import { Alert as MuiAlert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
+import { Body } from '../typography/Body';
+import { darken } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  default: { backgroundColor: theme.palette.grey[600] },
-  success: { backgroundColor: SUCCESS },
-  error: { backgroundColor: ERROR },
-  warning: { backgroundColor: WARNING },
-  info: { backgroundColor: PRIMARY },
+  success: {
+    backgroundColor: theme.palette.success.light,
+    color: darken(theme.palette.success.dark!, 0.5),
+    '& > .MuiAlert-icon': {
+      color: theme.palette.success.dark,
+    },
+  },
+  error: {
+    backgroundColor: theme.palette.error.light,
+    color: darken(theme.palette.error.dark!, 0.5),
+    '& > .MuiAlert-icon': {
+      color: theme.palette.error.dark,
+    },
+  },
+  warning: {
+    backgroundColor: theme.palette.warning.light,
+    color: darken(theme.palette.warning.dark!, 0.5),
+    '& > .MuiAlert-icon': {
+      color: theme.palette.warning.dark,
+    },
+  },
+  info: {
+    backgroundColor: theme.palette.primary.light,
+    color: darken(theme.palette.primary.dark!, 0.5),
+  },
+  action: {
+    paddingTop: theme.spacing(0.625),
+    paddingBottom: theme.spacing(0.625),
+    alignItems: 'flex-start',
+  },
 }));
 
-export type SnackbarVariant =
-  | 'default'
-  | 'info'
-  | 'success'
-  | 'error'
-  | 'warning';
+export type SnackbarVariant = 'info' | 'success' | 'error' | 'warning';
+
+export type SnackbarPosition = 'top' | 'bottom';
 
 interface SnackbarOptions {
   variant?: SnackbarVariant;
-}
-
-interface SnackbarContextValue {
-  push: (message: string, options?: SnackbarOptions) => void;
+  position?: SnackbarPosition;
+  autoHideDuration?: number | null;
 }
 
 interface SnackbarContent {
+  title?: string;
   message: string;
-  variant: SnackbarVariant;
 }
+
+type PushCallback = (
+  content: SnackbarContent,
+  options?: SnackbarOptions
+) => void;
+
+interface SnackbarContextValue {
+  push: PushCallback;
+}
+
+interface SnackbarProps extends SnackbarContent, SnackbarOptions {}
 
 const noop = () => {};
 
@@ -48,14 +78,10 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={4} variant="filled" {...props} />;
 }
 
-const SnackbarMessage: React.FC = ({ children }) => (
-  <span data-testid="snackbar-message">{children}</span>
-);
-
-export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
+export const SnackbarProvider: React.FC = (props) => {
   const [open, setOpen] = useState(false);
-  const [snackbarContent, setSnackbarContent] = useState<SnackbarContent>();
-  const queueRef = useRef<SnackbarContent[]>([]);
+  const [snackbarContent, setSnackbarContent] = useState<SnackbarProps>();
+  const queueRef = useRef<SnackbarProps[]>([]);
 
   const classes = useStyles();
   const alertClasses = {
@@ -63,11 +89,16 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
     filledError: classes.error,
     filledWarning: classes.warning,
     filledInfo: classes.info,
+    action: classes.action,
   };
 
-  const push = (message: string, options: SnackbarOptions = {}) => {
-    const { variant = 'default' } = options;
-    queueRef.current.push({ message, variant });
+  const push: PushCallback = (content, options = {}) => {
+    const {
+      variant = 'info',
+      position = 'bottom',
+      autoHideDuration = 6000,
+    } = options;
+    queueRef.current.push({ ...content, variant, position, autoHideDuration });
 
     if (open) {
       setOpen(false);
@@ -97,12 +128,26 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
   const value = useMemo(() => ({ push }), [push]);
 
   const snackbar = useMemo(() => {
-    if (snackbarContent && snackbarContent.variant !== 'default') {
+    if (snackbarContent) {
+      let anchorOrigin: SnackbarOrigin;
+      switch (snackbarContent?.position) {
+        case 'top':
+          anchorOrigin = { horizontal: 'center', vertical: 'top' };
+          break;
+        case 'bottom':
+        default:
+          anchorOrigin = { horizontal: 'left', vertical: 'bottom' };
+      }
+
+      const alertTitle = snackbarContent.title ? (
+        <AlertTitle>{snackbarContent.title}</AlertTitle>
+      ) : null;
+
       return (
         <Snackbar
           open={open}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          autoHideDuration={5000}
+          anchorOrigin={anchorOrigin}
+          autoHideDuration={snackbarContent.autoHideDuration}
           onClose={handleClose}
           onExited={handleExited}
         >
@@ -111,40 +156,14 @@ export const SnackbarProvider: React.FC = (props: { children?: ReactNode }) => {
             onClose={handleClose}
             classes={alertClasses}
           >
-            <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
+            {alertTitle}
+            <Body variant={'body2'} data-testid="snackbar-message">
+              {snackbarContent.message}
+            </Body>
           </Alert>
         </Snackbar>
       );
-    } else if (snackbarContent) {
-      const action = (
-        <IconButton
-          aria-label="close"
-          color="inherit"
-          onClick={handleClose}
-          size="small"
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      );
-
-      const message = (
-        <SnackbarMessage>{snackbarContent.message}</SnackbarMessage>
-      );
-
-      return (
-        <Snackbar
-          open={open}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          autoHideDuration={5000}
-          onClose={handleClose}
-          onExited={handleExited}
-          action={action}
-          ContentProps={{ message }}
-        />
-      );
-    } else {
-      return null;
-    }
+    } else return null;
   }, [snackbarContent, open]);
 
   return (

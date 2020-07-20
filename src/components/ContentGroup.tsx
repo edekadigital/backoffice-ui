@@ -1,12 +1,18 @@
 import * as React from 'react';
 
-import { Heading, HeadingComponent } from '..';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Heading, HeadingComponent } from '../typography/Heading';
 
 export interface ContentGroupProps {
-  children: React.ReactNode;
+  /**
+   * The title to show
+   */
   title?: string;
+  /**
+   * The component to be used for showing the title.
+   * @default "h3"
+   */
   titleComponent?: HeadingComponent;
 }
 
@@ -18,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                           | Description          |
+ * | --------------------------------- | -------------------- |
+ * | `contentGroup-title`              | Title                |
+ */
 export const ContentGroup: React.FC<ContentGroupProps> = ({
   title,
   titleComponent = 'h3',

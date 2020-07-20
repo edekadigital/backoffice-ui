@@ -1,9 +1,16 @@
 import * as React from 'react';
 import { SelectField } from './SelectField';
+import { TextField } from './TextField';
 
 export default {
   title: 'Components|SelectField',
   component: SelectField,
+  subcomponents: { TextField },
+  decorators: [
+    (storyFn: () => React.ReactNode) => (
+      <div style={{ margin: 120 }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 export const Default = () => {
@@ -72,13 +79,11 @@ export const Controlled = () => {
   };
 
   return (
-    <div style={{ width: '50%', margin: 'auto' }}>
-      <SelectField
-        menuItems={menuItems}
-        value={value}
-        onChange={handleChange}
-        label="Some label"
-      />
-    </div>
+    <SelectField
+      menuItems={menuItems}
+      value={value}
+      onChange={handleChange}
+      label="Some label"
+    />
   );
 };

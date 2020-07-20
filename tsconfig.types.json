@@ -3,5 +3,5 @@
   "compilerOptions": {
     "emitDeclarationOnly": true
   },
-  "exclude": ["node_modules", "**/*.stories.tsx"]
+  "exclude": ["node_modules", "**/*.stories.*", "**/*.spec.*"]
 }

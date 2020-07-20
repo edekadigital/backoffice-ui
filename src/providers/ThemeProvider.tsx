@@ -1,58 +1,81 @@
 import * as React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/';
+import shadows from '@material-ui/core/styles/shadows';
+import { grey, red, common, orange, green } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
-import { ERROR, PRIMARY, SECONDARY, SECONDARY_TEXT } from '../constants';
+import { edekaBlue, edekaYellow } from '../constants';
 
 const theme = createMuiTheme(
   {
     palette: {
-      primary: { main: PRIMARY },
-      secondary: { main: SECONDARY },
-      error: { main: ERROR },
-      background: { default: '#f5f5f5', paper: '#ffffff' },
-      text: { secondary: SECONDARY_TEXT },
+      primary: { main: edekaBlue.main, light: edekaBlue[50] },
+      secondary: { main: edekaYellow.main },
+      warning: {
+        main: orange[500],
+        light: orange[50],
+        dark: orange[700],
+      },
+      error: {
+        main: red[700],
+        light: red[50],
+        dark: red[900],
+      },
+      success: { main: green[500], light: green[50], dark: green[700] },
+      background: { default: grey[100], paper: common.white },
     },
     typography: {
-      h1: { fontWeight: 300 },
-      h2: { fontWeight: 300 },
-      h3: { fontWeight: 300 },
-      h4: { fontWeight: 300 },
-      h5: { fontWeight: 300 },
-      h6: { fontWeight: 300 },
+      h1: { fontWeight: 'normal', lineHeight: 1, letterSpacing: -0.66 },
+      h2: { fontWeight: 'normal', lineHeight: 1, letterSpacing: -0.5 },
+      h3: { fontWeight: 'normal', lineHeight: 1.02, letterSpacing: 'normal' },
+      h4: { fontWeight: 'normal', lineHeight: 1.15, letterSpacing: 0.07 },
+      h5: { fontWeight: 'normal', lineHeight: 1.33, letterSpacing: 'normal' },
+      h6: { fontWeight: 500, lineHeight: 1.6, letterSpacing: 0.07 },
       subtitle1: {
-        fontWeight: 400,
-        fontSize: '1.6rem',
-        lineHeight: 1.33,
+        fontWeight: 'normal',
+        fontSize: '1rem',
+        lineHeight: 1.75,
+        letterSpacing: 0.09,
       },
       subtitle2: {
-        fontWeight: 400,
-        fontSize: '1.3rem',
-        lineHeight: 1.6,
+        fontWeight: 500,
+        fontSize: '0.875rem',
+        lineHeight: 1.57,
+        letterSpacing: 0.07,
+      },
+      body1: {
+        letterSpacing: 0.09,
+      },
+      body2: {
+        letterSpacing: 0.1,
+      },
+      button: {
+        lineHeight: 1.71,
+      },
+    },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 2520,
       },
     },
     overrides: {
-      MuiFormHelperText: {
-        root: {
-          paddingLeft: 8,
-          paddingRight: 8,
+      MuiButton: {
+        contained: {
+          '&:hover': {
+            boxShadow: shadows[8],
+          },
         },
       },
       MuiSelect: {
         select: { '&:focus': { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
       },
-      MuiMenuItem: {
-        root: {
-          '&:hover': { backgroundColor: 'rgba(234, 234, 234, 0.4)' },
-          '&.Mui-selected, &.Mui-selected:hover': {
-            backgroundColor: PRIMARY,
-            color: '#fff',
-          },
-        },
-      },
       MuiTableRow: {
         root: {
           '&.Mui-selected, &.Mui-selected:hover': {
-            backgroundColor: 'rgb(227, 236, 245)',
+            backgroundColor: edekaBlue[50],
           },
         },
       },

@@ -474,7 +474,7 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-filterBar-submit')).toBeTruthy();
     // input filter value: 'filterValue'
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     // submit filter value form
@@ -528,7 +528,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBe(filters[1].label);
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
@@ -545,7 +545,7 @@ describe('<EnhancedDataTable />', () => {
     ).toBeFalsy();
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
     userEvent.type(
-      getByTestId('enhancedDataTable-filterBar-input').querySelector('input')!,
+      getByTestId('enhancedDataTable-filterBar-input'),
       'filterValue'
     );
     userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
@@ -614,12 +614,14 @@ describe('<EnhancedDataTable />', () => {
         .textContent
     ).toBe(filters[0].label);
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectValue'));
     expect(
       queryByTestId('enhancedDataTable-filterBar-selectValue-0')
     ).toBeTruthy();
     expect(
       queryByTestId('enhancedDataTable-filterBar-selectValue-1')
     ).toBeTruthy();
+
     expect(
       getByTestId('enhancedDataTable-filterBar-selectValue-0').firstChild
         ?.textContent
@@ -629,6 +631,7 @@ describe('<EnhancedDataTable />', () => {
         ?.textContent
     ).toBe(filters[0].selectorValues![1]);
     userEvent.click(getByTestId('enhancedDataTable-filterBar-selectValue-0'));
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
     await waitFor(() => {});
     expect(fetchDataFn).toBeCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([

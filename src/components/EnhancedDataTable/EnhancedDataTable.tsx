@@ -61,6 +61,7 @@ export interface EnhancedDataTableProps<D extends object> {
   columns: Array<EnhancedDataTableColumn<D>>;
   /**
    * Initial count of rows per page.
+   * @default 10
    */
   defaultPageSize?: number;
   /**
@@ -85,11 +86,13 @@ export interface EnhancedDataTableProps<D extends object> {
   /**
    * Customizes the options of the rows per page select field.
    * If less than two options are available, no select field will be displayed.
+   * @default [5, 10, 25]
    */
   rowsPerPageOptions?: number[];
   /**
    * List of available actions which are displayed in the selection menu, if more than one row is selected.
    * If there is less than one action served, the table rows will not be selectable.
+   * @default []
    */
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
 }
@@ -137,6 +140,41 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * | Test ID                                                  | Description                                     |
+ * | -------------------------------------------------------- | ----------------------------------------------- |
+ * | `enhancedDataTable-filterBar-headline`                   | Table headline                                  |
+ * | `enhancedDataTable-filterBar`                            | Filter bar container                            |
+ * | `enhancedDataTable-filterBar-add`                        | Add filter button                               |
+ * | `enhancedDataTable-filterBar-filterMenu`                 | Filter menu popover menu container              |
+ * | `enhancedDataTable-filterBar-selectFilter-${index}`      | Filter selector                                 |
+ * | `enhancedDataTable-filterBar-selectedFilter`             | Selected Filter as headline in popover menu     |
+ * | `enhancedDataTable-filterBar-close`                      | Close button for filter menu                    |
+ * | `enhancedDataTable-filterBar-input`                      | Filter value input field                        |
+ * | `enhancedDataTable-filterBar-selectValue`                | Filter value select field                       |
+ * | `enhancedDataTable-filterBar-selectValue-${index}`       | Selectable filter value item in select field    |
+ * | `enhancedDataTable-filterBar-submit`                     | Filter submit button                            |
+ * | `enhancedDataTable-activeFilter-${index}`                | Active filter chip                              |
+ * | `enhancedDataTable-alternativeBody`                      | Alternative table body container                |
+ * | `enhancedDataTable-loading`                              | Loading spinner                                 |
+ * | `enhancedDataTable-container`                            | table container                                 |
+ * | `enhancedDataTable-head`                                 | table head container                            |
+ * | `enhancedDataTable-head-selectAll`                       | _Select all_ checkbox in table head             |
+ * | `enhancedDataTable-head-column-${index}`                 | table head column                               |
+ * | `enhancedDataTable-head-column-sort-${index}`            | table head sort button                          |
+ * | `enhancedDataTable-head-emptyColumn`                     | Empty head column (if table items are clickable |
+ * | `enhancedDataTable-body`                                 | Table body container                            |
+ * | `enhancedDataTable-body-row-${index}`                    | Row                                             |
+ * | `enhancedDataTable-body-row-select-${index}`             | Row select checkbox                             |
+ * | `enhancedDataTable-body-row-click-${index}`              | Row click (on row itself)                       |
+ * | `enhancedDataTable-body-row-clickArrow-${index}`         | Row click (on icon)                             |
+ * | `enhancedDataTable-body-row-${rowIndex}-column-${index}` | Specific table cell                             |
+ * | `enhancedDataTable-pagination`                           | Table Pagination container                      |
+ * | `enhancedDataTable-emptyResult`                          | Null result container                           |
+ * | `enhancedDataTable-selectionMenu`                        | Selection menu drawer container                 |
+ * | `enhancedDataTable-selectionMenu-selectAll`              | _Select all_ checkbox in selection drawer       |
+ * | `enhancedDataTable-selectionMenu-action-${index}`        | Action button in selection drawer               |
+ */
 export function EnhancedDataTable<D extends object>(
   props: EnhancedDataTableProps<D>
 ) {
@@ -308,6 +346,7 @@ export function EnhancedDataTable<D extends object>(
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
                 clickable={!!onRowClick}
+                selectedRowsCount={selectedRows.length}
               />
               <EnhancedDataTableBody
                 columns={columns}
@@ -373,7 +412,7 @@ export function EnhancedDataTable<D extends object>(
 
   return (
     <div className={classes.root} ref={tableRef}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant={'outlined'}>
         {renderToolbar}
         {renderTable}
       </Paper>
