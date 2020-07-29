@@ -48,6 +48,10 @@ const theme = createMuiTheme(
       body2: {
         letterSpacing: 0.1,
       },
+      caption: {
+        letterSpacing: 0.3,
+        fontWeight: 'normal',
+      },
       button: {
         lineHeight: 1.71,
       },

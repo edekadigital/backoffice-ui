@@ -90,7 +90,7 @@ export const ServiceTileItem: React.FC<
   const renderContent = description ? (
     <CardContent classes={contentClasses}>
       <Body
-        variant={'body2'}
+        variant={'caption'}
         color={'textSecondary'}
         data-testid={`serviceTile-${index}-description`}
       >
@@ -118,7 +118,7 @@ export const ServiceTileItem: React.FC<
       <Divider />
       <CardContent classes={{ root: contentClasses.root }}>
         <Body
-          variant={'body2'}
+          variant={'caption'}
           color={'textSecondary'}
           data-testid={`serviceTile-${index}-info`}
         >

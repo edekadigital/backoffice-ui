@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Typography as MuiTypography, makeStyles } from '@material-ui/core';
 
-export type BodyVariant = 'body1' | 'body2';
+export type BodyVariant = 'body1' | 'body2' | 'caption';
 
 export type BodyComponent = 'p' | 'span' | 'div';
 
