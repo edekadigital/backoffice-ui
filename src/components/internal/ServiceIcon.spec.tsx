@@ -14,7 +14,9 @@ describe('<ServiceIcon />', () => {
   });
 
   it('should render the ServiceIcon component with svg', () => {
-    const { getByTestId } = render(<ServiceIcon icon={ArrowBack} />);
+    const { getByTestId } = render(
+      <ServiceIcon icon={ArrowBack} iconTestId={'serviceIcon'} />
+    );
     expect(getByTestId('serviceIcon-icon')).toBeVisible();
   });
 
@@ -24,9 +26,10 @@ describe('<ServiceIcon />', () => {
         icon={
           'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
         }
+        iconTestId={'serviceIcon'}
       />
     );
-    const image = getByTestId('serviceIcon-image') as HTMLImageElement;
+    const image = getByTestId('serviceIcon-img') as HTMLImageElement;
     expect(image.src).toBe(
       'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
     );
@@ -34,7 +37,11 @@ describe('<ServiceIcon />', () => {
 
   it('should add className to element', () => {
     const { getByTestId } = render(
-      <ServiceIcon icon={ArrowBack} className="my-class-name" />
+      <ServiceIcon
+        icon={ArrowBack}
+        className="my-class-name"
+        iconTestId={'serviceIcon'}
+      />
     );
     expect(getByTestId('serviceIcon')).toHaveClass('my-class-name');
   });

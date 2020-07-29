@@ -53,7 +53,7 @@ describe('<ServiceTiles />', () => {
       'description'
     );
     expect(getByTestId('serviceTile-0-info').textContent).toBe('1');
-    expect(getAllByTestId('serviceIcon')[0]).toBeTruthy();
+    expect(getAllByTestId('serviceTile-0-serviceIcon')[0]).toBeTruthy();
     userEvent.click(getByTestId('serviceTile-0-button'));
     expect(onClickFn).toBeCalledTimes(1);
 

@@ -5,6 +5,7 @@ import clsx from 'clsx';
 export interface ServiceIconProps {
   icon: React.ElementType<SvgIconProps> | string;
   className?: string;
+  iconTestId?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -25,24 +26,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ServiceIcon: React.FC<ServiceIconProps> = (props) => {
+  const { className, icon, iconTestId = 'servicIcon' } = props;
   const classes = useStyles();
-  const rootClassName = clsx(classes.root, props.className);
+  const rootClassName = clsx(classes.root, className);
+
   const content =
-    typeof props.icon === 'string' ? (
+    typeof icon === 'string' ? (
       <img
-        src={props.icon}
+        src={icon}
         className={classes.image}
-        data-testid="serviceIcon-image"
+        data-testid={`${iconTestId}-img`}
       />
     ) : (
       <props.icon
         fontSize="small"
         color="primary"
-        data-testid="serviceIcon-icon"
+        data-testid={`${iconTestId}-icon`}
       />
     );
   return (
-    <div className={rootClassName} data-testid="serviceIcon">
+    <div className={rootClassName} data-testid={iconTestId}>
       {content}
     </div>
   );

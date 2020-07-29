@@ -84,13 +84,13 @@ export const ServiceTileItem: React.FC<
   const contentClasses = useCardContentStyles();
 
   const headerIcon = icon ? (
-    <ServiceIcon icon={icon} data-testid={`serviceTile-${index}-icon`} />
+    <ServiceIcon icon={icon} iconTestId={`serviceTile-${index}-serviceIcon`} />
   ) : undefined;
 
   const renderContent = description ? (
     <CardContent classes={contentClasses}>
       <Body
-        variant={'body2'}
+        variant={'caption'}
         color={'textSecondary'}
         data-testid={`serviceTile-${index}-description`}
       >
@@ -118,7 +118,7 @@ export const ServiceTileItem: React.FC<
       <Divider />
       <CardContent classes={{ root: contentClasses.root }}>
         <Body
-          variant={'body2'}
+          variant={'caption'}
           color={'textSecondary'}
           data-testid={`serviceTile-${index}-info`}
         >
