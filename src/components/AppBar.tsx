@@ -221,7 +221,11 @@ const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
         data-testid={key}
         classes={itemClasses}
       >
-        <ServiceIcon icon={tempItem.icon} className={serviceIconClasses.root} />
+        <ServiceIcon
+          icon={tempItem.icon}
+          className={serviceIconClasses.root}
+          iconTestId={`${key}-serviceIcon`}
+        />
         <Typography variant="caption" align="center" classes={textClasses}>
           {tempItem.label}
         </Typography>

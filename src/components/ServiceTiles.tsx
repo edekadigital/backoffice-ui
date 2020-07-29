@@ -84,7 +84,7 @@ export const ServiceTileItem: React.FC<
   const contentClasses = useCardContentStyles();
 
   const headerIcon = icon ? (
-    <ServiceIcon icon={icon} data-testid={`serviceTile-${index}-icon`} />
+    <ServiceIcon icon={icon} iconTestId={`serviceTile-${index}-serviceIcon`} />
   ) : undefined;
 
   const renderContent = description ? (
