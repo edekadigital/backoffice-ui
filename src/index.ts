@@ -9,6 +9,7 @@ export * from './providers/SnackbarProvider';
 export * from './components/AppBar';
 export * from './components/Button';
 export * from './components/ButtonBar';
+export * from './lab/Cloudinary';
 export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/DateField';
