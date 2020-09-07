@@ -19,6 +19,7 @@ export { default as ArrowRightAlt } from '@material-ui/icons/ArrowRightAlt';
 export { default as ArrowUpward } from '@material-ui/icons/ArrowUpward';
 export { default as Backspace } from '@material-ui/icons/Backspace';
 export { default as Backup } from '@material-ui/icons/Backup';
+export { default as Calendar } from '@material-ui/icons/Event';
 export { default as Cancel } from '@material-ui/icons/Cancel';
 export { default as Check } from '@material-ui/icons/Check';
 export { default as ChevronLeft } from '@material-ui/icons/ChevronLeft';
