@@ -24,6 +24,7 @@ export * from './components/ServiceTiles';
 export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TabNavigation';
+export * from './components/TextEditor';
 export * from './components/TextField';
 export * from './components/LogTable';
 export * from './components/Checkbox';
