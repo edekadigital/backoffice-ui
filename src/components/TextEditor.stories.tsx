@@ -21,7 +21,60 @@ export const Default = () => {
   ) : null;
   return (
     <>
-      <TextEditor onChange={onChange} />
+      <TextEditor
+        onChange={onChange}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        placeholder="Write a text..."
+      />
+      {renderMarkdownOutput}
+    </>
+  );
+};
+
+export const WithoutOptions = () => {
+  const [markdown, setMarkdown] = React.useState<string | undefined>('');
+  const onChange = (markdownString?: string) => {
+    setMarkdown(markdownString);
+  };
+  const renderMarkdownOutput = markdown ? (
+    <pre style={{ border: 'dotted 1px' }}>{markdown}</pre>
+  ) : null;
+  return (
+    <>
+      <TextEditor onChange={onChange} placeholder="Write a text..." />
+      {renderMarkdownOutput}
+    </>
+  );
+};
+
+export const LargeSize = () => {
+  const [markdown, setMarkdown] = React.useState<string | undefined>('');
+  const onChange = (markdownString?: string) => {
+    setMarkdown(markdownString);
+  };
+  const renderMarkdownOutput = markdown ? (
+    <pre style={{ border: 'dotted 1px' }}>{markdown}</pre>
+  ) : null;
+  return (
+    <>
+      <TextEditor
+        onChange={onChange}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        editorSize={'large'}
+        placeholder="Write a text..."
+      />
       {renderMarkdownOutput}
     </>
   );
@@ -41,8 +94,48 @@ export const Controlled = () => {
   ) : null;
   return (
     <>
-      <TextEditor onChange={onChange} value={markdown} />
+      <TextEditor
+        onChange={onChange}
+        value={markdown}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        editorSize={'large'}
+        placeholder="Write a text..."
+      />
       {renderMarkdownOutput}
+    </>
+  );
+};
+
+export const Multiple = () => {
+  return (
+    <>
+      <TextEditor
+        onChange={() => {}}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        placeholder="Write a text..."
+      />
+      <br />
+      <TextEditor
+        onChange={() => {}}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        placeholder="Write a text..."
+      />
     </>
   );
 };
