@@ -35,11 +35,6 @@ export interface DatePickerProps {
    */
   inputRef?: React.RefObject<HTMLInputElement>;
   /**
-   * Overwrites the default `data-testid` for the input element.
-   * @default "textField-input"
-   */
-  inputTestId?: string;
-  /**
    * Callback fired when the value is changed.
    */
   onChange: (date: Date | null) => void;
@@ -53,12 +48,6 @@ export interface DatePickerProps {
    */
   required?: boolean;
   /**
-   * Render a `Select` element while passing the Input element to Select as input parameter.
-   * If this option is set you must pass the options of the select as children.
-   * Attention: Please use the `SelectField` component instead to render a select field.
-   */
-  select?: boolean;
-  /**
    * The value of the input element, required for a controlled component.
    */
   value: Date | null;
@@ -68,7 +57,7 @@ export interface DatePickerProps {
    */
   disableFuture?: boolean;
   /**
-   *  IIf `true`, the date picker will not allow dates in the past
+   *  If `true`, the date picker will not allow dates in the past
    * @default false
    */
   disablePast?: boolean;
@@ -95,8 +84,8 @@ const useLabelStyles = makeStyles((theme: Theme) => ({
 /**
  * | Test ID             | Description              |
  * | ------------------- | ------------------------ |
- * | `textField-input`   | input field              |
- * | `textField-label`   | input label              |
+ * | `datePicker-input`   | input field              |
+ * | `datePicker-label`   | input label              |
  */
 export const DatePicker: React.FC<DatePickerProps> = (props) => {
   const inputClasses = useInputStyles();
@@ -119,8 +108,8 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
     )} liegen!`;
   }
 
-  const inputTestId = { 'data-testid': 'datepicker-input' };
-  const labelTestId = { 'data-testid': 'datepicker-label' };
+  const inputTestId = { 'data-testid': 'datePicker-input' };
+  const labelTestId = { 'data-testid': 'datePicker-label' };
 
   return (
     <MuiPickersUtilsProvider locale={de} utils={DateFnsUtils}>
