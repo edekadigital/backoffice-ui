@@ -85,6 +85,8 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       : props.placeholder;
   };
 
+  const focusOnEditor = () => editor?.current?.focus();
+
   return (
     <div className={classes.root}>
       <TextEditorToolbar
@@ -94,7 +96,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         headingTypeOptions={props.headingTypeOptions}
         inlineStyleOptions={props.inlineStyleOptions}
       />
-      <div className={classes.editor} onClick={() => editor?.current?.focus()}>
+      <div className={classes.editor} onClick={() => focusOnEditor()}>
         <Editor
           editorState={editorState}
           onChange={onChange}

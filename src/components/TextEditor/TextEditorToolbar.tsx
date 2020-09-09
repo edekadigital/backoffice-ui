@@ -17,9 +17,12 @@ import {
   FormatListBulletedIcon,
   FormatListNumberedIcon,
   FormatQuoteIcon,
+  Link,
 } from '../../icons';
 import { EditorState, RichUtils } from 'draft-js';
-import { Tooltip, Popover, IconButton } from '@material-ui/core';
+import { Tooltip, Popover, Divider } from '@material-ui/core';
+import { ToggleButton } from '@material-ui/lab';
+import { withStyles } from '@material-ui/styles';
 
 interface TextEditorToolbarProps
   extends Pick<
@@ -33,8 +36,25 @@ interface TextEditorToolbarProps
 const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
   toolbar: {
     borderBottom: `solid 1px ${theme.palette.grey[300]}`,
+    display: 'flex',
+  },
+  divider: {
+    margin: theme.spacing(1, 0.25),
   },
 }));
+
+const StyledToggleButton = withStyles((theme) => ({
+  root: {
+    border: 'none',
+    margin: theme.spacing(0.25),
+    '&.Mui-selected': {
+      marginLeft: `${theme.spacing(0.25)}px!important`,
+    },
+  },
+  selected: {
+    marginLeft: theme.spacing(0.25),
+  },
+}))(ToggleButton);
 
 interface EditorBase {
   label: string;
@@ -96,11 +116,19 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     .getBlockForKey(selection.getStartKey())
     .getType();
 
-  const toggleInlineStyle = (inlineStyle: string) => {
+  const handleInlineStyle = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    inlineStyle: string
+  ) => {
+    e.preventDefault();
     props.onChange(RichUtils.toggleInlineStyle(props.editorState, inlineStyle));
   };
 
-  const toggleBlockType = (blockType: string) => {
+  const handleBlockType = (
+    e: React.MouseEvent<HTMLElement>,
+    blockType: string
+  ) => {
+    e.preventDefault();
     props.onChange(RichUtils.toggleBlockType(props.editorState, blockType));
   };
 
@@ -112,18 +140,26 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         {HEADING_TYPES.filter((ht) =>
           props.headingTypeOptions?.includes(ht.style)
         ).map((type) => (
-          <StyleButton
+          <Tooltip
             key={type.label}
-            active={type.style === blockType}
-            label={type.label}
-            onToggle={toggleBlockType}
-            style={type.style}
-            icon={type.icon}
-          />
+            title={type.label}
+            placement={'top'}
+            enterDelay={500}
+            arrow
+          >
+            <StyledToggleButton
+              value={type.style}
+              aria-label={type.label}
+              selected={type.style === blockType}
+              onMouseDown={(e) => handleBlockType(e, type.style)}
+            >
+              {type.icon}
+            </StyledToggleButton>
+          </Tooltip>
         ))}
       </>
     );
-  }, [props.headingTypeOptions, toggleBlockType]);
+  }, [props.headingTypeOptions, handleBlockType]);
 
   const renderInlineStyleOptions = React.useMemo(() => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
@@ -133,39 +169,57 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         {INLINE_STYLES.filter((is) =>
           props.inlineStyleOptions?.includes(is.style)
         ).map((type) => (
-          <StyleButton
+          <Tooltip
             key={type.label}
-            active={props.editorState.getCurrentInlineStyle().has(type.style)}
-            label={type.label}
-            onToggle={toggleInlineStyle}
-            style={type.style}
-            icon={type.icon}
-          />
+            title={type.label}
+            placement={'top'}
+            enterDelay={500}
+            arrow
+          >
+            <StyledToggleButton
+              onMouseDown={(e) => handleInlineStyle(e, type.style)}
+              value={type.style}
+              aria-label={type.label}
+              selected={props.editorState
+                .getCurrentInlineStyle()
+                .has(type.style)}
+            >
+              {type.icon}
+            </StyledToggleButton>
+          </Tooltip>
         ))}
       </>
     );
-  }, [props.inlineStyleOptions, toggleInlineStyle]);
+  }, [props.inlineStyleOptions, handleInlineStyle]);
 
   const renderBlockTypeOptions = React.useMemo(() => {
-    if (!props.blockTypeOptions || props.blockTypeOptions.length < 1)
+    if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
       return null;
     return (
       <>
         {BLOCK_TYPES.filter((bt) =>
           props.blockTypeOptions?.includes(bt.style)
         ).map((type) => (
-          <StyleButton
+          <Tooltip
             key={type.label}
-            active={type.style === blockType}
-            label={type.label}
-            onToggle={toggleBlockType}
-            style={type.style}
-            icon={type.icon}
-          />
+            title={type.label}
+            placement={'top'}
+            enterDelay={500}
+            arrow
+          >
+            <StyledToggleButton
+              value={type.style}
+              aria-label={type.label}
+              selected={type.style === blockType}
+              onMouseDown={(e) => handleBlockType(e, type.style)}
+            >
+              {type.icon}
+            </StyledToggleButton>
+          </Tooltip>
         ))}
       </>
     );
-  }, [props.blockTypeOptions]);
+  }, [props.blockTypeOptions, handleBlockType]);
 
   return (!props.blockTypeOptions || props.blockTypeOptions?.length < 1) &&
     (!props.headingTypeOptions || props.headingTypeOptions?.length < 1) &&
@@ -174,49 +228,17 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
   ) : (
     <div className={classes.toolbar}>
       {renderHeadingTypeOptions}
+      <Divider flexItem orientation="vertical" className={classes.divider} />
       {renderInlineStyleOptions}
+      <Divider flexItem orientation="vertical" className={classes.divider} />
       {renderBlockTypeOptions}
+      <Divider flexItem orientation="vertical" className={classes.divider} />
       <LinkButton />
     </div>
   );
 };
 
 /** Style Buttons */
-
-const useToolbarButtonStyles = makeStyles<Theme, StyleButtonProps>((theme) => ({
-  styleButton: ({ active }) => ({
-    color: active ? theme.palette.primary.main : theme.palette.grey[500],
-    borderRadius: 0,
-  }),
-}));
-
-interface StyleButtonProps {
-  active?: boolean;
-  label: string;
-  onToggle: (inlineStyle: string) => void;
-  style: string;
-  icon: React.ReactElement;
-}
-
-const StyleButton: React.FC<StyleButtonProps> = (props) => {
-  const styleButtonClasses = useToolbarButtonStyles(props);
-
-  const onToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    props.onToggle(props.style);
-  };
-  return (
-    <Tooltip title={props.label} placement={'top'} enterDelay={500} arrow>
-      <IconButton
-        classes={{ root: styleButtonClasses.styleButton }}
-        onMouseDown={onToggle}
-        aria-label={props.label}
-      >
-        {props.icon}
-      </IconButton>
-    </Tooltip>
-  );
-};
 
 const useLinkButtonStyles = makeStyles<Theme>((theme) => ({
   paper: {
@@ -225,7 +247,7 @@ const useLinkButtonStyles = makeStyles<Theme>((theme) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2),
     [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
-      minWidth: 500,
+      minWidth: 400,
     },
     '& > button': {
       marginTop: theme.spacing(2),
@@ -247,9 +269,16 @@ const LinkButton: React.FC = () => {
   const id = open ? 'simple-popper' : undefined;
   return (
     <>
-      <button aria-describedby={id} type="button" onClick={handleClick}>
-        Link einfügen
-      </button>
+      <Tooltip title="Link" placement={'top'} enterDelay={500} arrow>
+        <StyledToggleButton
+          aria-describedby={id}
+          onClick={handleClick}
+          value={'type.style'}
+          aria-label={'type.label'}
+        >
+          <Link />
+        </StyledToggleButton>
+      </Tooltip>
       <Popover
         id={id}
         open={open}
