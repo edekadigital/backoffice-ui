@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextEditor } from '..'; // @edekadigital/backoffice-ui
+import { TextEditor } from './TextEditor';
 
 export default {
   title: 'Components|TextEditor',

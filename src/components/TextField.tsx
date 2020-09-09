@@ -72,6 +72,11 @@ export interface TextFieldProps {
    */
   inputTestId?: string;
   /**
+   * If dense or normal, will adjust vertical spacing of this and contained components.
+   * @default "normal"
+   */
+  margin?: 'dense' | 'normal';
+  /**
    * Name attribute of the input element.
    */
   name?: string;
