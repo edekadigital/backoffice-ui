@@ -6,7 +6,6 @@ import {
   InlineStyleType,
   BlockType,
 } from './TextEditor';
-import { FormRow, TextField, Switch, ButtonBar, Button } from '../..';
 import {
   LooksOneIcon,
   LooksTwoIcon,
@@ -17,12 +16,12 @@ import {
   FormatListBulletedIcon,
   FormatListNumberedIcon,
   FormatQuoteIcon,
-  Link,
 } from '../../icons';
 import { EditorState, RichUtils } from 'draft-js';
-import { Tooltip, Popover, Divider } from '@material-ui/core';
+import { Tooltip, Divider } from '@material-ui/core';
 import { ToggleButton } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
+import { TextEditorLinkOption } from './TextEditorLinkOption';
 
 interface TextEditorToolbarProps
   extends Pick<
@@ -43,7 +42,7 @@ const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-const StyledToggleButton = withStyles((theme) => ({
+export const StyledToggleButton = withStyles((theme) => ({
   root: {
     border: 'none',
     margin: theme.spacing(0.25),
@@ -149,7 +148,6 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
           >
             <StyledToggleButton
               value={type.style}
-              aria-label={type.label}
               selected={type.style === blockType}
               onMouseDown={(e) => handleBlockType(e, type.style)}
             >
@@ -179,7 +177,6 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             <StyledToggleButton
               onMouseDown={(e) => handleInlineStyle(e, type.style)}
               value={type.style}
-              aria-label={type.label}
               selected={props.editorState
                 .getCurrentInlineStyle()
                 .has(type.style)}
@@ -209,7 +206,6 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
           >
             <StyledToggleButton
               value={type.style}
-              aria-label={type.label}
               selected={type.style === blockType}
               onMouseDown={(e) => handleBlockType(e, type.style)}
             >
@@ -233,86 +229,10 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
       <Divider flexItem orientation="vertical" className={classes.divider} />
       {renderBlockTypeOptions}
       <Divider flexItem orientation="vertical" className={classes.divider} />
-      <LinkButton />
+      <TextEditorLinkOption
+        editorState={props.editorState}
+        onChange={props.onChange}
+      />
     </div>
-  );
-};
-
-/** Style Buttons */
-
-const useLinkButtonStyles = makeStyles<Theme>((theme) => ({
-  paper: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(2),
-    [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
-      minWidth: 400,
-    },
-    '& > button': {
-      marginTop: theme.spacing(2),
-      marginLeft: 'auto',
-      display: 'block',
-    },
-  },
-}));
-
-const LinkButton: React.FC = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const classes = useLinkButtonStyles();
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-  return (
-    <>
-      <Tooltip title="Link" placement={'top'} enterDelay={500} arrow>
-        <StyledToggleButton
-          aria-describedby={id}
-          onClick={handleClick}
-          value={'type.style'}
-          aria-label={'type.label'}
-        >
-          <Link />
-        </StyledToggleButton>
-      </Tooltip>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        classes={{ paper: classes.paper }}
-      >
-        <FormRow>
-          <TextField label="Ziel URL" margin="dense" />
-        </FormRow>
-        <FormRow>
-          <Switch label="In neuem Fenster öffnen" />
-        </FormRow>
-        <ButtonBar align={'right'}>
-          <Button
-            variant={'text'}
-            color={'primary'}
-            onClick={() => setAnchorEl(null)}
-          >
-            Abbrechen
-          </Button>
-          <Button variant={'contained'} color={'primary'}>
-            Link setzen
-          </Button>
-        </ButtonBar>
-      </Popover>
-    </>
   );
 };
