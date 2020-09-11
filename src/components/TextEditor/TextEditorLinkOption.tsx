@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { FormRow, TextField, Switch, ButtonBar, Button } from '../..';
-import { Link } from '../../icons';
+import { Link, LinkOffIcon } from '../../icons';
 import { EditorState, RichUtils } from 'draft-js';
 import { Tooltip, Popover } from '@material-ui/core';
 import { StyledToggleButton } from './TextEditorToolbar';
@@ -62,7 +62,6 @@ export const TextEditorLinkOption: React.FC<{
         linkInstance && linkInstance.getData().target === '_blank'
           ? true
           : false;
-      console.log({ url, blank });
       setAnchorEl(event.currentTarget);
       setLink({ url, blank });
     }
@@ -91,6 +90,14 @@ export const TextEditorLinkOption: React.FC<{
     closePopover();
   };
 
+  const removeLink = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      onChange(RichUtils.toggleLink(editorState, selection, null));
+    }
+  };
+
   const closePopover = () => {
     setAnchorEl(null);
     setLink({ url: '', blank: false });
@@ -99,15 +106,27 @@ export const TextEditorLinkOption: React.FC<{
   const open = Boolean(anchorEl);
   return (
     <>
-      <Tooltip title="Link" placement={'top'} enterDelay={500} arrow>
+      <Tooltip title="Link hinzufügen" placement={'top'} enterDelay={500} arrow>
         <span>
           <StyledToggleButton
             onClick={handleClick}
-            value={'type.style'}
             selected={!!getLinkInstanceOfSelection()}
             disabled={editorState.getSelection().isCollapsed()}
           >
             <Link />
+          </StyledToggleButton>
+        </span>
+      </Tooltip>
+      <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>
+        <span>
+          <StyledToggleButton
+            onClick={removeLink}
+            disabled={
+              editorState.getSelection().isCollapsed() ||
+              !getLinkInstanceOfSelection()
+            }
+          >
+            <LinkOffIcon />
           </StyledToggleButton>
         </span>
       </Tooltip>

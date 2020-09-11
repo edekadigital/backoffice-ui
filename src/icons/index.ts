@@ -52,6 +52,7 @@ export { default as Info } from '@material-ui/icons/Info';
 export { default as Input } from '@material-ui/icons/Input';
 export { default as Launch } from '@material-ui/icons/Launch';
 export { default as Link } from '@material-ui/icons/Link';
+export { default as LinkOffIcon } from '@material-ui/icons/LinkOff';
 export { default as LiveHelp } from '@material-ui/icons/LiveHelp';
 export { default as LooksOneIcon } from '@material-ui/icons/LooksOne';
 export { default as LooksTwoIcon } from '@material-ui/icons/LooksTwo';
