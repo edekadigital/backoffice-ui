@@ -15,15 +15,34 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { TextEditorToolbar } from './TextEditorToolbar';
 
 export interface TextEditorProps {
+  /**
+   * List of allowed block type options to be provided in the editors toolbar
+   */
   blockTypeOptions?: BlockType[];
+  /**
+   * The size of the rich text editor
+   * @default "small"
+   */
   editorSize?: 'small' | 'large';
+  /**
+   * List of allowed heading type options to be provided in the editors toolbar
+   */
   headingTypeOptions?: HeadingType[];
+  /**
+   * List of allowed inline style options to be provided in the editors toolbar
+   */
   inlineStyleOptions?: InlineStyleType[];
+  /**
+   * Allows the option to add links by providing an according option in the editors toolbar
+   */
   linkOption?: boolean;
   /**
    * Callback fired when the value is changed.
    */
   onChange: (markdown: string) => void;
+  /**
+   * The short hint displayed in the input before the user enters a value.
+   */
   placeholder?: string;
   /**
    * The value of the input element, required for a controlled component.
