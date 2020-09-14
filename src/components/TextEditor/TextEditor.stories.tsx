@@ -82,7 +82,7 @@ export const LargeSize = () => {
 
 export const Controlled = () => {
   const defaultValue = `## Hello World!
-  **I** am a _Markdown_ String! [I'm an inline-style link](https://www.google.com)`;
+  I **am** a _Markdown_ String! [I'm an inline-style link](https://www.google.com).`;
   const [markdown, setMarkdown] = React.useState<string | undefined>(
     defaultValue
   );
@@ -94,6 +94,9 @@ export const Controlled = () => {
   ) : null;
   return (
     <>
+      <div>
+        Input: <pre style={{ border: 'dotted 1px' }}>{defaultValue}</pre>
+      </div>
       <TextEditor
         onChange={onChange}
         value={markdown}
@@ -107,7 +110,7 @@ export const Controlled = () => {
         editorSize={'large'}
         placeholder="Write a text..."
       />
-      {renderMarkdownOutput}
+      <div>Output: {renderMarkdownOutput}</div>
     </>
   );
 };

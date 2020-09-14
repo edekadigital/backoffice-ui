@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { FormRow, TextField, Switch, ButtonBar, Button } from '../..';
+import { FormRow, TextField, ButtonBar, Button } from '../..';
 import { Link, LinkOffIcon } from '../../icons';
 import { EditorState, RichUtils } from 'draft-js';
 import { Tooltip, Popover } from '@material-ui/core';
@@ -28,10 +28,7 @@ export const TextEditorLinkOption: React.FC<{
   onChange(editorState: EditorState): void;
 }> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [link, setLink] = React.useState<{
-    url: string;
-    blank: boolean;
-  }>({ url: '', blank: false });
+  const [url, setUrl] = React.useState<string | undefined>();
   const classes = useLinkButtonStyles();
   const { editorState, onChange } = props;
 
@@ -58,12 +55,8 @@ export const TextEditorLinkOption: React.FC<{
     if (!selection.isCollapsed()) {
       const linkInstance = getLinkInstanceOfSelection();
       const url = linkInstance ? linkInstance.getData().url : '';
-      const blank =
-        linkInstance && linkInstance.getData().target === '_blank'
-          ? true
-          : false;
       setAnchorEl(event.currentTarget);
-      setLink({ url, blank });
+      setUrl(url);
     }
   };
 
@@ -74,7 +67,7 @@ export const TextEditorLinkOption: React.FC<{
     const contentStateWithEntity = contentState.createEntity(
       'LINK',
       'MUTABLE',
-      { url: link.url, target: link.blank ? '_blank' : '_self' }
+      { url }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, {
@@ -100,13 +93,13 @@ export const TextEditorLinkOption: React.FC<{
 
   const closePopover = () => {
     setAnchorEl(null);
-    setLink({ url: '', blank: false });
+    setUrl(undefined);
   };
 
   const open = Boolean(anchorEl);
   return (
     <>
-      <Tooltip title="Link hinzufügen" placement={'top'} enterDelay={500} arrow>
+      <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>
         <span>
           <StyledToggleButton
             onClick={handleClick}
@@ -117,7 +110,7 @@ export const TextEditorLinkOption: React.FC<{
           </StyledToggleButton>
         </span>
       </Tooltip>
-      <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>
+      <Tooltip title="Link entfernen" placement={'top'} enterDelay={500} arrow>
         <span>
           <StyledToggleButton
             onClick={removeLink}
@@ -148,15 +141,8 @@ export const TextEditorLinkOption: React.FC<{
           <TextField
             label="Ziel URL"
             margin="dense"
-            value={link.url}
-            onChange={(e) => setLink({ ...link, url: e.target.value })}
-          />
-        </FormRow>
-        <FormRow>
-          <Switch
-            label="In neuem Fenster öffnen"
-            checked={link.blank}
-            onChange={() => setLink({ ...link, blank: !link.blank })}
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
         </FormRow>
         <ButtonBar align={'right'}>

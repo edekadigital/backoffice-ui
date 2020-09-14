@@ -83,9 +83,20 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       // Convert draftjs state to markdown
       const content = editorState.getCurrentContent();
       const rawObject = convertToRaw(content);
-      const markdownString = draftToMarkdown(rawObject);
-      props.onChange(markdownString);
+      const markdownString = draftToMarkdown(rawObject, {
+        entityItems: {
+          LINK: {
+            open: (entity?: { data?: { url: string } }) => {
+              return '<a href="' + entity?.data?.url + '">';
+            },
 
+            close: () => {
+              return '</a>';
+            },
+          },
+        },
+      });
+      props.onChange(markdownString);
       setEditorState(editorState);
     },
     [props.onChange, editorState]
