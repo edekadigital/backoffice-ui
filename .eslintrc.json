@@ -32,6 +32,12 @@
       "rules": {
         "node/no-extraneous-import": "off"
       }
+    },
+    {
+      "files": ["**/*.spec.tsx"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
   ]
 }

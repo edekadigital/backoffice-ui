@@ -57,6 +57,27 @@ export type BlockType =
   | 'unordered-list-item'
   | 'ordered-list-item';
 
+const extendedStyleItems = {
+  UNDERLINE: {
+    open: function open() {
+      return '++';
+    },
+
+    close: function close() {
+      return '++';
+    },
+  },
+  ITALIC: {
+    open: function open() {
+      return '*';
+    },
+
+    close: function close() {
+      return '*';
+    },
+  },
+};
+
 const useTextEditorStyles = makeStyles<Theme, TextEditorProps>((theme) => ({
   root: {
     border: `solid 1px ${theme.palette.grey[300]}`,
@@ -92,7 +113,16 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
   React.useEffect(() => {
     // Convert markdown to draftjs state
     if (props.value && props.value.length > 0) {
-      const rawData = markdownToDraft(props.value);
+      const rawData = markdownToDraft(props.value, {
+        blockStyles: {
+          ins_open: 'UNDERLINE',
+        },
+        remarkableOptions: {
+          enable: {
+            inline: 'ins',
+          },
+        },
+      });
       const contentState = convertFromRaw(rawData);
       setEditorState(EditorState.createWithContent(contentState, decorator));
     }
@@ -103,7 +133,10 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       // Convert draftjs state to markdown
       const content = editorState.getCurrentContent();
       const rawObject = convertToRaw(content);
-      const markdownString = draftToMarkdown(rawObject);
+      const markdownString = draftToMarkdown(rawObject, {
+        styleItems: extendedStyleItems,
+      });
+      console.log(markdownString);
       props.onChange(markdownString);
       setEditorState(editorState);
     },
@@ -122,7 +155,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
   const focusOnEditor = () => editor?.current?.focus();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="textEditor">
       <TextEditorToolbar
         onChange={onChange}
         editorState={editorState}
@@ -131,7 +164,11 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         inlineStyleOptions={props.inlineStyleOptions}
         linkOption={props.linkOption}
       />
-      <div className={classes.editor} onClick={() => focusOnEditor()}>
+      <div
+        className={classes.editor}
+        onClick={() => focusOnEditor()}
+        data-testid="textEditor-editorWrapper"
+      >
         <Editor
           editorState={editorState}
           onChange={onChange}
@@ -162,5 +199,9 @@ const LinkDecoratorComponent: React.FC<{
   entityKey: string;
 }> = (props) => {
   const { url } = props.contentState.getEntity(props.entityKey).getData();
-  return <a href={url}>{props.children}</a>;
+  return (
+    <a href={url} data-testid="textEditor-linkDecorator">
+      {props.children}
+    </a>
+  );
 };

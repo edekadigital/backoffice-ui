@@ -107,6 +107,7 @@ export const TextEditorLinkOption: React.FC<{
             selected={!!getLinkInstanceOfSelection()}
             disabled={editorState.getSelection().isCollapsed()}
             value={getLinkInstanceOfSelection()}
+            data-testid={'textEditor-linkOption-add'}
           >
             <Link />
           </StyledToggleButton>
@@ -121,6 +122,7 @@ export const TextEditorLinkOption: React.FC<{
               !getLinkInstanceOfSelection()
             }
             value={getLinkInstanceOfSelection()}
+            data-testid={'textEditor-linkOption-remove'}
           >
             <LinkOffIcon />
           </StyledToggleButton>
@@ -140,7 +142,10 @@ export const TextEditorLinkOption: React.FC<{
         }}
         classes={{ paper: classes.paper }}
       >
-        <form onSubmit={handleConfirm}>
+        <form
+          onSubmit={handleConfirm}
+          data-testid={'textEditor-linkOption-form'}
+        >
           <FormRow gutterBottom>
             <TextField
               label="Ziel URL"
@@ -148,6 +153,7 @@ export const TextEditorLinkOption: React.FC<{
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               autoFocus
+              data-testid={'textEditor-linkOption-form-input'}
             />
           </FormRow>
           <ButtonBar align={'right'}>
@@ -155,6 +161,7 @@ export const TextEditorLinkOption: React.FC<{
               variant={'text'}
               color={'primary'}
               onClick={() => closePopover()}
+              data-testid={'textEditor-linkOption-form-cancel'}
             >
               Abbrechen
             </Button>
@@ -163,6 +170,7 @@ export const TextEditorLinkOption: React.FC<{
               color={'primary'}
               type={'submit'}
               disabled={!url}
+              data-testid={'textEditor-linkOption-form-submit'}
             >
               Link setzen
             </Button>

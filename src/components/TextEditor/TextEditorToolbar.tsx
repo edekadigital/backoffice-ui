@@ -146,7 +146,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     if (!props.headingTypeOptions || props.headingTypeOptions.length < 1)
       return null;
     return (
-      <>
+      <span data-testid="textEditor-headingOptions">
         {HEADING_TYPES.filter((ht) =>
           props.headingTypeOptions?.includes(ht.style)
         ).map((type) => (
@@ -161,13 +161,14 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
               value={type.style}
               selected={type.style === blockType}
               onMouseDown={(e) => handleBlockType(e, type.style)}
+              data-testid={`textEditor-headingOption-${type.label}`}
             >
               {type.icon}
             </StyledToggleButton>
           </Tooltip>
         ))}
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </>
+      </span>
     );
   }, [props.headingTypeOptions, handleBlockType]);
 
@@ -175,7 +176,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
       return null;
     return (
-      <>
+      <span data-testid="textEditor-inlineStyleOptions">
         {INLINE_STYLES.filter((is) =>
           props.inlineStyleOptions?.includes(is.style)
         ).map((type) => (
@@ -192,13 +193,14 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
               selected={props.editorState
                 .getCurrentInlineStyle()
                 .has(type.style)}
+              data-testid={`textEditor-inlineStyleOption-${type.label}`}
             >
               {type.icon}
             </StyledToggleButton>
           </Tooltip>
         ))}
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </>
+      </span>
     );
   }, [props.inlineStyleOptions, handleInlineStyle]);
 
@@ -206,7 +208,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
       return null;
     return (
-      <>
+      <span data-testid="textEditor-blockTypeOptions">
         {BLOCK_TYPES.filter((bt) =>
           props.blockTypeOptions?.includes(bt.style)
         ).map((type) => (
@@ -221,13 +223,14 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
               value={type.style}
               selected={type.style === blockType}
               onMouseDown={(e) => handleBlockType(e, type.style)}
+              data-testid={`textEditor-blockTypeOption-${type.label}`}
             >
               {type.icon}
             </StyledToggleButton>
           </Tooltip>
         ))}
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </>
+      </span>
     );
   }, [props.blockTypeOptions, handleBlockType]);
 
@@ -247,9 +250,8 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
   }, [props.linkOption, props.onChange, props.editorState]);
 
   return (
-    <div className={classes.toolbar}>
+    <div className={classes.toolbar} data-testid="textEditor-toolbar">
       {renderHeadingTypeOptions}
-
       {renderInlineStyleOptions}
       {renderBlockTypeOptions}
       {renderLinkOption}
@@ -259,6 +261,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             onClick={() => props.onChange(EditorState.undo(props.editorState))}
             disabled={props.editorState.getUndoStack().size < 1}
             classes={{ root: classes.iconButton }}
+            data-testid="textEditor-undo"
           >
             <Undo />
           </IconButton>
@@ -270,6 +273,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             onClick={() => props.onChange(EditorState.redo(props.editorState))}
             disabled={props.editorState.getRedoStack().size < 1}
             classes={{ root: classes.iconButton }}
+            data-testid="textEditor-redo"
           >
             <Redo />
           </IconButton>
