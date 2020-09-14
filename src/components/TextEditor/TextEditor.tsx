@@ -19,6 +19,7 @@ export interface TextEditorProps {
   editorSize?: 'small' | 'large';
   headingTypeOptions?: HeadingType[];
   inlineStyleOptions?: InlineStyleType[];
+  linkOption?: boolean;
   /**
    * Callback fired when the value is changed.
    */
@@ -83,19 +84,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       // Convert draftjs state to markdown
       const content = editorState.getCurrentContent();
       const rawObject = convertToRaw(content);
-      const markdownString = draftToMarkdown(rawObject, {
-        entityItems: {
-          LINK: {
-            open: (entity?: { data?: { url: string } }) => {
-              return '<a href="' + entity?.data?.url + '">';
-            },
-
-            close: () => {
-              return '</a>';
-            },
-          },
-        },
-      });
+      const markdownString = draftToMarkdown(rawObject);
       props.onChange(markdownString);
       setEditorState(editorState);
     },
@@ -121,6 +110,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         blockTypeOptions={props.blockTypeOptions}
         headingTypeOptions={props.headingTypeOptions}
         inlineStyleOptions={props.inlineStyleOptions}
+        linkOption={props.linkOption}
       />
       <div className={classes.editor} onClick={() => focusOnEditor()}>
         <Editor

@@ -16,9 +16,11 @@ import {
   FormatListBulletedIcon,
   FormatListNumberedIcon,
   FormatQuoteIcon,
+  Undo,
+  Redo,
 } from '../../icons';
 import { EditorState, RichUtils } from 'draft-js';
-import { Tooltip, Divider } from '@material-ui/core';
+import { Tooltip, Divider, IconButton } from '@material-ui/core';
 import { ToggleButton } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import { TextEditorLinkOption } from './TextEditorLinkOption';
@@ -26,7 +28,10 @@ import { TextEditorLinkOption } from './TextEditorLinkOption';
 interface TextEditorToolbarProps
   extends Pick<
     TextEditorProps,
-    'headingTypeOptions' | 'blockTypeOptions' | 'inlineStyleOptions'
+    | 'headingTypeOptions'
+    | 'blockTypeOptions'
+    | 'inlineStyleOptions'
+    | 'linkOption'
   > {
   editorState: EditorState;
   onChange(editorState: EditorState): void;
@@ -39,6 +44,13 @@ const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
   },
   divider: {
     margin: theme.spacing(1, 0.25),
+    '&:last-child': {
+      display: 'none',
+    },
+  },
+  iconButton: {
+    borderRadius: theme.spacing(0.5),
+    margin: theme.spacing(0.25),
   },
 }));
 
@@ -108,7 +120,6 @@ const BLOCK_TYPES: Array<EditorBlockType> = [
 
 export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
   const classes = useTextEditorToolbarStyles();
-
   const selection = props.editorState.getSelection();
   const blockType = props.editorState
     .getCurrentContent()
@@ -155,6 +166,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             </StyledToggleButton>
           </Tooltip>
         ))}
+        <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
   }, [props.headingTypeOptions, handleBlockType]);
@@ -185,6 +197,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             </StyledToggleButton>
           </Tooltip>
         ))}
+        <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
   }, [props.inlineStyleOptions, handleInlineStyle]);
@@ -213,26 +226,55 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
             </StyledToggleButton>
           </Tooltip>
         ))}
+        <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
   }, [props.blockTypeOptions, handleBlockType]);
 
-  return (!props.blockTypeOptions || props.blockTypeOptions?.length < 1) &&
-    (!props.headingTypeOptions || props.headingTypeOptions?.length < 1) &&
-    (!props.inlineStyleOptions || props.inlineStyleOptions?.length < 1) ? (
-    <></>
-  ) : (
+  const renderLinkOption = React.useMemo(() => {
+    if (!props.linkOption) {
+      return null;
+    }
+    return (
+      <>
+        <TextEditorLinkOption
+          editorState={props.editorState}
+          onChange={props.onChange}
+        />
+        <Divider flexItem orientation="vertical" className={classes.divider} />
+      </>
+    );
+  }, [props.linkOption, props.onChange, props.editorState]);
+
+  return (
     <div className={classes.toolbar}>
       {renderHeadingTypeOptions}
-      <Divider flexItem orientation="vertical" className={classes.divider} />
+
       {renderInlineStyleOptions}
-      <Divider flexItem orientation="vertical" className={classes.divider} />
       {renderBlockTypeOptions}
-      <Divider flexItem orientation="vertical" className={classes.divider} />
-      <TextEditorLinkOption
-        editorState={props.editorState}
-        onChange={props.onChange}
-      />
+      {renderLinkOption}
+      <Tooltip title="Rückgängig" placement={'top'} enterDelay={500} arrow>
+        <span>
+          <IconButton
+            onClick={() => props.onChange(EditorState.undo(props.editorState))}
+            disabled={props.editorState.getUndoStack().size < 1}
+            classes={{ root: classes.iconButton }}
+          >
+            <Undo />
+          </IconButton>
+        </span>
+      </Tooltip>
+      <Tooltip title="Wiederholen" placement={'top'} enterDelay={500} arrow>
+        <span>
+          <IconButton
+            onClick={() => props.onChange(EditorState.redo(props.editorState))}
+            disabled={props.editorState.getRedoStack().size < 1}
+            classes={{ root: classes.iconButton }}
+          >
+            <Redo />
+          </IconButton>
+        </span>
+      </Tooltip>
     </div>
   );
 };

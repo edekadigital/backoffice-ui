@@ -28,7 +28,7 @@ export const TextEditorLinkOption: React.FC<{
   onChange(editorState: EditorState): void;
 }> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [url, setUrl] = React.useState<string | undefined>();
+  const [url, setUrl] = React.useState<string>('');
   const classes = useLinkButtonStyles();
   const { editorState, onChange } = props;
 
@@ -60,7 +60,7 @@ export const TextEditorLinkOption: React.FC<{
     }
   };
 
-  const handleConfirm = (event: React.MouseEvent<HTMLElement>) => {
+  const handleConfirm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const contentState = editorState.getCurrentContent();
 
@@ -93,10 +93,11 @@ export const TextEditorLinkOption: React.FC<{
 
   const closePopover = () => {
     setAnchorEl(null);
-    setUrl(undefined);
+    setUrl('');
   };
 
   const open = Boolean(anchorEl);
+
   return (
     <>
       <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>
@@ -105,6 +106,7 @@ export const TextEditorLinkOption: React.FC<{
             onClick={handleClick}
             selected={!!getLinkInstanceOfSelection()}
             disabled={editorState.getSelection().isCollapsed()}
+            value={getLinkInstanceOfSelection()}
           >
             <Link />
           </StyledToggleButton>
@@ -118,6 +120,7 @@ export const TextEditorLinkOption: React.FC<{
               editorState.getSelection().isCollapsed() ||
               !getLinkInstanceOfSelection()
             }
+            value={getLinkInstanceOfSelection()}
           >
             <LinkOffIcon />
           </StyledToggleButton>
@@ -137,30 +140,34 @@ export const TextEditorLinkOption: React.FC<{
         }}
         classes={{ paper: classes.paper }}
       >
-        <FormRow>
-          <TextField
-            label="Ziel URL"
-            margin="dense"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </FormRow>
-        <ButtonBar align={'right'}>
-          <Button
-            variant={'text'}
-            color={'primary'}
-            onClick={() => closePopover()}
-          >
-            Abbrechen
-          </Button>
-          <Button
-            variant={'contained'}
-            color={'primary'}
-            onClick={handleConfirm}
-          >
-            Link setzen
-          </Button>
-        </ButtonBar>
+        <form onSubmit={handleConfirm}>
+          <FormRow gutterBottom>
+            <TextField
+              label="Ziel URL"
+              margin="dense"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              autoFocus
+            />
+          </FormRow>
+          <ButtonBar align={'right'}>
+            <Button
+              variant={'text'}
+              color={'primary'}
+              onClick={() => closePopover()}
+            >
+              Abbrechen
+            </Button>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              type={'submit'}
+              disabled={!url}
+            >
+              Link setzen
+            </Button>
+          </ButtonBar>
+        </form>
       </Popover>
     </>
   );

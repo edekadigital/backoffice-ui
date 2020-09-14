@@ -30,6 +30,7 @@ export const Default = () => {
         ]}
         headingTypeOptions={['header-one', 'header-two', 'header-three']}
         inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        linkOption
         placeholder="Write a text..."
       />
       {renderMarkdownOutput}
@@ -72,6 +73,7 @@ export const LargeSize = () => {
         ]}
         headingTypeOptions={['header-one', 'header-two', 'header-three']}
         inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        linkOption
         editorSize={'large'}
         placeholder="Write a text..."
       />
@@ -107,6 +109,7 @@ export const Controlled = () => {
         ]}
         headingTypeOptions={['header-one', 'header-two', 'header-three']}
         inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        linkOption
         editorSize={'large'}
         placeholder="Write a text..."
       />
@@ -126,6 +129,7 @@ export const Multiple = () => {
           'blockquote',
         ]}
         headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        linkOption
         placeholder="Write a text..."
       />
       <br />
