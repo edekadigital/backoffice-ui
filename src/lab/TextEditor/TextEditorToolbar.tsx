@@ -44,9 +44,6 @@ const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
   },
   divider: {
     margin: theme.spacing(1, 0.25),
-    '&:last-child': {
-      display: 'none',
-    },
   },
   iconButton: {
     borderRadius: theme.spacing(0.5),
@@ -131,6 +128,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     inlineStyle: string
   ) => {
     e.preventDefault();
+    console.log(inlineStyle);
     props.onChange(RichUtils.toggleInlineStyle(props.editorState, inlineStyle));
   };
 
@@ -146,29 +144,31 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     if (!props.headingTypeOptions || props.headingTypeOptions.length < 1)
       return null;
     return (
-      <span data-testid="textEditor-headingOptions">
-        {HEADING_TYPES.filter((ht) =>
-          props.headingTypeOptions?.includes(ht.style)
-        ).map((type) => (
-          <Tooltip
-            key={type.label}
-            title={type.label}
-            placement={'top'}
-            enterDelay={500}
-            arrow
-          >
-            <StyledToggleButton
-              value={type.style}
-              selected={type.style === blockType}
-              onMouseDown={(e) => handleBlockType(e, type.style)}
-              data-testid={`textEditor-headingOption-${type.label}`}
+      <>
+        <span data-testid="textEditor-headingOptions">
+          {HEADING_TYPES.filter((ht) =>
+            props.headingTypeOptions?.includes(ht.style)
+          ).map((type) => (
+            <Tooltip
+              key={type.label}
+              title={type.label}
+              placement={'top'}
+              enterDelay={500}
+              arrow
             >
-              {type.icon}
-            </StyledToggleButton>
-          </Tooltip>
-        ))}
+              <StyledToggleButton
+                value={type.style}
+                selected={type.style === blockType}
+                onMouseDown={(e) => handleBlockType(e, type.style)}
+                data-testid={`textEditor-headingOption-${type.style}`}
+              >
+                {type.icon}
+              </StyledToggleButton>
+            </Tooltip>
+          ))}
+        </span>
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </span>
+      </>
     );
   }, [props.headingTypeOptions, handleBlockType]);
 
@@ -176,61 +176,67 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
       return null;
     return (
-      <span data-testid="textEditor-inlineStyleOptions">
-        {INLINE_STYLES.filter((is) =>
-          props.inlineStyleOptions?.includes(is.style)
-        ).map((type) => (
-          <Tooltip
-            key={type.label}
-            title={type.label}
-            placement={'top'}
-            enterDelay={500}
-            arrow
-          >
-            <StyledToggleButton
-              onMouseDown={(e) => handleInlineStyle(e, type.style)}
-              value={type.style}
-              selected={props.editorState
-                .getCurrentInlineStyle()
-                .has(type.style)}
-              data-testid={`textEditor-inlineStyleOption-${type.label}`}
+      <>
+        <span data-testid="textEditor-inlineStyleOptions">
+          {INLINE_STYLES.filter((is) =>
+            props.inlineStyleOptions?.includes(is.style)
+          ).map((type) => (
+            <Tooltip
+              key={type.label}
+              title={type.label}
+              placement={'top'}
+              enterDelay={500}
+              arrow
             >
-              {type.icon}
-            </StyledToggleButton>
-          </Tooltip>
-        ))}
+              <StyledToggleButton
+                onMouseDown={(e) => {
+                  handleInlineStyle(e, type.style);
+                }}
+                value={type.style}
+                selected={props.editorState
+                  .getCurrentInlineStyle()
+                  .has(type.style)}
+                data-testid={`textEditor-inlineStyleOption-${type.style}`}
+              >
+                {type.icon}
+              </StyledToggleButton>
+            </Tooltip>
+          ))}
+        </span>
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </span>
+      </>
     );
   }, [props.inlineStyleOptions, handleInlineStyle]);
 
   const renderBlockTypeOptions = React.useMemo(() => {
-    if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
+    if (!props.blockTypeOptions || props.blockTypeOptions.length < 1)
       return null;
     return (
-      <span data-testid="textEditor-blockTypeOptions">
-        {BLOCK_TYPES.filter((bt) =>
-          props.blockTypeOptions?.includes(bt.style)
-        ).map((type) => (
-          <Tooltip
-            key={type.label}
-            title={type.label}
-            placement={'top'}
-            enterDelay={500}
-            arrow
-          >
-            <StyledToggleButton
-              value={type.style}
-              selected={type.style === blockType}
-              onMouseDown={(e) => handleBlockType(e, type.style)}
-              data-testid={`textEditor-blockTypeOption-${type.label}`}
+      <>
+        <span data-testid="textEditor-blockTypeOptions">
+          {BLOCK_TYPES.filter((bt) =>
+            props.blockTypeOptions?.includes(bt.style)
+          ).map((type) => (
+            <Tooltip
+              key={type.label}
+              title={type.label}
+              placement={'top'}
+              enterDelay={500}
+              arrow
             >
-              {type.icon}
-            </StyledToggleButton>
-          </Tooltip>
-        ))}
+              <StyledToggleButton
+                value={type.style}
+                selected={type.style === blockType}
+                onMouseDown={(e) => handleBlockType(e, type.style)}
+                data-testid={`textEditor-blockTypeOption-${type.style}`}
+              >
+                {type.icon}
+              </StyledToggleButton>
+            </Tooltip>
+          ))}
+        </span>
         <Divider flexItem orientation="vertical" className={classes.divider} />
-      </span>
+      </>
     );
   }, [props.blockTypeOptions, handleBlockType]);
 

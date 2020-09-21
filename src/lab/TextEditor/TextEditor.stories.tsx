@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextEditor } from './TextEditor';
 
 export default {
-  title: 'Components|TextEditor',
+  title: 'Lab|TextEditor',
   component: TextEditor,
   decorators: [
     (storyFn: () => React.ReactNode) => (

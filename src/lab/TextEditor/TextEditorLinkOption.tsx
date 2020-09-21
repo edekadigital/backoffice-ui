@@ -97,7 +97,6 @@ export const TextEditorLinkOption: React.FC<{
   };
 
   const open = Boolean(anchorEl);
-
   return (
     <>
       <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>

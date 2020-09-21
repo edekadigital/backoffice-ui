@@ -124,7 +124,12 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         },
       });
       const contentState = convertFromRaw(rawData);
-      setEditorState(EditorState.createWithContent(contentState, decorator));
+      const newEditorState = EditorState.createWithContent(
+        contentState,
+        decorator
+      );
+      setEditorState(newEditorState);
+      onChange(newEditorState);
     }
   }, []);
 
@@ -136,7 +141,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       const markdownString = draftToMarkdown(rawObject, {
         styleItems: extendedStyleItems,
       });
-      console.log(markdownString);
+      console.log('markdownString: ', markdownString);
       props.onChange(markdownString);
       setEditorState(editorState);
     },
