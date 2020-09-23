@@ -128,7 +128,6 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     inlineStyle: string
   ) => {
     e.preventDefault();
-    console.log(inlineStyle);
     props.onChange(RichUtils.toggleInlineStyle(props.editorState, inlineStyle));
   };
 

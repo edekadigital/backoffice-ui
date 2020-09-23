@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { cleanup, fireEvent } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import { TextEditor } from './TextEditor';
 import userEvent from '@testing-library/user-event';
@@ -128,81 +127,74 @@ describe('<TextEditor />', () => {
     expect(onChange.mock.calls[3][0]).toBe(`> ${value}`);
   });
 
-  // /** TODO: Fix this test - problem with button click */
-  // it('should handle inline styles correctly', () => {
-  //   const onChange = jest.fn();
-  //   const value = 'Lorem ipsum';
-  //   const { getByTestId, queryByTestId } = render(
-  //     <TextEditor
-  //       onChange={onChange}
-  //       inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
-  //     />
-  //   );
-  //   expect(getByTestId('textEditor-inlineStyleOptions')).toBeTruthy();
+  /** TODO: Fix this test - problem with button click - inlineStyleRanges array in editor state doesnt get updated in tests */
+  it('should handle inline styles correctly', () => {
+    const onChange = jest.fn();
+    const { getByTestId, queryByTestId } = render(
+      <TextEditor
+        onChange={onChange}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+      />
+    );
+    expect(getByTestId('textEditor-inlineStyleOptions')).toBeTruthy();
 
-  //   const boldButton = queryByTestId('textEditor-inlineStyleOption-BOLD');
-  //   const italicButton = queryByTestId('textEditor-inlineStyleOption-ITALIC');
-  //   const underlineButton = queryByTestId(
-  //     'textEditor-inlineStyleOption-UNDERLINE'
-  //   );
-  //   expect(boldButton).toBeTruthy();
-  //   expect(italicButton).toBeTruthy();
-  //   expect(underlineButton).toBeTruthy();
-  //   const editor = getByTestId('mocked-editor');
-  //   //userEvent.click(orgEditor);
-  //   //userEvent.type(orgEditor, 'a');
-  //   //userEvent.type(orgEditor, '{selectall}');
-  //   //userEvent.click(boldButton!);
-  //   //fireEvent.change(editor, { target: { value: 'new text' } });
-  //   //userEvent.click(boldButton!);
-  //   //userEvent.type(orgEditor, 'd');
-  //   //fireEvent.change(editor, { target: { value: 'a' } });
-  //   /*fireEvent.keyDown(editor, {
-  //     key: 'A',
-  //     code: 'A',
-  //     keyCode: 65,
-  //     charCode: 65,
-  //   });*/
+    const boldButton = queryByTestId('textEditor-inlineStyleOption-BOLD');
+    const italicButton = queryByTestId('textEditor-inlineStyleOption-ITALIC');
+    const underlineButton = queryByTestId(
+      'textEditor-inlineStyleOption-UNDERLINE'
+    );
+    expect(boldButton).toBeTruthy();
+    expect(italicButton).toBeTruthy();
+    expect(underlineButton).toBeTruthy();
+    const editor = getByTestId('mocked-editor');
 
-  //   //userEvent.type(editor, 'x');
-  //   //userEvent.type(editor, 'd');
-  //   fireEvent.change(editor, { target: { value: 'x' } });
-  //   userEvent.type(editor, '{selectall}');
-  //   userEvent.click(boldButton!);
-  //   console.log(onChange.mock.calls);
-  //   /*
-  //   userEvent.click(h1Button!);
-  //   userEvent.click(h2Button!);
-  //   userEvent.click(h3Button!);
-  //   expect(onChange.mock.calls[1][0]).toBe(`# ${value}`);
-  //   expect(onChange.mock.calls[2][0]).toBe(`## ${value}`);
-  //   expect(onChange.mock.calls[3][0]).toBe(`### ${value}`);
-  //   */
-  // });
+    userEvent.type(editor, 'x');
+    userEvent.type(editor, '{selectall}');
+    fireEvent.mouseDown(boldButton!);
+    userEvent.type(editor, 'a');
+    /*
+    expect(onChange.mock.calls[1][0]).toBe(`# ${value}`);
+    expect(onChange.mock.calls[2][0]).toBe(`## ${value}`);
+    expect(onChange.mock.calls[3][0]).toBe(`### ${value}`);
+    */
+  });
 
-  // it.only('should be possible to add an inline link', () => {
-  //   const onChange = jest.fn((e) => console.log(e));
-  //   const value = 'Lorem';
-  //   const { getByTestId, queryByTestId } = render(
-  //     <TextEditor onChange={onChange} linkOption />
-  //   );
-  //   const addButton = queryByTestId('textEditor-linkOption-add');
-  //   expect(addButton).toBeTruthy();
-  //   expect(addButton!.classList).toContain('Mui-disabled');
-  //   const editor = getByTestId('mocked-editor');
+  /** TODO: Fix this test: The add-link button won't be enabled after selecting the typed text (but only here in the test) */
+  it('should be possible to add an inline link', () => {
+    const onChange = jest.fn();
+    const value = 'Lorem';
+    const { getByTestId, queryByTestId } = render(
+      <TextEditor onChange={onChange} linkOption />
+    );
+    const addButton = queryByTestId('textEditor-linkOption-add');
+    expect(addButton).toBeTruthy();
+    expect(addButton!.classList).toContain('Mui-disabled');
+    const editor = getByTestId('mocked-editor');
 
-  //   //fireEvent.change(editor, { target: { value } });
+    userEvent.type(editor, value);
+    userEvent.type(editor, '{selectall}');
+    //expect(addButton!.classList).not.toContain('Mui-disabled');
+    //expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
+    //userEvent.click(addButton!);
+  });
 
-  //   userEvent.type(editor, value);
-  //   const input = screen.getByTestId('mocked-editor');
-  //   act(() => input.setSelectionRange(0, 2));
-  //   //fireEvent.change(editor, { target: { value } });
-  //   //userEvent.dblClick(editor);
-  //   //userEvent.type(editor, '{backspace}good');
-  //   expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
-  //   userEvent.click(addButton!);
-  //   expect(addButton!.classList).not.toContain('Mui-disabled');
+  /** TODO: Fix test: undo and redo buttons don't get enabled after input text, but only in the test */
+  it('should be possible to to undo and redo user actions', () => {
+    const onChange = jest.fn();
+    const value = 'Lorem';
+    const { getByTestId, queryByTestId } = render(
+      <TextEditor onChange={onChange} linkOption />
+    );
+    const undoButton = queryByTestId('textEditor-undo');
+    const redoButton = queryByTestId('textEditor-redo');
+    expect(undoButton).toBeTruthy();
+    expect(redoButton).toBeTruthy();
+    expect(undoButton!.classList).toContain('Mui-disabled');
+    const editor = getByTestId('mocked-editor');
 
-  //   //userEvent.click(addButton!);
-  // });
+    userEvent.type(editor, value);
+    //expect(undoButton!.classList).not.toContain('Mui-disabled');
+    //userEvent.click(undoButton!);
+    //console.log(onChange.mock.calls);
+  });
 });
