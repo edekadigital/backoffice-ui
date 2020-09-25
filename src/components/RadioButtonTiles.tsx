@@ -8,16 +8,29 @@ import {
 import * as React from 'react';
 
 export interface RadioButtonTilesProps<D> {
+  /**
+   * Radio button tiles to show. Each tile can be displayed with an additional icon
+   */
   items: Array<{
     value: D;
     label: string;
     icon?: React.ElementType<SvgIconProps>;
   }>;
-  value?: D;
+  /**
+   * Callback function for clicking a button tile
+   */
   onChange?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: D
   ) => void;
+  /** Number of tiles to displayed in a row
+   * @default 3
+   */
+  tilesPerLine?: 2 | 3 | 4;
+  /**
+   * The value of the radio group, required for a controlled component.
+   */
+  value?: D;
 }
 
 /**
@@ -29,10 +42,10 @@ export interface RadioButtonTilesProps<D> {
  * | `radioButtonTiles-item-${index}-icon` | icon of tile item    |
  */
 export function RadioButtonTiles<D>(props: RadioButtonTilesProps<D>) {
-  const { items, value, onChange } = props;
+  const { items, value, onChange, tilesPerLine = 3 } = props;
 
   const renderItems = items.map((item, index) => (
-    <Grid key={index} item xs={12} sm={6} md={4}>
+    <Grid key={index} item xs={12} sm={6} md={(12 / tilesPerLine) as 3 | 4 | 6}>
       <RadioButtonTile
         onChange={onChange}
         icon={item.icon}
