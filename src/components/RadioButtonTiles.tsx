@@ -14,11 +14,20 @@ export interface RadioButtonTilesProps<D> {
     icon?: React.ElementType<SvgIconProps>;
   }>;
   value?: D;
-  onChange: (
+  onChange?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: D
   ) => void;
 }
+
+/**
+ * | Test ID                               | Description          |
+ * | ------------------------------------- | -------------------- |
+ * | `radioButtonTiles`                    | container            |
+ * | `radioButtonTiles-item-${index}`      | tile item            |
+ * | `radioButtonTiles-item-${index}-label`| label of tile item   |
+ * | `radioButtonTiles-item-${index}-icon` | icon of tile item    |
+ */
 export function RadioButtonTiles<D>(props: RadioButtonTilesProps<D>) {
   const { items, value, onChange } = props;
 
@@ -30,12 +39,18 @@ export function RadioButtonTiles<D>(props: RadioButtonTilesProps<D>) {
         label={item.label}
         value={item.value}
         checked={item.value === value}
+        index={index}
       />
     </Grid>
   ));
 
   return (
-    <Grid container spacing={2} alignItems={'stretch'}>
+    <Grid
+      container
+      spacing={2}
+      alignItems={'stretch'}
+      data-testid="radioButtonTiles"
+    >
       {renderItems}
     </Grid>
   );
@@ -46,7 +61,8 @@ interface RadioButtonTileProps<D> {
   value: D;
   icon?: React.ElementType<SvgIconProps>;
   checked?: boolean;
-  onChange: (
+  index: number;
+  onChange?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: D
   ) => void;
@@ -76,16 +92,31 @@ const useTileStyles = makeStyles<Theme, { checked?: boolean }>(
     }),
   })
 );
+
 function RadioButtonTile<D>(props: RadioButtonTileProps<D>) {
-  const { checked, label, onChange, value } = props;
+  const { checked, label, onChange, value, index } = props;
   const classes = useTileStyles({ checked });
   const icon = props.icon ? (
-    <props.icon fontSize="large" className={classes.icon} />
+    <props.icon
+      fontSize="large"
+      className={classes.icon}
+      data-testid={`radioButtonTiles-item-${index}-icon`}
+    />
   ) : undefined;
   return (
-    <div className={classes.root} onClick={(e) => onChange(e, value)}>
+    <div
+      className={classes.root}
+      onClick={(e) => (onChange ? onChange(e, value) : null)}
+      data-testid={`radioButtonTiles-item-${index}`}
+      aria-selected={checked}
+    >
       {icon}
-      <Typography variant="caption">{label}</Typography>
+      <Typography
+        variant="caption"
+        data-testid={`radioButtonTiles-item-${index}-label`}
+      >
+        {label}
+      </Typography>
     </div>
   );
 }
