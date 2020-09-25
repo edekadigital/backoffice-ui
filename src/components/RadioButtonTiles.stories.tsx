@@ -13,10 +13,10 @@ export default {
 };
 
 export const Default = () => {
-  const [value, setValue] = React.useState<string | number | boolean>('a');
+  const [value, setValue] = React.useState<string>('a');
   const handleChange = (
     _: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: string | number | boolean
+    value: string
   ) => {
     setValue(value);
   };
