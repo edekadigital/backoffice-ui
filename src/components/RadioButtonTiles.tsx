@@ -20,7 +20,6 @@ export interface RadioButtonTilesProps<D> {
   ) => void;
 }
 export function RadioButtonTiles<D>(props: RadioButtonTilesProps<D>) {
-  //export const RadioButtonTiles: React.FC<RadioButtonTilesProps<D>> = (props) => {
   const { items, value, onChange } = props;
 
   const renderItems = items.map((item, index) => (
