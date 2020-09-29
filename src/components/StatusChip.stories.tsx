@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StatusChip, Delete, Schedule, Check, FormRow } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|StatusChip',
+  title: 'Components/StatusChip',
   component: StatusChip,
 };
 

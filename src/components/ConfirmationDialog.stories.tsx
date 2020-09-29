@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ConfirmationDialog, Button } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|ConfirmationDialog',
+  title: 'Components/ConfirmationDialog',
   component: ConfirmationDialog,
 };
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, useSnackbar } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Global|Snackbar',
+  title: 'Global/Snackbar',
 };
 
 export const Default = () => {

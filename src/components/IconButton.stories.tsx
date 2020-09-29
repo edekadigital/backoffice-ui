@@ -4,7 +4,7 @@ import { IconButton, ArrowForward, Button } from '..'; // @edekadigital/backoffi
 import { CloudDownload } from '../icons';
 
 export default {
-  title: 'Components|IconButton',
+  title: 'Components/IconButton',
   component: IconButton,
   subcomponents: { Button },
 };

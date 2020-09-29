@@ -24,7 +24,7 @@ import { PageWrapper } from './PageWrapper';
 import { GridRow } from './GridRow';
 
 export default {
-  title: 'Layouts|Page',
+  title: 'Layouts/Page',
   component: Page,
 };
 

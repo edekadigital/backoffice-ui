@@ -3,7 +3,7 @@ import { DatePicker } from '..'; // @edekadigital/backoffice-ui
 import { useState } from 'react';
 
 export default {
-  title: 'Components|DatePicker',
+  title: 'Components/DatePicker',
   component: DatePicker,
   decorators: [
     (storyFn: () => React.ReactNode) => (

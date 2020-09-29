@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Typography|Heading',
+  title: 'Typography/Heading',
   component: Heading,
 };
 

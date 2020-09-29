@@ -10,7 +10,7 @@ import { TextField } from './TextField';
 import { ButtonBar } from './ButtonBar';
 
 export default {
-  title: 'Components|Paper',
+  title: 'Components/Paper',
   component: Paper,
   decorators: [
     (storyFn: () => React.ReactNode) => (

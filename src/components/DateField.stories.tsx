@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DateField } from './DateField';
 
 export default {
-  title: 'Components|DateField',
+  title: 'Components/DateField',
   component: DateField,
   decorators: [
     (storyFn: () => React.ReactNode) => (

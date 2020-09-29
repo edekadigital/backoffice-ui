@@ -3,7 +3,7 @@ import { GridRow } from './GridRow';
 import { edekaBlue } from '../constants/colors';
 
 export default {
-  title: 'Layouts|GridRow',
+  title: 'Layouts/GridRow',
   component: GridRow,
 };
 
@@ -70,22 +70,12 @@ export const MultipleGridRows = () => (
   </>
 );
 
-VariantA.story = {
-  name: 'Variant "6-6"',
-};
+VariantA.storyName = 'Variant "6-6"';
 
-VariantB.story = {
-  name: 'Variant "4-8"',
-};
+VariantB.storyName = 'Variant "4-8"';
 
-VariantC.story = {
-  name: 'Variant "8-4"',
-};
+VariantC.storyName = 'Variant "8-4"';
 
-VariantD.story = {
-  name: 'Variant "4-4-4"',
-};
+VariantD.storyName = 'Variant "4-4-4"';
 
-VariantE.story = {
-  name: 'Variant "3-3-3-3"',
-};
+VariantE.storyName = 'Variant "3-3-3-3"';

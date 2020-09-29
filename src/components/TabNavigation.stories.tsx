@@ -11,7 +11,7 @@ import {
 } from '@reach/router';
 
 export default {
-  title: 'Components|TabNavigation',
+  title: 'Components/TabNavigation',
   component: TabNavigation,
 };
 

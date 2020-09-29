@@ -3,7 +3,7 @@ import { AppBar, Logout, Apps, OpenInNew, Person, Star } from '..'; // @edekadig
 import { AppBarActions } from './AppBar';
 
 export default {
-  title: 'Components|AppBar',
+  title: 'Components/AppBar',
   component: AppBar,
 };
 

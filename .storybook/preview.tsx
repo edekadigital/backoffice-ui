@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { addDecorator } from '@storybook/react';
 import { BackofficeUiProvider } from '../src';
-import { addParameters } from '@storybook/client-api';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 const ThemeDecorator = (storyFn: () => React.ReactNode) => (
   <BackofficeUiProvider>{storyFn()}</BackofficeUiProvider>
 );
 addDecorator(ThemeDecorator);
-addParameters({
+export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS,
   },
@@ -18,4 +17,4 @@ addParameters({
         ? 0
         : a[1].id.localeCompare(b[1].id, { numeric: true }),
   },
-});
+};

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SearchField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|SearchField',
+  title: 'Components/SearchField',
   component: SearchField,
 };
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, ButtonBar } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|ButtonBar',
+  title: 'Components/ButtonBar',
   component: ButtonBar,
 };
 
