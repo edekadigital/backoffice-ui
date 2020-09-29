@@ -54,9 +54,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       border: props.variant === 'naked' ? 'none' : undefined,
     };
   },
-  icon: {
+  icon: (props: StatusChipProps) => ({
     color: 'inherit',
-  },
+    marginLeft: props.variant === 'naked' ? '0px!important' : undefined,
+  }),
 }));
 
 /**

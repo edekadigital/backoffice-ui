@@ -80,7 +80,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
       marginLeft: floatingBackButton && onBackClick ? theme.spacing(-5.5) : 0,
     },
     display: 'flex',
-    minHeight: 70,
+    minHeight: theme.spacing(7.25),
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
@@ -91,11 +91,18 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
       flexWrap: 'wrap',
     },
   },
+  titleWrapper: {
+    minHeight: theme.spacing(7.25),
+    [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  },
   title: {
     marginRight: theme.spacing(2),
   },
   backButton: {
-    marginLeft: theme.spacing(-2),
+    marginLeft: theme.spacing(-1.5),
     marginRight: theme.spacing(),
   },
   additionalContent: ({ onBackClick, floatingBackButton = true }) => ({
@@ -105,21 +112,15 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     width: '100%',
   }),
   info: {
-    margin: theme.spacing(1, 0, 1, 0),
     [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      marginTop: theme.spacing(2.25),
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: theme.spacing(0.5),
     },
   },
   actionsWrapper: {
     alignSelf: 'start',
     lineHeight: `${theme.spacing(7.25)}px`,
-  },
-  backButtonWrapper: {
-    minHeight: theme.spacing(7.25),
-    [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
-      display: 'flex',
-      alignItems: 'center',
-    },
   },
 }));
 
@@ -256,17 +257,18 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     } else return null;
   });
 
-  const actionsEl = actions ? (
-    <div data-testid="titleBar-actions" className={classes.actionsWrapper}>
-      {actionItems}
-      {actionMenus}
-    </div>
-  ) : null;
+  const actionsEl =
+    actions.length > 0 ? (
+      <div data-testid="titleBar-actions" className={classes.actionsWrapper}>
+        {actionItems}
+        {actionMenus}
+      </div>
+    ) : null;
 
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
-        <div className={classes.backButtonWrapper}>
+        <div className={classes.titleWrapper}>
           {backButton}
           {title}
         </div>
