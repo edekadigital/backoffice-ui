@@ -93,16 +93,21 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
   },
   titleWrapper: {
     minHeight: theme.spacing(7.25),
+    marginBottom: theme.spacing(1),
     [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
       display: 'flex',
       alignItems: 'center',
+      marginBottom: 0,
     },
   },
   title: {
     marginRight: theme.spacing(2),
   },
   backButton: {
-    marginLeft: theme.spacing(-1.5),
+    marginLeft: theme.spacing(-2),
+    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+      marginLeft: theme.spacing(-1.5),
+    },
     marginRight: theme.spacing(),
   },
   additionalContent: ({ onBackClick, floatingBackButton = true }) => ({
@@ -131,12 +136,16 @@ const useListMenuIconStyles = makeStyles<Theme>((theme) => ({
 }));
 
 /**
- * | Test ID                    | Description          |
- * | -------------------------- | -------------------- |
- * | `reverseNavigation-back`   | Back button          |
- * | `reverseNavigation-title`  | Title                |
- * | `reverseNavigation-additionalContent`| Info bar container   |
- * | `reverseNavigation-actions`| Actions container    |
+ * | Test ID                                  | Description                  |
+ * | ---------------------------------------- | ---------------------------- |
+ * | `titleBar-backButton`                    | Reverse navigation button    |
+ * | `titleBar-title`                         | Title text                   |
+ * | `titleBar-info`                          | Info container               |
+ * | `titleBar-additionalContent`             | Additional content container |
+ * | `titleBar-actions`                       | Action buttons container     |
+ * | `titleBar-actionItem-${index}`           | Action button                |
+ * | `titleBar-actionMenu-${index}`           | Action menu                  |
+ * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action menu     |
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const {
@@ -154,22 +163,8 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
 
   const classes = useStyles(props);
 
-  const title = children ? (
-    <Typography
-      component="h2"
-      variant="h4"
-      data-testid="titleBar-title"
-      className={classes.title}
-    >
-      {children}
-    </Typography>
-  ) : null;
-
   const additionalContentEl = additionalContent ? (
-    <div
-      className={classes.additionalContent}
-      data-testid="titleBar-additionalContent"
-    >
+    <div className={classes.additionalContent}>
       <Typography
         variant="caption"
         color={'textSecondary'}
@@ -190,7 +185,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
   ) : null;
 
   const infoEl = info ? (
-    <div data-testid="titleBar-info" className={classes.info}>
+    <div className={classes.info}>
       <Typography
         variant="caption"
         color={'textSecondary'}
@@ -242,7 +237,6 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     if ('items' in tempAction) {
       const anchorEl = activeMenu?.anchorEl;
       const open = activeMenu?.index === index;
-      const key = `titleBar-actionMenu-${index}`;
 
       return (
         <TitleBarListMenu
@@ -250,7 +244,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
           items={tempAction.items}
           anchorEl={anchorEl}
           open={open}
-          key={key}
+          key={index}
           onClose={closeMenu}
         />
       );
@@ -270,7 +264,14 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
       <div className={classes.wrapper}>
         <div className={classes.titleWrapper}>
           {backButton}
-          {title}
+          <Typography
+            component="h2"
+            variant="h4"
+            data-testid="titleBar-title"
+            className={classes.title}
+          >
+            {children}
+          </Typography>
         </div>
         {infoEl}
         {additionalContentEl}
@@ -318,6 +319,7 @@ const TitleBarListMenu: React.FC<TitleBarActionListMenuProps> = ({
       getContentAnchorEl={null}
       open={open}
       onClose={() => onClose()}
+      data-testid={`titleBar-actionMenu-${index}`}
     >
       {renderItems}
     </MuiMenu>
