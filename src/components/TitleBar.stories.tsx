@@ -41,7 +41,7 @@ export const WithReverseNavigation = () => {
   );
 };
 
-export const WithReverseNavigationWithoutFloating = () => {
+export const WithNonFloatingReverseNavigation = () => {
   const handleBackClick = () => {
     console.log('handleBackClick');
   };

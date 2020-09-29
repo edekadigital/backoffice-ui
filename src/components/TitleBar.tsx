@@ -46,7 +46,7 @@ export interface TitleBarProps {
    */
   actions?: TitleBarActions;
   /**
-   * Additional text or elements to show under the headline.
+   * Additional text or elements to show below the headline.
    */
   additionalContent?: React.ReactNode;
   /**
