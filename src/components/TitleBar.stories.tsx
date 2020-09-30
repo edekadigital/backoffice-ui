@@ -12,7 +12,7 @@ import {
 } from '..';
 
 export default {
-  title: 'Components|TitleBar',
+  title: 'Components/TitleBar',
   component: TitleBar,
 };
 
