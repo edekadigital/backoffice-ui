@@ -11,7 +11,7 @@ import { Button } from './Button';
 import { Dialog } from './Dialog';
 
 export default {
-  title: 'Components|Dialog',
+  title: 'Components/Dialog',
   component: Dialog,
 };
 
