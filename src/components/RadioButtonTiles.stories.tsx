@@ -3,7 +3,7 @@ import { Launch, Star, History, CloudDownload } from '../icons';
 import { RadioButtonTiles } from './RadioButtonTiles';
 
 export default {
-  title: 'Components|RadioButtonTiles',
+  title: 'Components/RadioButtonTiles',
   component: RadioButtonTiles,
 };
 
