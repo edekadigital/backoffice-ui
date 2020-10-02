@@ -30,7 +30,7 @@ export interface RadioButtonTilesProps<D> {
   /**
    * The value of the radio group, required for a controlled component.
    */
-  value?: D;
+  value: D;
 }
 
 /**
