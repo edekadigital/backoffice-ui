@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import { List, ListItem } from '@material-ui/core';
-import { TextField, IconButton } from '..';
-import { Delete } from '../icons';
+import { TextField, IconButton, Button } from '..';
+import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 
@@ -13,6 +13,7 @@ export interface ExpandableListProps {
   };
   optionLabel: string;
   headline?: string;
+  addButtonLabel: string;
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -31,31 +32,55 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
-  const { initialItems, addtionalAction, optionLabel, headline } = props;
+  const {
+    initialItems,
+    addtionalAction,
+    optionLabel,
+    headline,
+    addButtonLabel,
+  } = props;
   const [items, setItems] = React.useState(initialItems);
-  const handleDeleteItem = () => {
-    console.log('deleteItem');
+  const handleDeleteItem = (item: { initialValue: string }) => {
+    const itemIndex = items.indexOf(item);
+    const newItems = items.filter((item, index) => itemIndex !== index);
+
+    setItems(newItems);
   };
 
-  const renderItems = items.map((item, index) => {
-    const label = optionLabel + ' ' + (index + 1);
-    return (
-      <ExpandableListItem
-        key={index}
-        label={label}
-        onDeleteClick={handleDeleteItem}
-        additionalAction={addtionalAction}
-        initialValue={item.initialValue}
-      />
-    );
-  });
+  const handleAddClick = React.useCallback(() => {
+    setItems([...items, { initialValue: '' }]);
+  }, [items]);
 
+  const renderItems = React.useMemo(() => {
+    console.log(items, 'renderItem');
+    return items.map((item, index) => {
+      const label = optionLabel + ' ' + (index + 1);
+      console.log(item.initialValue);
+      return (
+        <ExpandableListItem
+          key={index}
+          label={label}
+          onDeleteClick={() => handleDeleteItem(item)}
+          additionalAction={addtionalAction}
+          initialValue={item.initialValue}
+        />
+      );
+    });
+  }, [items, addtionalAction]);
   return (
     <>
       <Typography variant="body1" gutterBottom={true} color="textSecondary">
         {headline}
       </Typography>
       <ol>{renderItems}</ol>
+      <Button
+        variant="text"
+        icon={Add}
+        color={'primary'}
+        onClick={handleAddClick}
+      >
+        {addButtonLabel}
+      </Button>
     </>
   );
 };

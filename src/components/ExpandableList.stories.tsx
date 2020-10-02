@@ -20,13 +20,14 @@ export const Default = () => {
   return (
     <ExpandableList
       initialItems={[
-        { initialValue: 'Option 1' },
-        { initialValue: 'Option 2' },
-        { initialValue: 'Option 3' },
+        { initialValue: 'Banane' },
+        { initialValue: 'Apfel' },
+        { initialValue: 'Melone' },
       ]}
       optionLabel="Option"
       addtionalAction={{ icon: Check, handler: handleClick }}
       headline="Liste von Optionen"
+      addButtonLabel="Option hinzufügen"
     />
   );
 };
