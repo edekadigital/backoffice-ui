@@ -35,8 +35,9 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
     flex: '0 0 auto',
   }),
   addButton: () => ({
-    marginLeft: theme.spacing(7),
+    marginLeft: theme.spacing(5),
   }),
+  list: () => ({ paddingLeft: theme.spacing(2) }),
 }));
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
@@ -82,7 +83,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
       <Typography variant="body1" gutterBottom={true} color="textSecondary">
         {headline}
       </Typography>
-      <ol>{renderItems}</ol>
+      <ol className={classes.list}>{renderItems}</ol>
       <Button
         variant="text"
         icon={Add}
