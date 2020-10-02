@@ -13,6 +13,21 @@ export default {
 };
 
 export const Default = () => {
+  return (
+    <ExpandableList
+      initialItems={[
+        { value: 'Banane', id: 'a' },
+        { value: 'Apfel', id: 'b' },
+        { value: 'Melone', id: 'c' },
+      ]}
+      optionLabel="Option"
+      headline="Liste von Optionen"
+      addButtonLabel="Option hinzufügen"
+    />
+  );
+};
+
+export const WithAdditionalAction = () => {
   const handleClick = () => {
     console.log('This is an additional Action');
   };
@@ -20,9 +35,9 @@ export const Default = () => {
   return (
     <ExpandableList
       initialItems={[
-        { initialValue: 'Banane' },
-        { initialValue: 'Apfel' },
-        { initialValue: 'Melone' },
+        { value: 'Banane', id: 'a' },
+        { value: 'Apfel', id: 'b' },
+        { value: 'Melone', id: 'c' },
       ]}
       optionLabel="Option"
       addtionalAction={{ icon: Check, handler: handleClick }}

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 
 export interface ExpandableListProps {
-  initialItems: Array<{ initialValue: string | '' }>;
+  initialItems: Array<{ value: string | ''; id: string }>;
   addtionalAction?: {
     icon: React.ElementType<SvgIconProps>;
     handler: () => void;
@@ -21,13 +21,21 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     marginBottom: theme.spacing(3),
   }),
+  listItem: () => ({
+    lineHeight: '56px',
+    color: theme.palette.action.active,
+    fontSize: '16px',
+  }),
   inputField: () => ({
     flex: 'auto',
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(4),
   }),
   icons: () => ({
     flex: '0 0 auto',
+  }),
+  addButton: () => ({
+    marginLeft: theme.spacing(7),
   }),
 }));
 
@@ -40,29 +48,31 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel,
   } = props;
   const [items, setItems] = React.useState(initialItems);
-  const handleDeleteItem = (item: { initialValue: string }) => {
-    const itemIndex = items.indexOf(item);
-    const newItems = items.filter((item, index) => itemIndex !== index);
+  const handleDeleteItem = (index: number) => {
+    // const itemIndex = items.indexOf(item);
+    // const newItems = items.filter((item, index) => itemIndex !== index);
+    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
 
     setItems(newItems);
   };
-
+  const classes = useExpandableListStyles();
   const handleAddClick = React.useCallback(() => {
-    setItems([...items, { initialValue: '' }]);
+    setItems([...items, { value: '', id: 'd' }]);
   }, [items]);
 
   const renderItems = React.useMemo(() => {
     console.log(items, 'renderItem');
     return items.map((item, index) => {
       const label = optionLabel + ' ' + (index + 1);
-      console.log(item.initialValue);
+      console.log(item.value);
       return (
         <ExpandableListItem
-          key={index}
+          key={item.id}
+          index={index}
           label={label}
-          onDeleteClick={() => handleDeleteItem(item)}
+          onDeleteClick={handleDeleteItem}
           additionalAction={addtionalAction}
-          initialValue={item.initialValue}
+          initialValue={item.value}
         />
       );
     });
@@ -78,6 +88,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         icon={Add}
         color={'primary'}
         onClick={handleAddClick}
+        className={classes.addButton}
       >
         {addButtonLabel}
       </Button>
@@ -88,7 +99,8 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 export interface ExpandableListItemProps {
   label: string;
   initialValue: string;
-  onDeleteClick: () => void;
+  index: number;
+  onDeleteClick: (index: number) => void;
   additionalAction:
     | {
         icon: React.ElementType<SvgIconProps>;
@@ -100,7 +112,7 @@ export interface ExpandableListItemProps {
 export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
   props
 ) => {
-  const { label, onDeleteClick, additionalAction, initialValue } = props;
+  const { label, onDeleteClick, additionalAction, initialValue, index } = props;
   const [value, setValue] = React.useState<string | ''>(initialValue);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setValue(event.target.value as string);
@@ -113,14 +125,14 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
     />
   ) : null;
   return (
-    <li>
+    <li className={classes.listItem}>
       <div className={classes.listItemInner}>
         <div className={classes.inputField}>
           <TextField label={label} value={value} onChange={handleChange} />
         </div>
         <div className={classes.icons}>
           {icon}
-          <IconButton icon={Delete} onClick={onDeleteClick} />
+          <IconButton icon={Delete} onClick={() => onDeleteClick(index)} />
         </div>
       </div>
     </li>
