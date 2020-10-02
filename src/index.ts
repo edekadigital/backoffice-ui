@@ -29,6 +29,7 @@ export * from './components/TabNavigation';
 export * from './components/TextField';
 export * from './components/LogTable';
 export * from './components/Checkbox';
+export * from './components/ExpandableList';
 
 export * from './forms/FormWrapper';
 export * from './forms/FormFieldSet';
