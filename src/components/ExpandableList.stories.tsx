@@ -13,6 +13,10 @@ export default {
 };
 
 export const Default = () => {
+  const handleChange = (listItems: Array<any>) => {
+    console.log(listItems);
+  };
+
   return (
     <ExpandableList
       initialItems={[
@@ -23,6 +27,7 @@ export const Default = () => {
       optionLabel="Option"
       headline="Liste von Optionen"
       addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
     />
   );
 };
@@ -32,12 +37,17 @@ export const WithAdditionalAction = () => {
     console.log('This is an additional Action');
   };
 
+  const handleChange = (listItems: Array<any>) => {
+    console.log(listItems);
+  };
+
   return (
     <ExpandableList
       optionLabel="Option"
       addtionalAction={{ icon: Check, handler: handleClick }}
       headline="Liste von Optionen"
       addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
     />
   );
 };
