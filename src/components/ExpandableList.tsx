@@ -61,7 +61,6 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-
     return text;
   };
 
@@ -75,11 +74,15 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 
   const [items, setItems] = React.useState(addUniqueId(initialItems));
 
-  const updateItems = (id: string, value: string) => {
+  const handleUpdateItem = (id: string, value: string) => {
     const index = items.findIndex((item) => item.id === id);
     items[index].value = value;
     setItems(items);
-    onChange(items);
+    onChange(
+      items.map((item: ListItem, index: number) => {
+        return { value: item.value, index };
+      })
+    );
   };
 
   const handleDeleteItem = (item: ListItem) => {
@@ -89,14 +92,24 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
       ...items.slice(itemIndex + 1),
     ];
     setItems(newItems);
-    onChange(newItems);
+    onChange(
+      newItems.map((item: ListItem, index: number) => {
+        return { value: item.value, index };
+      })
+    );
   };
   const classes = useExpandableListStyles();
 
-  const handleAddClick = React.useCallback(() => {
+  const handleAddItem = () => {
     setItems([...items, { value: '', id: createUniqueId() }]);
-    onChange([...items, { value: '', id: createUniqueId() }]);
-  }, [items]);
+    onChange(
+      [...items, { value: '', id: createUniqueId() }].map(
+        (item: ListItem, index: number) => {
+          return { value: item.value, index };
+        }
+      )
+    );
+  };
 
   const renderItems = React.useMemo(() => {
     return items.map((item, index) => {
@@ -108,7 +121,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           onDeleteClick={() => handleDeleteItem(item)}
           additionalAction={addtionalAction}
           initialValue={item.value}
-          onChange={(value: string) => updateItems(item.id!, value)}
+          onChange={(value: string) => handleUpdateItem(item.id!, value)}
         />
       );
     });
@@ -123,7 +136,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         variant="text"
         icon={Add}
         color={'primary'}
-        onClick={handleAddClick}
+        onClick={handleAddItem}
         className={classes.addButton}
       >
         {addButtonLabel}
