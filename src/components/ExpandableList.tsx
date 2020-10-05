@@ -7,17 +7,19 @@ import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 
 export interface ListItem {
   value: string | '';
-  id: string;
+  id?: string;
 }
 export interface ExpandableListProps {
-  initialItems: Array<ListItem>;
+  initialItems?: Array<ListItem>;
   addtionalAction?: {
     icon: React.ElementType<SvgIconProps>;
     handler: () => void;
   };
-  optionLabel: string;
+  optionLabel?: string;
   headline?: string;
-  addButtonLabel: string;
+  addButtonLabel?: string;
+  // onChange: () => void;
+  // Callback der die items zurück gibt [{index: number,  value:number | string}]
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -44,35 +46,57 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
   list: () => ({ paddingLeft: theme.spacing(2) }),
 }));
 
+const createUniqueId = () => {
+  let text = '';
+  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+};
+
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    initialItems,
+    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
     addtionalAction,
-    optionLabel,
+    optionLabel = 'Option',
     headline,
-    addButtonLabel,
+    addButtonLabel = 'Option hinzufügen',
   } = props;
-  const [items, setItems] = React.useState(initialItems);
+
+  const addUniqueId = (items: Array<ListItem>) => {
+    const itemsWithId = items.map((item: ListItem) => {
+      return { value: item.value, id: createUniqueId() } as ListItem;
+    });
+    return itemsWithId;
+  };
+
+  const [items, setItems] = React.useState(addUniqueId(initialItems));
   const handleDeleteItem = (item: ListItem) => {
     const itemIndex = items.indexOf(item);
     const newItems = [
       ...items.slice(0, itemIndex),
       ...items.slice(itemIndex + 1),
     ];
-
-    setItems(newItems);
+    setItems([...newItems]);
+    // onChange
   };
   const classes = useExpandableListStyles();
   const handleAddClick = React.useCallback(() => {
-    setItems([...items, { value: '', id: 'd' }]);
+    setItems((prevState) => [
+      ...prevState,
+      { value: '', id: createUniqueId() },
+    ]);
+    // onChange
+    // nochmal prüfen ob die id schon existiert
   }, [items]);
 
   const renderItems = React.useMemo(() => {
+    console.log(items);
     return items.map((item, index) => {
       const label = optionLabel + ' ' + (index + 1);
       return (
         <ExpandableListItem
-          key={`list-item-${item.id}`}
+          key={item.id}
           label={label}
           onDeleteClick={() => handleDeleteItem(item)}
           additionalAction={addtionalAction}
@@ -119,6 +143,7 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
   const [value, setValue] = React.useState<string | ''>(initialValue);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setValue(event.target.value as string);
+    // onChange
   };
   const classes = useExpandableListStyles();
   const icon = additionalAction ? (

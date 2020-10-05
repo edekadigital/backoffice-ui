@@ -16,9 +16,9 @@ export const Default = () => {
   return (
     <ExpandableList
       initialItems={[
-        { value: 'Banane', id: 'a' },
-        { value: 'Apfel', id: 'b' },
-        { value: 'Melone', id: 'c' },
+        { value: 'Banane' },
+        { value: 'Apfel' },
+        { value: 'Melone' },
       ]}
       optionLabel="Option"
       headline="Liste von Optionen"
@@ -34,11 +34,6 @@ export const WithAdditionalAction = () => {
 
   return (
     <ExpandableList
-      initialItems={[
-        { value: 'Banane', id: 'a' },
-        { value: 'Apfel', id: 'b' },
-        { value: 'Melone', id: 'c' },
-      ]}
       optionLabel="Option"
       addtionalAction={{ icon: Check, handler: handleClick }}
       headline="Liste von Optionen"
