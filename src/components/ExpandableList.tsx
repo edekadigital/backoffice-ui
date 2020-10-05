@@ -5,8 +5,12 @@ import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 
+export interface ListItem {
+  value: string | '';
+  id: string;
+}
 export interface ExpandableListProps {
-  initialItems: Array<{ value: string | ''; id: string }>;
+  initialItems: Array<ListItem>;
   addtionalAction?: {
     icon: React.ElementType<SvgIconProps>;
     handler: () => void;
@@ -49,10 +53,12 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel,
   } = props;
   const [items, setItems] = React.useState(initialItems);
-  const handleDeleteItem = (index: number) => {
-    // const itemIndex = items.indexOf(item);
-    // const newItems = items.filter((item, index) => itemIndex !== index);
-    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
+  const handleDeleteItem = (item: ListItem) => {
+    const itemIndex = items.indexOf(item);
+    const newItems = [
+      ...items.slice(0, itemIndex),
+      ...items.slice(itemIndex + 1),
+    ];
 
     setItems(newItems);
   };
@@ -62,16 +68,13 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   }, [items]);
 
   const renderItems = React.useMemo(() => {
-    console.log(items, 'renderItem');
     return items.map((item, index) => {
       const label = optionLabel + ' ' + (index + 1);
-      console.log(item.value);
       return (
         <ExpandableListItem
-          key={item.id}
-          index={index}
+          key={`list-item-${item.id}`}
           label={label}
-          onDeleteClick={handleDeleteItem}
+          onDeleteClick={() => handleDeleteItem(item)}
           additionalAction={addtionalAction}
           initialValue={item.value}
         />
@@ -100,8 +103,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 export interface ExpandableListItemProps {
   label: string;
   initialValue: string;
-  index: number;
-  onDeleteClick: (index: number) => void;
+  onDeleteClick: () => void;
   additionalAction:
     | {
         icon: React.ElementType<SvgIconProps>;
@@ -113,7 +115,7 @@ export interface ExpandableListItemProps {
 export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
   props
 ) => {
-  const { label, onDeleteClick, additionalAction, initialValue, index } = props;
+  const { label, onDeleteClick, additionalAction, initialValue } = props;
   const [value, setValue] = React.useState<string | ''>(initialValue);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setValue(event.target.value as string);
@@ -133,7 +135,7 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
         </div>
         <div className={classes.icons}>
           {icon}
-          <IconButton icon={Delete} onClick={() => onDeleteClick(index)} />
+          <IconButton icon={Delete} onClick={onDeleteClick} />
         </div>
       </div>
     </li>
