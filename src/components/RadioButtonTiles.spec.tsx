@@ -16,7 +16,7 @@ describe('<RadioButtonTiles />', () => {
       },
     ];
     const { getByTestId, queryByTestId } = render(
-      <RadioButtonTiles items={items} />
+      <RadioButtonTiles items={items} value="bar" />
     );
     expect(getByTestId('radioButtonTiles')).toBeTruthy();
     expect(getByTestId('radioButtonTiles-item-0')).toBeTruthy();
@@ -34,7 +34,9 @@ describe('<RadioButtonTiles />', () => {
         icon: Star,
       },
     ];
-    const { getByTestId } = render(<RadioButtonTiles items={items} />);
+    const { getByTestId } = render(
+      <RadioButtonTiles items={items} value="bar" />
+    );
     expect(getByTestId('radioButtonTiles-item-0-icon')).toBeTruthy();
   });
 
@@ -77,7 +79,9 @@ describe('<RadioButtonTiles />', () => {
       },
     ];
 
-    const { getByTestId } = render(<RadioButtonTiles items={items} />);
+    const { getByTestId } = render(
+      <RadioButtonTiles items={items} value="bar" />
+    );
     userEvent.click(getByTestId('radioButtonTiles-item-0'));
     expect(getByTestId('radioButtonTiles')).toBeTruthy();
   });

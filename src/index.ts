@@ -13,6 +13,7 @@ export * from './components/ConfirmationDialog';
 export * from './components/ContentGroup';
 export * from './components/DateField';
 export * from './components/DatePicker';
+export * from './components/Dialog';
 export * from './components/EnhancedDataTable/EnhancedDataTable';
 export * from './components/Hide';
 export * from './components/IconButton';
