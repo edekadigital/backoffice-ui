@@ -10,16 +10,35 @@ export interface ListItem {
   id?: string;
 }
 export interface ExpandableListProps {
+  /**
+   * initial list items with given value
+   */
   initialItems?: Array<ListItem>;
+  /**
+   *addtional action for list item with icon and handler function
+   */
   addtionalAction?: {
     icon: React.ElementType<SvgIconProps>;
     handler: () => void;
   };
+  /**
+   * label to be displayed in the option field
+   * @default 'Option'
+   */
   optionLabel?: string;
+  /**
+   * list headline
+   */
   headline?: string;
+  /**
+   * label for button to add options
+   * @default 'Option hinzufügen'
+   */
   addButtonLabel?: string;
+  /**
+   * callback function which is called when items or items list are changed
+   */
   onChange: (items: Array<ListItem>) => void;
-  // Callback der die items zurück gibt [{index: number,  value:number | string}]
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -46,6 +65,42 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
   list: () => ({ paddingLeft: theme.spacing(2) }),
 }));
 
+const createUniqueId = (items: Array<ListItem>) => {
+  const create = () => {
+    let string = '';
+    const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 5; i++)
+      string += possible.charAt(Math.floor(Math.random() * possible.length));
+    return string;
+  };
+  let uniqueId: string;
+  do {
+    uniqueId = create();
+  } while (
+    uniqueId === undefined ||
+    items.find((item) => item.id === uniqueId)
+  );
+  return uniqueId;
+};
+
+const addUniqueId = (items: Array<ListItem>) => {
+  // check if id is unique
+  const itemsWithId = items.map((item: ListItem) => {
+    return { value: item.value, id: createUniqueId(items) } as ListItem;
+  });
+  return itemsWithId;
+};
+
+/**
+ * | Test ID                                    | Description                  |
+ * | ------------------------------------------ | ---------------------------- |
+ * | `expandableList`                           | container                    |
+ * | `expandableList-item-${index}`             | list item                    |
+ * | `expandable-list-add`                      | add button                   |
+ * | `expandableList-item-additional-${index}`  | additional list item action  |
+ * | `expandableList-item-delete-${index}`      | delete button                |
+ */
+
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
     initialItems = [{ value: '' }, { value: '' }, { value: '' }],
@@ -56,33 +111,22 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     onChange,
   } = props;
 
-  const createUniqueId = () => {
-    let text = '';
-    const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-  };
-
-  const addUniqueId = (items: Array<ListItem>) => {
-    // check if id is unique
-    const itemsWithId = items.map((item: ListItem) => {
-      return { value: item.value, id: createUniqueId() } as ListItem;
-    });
-    return itemsWithId;
-  };
-
   const [items, setItems] = React.useState(addUniqueId(initialItems));
+  const classes = useExpandableListStyles();
+
+  const updateState = (newItems: Array<ListItem>) => {
+    setItems(newItems);
+    onChange(
+      newItems.map((item: ListItem, index: number) => {
+        return { value: item.value, index };
+      })
+    );
+  };
 
   const handleUpdateItem = (id: string, value: string) => {
     const index = items.findIndex((item) => item.id === id);
     items[index].value = value;
-    setItems(items);
-    onChange(
-      items.map((item: ListItem, index: number) => {
-        return { value: item.value, index };
-      })
-    );
+    updateState(items);
   };
 
   const handleDeleteItem = (item: ListItem) => {
@@ -91,24 +135,11 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
       ...items.slice(0, itemIndex),
       ...items.slice(itemIndex + 1),
     ];
-    setItems(newItems);
-    onChange(
-      newItems.map((item: ListItem, index: number) => {
-        return { value: item.value, index };
-      })
-    );
+    updateState(newItems);
   };
-  const classes = useExpandableListStyles();
 
   const handleAddItem = () => {
-    setItems([...items, { value: '', id: createUniqueId() }]);
-    onChange(
-      [...items, { value: '', id: createUniqueId() }].map(
-        (item: ListItem, index: number) => {
-          return { value: item.value, index };
-        }
-      )
-    );
+    updateState([...items, { value: '', id: createUniqueId(items) }]);
   };
 
   const renderItems = React.useMemo(() => {
@@ -122,12 +153,14 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           additionalAction={addtionalAction}
           initialValue={item.value}
           onChange={(value: string) => handleUpdateItem(item.id!, value)}
+          index={index}
         />
       );
     });
   }, [items, addtionalAction]);
+
   return (
-    <>
+    <div data-testid="expandableList">
       <Typography variant="body1" gutterBottom={true} color="textSecondary">
         {headline}
       </Typography>
@@ -138,10 +171,11 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         color={'primary'}
         onClick={handleAddItem}
         className={classes.addButton}
+        data-testid="expandable-list-add"
       >
         {addButtonLabel}
       </Button>
-    </>
+    </div>
   );
 };
 
@@ -156,6 +190,7 @@ export interface ExpandableListItemProps {
         handler: () => void;
       }
     | undefined;
+  index: number;
 }
 
 export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
@@ -167,6 +202,7 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
     additionalAction,
     initialValue,
     onChange,
+    index,
   } = props;
   const [value, setValue] = React.useState<string | ''>(initialValue);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -178,17 +214,27 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
     <IconButton
       icon={additionalAction.icon}
       onClick={additionalAction.handler}
+      data-testid={`expandableList-item-additional-${index}`}
     />
   ) : null;
   return (
     <li className={classes.listItem}>
       <div className={classes.listItemInner}>
         <div className={classes.inputField}>
-          <TextField label={label} value={value} onChange={handleChange} />
+          <TextField
+            label={label}
+            value={value}
+            onChange={handleChange}
+            inputTestId={`expandableList-item-${index}`}
+          />
         </div>
         <div className={classes.icons}>
           {icon}
-          <IconButton icon={Delete} onClick={onDeleteClick} />
+          <IconButton
+            icon={Delete}
+            onClick={onDeleteClick}
+            data-testid={`expandableList-item-delete-${index}`}
+          />
         </div>
       </div>
     </li>

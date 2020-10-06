@@ -13,7 +13,7 @@ export default {
 };
 
 export const Default = () => {
-  const handleChange = (listItems: Array<any>) => {
+  const handleChange = (listItems: Array<unknown>) => {
     console.log(listItems);
   };
 
@@ -37,7 +37,7 @@ export const WithAdditionalAction = () => {
     console.log('This is an additional Action');
   };
 
-  const handleChange = (listItems: Array<any>) => {
+  const handleChange = (listItems: Array<unknown>) => {
     console.log(listItems);
   };
 
