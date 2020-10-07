@@ -1,13 +1,17 @@
 import * as React from 'react';
-// import { List, ListItem } from '@material-ui/core';
 import { TextField, IconButton, Button } from '..';
 import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 
 export interface ListItem {
-  value: string | '';
+  value: string | undefined;
   id?: string;
+}
+
+export interface AdditionalActionItem {
+  icon: React.ElementType<SvgIconProps>;
+  handler: () => void;
 }
 export interface ExpandableListProps {
   /**
@@ -17,19 +21,12 @@ export interface ExpandableListProps {
   /**
    *addtional action for list item with icon and handler function
    */
-  addtionalAction?: {
-    icon: React.ElementType<SvgIconProps>;
-    handler: () => void;
-  };
+  additionalActions?: Array<AdditionalActionItem>;
   /**
    * label to be displayed in the option field
    * @default 'Option'
    */
   optionLabel?: string;
-  /**
-   * list headline
-   */
-  headline?: string;
   /**
    * label for button to add options
    * @default 'Option hinzufügen'
@@ -42,27 +39,25 @@ export interface ExpandableListProps {
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
-  listItemInner: () => ({
+  listItemInner: {
     display: 'flex',
     marginBottom: theme.spacing(3),
-  }),
-  listItem: () => ({
-    lineHeight: '56px',
-    color: theme.palette.action.active,
-    fontSize: '16px',
-  }),
-  inputField: () => ({
+  },
+  listItem: {
+    lineHeight: `${theme.spacing(7)}px`,
+  },
+  inputField: {
     flex: 'auto',
     marginRight: theme.spacing(3),
     marginLeft: theme.spacing(4),
-  }),
-  icons: () => ({
+  },
+  icons: {
     flex: '0 0 auto',
-  }),
-  addButton: () => ({
+  },
+  addButton: {
     marginLeft: theme.spacing(5),
-  }),
-  list: () => ({ paddingLeft: theme.spacing(2) }),
+  },
+  list: { paddingLeft: theme.spacing(2) },
 }));
 
 const createUniqueId = (items: Array<ListItem>) => {
@@ -84,7 +79,6 @@ const createUniqueId = (items: Array<ListItem>) => {
 };
 
 const addUniqueId = (items: Array<ListItem>) => {
-  // check if id is unique
   const itemsWithId = items.map((item: ListItem) => {
     return { value: item.value, id: createUniqueId(items) } as ListItem;
   });
@@ -103,10 +97,13 @@ const addUniqueId = (items: Array<ListItem>) => {
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
-    addtionalAction,
+    initialItems = [
+      { value: undefined },
+      { value: undefined },
+      { value: undefined },
+    ],
+    additionalActions = [],
     optionLabel = 'Option',
-    headline,
     addButtonLabel = 'Option hinzufügen',
     onChange,
   } = props;
@@ -129,12 +126,8 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     updateState(items);
   };
 
-  const handleDeleteItem = (item: ListItem) => {
-    const itemIndex = items.indexOf(item);
-    const newItems = [
-      ...items.slice(0, itemIndex),
-      ...items.slice(itemIndex + 1),
-    ];
+  const handleDeleteItem = (index: number) => {
+    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
     updateState(newItems);
   };
 
@@ -149,21 +142,18 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         <ExpandableListItem
           key={item.id}
           label={label}
-          onDeleteClick={() => handleDeleteItem(item)}
-          additionalAction={addtionalAction}
+          onDeleteClick={() => handleDeleteItem(index)}
+          additionalActions={additionalActions}
           initialValue={item.value}
           onChange={(value: string) => handleUpdateItem(item.id!, value)}
           index={index}
         />
       );
     });
-  }, [items, addtionalAction]);
+  }, [items, additionalActions]);
 
   return (
     <div data-testid="expandableList">
-      <Typography variant="body1" gutterBottom={true} color="textSecondary">
-        {headline}
-      </Typography>
       <ol className={classes.list}>{renderItems}</ol>
       <Button
         variant="text"
@@ -181,44 +171,51 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 
 export interface ExpandableListItemProps {
   label: string;
-  initialValue: string;
+  initialValue: string | undefined;
   onDeleteClick: () => void;
   onChange: (value: string) => void;
-  additionalAction:
-    | {
-        icon: React.ElementType<SvgIconProps>;
-        handler: () => void;
-      }
-    | undefined;
+  additionalActions?: Array<AdditionalActionItem>;
   index: number;
 }
 
-export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
-  props
-) => {
+const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
   const {
     label,
     onDeleteClick,
-    additionalAction,
+    additionalActions,
     initialValue,
     onChange,
     index,
   } = props;
-  const [value, setValue] = React.useState<string | ''>(initialValue);
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setValue(event.target.value as string);
-    onChange(event.target.value as string);
+  const [value, setValue] = React.useState<string | undefined>(initialValue);
+  const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
+    setValue(event.target.value);
+    onChange(event.target.value);
   };
   const classes = useExpandableListStyles();
-  const icon = additionalAction ? (
-    <IconButton
-      icon={additionalAction.icon}
-      onClick={additionalAction.handler}
-      data-testid={`expandableList-item-additional-${index}`}
-    />
-  ) : null;
+  const additionalActionsIconButtons = React.useMemo(() => {
+    return additionalActions
+      ? additionalActions.map((additionalAction: AdditionalActionItem) => {
+          return (
+            <IconButton
+              key={index}
+              icon={additionalAction.icon}
+              onClick={additionalAction.handler}
+              data-testid={`expandableList-item-additional-${index}`}
+            />
+          );
+        })
+      : null;
+  }, [additionalActions]);
+
   return (
-    <li className={classes.listItem}>
+    <Typography
+      variant="body1"
+      gutterBottom={true}
+      color="textSecondary"
+      component="li"
+      className={classes.listItem}
+    >
       <div className={classes.listItemInner}>
         <div className={classes.inputField}>
           <TextField
@@ -229,7 +226,7 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
           />
         </div>
         <div className={classes.icons}>
-          {icon}
+          {additionalActionsIconButtons}
           <IconButton
             icon={Delete}
             onClick={onDeleteClick}
@@ -237,6 +234,6 @@ export const ExpandableListItem: React.FC<ExpandableListItemProps> = (
           />
         </div>
       </div>
-    </li>
+    </Typography>
   );
 };

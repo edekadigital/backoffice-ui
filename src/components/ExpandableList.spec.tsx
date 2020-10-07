@@ -17,12 +17,12 @@ const items = [
 const setup = (noInitialItems = false, hasAdditionalAction = false) => {
   const onChangeFn = jest.fn();
   const handlerFn = jest.fn();
-  const additionalAction = { icon: Star, handler: handlerFn };
+  const additionalAction = [{ icon: Star, handler: handlerFn }];
   const renderResult = render(
     <ExpandableList
       initialItems={!noInitialItems ? items : undefined}
       onChange={onChangeFn}
-      addtionalAction={!hasAdditionalAction ? undefined : additionalAction}
+      additionalActions={!hasAdditionalAction ? undefined : additionalAction}
     />
   );
   const string = 'foo';
@@ -33,7 +33,7 @@ describe('<ExpandableList />', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
-    const { renderResult } = setup(false);
+    const { renderResult } = setup();
 
     const { getByTestId } = renderResult;
 
@@ -44,17 +44,18 @@ describe('<ExpandableList />', () => {
     );
   });
   it('delete Button should delete items', () => {
-    const { renderResult, onChangeFn } = setup(false);
+    const { renderResult, onChangeFn } = setup();
 
     const { getByTestId } = renderResult;
 
     userEvent.click(getByTestId('expandableList-item-delete-0'));
     expect(onChangeFn).toHaveBeenCalledTimes(1);
     expect(onChangeFn.mock.calls[0][0].length).toBe(items.length - 1);
+    expect(onChangeFn.mock.calls[0][0][0].value).toBe(items[1].value);
   });
 
   it('add Button should add item', () => {
-    const { renderResult, onChangeFn } = setup(false);
+    const { renderResult, onChangeFn } = setup();
 
     const { getByTestId } = renderResult;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExpandableList } from '..'; // @edekadigital/backoffice-ui
+import { ExpandableList, ListItem } from '..'; // @edekadigital/backoffice-ui
 import { Check } from '../icons';
 
 export default {
@@ -13,7 +13,7 @@ export default {
 };
 
 export const Default = () => {
-  const handleChange = (listItems: Array<unknown>) => {
+  const handleChange = (listItems: Array<ListItem>) => {
     console.log(listItems);
   };
 
@@ -25,7 +25,6 @@ export const Default = () => {
         { value: 'Melone' },
       ]}
       optionLabel="Option"
-      headline="Liste von Optionen"
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
     />
@@ -37,15 +36,14 @@ export const WithAdditionalAction = () => {
     console.log('This is an additional Action');
   };
 
-  const handleChange = (listItems: Array<unknown>) => {
+  const handleChange = (listItems: Array<ListItem>) => {
     console.log(listItems);
   };
 
   return (
     <ExpandableList
       optionLabel="Option"
-      addtionalAction={{ icon: Check, handler: handleClick }}
-      headline="Liste von Optionen"
+      additionalActions={[{ icon: Check, handler: handleClick }]}
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
     />
