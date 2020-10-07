@@ -13,8 +13,8 @@ export interface RadioButtonTilesProps<D> {
    */
   items: Array<{
     value: D;
-    label: string;
-    icon?: React.ElementType<SvgIconProps>;
+    label?: string;
+    icon: React.ElementType<SvgIconProps>;
   }>;
   /**
    * Callback function for clicking a button tile
@@ -70,9 +70,9 @@ export function RadioButtonTiles<D>(props: RadioButtonTilesProps<D>) {
 }
 
 interface RadioButtonTileProps<D> {
-  label: string;
+  label?: string;
   value: D;
-  icon?: React.ElementType<SvgIconProps>;
+  icon: React.ElementType<SvgIconProps>;
   checked?: boolean;
   index: number;
   onChange?: (
@@ -109,13 +109,14 @@ const useTileStyles = makeStyles<Theme, { checked?: boolean }>(
 function RadioButtonTile<D>(props: RadioButtonTileProps<D>) {
   const { checked, label, onChange, value, index } = props;
   const classes = useTileStyles({ checked });
-  const icon = props.icon ? (
+  const icon = (
     <props.icon
       fontSize="large"
       className={classes.icon}
       data-testid={`radioButtonTiles-item-${index}-icon`}
     />
-  ) : undefined;
+  );
+
   return (
     <div
       className={classes.root}
