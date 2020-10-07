@@ -28,6 +28,7 @@ export * from './components/StatusChip';
 export * from './components/Switch';
 export * from './components/TabNavigation';
 export * from './components/TextField';
+export * from './components/TitleBar';
 export * from './components/LogTable';
 export * from './components/Checkbox';
 

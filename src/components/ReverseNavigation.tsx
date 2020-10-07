@@ -64,6 +64,7 @@ const useStyles = makeStyles<Theme, ReverseNavigationProps>((theme: Theme) => ({
  * | `reverseNavigation-title`  | Title                |
  * | `reverseNavigation-infoBar`| Info bar container   |
  * | `reverseNavigation-actions`| Actions container    |
+ * @deprecated Use `TitleBar` instead
  */
 export const ReverseNavigation: React.FC<ReverseNavigationProps> = (props) => {
   const { onBackClick, children, infoBarContent, action } = props;

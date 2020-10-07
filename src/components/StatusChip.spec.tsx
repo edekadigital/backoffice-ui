@@ -14,6 +14,13 @@ describe('<StatusChip/>', () => {
     expect(getByText(label)!).toBeTruthy();
   });
 
+  it('should render the status chip without border', () => {
+    const { getByText } = render(
+      <StatusChip label={label} variant={'naked'} />
+    );
+    expect(getByText(label)!).toBeTruthy();
+  });
+
   it('should render the status chip with icon', () => {
     const { getByText, queryByTestId } = render(
       <StatusChip label={label} icon={ArrowDropDown} />
