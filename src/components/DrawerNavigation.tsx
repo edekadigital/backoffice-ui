@@ -6,6 +6,11 @@ import {
   Drawer,
   useTheme,
   Fab,
+  ListItem,
+  List,
+  Typography,
+  SvgIconProps,
+  ListItemText,
 } from '@material-ui/core';
 import * as React from 'react';
 import { Close, Menu } from '../icons';
@@ -13,6 +18,7 @@ import { Close, Menu } from '../icons';
 interface DrawerNavigationMenuItem<T> {
   label: string;
   value: T;
+  icon?: React.ElementType<SvgIconProps>;
 }
 
 export type DrawerNavigationItem<T> =
@@ -20,10 +26,10 @@ export type DrawerNavigationItem<T> =
   | { label: string; items: Array<DrawerNavigationMenuItem<T>> };
 
 export interface DrawerNavigationProps<T> {
-  items: Array<DrawerNavigationItem<T>>;
   /**
-   * The menu item to be selected and active.
+   * The menu items to show
    */
+  items: Array<DrawerNavigationItem<T>>;
   /**
    * The link component to use. Default component is `button`
    * @default "button"
@@ -33,33 +39,47 @@ export interface DrawerNavigationProps<T> {
    * Callback fired when a menu item is clicked.
    */
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
-  value?: T;
+  /**
+   * The menu item to be selected and active.
+   */
+  value: T;
 }
 
 const drawerWidth = 256;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    drawer: {
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
     drawerPaper: {
-      width: '100%',
+      width: '75%',
+      padding: theme.spacing(4),
       [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
+        padding: theme.spacing(4, 2, 4, 2),
       },
-      padding: theme.spacing(4, 2, 4, 2),
     },
-    drawerContent: {
+    navList: {
       [theme.breakpoints.down('sm')]: {
-        display: 'flex',
-        alignItems: 'center',
         height: '100%',
       },
+    },
+    navListItem: {
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: -theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+        width: `calc(100% + ${theme.spacing(4)}px)`,
+      },
+    },
+    navListItemActive: {
+      color: theme.palette.primary.main,
+      backgroundColor: 'transparent!important',
+    },
+    navListSubContainer: {
+      ['&:not(:first-child)']: {
+        marginTop: theme.spacing(4),
+      },
+    },
+    navIcon: {
+      marginRight: theme.spacing(1),
     },
     fab: {
       position: 'absolute',
@@ -71,8 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
-  const { items, linkComponent = 'button' } = props;
-  const LinkComponent = linkComponent;
+  const { items, linkComponent = 'button', value, onChange } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -81,26 +100,58 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleItemClick = (e: React.ChangeEvent, val: T) => {
+    onChange && onChange(e, val);
+    setMobileOpen(false);
+  };
+
   const drawer = React.useMemo(() => {
     if (!items || items.length < 1) return null;
-    const renderLink = (item: DrawerNavigationMenuItem<T>) => (
-      <LinkComponent to={item.value} value={item.value} label={item.label} />
+    const renderLink = (item: DrawerNavigationMenuItem<T>, index: number) => (
+      <ListItem
+        classes={{
+          button: classes.navListItem,
+          selected: classes.navListItemActive,
+        }}
+        selected={value === item.value}
+        button={true}
+        key={index}
+        component={linkComponent}
+        href={!onChange ? item.value : null}
+        to={!onChange ? item.value : null}
+        onClick={(e: React.ChangeEvent) => handleItemClick(e, item.value)}
+        disableGutters
+      >
+        {item.icon ? (
+          <item.icon fontSize="small" className={classes.navIcon} />
+        ) : null}
+        <ListItemText primary={item.label} />
+      </ListItem>
     );
     return (
-      <div className={classes.drawerContent}>
-        {items.map((item) => {
+      <List className={classes.navList}>
+        {items.map((item, index) => {
           if ('items' in item) {
-            <div style={{ color: 'red' }}>{item.label}</div>;
+            return (
+              <div key={index} className={classes.navListSubContainer}>
+                <Typography variant={'overline'} color={'textSecondary'}>
+                  {item.label}
+                </Typography>
+                {item.items.map((subItem, subIndex) =>
+                  renderLink(subItem, subIndex)
+                )}
+              </div>
+            );
           } else {
-            renderLink(item);
+            return renderLink(item, index);
           }
         })}
-      </div>
+      </List>
     );
   }, [items]);
 
   return (
-    <nav className={classes.drawer}>
+    <nav>
       <Hidden smUp implementation="css">
         <Drawer
           variant="temporary"
