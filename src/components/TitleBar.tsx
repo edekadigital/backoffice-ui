@@ -80,7 +80,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
       marginLeft: floatingBackButton && onBackClick ? theme.spacing(-5.5) : 0,
     },
     display: 'flex',
-    minHeight: theme.spacing(7.25),
+    minHeight: 60,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
@@ -92,7 +92,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     },
   },
   titleWrapper: {
-    minHeight: theme.spacing(7.25),
+    minHeight: 60,
     marginBottom: theme.spacing(1),
     [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
       display: 'flex',
@@ -125,7 +125,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
   },
   actionsWrapper: {
     alignSelf: 'start',
-    lineHeight: `${theme.spacing(7.25)}px`,
+    lineHeight: '60px',
   },
 }));
 
