@@ -86,13 +86,14 @@ const addUniqueId = (items: Array<ListItem>) => {
 };
 
 /**
- * | Test ID                                    | Description                  |
- * | ------------------------------------------ | ---------------------------- |
- * | `expandableList`                           | container                    |
- * | `expandableList-item-${index}`             | list item                    |
- * | `expandable-list-add`                      | add button                   |
- * | `expandableList-item-additional-${index}`  | additional list item action  |
- * | `expandableList-item-delete-${index}`      | delete button                |
+ * | Test ID                                       | Description                     |
+ * | --------------------------------------------- | ------------------------------- |
+ * | `expandableList`                              | container                       |
+ * | `expandableList-item-${index}`                | list item                       |
+ * | `expandable-list-add`                         | add button                      |
+ * | `expandableList-item-additional-${index}`     | additional list item action     |
+ * | `expandableList-item-additional-icon-${index}`| additional list item action icon|
+ * | `expandableList-item-delete-${index}`         | delete button                   |
  */
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
@@ -210,7 +211,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     checked = false,
     disabled = false,
     checkable,
-    value = '',
+    value,
   } = props;
   const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
     onChange(event.target.value);
@@ -218,7 +219,12 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
 
   const classes = useExpandableListStyles();
   const iconColor = checked ? '#4caf50' : undefined;
-  const icon = () => <Check htmlColor={iconColor} />;
+  const icon = () => (
+    <Check
+      htmlColor={iconColor}
+      data-testid={`expandableList-item-additional-icon-${index}`}
+    />
+  );
 
   const checkButton = checkable ? (
     <IconButton

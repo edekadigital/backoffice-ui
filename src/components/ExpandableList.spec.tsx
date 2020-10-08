@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
 import { ExpandableList } from '..';
-import { Star } from '../icons';
 import { render } from '../test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -14,17 +13,20 @@ const items = [
   },
 ];
 
-const setup = (noInitialItems = false, hasAdditionalAction = false) => {
+const setup = (
+  noInitialItems = false,
+  isCheckable: string | undefined = undefined
+) => {
   const onChangeFn = jest.fn();
-  const handlerFn = jest.fn();
   const renderResult = render(
     <ExpandableList
       initialItems={!noInitialItems ? items : undefined}
       onChange={onChangeFn}
+      checkable={isCheckable}
     />
   );
   const string = 'foo';
-  return { onChangeFn, renderResult, handlerFn, string };
+  return { onChangeFn, renderResult, string };
 };
 
 describe('<ExpandableList />', () => {
@@ -61,16 +63,35 @@ describe('<ExpandableList />', () => {
     expect(onChangeFn).toHaveBeenCalledTimes(1);
     expect(onChangeFn.mock.calls[0][0].length).toBe(items.length + 1);
   });
-  // it('addtional action should render addtional icon and call callback', () => {
-  //   const { renderResult, handlerFn } = setup(true, true);
-  //   const { getByTestId } = renderResult;
+  it('checkable should render addtional check icon with single selection', () => {
+    const { renderResult } = setup(true, 'single');
+    const { getByTestId } = renderResult;
 
-  //   expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
-  //   userEvent.click(getByTestId('expandableList-item-additional-0'));
-  //   expect(handlerFn).toHaveBeenCalledTimes(1);
-  // });
+    expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
+    userEvent.click(getByTestId('expandableList-item-additional-1'));
+    expect(
+      getByTestId('expandableList-item-additional-icon-1').getAttribute('color')
+    ).toBe('#4caf50');
+    expect(
+      getByTestId('expandableList-item-additional-icon-0').getAttribute('color')
+    ).toBeFalsy();
+  });
+  it('checkable should render addtional check icon with multiple selection', () => {
+    const { renderResult } = setup(true, 'multiple');
+    const { getByTestId } = renderResult;
+
+    expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
+    userEvent.click(getByTestId('expandableList-item-additional-1'));
+    userEvent.click(getByTestId('expandableList-item-additional-0'));
+    expect(
+      getByTestId('expandableList-item-additional-icon-1').getAttribute('color')
+    ).toBe('#4caf50');
+    expect(
+      getByTestId('expandableList-item-additional-icon-0').getAttribute('color')
+    ).toBe('#4caf50');
+  });
   it('should handle inputs correctly', () => {
-    const { renderResult, onChangeFn, string } = setup(true, true);
+    const { renderResult, onChangeFn, string } = setup(true, 'single');
     const { getByTestId } = renderResult;
     userEvent.type(getByTestId('expandableList-item-0'), string);
     expect(onChangeFn).toHaveBeenCalledTimes(string.length);
