@@ -6,10 +6,10 @@ import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
 
 export interface ListItem {
-  value: string | undefined;
+  value: string | '';
   id?: string;
-  checked?: boolean | undefined;
-  disabled?: boolean | undefined;
+  checked?: boolean;
+  disabled?: boolean;
 }
 
 export interface AdditionalActionItem {
@@ -97,11 +97,7 @@ const addUniqueId = (items: Array<ListItem>) => {
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    initialItems = [
-      { value: undefined },
-      { value: undefined },
-      { value: undefined },
-    ],
+    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
     optionLabel = 'Option',
     addButtonLabel = 'Option hinzufügen',
     onChange,
@@ -112,7 +108,8 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
-    setItems(newItems);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setItems((prevState) => [...newItems]);
     onChange(
       newItems.map((item: ListItem, index: number) => {
         return {
@@ -129,6 +126,20 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     const index = items.findIndex((item) => item.id === id);
     items[index].value = value;
     updateState(items);
+  };
+
+  const handleUpdateCheck = (id: string) => {
+    const newItems = items;
+    const index = newItems.findIndex((item) => item.id === id);
+    if (checkable === 'multiple') {
+      newItems[index].checked = !newItems[index].checked;
+    } else {
+      newItems.map((item) => {
+        item.checked = false;
+      });
+      newItems[index].checked = true;
+    }
+    updateState(newItems);
   };
 
   const handleDeleteItem = (index: number) => {
@@ -148,8 +159,9 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           key={item.id}
           label={label}
           onDeleteClick={() => handleDeleteItem(index)}
-          initialValue={item.value}
+          value={item.value}
           onChange={(value: string) => handleUpdateItem(item.id!, value)}
+          onCheck={() => handleUpdateCheck(item.id!)}
           index={index}
           checkable={checkable}
           checked={item.checked}
@@ -178,48 +190,41 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 
 export interface ExpandableListItemProps {
   label: string;
-  initialValue: string | undefined;
+  value: string;
   onDeleteClick: () => void;
   onChange: (value: string) => void;
-  additionalActions?: Array<AdditionalActionItem>;
+  onCheck: () => void;
   index: number;
-  checked: boolean | undefined;
-  disabled: boolean | undefined;
-  checkable: boolean | string | undefined;
+  checked?: boolean;
+  disabled?: boolean;
+  checkable?: boolean | string;
 }
 
 const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
   const {
     label,
     onDeleteClick,
-    initialValue,
     onChange,
+    onCheck,
     index,
     checked = false,
     disabled = false,
     checkable,
+    value = '',
   } = props;
-  const [value, setValue] = React.useState<string | undefined>(initialValue);
-  const [isChecked, setIsChecked] = React.useState<boolean | undefined>(
-    checked
-  );
   const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
-    setValue(event.target.value);
     onChange(event.target.value);
   };
 
-  const handleCheckClick = () => {
-    setIsChecked(!isChecked);
-  };
   const classes = useExpandableListStyles();
-  const iconColor = isChecked ? '#4caf50' : undefined;
+  const iconColor = checked ? '#4caf50' : undefined;
   const icon = () => <Check htmlColor={iconColor} />;
 
   const checkButton = checkable ? (
     <IconButton
       key={index}
       icon={icon}
-      onClick={handleCheckClick}
+      onClick={onCheck}
       data-testid={`expandableList-item-additional-${index}`}
       disabled={disabled}
     />

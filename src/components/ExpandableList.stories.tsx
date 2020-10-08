@@ -46,7 +46,7 @@ export const WithAdditionalCheckButton = () => {
       optionLabel="Option"
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
-      checkable="single" //multiple | true dann single
+      checkable="single"
       initialItems={initialItems}
     />
   );
@@ -68,7 +68,7 @@ export const Disabled = () => {
       optionLabel="Option"
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
-      checkable="single" //multiple | true dann single
+      checkable="single"
       initialItems={initialItems}
     />
   );
