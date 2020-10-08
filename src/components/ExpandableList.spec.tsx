@@ -17,12 +17,10 @@ const items = [
 const setup = (noInitialItems = false, hasAdditionalAction = false) => {
   const onChangeFn = jest.fn();
   const handlerFn = jest.fn();
-  const additionalAction = [{ icon: Star, handler: handlerFn }];
   const renderResult = render(
     <ExpandableList
       initialItems={!noInitialItems ? items : undefined}
       onChange={onChangeFn}
-      additionalActions={!hasAdditionalAction ? undefined : additionalAction}
     />
   );
   const string = 'foo';
@@ -63,14 +61,14 @@ describe('<ExpandableList />', () => {
     expect(onChangeFn).toHaveBeenCalledTimes(1);
     expect(onChangeFn.mock.calls[0][0].length).toBe(items.length + 1);
   });
-  it('addtional action should render addtional icon and call callback', () => {
-    const { renderResult, handlerFn } = setup(true, true);
-    const { getByTestId } = renderResult;
+  // it('addtional action should render addtional icon and call callback', () => {
+  //   const { renderResult, handlerFn } = setup(true, true);
+  //   const { getByTestId } = renderResult;
 
-    expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
-    userEvent.click(getByTestId('expandableList-item-additional-0'));
-    expect(handlerFn).toHaveBeenCalledTimes(1);
-  });
+  //   expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
+  //   userEvent.click(getByTestId('expandableList-item-additional-0'));
+  //   expect(handlerFn).toHaveBeenCalledTimes(1);
+  // });
   it('should handle inputs correctly', () => {
     const { renderResult, onChangeFn, string } = setup(true, true);
     const { getByTestId } = renderResult;
