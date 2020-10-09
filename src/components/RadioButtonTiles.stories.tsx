@@ -29,7 +29,7 @@ export const Default = () => {
 };
 
 export const ThreeTilesPerLine = () => {
-  const [value, setValue] = React.useState<string>('a');
+  const [value, setValue] = React.useState<string | undefined>(undefined);
   const handleChange = (
     _: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: string
