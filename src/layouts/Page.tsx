@@ -22,8 +22,8 @@ const useStyles = makeStyles<Theme, { paddingBottom?: boolean }>(
     root: ({ paddingBottom }) => ({
       paddingBottom: paddingBottom ? theme.spacing(10) : theme.spacing(0),
       [theme.breakpoints.up(theme.breakpoints.width('xs'))]: {
-        paddingLeft: theme.spacing(1.5),
-        paddingRight: theme.spacing(1.5),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
       },
       [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
         paddingLeft: theme.spacing(3),

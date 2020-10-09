@@ -4,7 +4,6 @@ import {
   createStyles,
   Hidden,
   Drawer,
-  useTheme,
   Fab,
   ListItem,
   List,
@@ -27,16 +26,22 @@ export type DrawerNavigationItem<T> =
 
 export interface DrawerNavigationProps<T> {
   /**
+   * The elements (children) to be rendered next to the navigation
+   */
+  children?: React.ReactNode;
+  /**
    * The menu items to show
    */
   items: Array<DrawerNavigationItem<T>>;
   /**
    * The link component to use. Default component is `button`
+   * You can provide a routers link component, e.g. if you use reach router
    * @default "button"
    */
   linkComponent?: React.ElementType;
   /**
    * Callback fired when a menu item is clicked.
+   * Only use this if you do not want to use a router (e.g. reach) and want to use an external react state instead
    */
   onChange?: (event: React.ChangeEvent<{}>, value: T) => void;
   /**
@@ -54,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(4),
       [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
-        padding: theme.spacing(4, 2, 4, 2),
+        padding: theme.spacing(12, 2, 4, 2),
       },
     },
     navList: {
@@ -82,18 +87,34 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
     },
     fab: {
-      position: 'absolute',
+      position: 'fixed',
       bottom: theme.spacing(4),
       left: theme.spacing(4),
-      zIndex: 13000,
+      zIndex: theme.zIndex.modal + 1,
+    },
+    content: {
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: drawerWidth,
+      },
     },
   })
 );
 
+/**
+ * | Test ID                                    | Description                                                |
+ * | ------------------------------------------ | ---------------------------------------------------------- |
+ * | `drawerNavigation-drawer`                  | navigation drawer container for large viewports            |
+ * | `drawerNavigation-mobileDrawer`            | navigation drawer container for mobile viewports           |
+ * | `drawerNavigation-mobileMenuButton`        | button to toggle the navigation drawer on mobile viewports |
+ * | `drawerNavigation-list`                    | navigation items list wrapper                              |
+ * | `drawerNavigation-linkItem-${index}`       | link item                                                  |
+ * | `drawerNavigation-linkItem-${index}-icon`  | icon of link item                                          |
+ * | `drawerNavigation-linkItem-${index}-label` | label of link item                                         |
+ * | `drawerNavigation-subLabel-${index}`       | label (title) of a given link subgroup                     |
+ */
 export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
-  const { items, linkComponent = 'button', value, onChange } = props;
+  const { children, items, linkComponent = 'button', value, onChange } = props;
   const classes = useStyles();
-  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -106,8 +127,10 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
   };
 
   const drawer = React.useMemo(() => {
-    if (!items || items.length < 1) return null;
-    const renderLink = (item: DrawerNavigationMenuItem<T>, index: number) => (
+    const renderLink = (
+      item: DrawerNavigationMenuItem<T>,
+      index: number | string
+    ) => (
       <ListItem
         classes={{
           button: classes.navListItem,
@@ -121,24 +144,40 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
         to={!onChange ? item.value : null}
         onClick={(e: React.ChangeEvent) => handleItemClick(e, item.value)}
         disableGutters
+        data-testid={`drawerNavigation-linkItem-${index}`}
       >
         {item.icon ? (
-          <item.icon fontSize="small" className={classes.navIcon} />
+          <item.icon
+            fontSize="small"
+            className={classes.navIcon}
+            data-testid={`drawerNavigation-linkItem-${index}-icon`}
+          />
         ) : null}
-        <ListItemText primary={item.label} />
+        <ListItemText
+          primary={item.label}
+          data-testid={`drawerNavigation-linkItem-${index}-label`}
+        />
       </ListItem>
     );
     return (
-      <List className={classes.navList}>
+      <List
+        className={classes.navList}
+        data-testid="drawerNavigation-list"
+        disablePadding
+      >
         {items.map((item, index) => {
           if ('items' in item) {
             return (
               <div key={index} className={classes.navListSubContainer}>
-                <Typography variant={'overline'} color={'textSecondary'}>
+                <Typography
+                  variant={'overline'}
+                  color={'textSecondary'}
+                  data-testid={`drawerNavigation-subLabel-${index}`}
+                >
                   {item.label}
                 </Typography>
                 {item.items.map((subItem, subIndex) =>
-                  renderLink(subItem, subIndex)
+                  renderLink(subItem, `${index}-${subIndex}`)
                 )}
               </div>
             );
@@ -151,11 +190,11 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
   }, [items]);
 
   return (
-    <nav>
-      <Hidden smUp implementation="css">
+    <>
+      <Hidden smUp implementation="js">
         <Drawer
           variant="temporary"
-          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          anchor={'left'}
           open={mobileOpen}
           onClose={handleDrawerToggle}
           classes={{
@@ -164,6 +203,7 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
+          data-testid="drawerNavigation-mobileDrawer"
         >
           {drawer}
         </Drawer>
@@ -171,21 +211,24 @@ export function DrawerNavigation<T>(props: DrawerNavigationProps<T>) {
           color={mobileOpen ? 'inherit' : 'primary'}
           className={classes.fab}
           onClick={handleDrawerToggle}
+          data-testid="drawerNavigation-mobileMenuButton"
         >
           {mobileOpen ? <Close /> : <Menu />}
         </Fab>
       </Hidden>
-      <Hidden xsDown implementation="css">
+      <Hidden xsDown implementation="js">
         <Drawer
           classes={{
             paper: classes.drawerPaper,
           }}
           variant="permanent"
           open
+          data-testid="drawerNavigation-drawer"
         >
           {drawer}
         </Drawer>
       </Hidden>
-    </nav>
+      <div className={classes.content}>{children}</div>
+    </>
   );
 }
