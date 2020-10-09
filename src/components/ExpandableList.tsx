@@ -4,18 +4,20 @@ import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
+import clsx from 'clsx';
 
 export interface ListItem {
   value: string | '';
   id?: string;
   checked?: boolean;
-  disabled?: boolean;
 }
 
 export interface AdditionalActionItem {
   icon: React.ElementType<SvgIconProps>;
   handler: () => void;
 }
+
+export type CheckOptions = 'single' | 'multiple';
 export interface ExpandableListProps {
   /**
    * initial list items with given value
@@ -35,7 +37,15 @@ export interface ExpandableListProps {
    * callback function which is called when items or items list are changed
    */
   onChange: (items: Array<ListItem>) => void;
-  checkable?: string | boolean | undefined;
+  /**
+   * options can be checked,
+   * @default 'multiple'
+   */
+  checkable?: CheckOptions | boolean;
+  /**
+   * if true component is shown as disabled
+   */
+  disabled?: boolean;
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -58,6 +68,7 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(5),
   },
   list: { paddingLeft: theme.spacing(2) },
+  checkIcon: { color: theme.palette.success.main },
 }));
 
 const createUniqueId = (items: Array<ListItem>) => {
@@ -103,20 +114,19 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel = 'Option hinzufügen',
     onChange,
     checkable,
+    disabled = false,
   } = props;
 
   const [items, setItems] = React.useState(addUniqueId(initialItems));
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setItems((prevState) => [...newItems]);
+    setItems(() => [...newItems]);
     onChange(
       newItems.map((item: ListItem, index: number) => {
         return {
           value: item.value,
           checked: item.checked,
-          disabled: item.disabled,
           index,
         };
       })
@@ -132,13 +142,13 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const handleUpdateCheck = (id: string) => {
     const newItems = items;
     const index = newItems.findIndex((item) => item.id === id);
-    if (checkable === 'multiple') {
-      newItems[index].checked = !newItems[index].checked;
-    } else {
+    if (checkable === 'single') {
       newItems.map((item) => {
         item.checked = false;
       });
       newItems[index].checked = true;
+    } else {
+      newItems[index].checked = !newItems[index].checked;
     }
     updateState(newItems);
   };
@@ -166,7 +176,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           index={index}
           checkable={checkable}
           checked={item.checked}
-          disabled={item.disabled}
+          disabled={disabled}
         />
       );
     });
@@ -182,6 +192,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         onClick={handleAddItem}
         className={classes.addButton}
         data-testid="expandable-list-add"
+        disabled={disabled}
       >
         {addButtonLabel}
       </Button>
@@ -218,10 +229,9 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
   };
 
   const classes = useExpandableListStyles();
-  const iconColor = checked ? '#4caf50' : undefined;
   const icon = () => (
     <Check
-      htmlColor={iconColor}
+      className={clsx({ [classes.checkIcon]: checked })}
       data-testid={`expandableList-item-additional-icon-${index}`}
     />
   );

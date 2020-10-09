@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { ExpandableList } from '..';
+import { ExpandableList, CheckOptions } from '..';
 import { render } from '../test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -15,7 +15,7 @@ const items = [
 
 const setup = (
   noInitialItems = false,
-  isCheckable: string | undefined = undefined
+  isCheckable: CheckOptions | undefined = undefined
 ) => {
   const onChangeFn = jest.fn();
   const renderResult = render(
@@ -64,31 +64,23 @@ describe('<ExpandableList />', () => {
     expect(onChangeFn.mock.calls[0][0].length).toBe(items.length + 1);
   });
   it('checkable should render addtional check icon with single selection', () => {
-    const { renderResult } = setup(true, 'single');
+    const { renderResult, onChangeFn } = setup(true, 'single');
     const { getByTestId } = renderResult;
 
     expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
     userEvent.click(getByTestId('expandableList-item-additional-1'));
-    expect(
-      getByTestId('expandableList-item-additional-icon-1').getAttribute('color')
-    ).toBe('#4caf50');
-    expect(
-      getByTestId('expandableList-item-additional-icon-0').getAttribute('color')
-    ).toBeFalsy();
+    expect(onChangeFn.mock.calls[0][0][1].checked).toBe(true);
+    expect(onChangeFn.mock.calls[0][0][0].checked).toBe(false);
   });
   it('checkable should render addtional check icon with multiple selection', () => {
-    const { renderResult } = setup(true, 'multiple');
+    const { renderResult, onChangeFn } = setup(true, 'multiple');
     const { getByTestId } = renderResult;
 
     expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
-    userEvent.click(getByTestId('expandableList-item-additional-1'));
     userEvent.click(getByTestId('expandableList-item-additional-0'));
-    expect(
-      getByTestId('expandableList-item-additional-icon-1').getAttribute('color')
-    ).toBe('#4caf50');
-    expect(
-      getByTestId('expandableList-item-additional-icon-0').getAttribute('color')
-    ).toBe('#4caf50');
+    userEvent.click(getByTestId('expandableList-item-additional-1'));
+    expect(onChangeFn.mock.calls[0][0][0].checked).toBe(true);
+    expect(onChangeFn.mock.calls[1][0][1].checked).toBe(true);
   });
   it('should handle inputs correctly', () => {
     const { renderResult, onChangeFn, string } = setup(true, 'single');

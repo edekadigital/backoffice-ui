@@ -36,6 +36,28 @@ export const WithAdditionalCheckButton = () => {
   };
 
   const initialItems = [
+    { value: 'Banane' },
+    { value: 'Apfel' },
+    { value: 'Melone' },
+  ];
+
+  return (
+    <ExpandableList
+      optionLabel="Option"
+      addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
+      checkable="multiple"
+      initialItems={initialItems}
+    />
+  );
+};
+
+export const Disabled = () => {
+  const handleChange = (listItems: Array<ListItem>) => {
+    console.log(listItems);
+  };
+
+  const initialItems = [
     { value: 'Banane', checked: true },
     { value: 'Apfel', checked: false },
     { value: 'Melone', checked: false },
@@ -48,28 +70,7 @@ export const WithAdditionalCheckButton = () => {
       onChange={handleChange}
       checkable="single"
       initialItems={initialItems}
-    />
-  );
-};
-
-export const Disabled = () => {
-  const handleChange = (listItems: Array<ListItem>) => {
-    console.log(listItems);
-  };
-
-  const initialItems = [
-    { value: 'Banane', checked: true, disabled: true },
-    { value: 'Apfel', checked: false, disabled: true },
-    { value: 'Melone', checked: false, disabled: true },
-  ];
-
-  return (
-    <ExpandableList
-      optionLabel="Option"
-      addButtonLabel="Option hinzufügen"
-      onChange={handleChange}
-      checkable="single"
-      initialItems={initialItems}
+      disabled={true}
     />
   );
 };
