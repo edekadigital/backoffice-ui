@@ -55,6 +55,10 @@ const theme = createMuiTheme(
       button: {
         lineHeight: 1.71,
       },
+      overline: {
+        fontWeight: 500,
+        letterSpacing: 0.83,
+      },
     },
     breakpoints: {
       values: {
