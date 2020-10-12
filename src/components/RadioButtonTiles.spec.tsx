@@ -13,6 +13,7 @@ describe('<RadioButtonTiles />', () => {
       {
         label: 'foo',
         value: 'bar',
+        icon: Star,
       },
     ];
     const { getByTestId, queryByTestId } = render(
@@ -23,13 +24,12 @@ describe('<RadioButtonTiles />', () => {
     expect(getByTestId('radioButtonTiles-item-0-label').textContent).toBe(
       items[0].label
     );
-    expect(queryByTestId('radioButtonTiles-item-0-icon')).toBeFalsy();
+    expect(queryByTestId('radioButtonTiles-item-0-icon')).toBeTruthy();
   });
 
-  it('should render the component with icon', () => {
+  it('should render the component without label', () => {
     const items = [
       {
-        label: 'foo',
         value: 'bar',
         icon: Star,
       },
@@ -37,7 +37,9 @@ describe('<RadioButtonTiles />', () => {
     const { getByTestId } = render(
       <RadioButtonTiles items={items} value="bar" />
     );
-    expect(getByTestId('radioButtonTiles-item-0-icon')).toBeTruthy();
+    expect(
+      getByTestId('radioButtonTiles-item-0-label').textContent
+    ).toBeFalsy();
   });
 
   it('should render multiple tiles and it should be possible to select an item', () => {
@@ -45,10 +47,12 @@ describe('<RadioButtonTiles />', () => {
       {
         label: 'foo',
         value: 'bar',
+        icon: Star,
       },
       {
         label: 'lorem',
         value: 'ipsum',
+        icon: Star,
       },
     ];
 
@@ -76,6 +80,7 @@ describe('<RadioButtonTiles />', () => {
       {
         label: 'foo',
         value: 'bar',
+        icon: Star,
       },
     ];
 

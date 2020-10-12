@@ -29,6 +29,11 @@ export interface StatusChipProps {
    * @default "medium"
    */
   size?: 'small' | 'medium';
+  /**
+   * The variant to use
+   * @default "outlined"
+   */
+  variant?: 'outlined' | 'naked';
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,11 +51,13 @@ const useStyles = makeStyles((theme: Theme) => ({
           ? colorMap[sanitizedColorName]
           : theme.palette.grey[500],
       borderColor: 'currentColor',
+      border: props.variant === 'naked' ? 'none' : undefined,
     };
   },
-  icon: {
+  icon: (props: StatusChipProps) => ({
     color: 'inherit',
-  },
+    marginLeft: props.variant === 'naked' ? '0px!important' : undefined,
+  }),
 }));
 
 /**

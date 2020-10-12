@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Launch, Star, History, CloudDownload } from '../icons';
+import { Launch, Star, History, CloudDownload, Check } from '../icons';
 import { RadioButtonTiles } from './RadioButtonTiles';
+import { Page } from '..';
 
 export default {
   title: 'Components/RadioButtonTiles',
@@ -8,7 +9,7 @@ export default {
 };
 
 export const Default = () => {
-  const [value, setValue] = React.useState<string>('a');
+  const [value, setValue] = React.useState<string | undefined>(undefined);
   const handleChange = (
     _: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: string
@@ -28,7 +29,7 @@ export const Default = () => {
 };
 
 export const ThreeTilesPerLine = () => {
-  const [value, setValue] = React.useState<string>('a');
+  const [value, setValue] = React.useState<string | undefined>(undefined);
   const handleChange = (
     _: React.MouseEvent<HTMLDivElement, MouseEvent>,
     value: string
@@ -36,19 +37,19 @@ export const ThreeTilesPerLine = () => {
     setValue(value);
   };
   return (
-    <div style={{ width: 554, border: 'solid 1px #ddd' }}>
+    <Page variant="narrow">
       <RadioButtonTiles
         items={[
           { label: 'Option A', value: 'a', icon: Launch },
           { label: 'Option B', value: 'b', icon: Star },
           { label: 'Option C', value: 'c', icon: History },
           { label: 'Option D', value: 'd', icon: CloudDownload },
-          { label: 'Option E', value: 'e' },
+          { label: 'Option E', value: 'e', icon: Check },
         ]}
         onChange={handleChange}
         value={value}
       />
-    </div>
+    </Page>
   );
 };
 
@@ -61,7 +62,7 @@ export const TwoTilesPerLine = () => {
     setValue(value);
   };
   return (
-    <div style={{ width: 554, border: 'solid 1px #ddd' }}>
+    <Page variant="narrow">
       <RadioButtonTiles
         items={[
           { label: 'Option A', value: 'a', icon: Launch },
@@ -72,7 +73,7 @@ export const TwoTilesPerLine = () => {
         value={value}
         tilesPerLine={2}
       />
-    </div>
+    </Page>
   );
 };
 export const FourTilesPerLine = () => {
@@ -84,19 +85,19 @@ export const FourTilesPerLine = () => {
     setValue(value);
   };
   return (
-    <div style={{ width: 554, border: 'solid 1px #ddd' }}>
+    <Page variant="narrow">
       <RadioButtonTiles
         items={[
           { label: 'Option A', value: 'a', icon: Launch },
           { label: 'Option B', value: 'b', icon: Star },
           { label: 'Option C', value: 'c', icon: History },
-          { label: 'Option D', value: 'd', icon: CloudDownload },
-          { label: 'Option E', value: 'e' },
+          { value: 'd', icon: CloudDownload },
+          { value: 'e', icon: Check },
         ]}
         onChange={handleChange}
         value={value}
         tilesPerLine={4}
       />
-    </div>
+    </Page>
   );
 };
