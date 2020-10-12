@@ -43,15 +43,15 @@ export const WithSubItems = () => {
     {
       label: 'Lorems & Ipsums',
       items: [
-        { label: 'Lorem', value: 'lorem', icon: Star },
-        { label: 'Ipsum', value: 'ipsum', icon: Add },
+        { label: 'Lorem', value: '#lorem', icon: Star },
+        { label: 'Ipsum', value: '#ipsum', icon: Add },
       ],
     },
     {
       label: 'Foos & Bars',
       items: [
-        { label: 'Foo', value: 'foo', icon: Star },
-        { label: 'Bar', value: 'bar', icon: Add },
+        { label: 'Foo', value: '#foo', icon: Star },
+        { label: 'Bar', value: '#bar', icon: Add },
       ],
     },
   ];
