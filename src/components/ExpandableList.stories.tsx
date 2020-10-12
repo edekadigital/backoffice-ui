@@ -30,7 +30,7 @@ export const Default = () => {
   );
 };
 
-export const WithAdditionalCheckButton = () => {
+export const CheckableMultiple = () => {
   const handleChange = (listItems: Array<ListItem>) => {
     console.log(listItems);
   };
@@ -47,6 +47,28 @@ export const WithAdditionalCheckButton = () => {
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
       checkable="multiple"
+      initialItems={initialItems}
+    />
+  );
+};
+
+export const CheckableSingle = () => {
+  const handleChange = (listItems: Array<ListItem>) => {
+    console.log(listItems);
+  };
+
+  const initialItems = [
+    { value: 'Banane' },
+    { value: 'Apfel' },
+    { value: 'Melone' },
+  ];
+
+  return (
+    <ExpandableList
+      optionLabel="Option"
+      addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
+      checkable="single"
       initialItems={initialItems}
     />
   );
