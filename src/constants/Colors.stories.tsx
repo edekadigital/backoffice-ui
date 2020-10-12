@@ -3,7 +3,7 @@ import useTheme from '@material-ui/styles/useTheme';
 import { Theme } from '@material-ui/core';
 
 export default {
-  title: 'Backoffice UI|2 - Colors',
+  title: 'Backoffice UI/2 - Colors',
 };
 
 interface ColorItem {

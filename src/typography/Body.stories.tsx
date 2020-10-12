@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Body } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Typography|Body',
+  title: 'Typography/Body',
   component: Body,
 };
 

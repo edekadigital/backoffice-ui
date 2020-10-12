@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Forms|FormRow',
+  title: 'Forms/FormRow',
   component: FormRow,
 };
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormFieldSet, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Forms|FormFieldSet',
+  title: 'Forms/FormFieldSet',
   component: FormFieldSet,
 };
 

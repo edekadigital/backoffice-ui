@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Subtitle } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Typography|Subtitle',
+  title: 'Typography/Subtitle',
   component: Subtitle,
 };
 

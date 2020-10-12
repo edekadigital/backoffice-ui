@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormWrapper, FormFieldSet, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Forms|FormWrapper',
+  title: 'Forms/FormWrapper',
   component: FormWrapper,
 };
 

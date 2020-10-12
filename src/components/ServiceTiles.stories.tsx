@@ -13,7 +13,7 @@ import {
 } from '../icons';
 
 export default {
-  title: 'Components|ServiceTiles',
+  title: 'Components/ServiceTiles',
   component: ServiceTiles,
   subcomponents: { ServiceTileProps: ServiceTileItem },
 };

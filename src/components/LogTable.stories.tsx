@@ -3,7 +3,7 @@ import { LogTable } from './LogTable';
 import { FormFieldSet } from '..';
 
 export default {
-  title: 'Components|LogTable',
+  title: 'Components/LogTable',
   component: LogTable,
 };
 

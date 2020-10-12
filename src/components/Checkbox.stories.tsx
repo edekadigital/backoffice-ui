@@ -3,7 +3,7 @@ import { Checkbox } from '..'; // @edekadigital/backoffice-ui
 import { edekaBlue } from '../constants/colors';
 
 export default {
-  title: 'Components|Checkbox',
+  title: 'Components/Checkbox',
   component: Checkbox,
 };
 

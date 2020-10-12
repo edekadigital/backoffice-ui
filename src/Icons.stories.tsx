@@ -3,7 +3,7 @@ import { IconGallery } from 'storybook-icon-gallery';
 import * as ExportedIcons from './icons';
 
 export default {
-  title: 'Backoffice UI|3 - Icons',
+  title: 'Backoffice UI/3 - Icons',
 };
 
 export const Default = () => {

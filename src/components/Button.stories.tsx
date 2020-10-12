@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button, Delete, ArrowForward, CloudDownload } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|Button',
+  title: 'Components/Button',
   component: Button,
 };
 

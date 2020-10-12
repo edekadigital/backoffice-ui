@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ContentGroup, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|ContentGroup',
+  title: 'Components/ContentGroup',
   component: ContentGroup,
 };
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Heading, Body, Button } from '..';
+import { Body, Button } from '..';
 import { Switch } from './Switch';
 import { FormRow } from '../forms/FormRow';
 import { StatusChip } from './StatusChip';
@@ -10,15 +10,29 @@ import { TextField } from './TextField';
 import { ButtonBar } from './ButtonBar';
 
 export default {
-  title: 'Components|Paper',
+  title: 'Components/Paper',
   component: Paper,
+  decorators: [
+    (storyFn: () => React.ReactNode) => (
+      <div style={{ margin: 120 }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 export const Default = () => (
   <Paper>
-    <Heading variant={'h5'} gutterBottom={true}>
-      Lorem Ipsum
-    </Heading>
+    <Body>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+      clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+      amet.
+    </Body>
+  </Paper>
+);
+
+export const WithHeadline = () => (
+  <Paper headline={'Lorem ipsum'}>
     <Body>
       Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
       eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -32,9 +46,6 @@ export const Default = () => (
 export const Multiple = () => (
   <>
     <Paper gutterBottom>
-      <Heading variant={'h5'} gutterBottom={true}>
-        Lorem Ipsum
-      </Heading>
       <Body>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -44,7 +55,6 @@ export const Multiple = () => (
       </Body>
     </Paper>
     <Paper gutterBottom>
-      <Heading variant={'h5'}>Lorem Ipsum</Heading>
       <Body>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam

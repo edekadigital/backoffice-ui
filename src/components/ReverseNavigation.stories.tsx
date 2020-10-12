@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ReverseNavigation, StatusChip, Check, Button, Delete, Page } from '..';
 
 export default {
-  title: 'Components|ReverseNavigation',
+  title: 'Components/ReverseNavigation',
   component: ReverseNavigation,
 };
 

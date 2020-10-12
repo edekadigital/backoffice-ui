@@ -89,10 +89,21 @@ const transformOrigin: PopoverOrigin = { vertical: 'top', horizontal: 'right' };
 
 const useStyles = makeStyles<Theme, AppBarProps>((theme) => ({
   root: ({ gutterBottom }) => ({
-    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+    marginBottom: theme.spacing(gutterBottom ? 4 : 0),
+    zIndex: theme.zIndex.drawer + 1,
+    position: 'relative',
+    top: 0,
+    '&.sticky': {
+      position: 'sticky',
+    },
   }),
   grow: {
     flexGrow: 1,
+  },
+  title: {
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(2),
+    },
   },
 }));
 
@@ -329,9 +340,9 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
   });
 
   return (
-    <div className={clsx(classes.root, classes.grow)}>
+    <div className={clsx(classes.root, 'sticky', classes.grow)}>
       <MuiAppBar
-        position="static"
+        position="relative"
         color={color}
         elevation={0}
         classes={appBarClasses as AppBarClasses}

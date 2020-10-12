@@ -3,7 +3,7 @@ import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
 import { IconButton } from './IconButton';
 
 export default {
-  title: 'Components|TextField',
+  title: 'Components/TextField',
   component: TextField,
   decorators: [
     (storyFn: () => React.ReactNode) => (

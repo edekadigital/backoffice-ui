@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Page, Body, ReverseNavigation, AppBar, PageWrapper } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Layouts|PageWrapper',
+  title: 'Layouts/PageWrapper',
   component: PageWrapper,
 };
 

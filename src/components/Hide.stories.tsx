@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Hide } from './Hide';
 
 export default {
-  title: 'Components|Hide',
+  title: 'Components/Hide',
   component: Hide,
 };
 

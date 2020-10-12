@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PreformattedText } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Typography|PreformattedText',
+  title: 'Typography/PreformattedText',
   component: PreformattedText,
 };
 

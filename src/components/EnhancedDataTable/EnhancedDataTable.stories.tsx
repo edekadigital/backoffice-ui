@@ -19,7 +19,7 @@ import {
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 
 export default {
-  title: 'Components|EnhancedDataTable',
+  title: 'Components/EnhancedDataTable',
   component: EnhancedDataTable,
 };
 

@@ -3,7 +3,7 @@ import { SelectField } from './SelectField';
 import { TextField } from './TextField';
 
 export default {
-  title: 'Components|SelectField',
+  title: 'Components/SelectField',
   component: SelectField,
   subcomponents: { TextField },
   decorators: [

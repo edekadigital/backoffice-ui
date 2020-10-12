@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Switch } from '..'; // @edekadigital/backoffice-ui
 
 export default {
-  title: 'Components|Switch',
+  title: 'Components/Switch',
   component: Switch,
 };
 
