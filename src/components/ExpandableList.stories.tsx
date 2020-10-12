@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ExpandableList, ListItem } from '..'; // @edekadigital/backoffice-ui
-import { Check } from '../icons';
 
 export default {
   title: 'Components/ExpandableList',
@@ -31,21 +30,47 @@ export const Default = () => {
   );
 };
 
-export const WithAdditionalAction = () => {
-  const handleClick = () => {
-    console.log('This is an additional Action');
-  };
-
+export const WithAdditionalCheckButton = () => {
   const handleChange = (listItems: Array<ListItem>) => {
     console.log(listItems);
   };
 
+  const initialItems = [
+    { value: 'Banane' },
+    { value: 'Apfel' },
+    { value: 'Melone' },
+  ];
+
   return (
     <ExpandableList
       optionLabel="Option"
-      additionalActions={[{ icon: Check, handler: handleClick }]}
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
+      checkable="multiple"
+      initialItems={initialItems}
+    />
+  );
+};
+
+export const Disabled = () => {
+  const handleChange = (listItems: Array<ListItem>) => {
+    console.log(listItems);
+  };
+
+  const initialItems = [
+    { value: 'Banane', checked: true },
+    { value: 'Apfel', checked: false },
+    { value: 'Melone', checked: false },
+  ];
+
+  return (
+    <ExpandableList
+      optionLabel="Option"
+      addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
+      checkable="single"
+      initialItems={initialItems}
+      disabled={true}
     />
   );
 };

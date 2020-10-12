@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { cleanup } from '@testing-library/react';
-import { ExpandableList } from '..';
-import { Star } from '../icons';
+import { ExpandableList, CheckOptions } from '..';
 import { render } from '../test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -14,19 +13,20 @@ const items = [
   },
 ];
 
-const setup = (noInitialItems = false, hasAdditionalAction = false) => {
+const setup = (
+  noInitialItems = false,
+  isCheckable: CheckOptions | undefined = undefined
+) => {
   const onChangeFn = jest.fn();
-  const handlerFn = jest.fn();
-  const additionalAction = [{ icon: Star, handler: handlerFn }];
   const renderResult = render(
     <ExpandableList
       initialItems={!noInitialItems ? items : undefined}
       onChange={onChangeFn}
-      additionalActions={!hasAdditionalAction ? undefined : additionalAction}
+      checkable={isCheckable}
     />
   );
   const string = 'foo';
-  return { onChangeFn, renderResult, handlerFn, string };
+  return { onChangeFn, renderResult, string };
 };
 
 describe('<ExpandableList />', () => {
@@ -63,16 +63,27 @@ describe('<ExpandableList />', () => {
     expect(onChangeFn).toHaveBeenCalledTimes(1);
     expect(onChangeFn.mock.calls[0][0].length).toBe(items.length + 1);
   });
-  it('addtional action should render addtional icon and call callback', () => {
-    const { renderResult, handlerFn } = setup(true, true);
+  it('checkable should render addtional check icon with single selection', () => {
+    const { renderResult, onChangeFn } = setup(true, 'single');
+    const { getByTestId } = renderResult;
+
+    expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
+    userEvent.click(getByTestId('expandableList-item-additional-1'));
+    expect(onChangeFn.mock.calls[0][0][1].checked).toBe(true);
+    expect(onChangeFn.mock.calls[0][0][0].checked).toBe(false);
+  });
+  it('checkable should render addtional check icon with multiple selection', () => {
+    const { renderResult, onChangeFn } = setup(true, 'multiple');
     const { getByTestId } = renderResult;
 
     expect(getByTestId('expandableList-item-additional-0')).toBeTruthy();
     userEvent.click(getByTestId('expandableList-item-additional-0'));
-    expect(handlerFn).toHaveBeenCalledTimes(1);
+    userEvent.click(getByTestId('expandableList-item-additional-1'));
+    expect(onChangeFn.mock.calls[0][0][0].checked).toBe(true);
+    expect(onChangeFn.mock.calls[1][0][1].checked).toBe(true);
   });
   it('should handle inputs correctly', () => {
-    const { renderResult, onChangeFn, string } = setup(true, true);
+    const { renderResult, onChangeFn, string } = setup(true, 'single');
     const { getByTestId } = renderResult;
     userEvent.type(getByTestId('expandableList-item-0'), string);
     expect(onChangeFn).toHaveBeenCalledTimes(string.length);

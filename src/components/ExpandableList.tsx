@@ -3,25 +3,26 @@ import { TextField, IconButton, Button } from '..';
 import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
+import { Check } from '@material-ui/icons';
+import clsx from 'clsx';
 
 export interface ListItem {
-  value: string | undefined;
+  value: string | '';
   id?: string;
+  checked?: boolean;
 }
 
 export interface AdditionalActionItem {
   icon: React.ElementType<SvgIconProps>;
   handler: () => void;
 }
+
+export type CheckOptions = 'single' | 'multiple';
 export interface ExpandableListProps {
   /**
    * initial list items with given value
    */
   initialItems?: Array<ListItem>;
-  /**
-   *addtional action for list item with icon and handler function
-   */
-  additionalActions?: Array<AdditionalActionItem>;
   /**
    * label to be displayed in the option field
    * @default 'Option'
@@ -36,6 +37,15 @@ export interface ExpandableListProps {
    * callback function which is called when items or items list are changed
    */
   onChange: (items: Array<ListItem>) => void;
+  /**
+   * options can be checked,
+   * @default 'multiple'
+   */
+  checkable?: CheckOptions | boolean;
+  /**
+   * if true component is shown as disabled
+   */
+  disabled?: boolean;
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -58,6 +68,7 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(5),
   },
   list: { paddingLeft: theme.spacing(2) },
+  checkIcon: { color: theme.palette.success.main },
 }));
 
 const createUniqueId = (items: Array<ListItem>) => {
@@ -80,42 +91,44 @@ const createUniqueId = (items: Array<ListItem>) => {
 
 const addUniqueId = (items: Array<ListItem>) => {
   const itemsWithId = items.map((item: ListItem) => {
-    return { value: item.value, id: createUniqueId(items) } as ListItem;
+    return { ...item, id: createUniqueId(items) } as ListItem;
   });
   return itemsWithId;
 };
 
 /**
- * | Test ID                                    | Description                  |
- * | ------------------------------------------ | ---------------------------- |
- * | `expandableList`                           | container                    |
- * | `expandableList-item-${index}`             | list item                    |
- * | `expandable-list-add`                      | add button                   |
- * | `expandableList-item-additional-${index}`  | additional list item action  |
- * | `expandableList-item-delete-${index}`      | delete button                |
+ * | Test ID                                       | Description                     |
+ * | --------------------------------------------- | ------------------------------- |
+ * | `expandableList`                              | container                       |
+ * | `expandableList-item-${index}`                | list item                       |
+ * | `expandable-list-add`                         | add button                      |
+ * | `expandableList-item-additional-${index}`     | additional list item action     |
+ * | `expandableList-item-additional-icon-${index}`| additional list item action icon|
+ * | `expandableList-item-delete-${index}`         | delete button                   |
  */
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    initialItems = [
-      { value: undefined },
-      { value: undefined },
-      { value: undefined },
-    ],
-    additionalActions = [],
+    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
     optionLabel = 'Option',
     addButtonLabel = 'Option hinzufügen',
     onChange,
+    checkable,
+    disabled = false,
   } = props;
 
   const [items, setItems] = React.useState(addUniqueId(initialItems));
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
-    setItems(newItems);
+    setItems(() => [...newItems]);
     onChange(
       newItems.map((item: ListItem, index: number) => {
-        return { value: item.value, index };
+        return {
+          value: item.value,
+          checked: item.checked,
+          index,
+        };
       })
     );
   };
@@ -124,6 +137,20 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     const index = items.findIndex((item) => item.id === id);
     items[index].value = value;
     updateState(items);
+  };
+
+  const handleUpdateCheck = (id: string) => {
+    const newItems = items;
+    const index = newItems.findIndex((item) => item.id === id);
+    if (checkable === 'single') {
+      newItems.map((item) => {
+        item.checked = false;
+      });
+      newItems[index].checked = true;
+    } else {
+      newItems[index].checked = !newItems[index].checked;
+    }
+    updateState(newItems);
   };
 
   const handleDeleteItem = (index: number) => {
@@ -143,14 +170,17 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           key={item.id}
           label={label}
           onDeleteClick={() => handleDeleteItem(index)}
-          additionalActions={additionalActions}
-          initialValue={item.value}
+          value={item.value}
           onChange={(value: string) => handleUpdateItem(item.id!, value)}
+          onCheck={() => handleUpdateCheck(item.id!)}
           index={index}
+          checkable={checkable}
+          checked={item.checked}
+          disabled={disabled}
         />
       );
     });
-  }, [items, additionalActions]);
+  }, [items]);
 
   return (
     <div data-testid="expandableList">
@@ -162,6 +192,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         onClick={handleAddItem}
         className={classes.addButton}
         data-testid="expandable-list-add"
+        disabled={disabled}
       >
         {addButtonLabel}
       </Button>
@@ -171,42 +202,49 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
 
 export interface ExpandableListItemProps {
   label: string;
-  initialValue: string | undefined;
+  value: string;
   onDeleteClick: () => void;
   onChange: (value: string) => void;
-  additionalActions?: Array<AdditionalActionItem>;
+  onCheck: () => void;
   index: number;
+  checked?: boolean;
+  disabled?: boolean;
+  checkable?: boolean | string;
 }
 
 const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
   const {
     label,
     onDeleteClick,
-    additionalActions,
-    initialValue,
     onChange,
+    onCheck,
     index,
+    checked = false,
+    disabled = false,
+    checkable,
+    value,
   } = props;
-  const [value, setValue] = React.useState<string | undefined>(initialValue);
   const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
-    setValue(event.target.value);
     onChange(event.target.value);
   };
+
   const classes = useExpandableListStyles();
-  const additionalActionsIconButtons = React.useMemo(() => {
-    return additionalActions
-      ? additionalActions.map((additionalAction: AdditionalActionItem) => {
-          return (
-            <IconButton
-              key={index}
-              icon={additionalAction.icon}
-              onClick={additionalAction.handler}
-              data-testid={`expandableList-item-additional-${index}`}
-            />
-          );
-        })
-      : null;
-  }, [additionalActions]);
+  const icon = () => (
+    <Check
+      className={clsx({ [classes.checkIcon]: checked })}
+      data-testid={`expandableList-item-additional-icon-${index}`}
+    />
+  );
+
+  const checkButton = checkable ? (
+    <IconButton
+      key={index}
+      icon={icon}
+      onClick={onCheck}
+      data-testid={`expandableList-item-additional-${index}`}
+      disabled={disabled}
+    />
+  ) : null;
 
   return (
     <Typography
@@ -223,14 +261,16 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
             value={value}
             onChange={handleChange}
             inputTestId={`expandableList-item-${index}`}
+            disabled={disabled}
           />
         </div>
         <div className={classes.icons}>
-          {additionalActionsIconButtons}
+          {checkButton}
           <IconButton
             icon={Delete}
             onClick={onDeleteClick}
             data-testid={`expandableList-item-delete-${index}`}
+            disabled={disabled}
           />
         </div>
       </div>
