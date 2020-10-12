@@ -58,14 +58,21 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
   },
   inputField: {
     flex: 'auto',
-    marginRight: theme.spacing(3),
-    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(0.5),
+    marginLeft: theme.spacing(0.5),
+    [theme.breakpoints.up(theme.breakpoints.width('md'))]: {
+      marginRight: theme.spacing(3),
+      marginLeft: theme.spacing(4),
+    },
   },
   icons: {
     flex: '0 0 auto',
   },
   addButton: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(3),
+    [theme.breakpoints.up(theme.breakpoints.width('md'))]: {
+      marginLeft: theme.spacing(5),
+    },
   },
   list: { paddingLeft: theme.spacing(2) },
   checkIcon: { color: theme.palette.success.main },
