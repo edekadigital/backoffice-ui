@@ -22,15 +22,16 @@ export default {
   component: DrawerNavigation,
   decorators: [
     (storyFn: () => React.ReactNode) => {
-      console.log(window.parent.location.search.search('docs'));
-
+      /**
+       * Hide stories in 'docs' view mode due to incorrect display issues combined with iframes
+       */
       return (
         <div
           style={{
-            visibility:
+            display:
               window.parent.location.search.search('docs') > -1
-                ? 'hidden'
-                : 'visible',
+                ? 'none'
+                : 'initial',
             minHeight: '100vh',
           }}
         >
