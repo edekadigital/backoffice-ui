@@ -21,10 +21,28 @@ export default {
   title: 'Components/DrawerNavigation',
   component: DrawerNavigation,
   decorators: [
-    (storyFn: () => React.ReactNode) => (
-      <div style={{ minHeight: '100vh' }}>{storyFn()}</div>
-    ),
+    (storyFn: () => React.ReactNode) => {
+      console.log(window.parent.location.search.search('docs'));
+
+      return (
+        <div
+          style={{
+            visibility:
+              window.parent.location.search.search('docs') > -1
+                ? 'hidden'
+                : 'visible',
+            minHeight: '100vh',
+          }}
+        >
+          {storyFn()}
+        </div>
+      );
+    },
   ],
+  parameters: {
+    // reset the view mode to "story" whenever the user navigates to this story
+    viewMode: 'story',
+  },
 };
 
 export const Default = () => {
