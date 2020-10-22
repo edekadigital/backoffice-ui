@@ -72,7 +72,7 @@ describe('<RadioButtonTiles />', () => {
     ).toBe('false');
     userEvent.click(getByTestId('radioButtonTiles-item-1'));
     expect(onChangeFn).toHaveBeenCalledTimes(1);
-    expect(onChangeFn.mock.calls[0][1]).toBe(items[1].value);
+    expect(onChangeFn.mock.calls[0][0]).toBe(items[1].value);
   });
 
   it('should not break if no onChange callback is provided', () => {
