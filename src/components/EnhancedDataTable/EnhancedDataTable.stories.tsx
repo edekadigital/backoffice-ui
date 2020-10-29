@@ -32,8 +32,8 @@ export const Default = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -98,7 +98,7 @@ export const Default = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -146,8 +146,8 @@ export const Selectable = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -171,7 +171,7 @@ export const Selectable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -216,8 +216,8 @@ export const Clickable = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -241,7 +241,7 @@ export const Clickable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -292,8 +292,8 @@ export const Filterable = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -334,7 +334,7 @@ export const Filterable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -382,8 +382,8 @@ export const WithAlternativeBody = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -391,7 +391,7 @@ export const WithAlternativeBody = () => {
     setActiveFilters(filters);
     if (!filters) {
       return new Promise((resolve) => {
-        resolve({ data: [], totalCount: 0, pageIndex: 0 });
+        resolve({ data: [], totalCount: 0, page: 0 });
       });
     }
     let data: TestData[] = [
@@ -424,7 +424,7 @@ export const WithAlternativeBody = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -489,8 +489,8 @@ export const AllFunctionalities = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -537,7 +537,7 @@ export const AllFunctionalities = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 

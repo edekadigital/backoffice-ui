@@ -30,21 +30,21 @@ export interface EnhancedDataTableColumn<D> {
 }
 
 interface EnhancedDataTableFetchProps<D> {
-  pageSize?: number;
-  pageIndex?: number;
+  size?: number;
+  page?: number;
   filters?: Array<ActiveFilter<D>>;
   order?: Order;
   orderBy?: keyof D;
 }
 
 export interface EnhancedDataTableFetchResult<D>
-  extends Omit<PaginationState, 'pageSize'> {
+  extends Omit<PaginationState, 'size'> {
   data: D[];
 }
 
 interface PaginationState {
-  pageSize: number;
-  pageIndex: number;
+  size: number;
+  page: number;
   totalCount: number;
 }
 
@@ -196,8 +196,8 @@ export function EnhancedDataTable<D extends object>(
   >(filters?.filter((filter) => filter.value) as Array<ActiveFilter<D>>);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
-      pageSize: defaultPageSize,
-      pageIndex: 0,
+      size: defaultPageSize,
+      page: 0,
       totalCount: 0,
     }
   );
@@ -212,8 +212,8 @@ export function EnhancedDataTable<D extends object>(
     setSelectedRows([]);
     let isActive = true;
     fetchData({
-      pageSize: paginationState.pageSize,
-      pageIndex: paginationState.pageIndex,
+      size: paginationState.size,
+      page: paginationState.page,
       filters: activeFilters,
       order,
       orderBy,
@@ -222,7 +222,7 @@ export function EnhancedDataTable<D extends object>(
         if (isActive) {
           setPaginationState((prevPaginationState) => ({
             ...prevPaginationState,
-            pageIndex: res.pageIndex,
+            page: res.page,
             totalCount: res.totalCount,
           }));
           setData(res.data);
@@ -237,8 +237,8 @@ export function EnhancedDataTable<D extends object>(
     };
   }, [
     fetchData,
-    paginationState.pageSize,
-    paginationState.pageIndex,
+    paginationState.size,
+    paginationState.page,
     activeFilters,
     order,
     orderBy,
@@ -260,7 +260,7 @@ export function EnhancedDataTable<D extends object>(
   ) => {
     setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
-      pageIndex: newPage,
+      page: newPage,
     }));
   };
 
@@ -269,8 +269,8 @@ export function EnhancedDataTable<D extends object>(
   ) => {
     setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
-      pageSize: Number(event.target.value),
-      pageIndex: 0,
+      size: Number(event.target.value),
+      page: 0,
     }));
   };
 
@@ -362,8 +362,8 @@ export function EnhancedDataTable<D extends object>(
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={paginationState.totalCount}
-            rowsPerPage={paginationState.pageSize}
-            page={paginationState.pageIndex}
+            rowsPerPage={paginationState.size}
+            page={paginationState.page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
