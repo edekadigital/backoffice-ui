@@ -180,7 +180,10 @@ export function EnhancedDataTableToolbar<D>(
   }, [activeFilters, filters]);
 
   const renderToolbarActions = toolbarActions ? (
-    <div className={classes.actions}>
+    <div
+      className={classes.actions}
+      data-testid={'enhancedDataTable-filterBar-actions'}
+    >
       {toolbarActions.map((action, index) => (
         <Button
           color={'primary'}

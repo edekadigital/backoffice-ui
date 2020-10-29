@@ -161,6 +161,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * | `enhancedDataTable-filterBar-selectValue`                | Filter value select field                       |
  * | `enhancedDataTable-filterBar-selectValue-${index}`       | Selectable filter value item in select field    |
  * | `enhancedDataTable-filterBar-submit`                     | Filter submit button                            |
+ * | `enhancedDataTable-filterBar-actions`                    | Additional actions displayed in table head      |
  * | `enhancedDataTable-activeFilter-${index}`                | Active filter chip                              |
  * | `enhancedDataTable-alternativeBody`                      | Alternative table body container                |
  * | `enhancedDataTable-loading`                              | Loading spinner                                 |

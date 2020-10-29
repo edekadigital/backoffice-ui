@@ -662,4 +662,22 @@ describe('<EnhancedDataTable />', () => {
       testData[1].name
     );
   });
+
+  it('should show additional action buttons in table head if toolbarActions prop is given', () => {
+    const actions = [
+      {
+        icon: GetApp,
+        label: 'FooFoo',
+        handler: () => {},
+      },
+    ];
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        toolbarActions={actions}
+      />
+    );
+    expect(getByTestId('enhancedDataTable-filterBar-actions')).toBeTruthy();
+  });
 });
