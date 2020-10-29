@@ -9,7 +9,10 @@ import {
   TablePagination,
   CircularProgress,
 } from '@material-ui/core';
-import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
+import {
+  EnhancedDataTableToolbar,
+  ToolbarActionItem,
+} from './EnhancedDataTableToolbar';
 import { EnhancedDataTableHead } from './EnhancedDataTableHead';
 import { EnhancedDataTableBody } from './EnhancedDataTableBody';
 import {
@@ -78,6 +81,10 @@ export interface EnhancedDataTableProps<D extends object> {
    * Table headline
    */
   headline?: string;
+  /**
+   * Array of additional actions in the table toolbar, will be displayed as buttons
+   */
+  toolbarActions?: Array<ToolbarActionItem>;
   /**
    * Callback function for clicking and returning an item (row).
    * If no callback function is being served, the table rows will not be clickable.
@@ -181,6 +188,7 @@ export function EnhancedDataTable<D extends object>(
   const {
     alternativeTableBody,
     headline,
+    toolbarActions,
     columns,
     filters,
     fetchData,
@@ -407,6 +415,7 @@ export function EnhancedDataTable<D extends object>(
       setActiveFilters={handleActiveFilters}
       activeFilters={activeFilters}
       headline={headline}
+      toolbarActions={toolbarActions}
     />
   );
 
