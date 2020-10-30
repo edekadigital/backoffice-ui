@@ -92,27 +92,35 @@ export const SnackbarProvider: React.FC = (props) => {
     action: classes.action,
   };
 
-  const push: PushCallback = (content, options = {}) => {
-    const {
-      variant = 'info',
-      position = 'bottom',
-      autoHideDuration = 6000,
-    } = options;
-    queueRef.current.push({ ...content, variant, position, autoHideDuration });
-
-    if (open) {
-      setOpen(false);
-    } else {
-      processQueue();
-    }
-  };
-
-  const processQueue = () => {
+  const processQueue = React.useCallback(() => {
     if (queueRef.current.length > 0) {
       setSnackbarContent(queueRef.current.shift());
       setOpen(true);
     }
-  };
+  }, []);
+
+  const push: PushCallback = React.useCallback(
+    (content, options = {}) => {
+      const {
+        variant = 'info',
+        position = 'bottom',
+        autoHideDuration = 6000,
+      } = options;
+      queueRef.current.push({
+        ...content,
+        variant,
+        position,
+        autoHideDuration,
+      });
+
+      if (open) {
+        setOpen(false);
+      } else {
+        processQueue();
+      }
+    },
+    [queueRef.current, processQueue]
+  );
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
