@@ -40,19 +40,15 @@ export function sortTable<
   return data.sort(compareValues(orderBy, order));
 }
 
-export function paginateTable<T>(
-  pageSize: number,
-  pageIndex: number,
-  data: T[]
-) {
-  const startRow = pageSize * pageIndex;
-  const endRow = startRow + pageSize;
+export function paginateTable<T>(size: number, page: number, data: T[]) {
+  const startRow = size * page;
+  const endRow = startRow + size;
   const paginatedResult = data.slice(startRow, endRow);
   const totalCount = data.length;
 
   return {
     totalCount,
     data: paginatedResult,
-    pageIndex,
+    page,
   };
 }

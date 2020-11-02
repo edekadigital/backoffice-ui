@@ -15,8 +15,10 @@ import {
   Delete,
   Subtitle,
   Image,
+  Add,
 } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
+import { ToolbarActionItem } from './EnhancedDataTableToolbar';
 
 export default {
   title: 'Components/EnhancedDataTable',
@@ -32,8 +34,8 @@ export const Default = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -98,7 +100,7 @@ export const Default = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -146,8 +148,8 @@ export const Selectable = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -171,7 +173,7 @@ export const Selectable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -216,8 +218,8 @@ export const Clickable = () => {
   }
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     order,
     orderBy,
   }) => {
@@ -241,7 +243,7 @@ export const Clickable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -292,8 +294,8 @@ export const Filterable = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -334,7 +336,7 @@ export const Filterable = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -382,8 +384,8 @@ export const WithAlternativeBody = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -391,7 +393,7 @@ export const WithAlternativeBody = () => {
     setActiveFilters(filters);
     if (!filters) {
       return new Promise((resolve) => {
-        resolve({ data: [], totalCount: 0, pageIndex: 0 });
+        resolve({ data: [], totalCount: 0, page: 0 });
       });
     }
     let data: TestData[] = [
@@ -424,7 +426,7 @@ export const WithAlternativeBody = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -489,8 +491,8 @@ export const AllFunctionalities = () => {
   ];
 
   const fetchData: EnhancedDataTableFetchData<TestData> = ({
-    pageSize = 10,
-    pageIndex = 0,
+    size = 10,
+    page = 0,
     filters,
     order,
     orderBy,
@@ -537,7 +539,7 @@ export const AllFunctionalities = () => {
 
     // import {paginateTable} from 'utils/tableUtils'
     return new Promise((resolve) => {
-      setTimeout(() => resolve(paginateTable(pageSize, pageIndex, data)), 500);
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
     });
   };
 
@@ -592,6 +594,85 @@ export const AllFunctionalities = () => {
       selectionActions={selectionActions}
       filters={filters}
       onRowClick={clickAction}
+    />
+  );
+};
+
+export const WithToolbarActions = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    size = 10,
+    page = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+    TestData
+  >> = [
+    {
+      icon: GetApp,
+      handler: (data) => console.log(data, 'Make api call to get zip file'),
+    },
+    {
+      icon: Delete,
+      handler: (data) => {
+        console.log(data, 'Delete Rows');
+      },
+    },
+  ];
+
+  const toolbarActions: Array<ToolbarActionItem> = [
+    {
+      icon: Add,
+      label: 'Some Action',
+      handler: (data) => console.log(data, 'Some Action is called'),
+    },
+  ];
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with selectable rows'}
+      columns={columns}
+      selectionActions={selectionActions}
+      toolbarActions={toolbarActions}
     />
   );
 };

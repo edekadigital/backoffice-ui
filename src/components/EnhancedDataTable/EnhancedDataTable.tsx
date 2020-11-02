@@ -9,7 +9,10 @@ import {
   TablePagination,
   CircularProgress,
 } from '@material-ui/core';
-import { EnhancedDataTableToolbar } from './EnhancedDataTableToolbar';
+import {
+  EnhancedDataTableToolbar,
+  ToolbarActionItem,
+} from './EnhancedDataTableToolbar';
 import { EnhancedDataTableHead } from './EnhancedDataTableHead';
 import { EnhancedDataTableBody } from './EnhancedDataTableBody';
 import {
@@ -30,21 +33,21 @@ export interface EnhancedDataTableColumn<D> {
 }
 
 interface EnhancedDataTableFetchProps<D> {
-  pageSize?: number;
-  pageIndex?: number;
+  size?: number;
+  page?: number;
   filters?: Array<ActiveFilter<D>>;
   order?: Order;
   orderBy?: keyof D;
 }
 
 export interface EnhancedDataTableFetchResult<D>
-  extends Omit<PaginationState, 'pageSize'> {
+  extends Omit<PaginationState, 'size'> {
   data: D[];
 }
 
 interface PaginationState {
-  pageSize: number;
-  pageIndex: number;
+  size: number;
+  page: number;
   totalCount: number;
 }
 
@@ -78,6 +81,10 @@ export interface EnhancedDataTableProps<D extends object> {
    * Table headline
    */
   headline?: string;
+  /**
+   * Array of additional actions in the table toolbar, will be displayed as buttons
+   */
+  toolbarActions?: Array<ToolbarActionItem>;
   /**
    * Callback function for clicking and returning an item (row).
    * If no callback function is being served, the table rows will not be clickable.
@@ -154,6 +161,8 @@ const useStyles = makeStyles((theme: Theme) =>
  * | `enhancedDataTable-filterBar-selectValue`                | Filter value select field                       |
  * | `enhancedDataTable-filterBar-selectValue-${index}`       | Selectable filter value item in select field    |
  * | `enhancedDataTable-filterBar-submit`                     | Filter submit button                            |
+ * | `enhancedDataTable-filterBar-actions`                    | Additional actions displayed in table head      |
+ * | `enhancedDataTable-filterBar-actions-${index}`           | Button inside addtional actions                 |
  * | `enhancedDataTable-activeFilter-${index}`                | Active filter chip                              |
  * | `enhancedDataTable-alternativeBody`                      | Alternative table body container                |
  * | `enhancedDataTable-loading`                              | Loading spinner                                 |
@@ -181,6 +190,7 @@ export function EnhancedDataTable<D extends object>(
   const {
     alternativeTableBody,
     headline,
+    toolbarActions,
     columns,
     filters,
     fetchData,
@@ -196,8 +206,8 @@ export function EnhancedDataTable<D extends object>(
   >(filters?.filter((filter) => filter.value) as Array<ActiveFilter<D>>);
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
-      pageSize: defaultPageSize,
-      pageIndex: 0,
+      size: defaultPageSize,
+      page: 0,
       totalCount: 0,
     }
   );
@@ -212,8 +222,8 @@ export function EnhancedDataTable<D extends object>(
     setSelectedRows([]);
     let isActive = true;
     fetchData({
-      pageSize: paginationState.pageSize,
-      pageIndex: paginationState.pageIndex,
+      size: paginationState.size,
+      page: paginationState.page,
       filters: activeFilters,
       order,
       orderBy,
@@ -222,7 +232,7 @@ export function EnhancedDataTable<D extends object>(
         if (isActive) {
           setPaginationState((prevPaginationState) => ({
             ...prevPaginationState,
-            pageIndex: res.pageIndex,
+            page: res.page,
             totalCount: res.totalCount,
           }));
           setData(res.data);
@@ -237,8 +247,8 @@ export function EnhancedDataTable<D extends object>(
     };
   }, [
     fetchData,
-    paginationState.pageSize,
-    paginationState.pageIndex,
+    paginationState.size,
+    paginationState.page,
     activeFilters,
     order,
     orderBy,
@@ -260,7 +270,7 @@ export function EnhancedDataTable<D extends object>(
   ) => {
     setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
-      pageIndex: newPage,
+      page: newPage,
     }));
   };
 
@@ -269,8 +279,8 @@ export function EnhancedDataTable<D extends object>(
   ) => {
     setPaginationState((prevPaginationState) => ({
       ...prevPaginationState,
-      pageSize: Number(event.target.value),
-      pageIndex: 0,
+      size: Number(event.target.value),
+      page: 0,
     }));
   };
 
@@ -362,8 +372,8 @@ export function EnhancedDataTable<D extends object>(
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={paginationState.totalCount}
-            rowsPerPage={paginationState.pageSize}
-            page={paginationState.pageIndex}
+            rowsPerPage={paginationState.size}
+            page={paginationState.page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
@@ -407,6 +417,7 @@ export function EnhancedDataTable<D extends object>(
       setActiveFilters={handleActiveFilters}
       activeFilters={activeFilters}
       headline={headline}
+      toolbarActions={toolbarActions}
     />
   );
 
