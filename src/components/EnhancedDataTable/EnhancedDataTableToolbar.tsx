@@ -190,6 +190,7 @@ export function EnhancedDataTableToolbar<D>(
           icon={action.icon}
           onClick={action.handler}
           key={`toolbar-action-${index}`}
+          data-testid={`enhancedDataTable-filterBar-actions-${index}`}
         >
           {action.label}
         </Button>

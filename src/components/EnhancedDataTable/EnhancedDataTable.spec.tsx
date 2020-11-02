@@ -664,11 +664,12 @@ describe('<EnhancedDataTable />', () => {
   });
 
   it('should show additional action buttons in table head if toolbarActions prop is given', () => {
+    const handler = jest.fn();
     const actions = [
       {
         icon: GetApp,
         label: 'FooFoo',
-        handler: () => {},
+        handler,
       },
     ];
     const { getByTestId } = render(
@@ -679,5 +680,7 @@ describe('<EnhancedDataTable />', () => {
       />
     );
     expect(getByTestId('enhancedDataTable-filterBar-actions')).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-actions-0'));
+    expect(handler).toHaveBeenCalledTimes(1);
   });
 });
