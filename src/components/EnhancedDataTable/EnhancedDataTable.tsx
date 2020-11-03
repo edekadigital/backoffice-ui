@@ -20,7 +20,6 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 import { Subtitle } from '../../typography/Subtitle';
-import { Body } from '../../typography/Body';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
@@ -67,6 +66,11 @@ export interface EnhancedDataTableProps<D extends object> {
    * @default 10
    */
   defaultPageSize?: number;
+  /**
+   * If provided, this element will be rendered instead of the default empty result display text.
+   * Each child will be centered horizontally and rendered in a vertical row.
+   */
+  customNullResult?: React.ReactElement;
   /**
    * Function for fetching data and handling pagination, filtering and sorting.
    * The served function is being called by the table itself.
@@ -189,6 +193,7 @@ export function EnhancedDataTable<D extends object>(
 ) {
   const {
     alternativeTableBody,
+    customNullResult = <DefaultNullResult />,
     headline,
     toolbarActions,
     columns,
@@ -389,12 +394,7 @@ export function EnhancedDataTable<D extends object>(
           className={classes.alternativeTableBodyWrapper}
           data-testid={'enhancedDataTable-emptyResult'}
         >
-          <Subtitle gutterBottom={true} color={'textSecondary'}>
-            Keine Datensätze gefunden
-          </Subtitle>
-          <Body align={'center'} variant={'body2'} color={'textSecondary'}>
-            Korrigieren Sie die Filterung um passende Datensätze anzuzeigen.
-          </Body>
+          {customNullResult}
         </div>
       );
     }
@@ -431,3 +431,9 @@ export function EnhancedDataTable<D extends object>(
     </div>
   );
 }
+
+const DefaultNullResult = () => (
+  <Subtitle gutterBottom={true} color={'textSecondary'}>
+    Keine Datensätze gefunden
+  </Subtitle>
+);
