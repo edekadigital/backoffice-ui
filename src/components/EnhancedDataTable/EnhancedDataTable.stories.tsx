@@ -19,6 +19,7 @@ import {
 } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 import { ToolbarActionItem } from './EnhancedDataTableToolbar';
+import { Button } from '../Button';
 
 export default {
   title: 'Components/EnhancedDataTable',
@@ -461,6 +462,62 @@ export const WithAlternativeBody = () => {
       columns={columns}
       filters={filters}
       alternativeTableBody={alternativeTableBody}
+    />
+  );
+};
+
+export const WithCustomEmptyResultDisplay = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    size = 10,
+    page = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const nullResult = (
+    <>
+      <Button color="primary">Add new items</Button>
+      <Subtitle gutterBottom={true} color={'textSecondary'}>
+        No items found
+      </Subtitle>
+      <Image
+        src="https://via.placeholder.com/150"
+        alt="placeholder"
+        mode={'height'}
+      />
+    </>
+  );
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with minumum one active filter required'}
+      columns={columns}
+      customNullResult={nullResult}
     />
   );
 };

@@ -147,6 +147,30 @@ describe('<EnhancedDataTable />', () => {
     expect(getByText('Keine Datensätze gefunden')).toBeTruthy();
   });
 
+  it('should render a custom null result info if data is empty', async () => {
+    const fetchEmpty: EnhancedDataTableFetchData<TestData> = () => {
+      return new Promise((resolve) => {
+        resolve({ data: [], totalCount: 0, page: 0 });
+      });
+    };
+
+    const customNullResult = <span data-testid="nullResult">Empty</span>;
+
+    const { queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchEmpty}
+        customNullResult={customNullResult}
+      />
+    );
+    await waitFor(() => {});
+    expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
+    expect(queryByTestId('nullResult')).toBeTruthy();
+    expect(queryByTestId('nullResult')!.textContent).toBe('Empty');
+  });
+
   it('should render a null result info if fetch data function promise is being rejected', async () => {
     const fetchRejected: EnhancedDataTableFetchData<TestData> = () => {
       return Promise.reject();
