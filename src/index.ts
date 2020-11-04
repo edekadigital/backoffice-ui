@@ -26,6 +26,7 @@ export * from './components/SearchField';
 export * from './components/SelectField';
 export * from './components/ServiceTiles';
 export * from './components/StatusChip';
+export * from './components/Spacer';
 export * from './components/Switch';
 export * from './components/TabNavigation';
 export * from './components/TextField';
