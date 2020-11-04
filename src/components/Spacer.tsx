@@ -5,7 +5,7 @@ export interface SpacerProps {
   /**
    * Sets vertical margin by themes spacings definitions-
    * e.g.: 1 equals a margin of 8px, 2 equals 16px.
-   * @default 0
+   * @default 2
    */
   vertical?: number;
 }
