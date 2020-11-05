@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemText,
   MenuItem,
+  SvgIconProps,
 } from '@material-ui/core';
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
@@ -26,12 +27,20 @@ export interface EnhancedDataTableToolbarProps<D> {
   setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
   filters?: Array<Filter<D>>;
   headline?: string;
+  toolbarActions?: Array<ToolbarActionItem>;
+}
+
+export interface ToolbarActionItem {
+  label: string;
+  icon?: React.ElementType<SvgIconProps>;
+  handler: React.MouseEventHandler<HTMLElement>;
 }
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
       display: 'flex',
+      justifyContent: 'flex-start',
       flexWrap: 'wrap',
       overflow: 'hidden',
       borderBottom: `solid 1px ${theme.palette.grey[300]}`,
@@ -81,13 +90,22 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     negativeMarginTop: {
       marginTop: -theme.spacing(1),
     },
+    actions: {
+      marginLeft: 'auto',
+    },
   })
 );
 
 export function EnhancedDataTableToolbar<D>(
   props: EnhancedDataTableToolbarProps<D>
 ) {
-  const { filters, activeFilters, setActiveFilters, headline } = props;
+  const {
+    filters,
+    activeFilters,
+    setActiveFilters,
+    headline,
+    toolbarActions,
+  } = props;
 
   const classes = useToolbarStyles();
 
@@ -161,17 +179,46 @@ export function EnhancedDataTableToolbar<D>(
     }
   }, [activeFilters, filters]);
 
-  const renderHeadline = headline ? (
-    <Toolbar className={classes.toolbar}>
-      <Heading variant={'h6'}>
-        <strong data-testid={'enhancedDataTable-filterBar-headline'}>
-          {headline}
-        </strong>
-      </Heading>
-    </Toolbar>
+  const renderToolbarActions = toolbarActions ? (
+    <div
+      className={classes.actions}
+      data-testid={'enhancedDataTable-filterBar-actions'}
+    >
+      {toolbarActions.map((action, index) => (
+        <Button
+          color={'primary'}
+          icon={action.icon}
+          onClick={action.handler}
+          key={`toolbar-action-${index}`}
+          data-testid={`enhancedDataTable-filterBar-actions-${index}`}
+        >
+          {action.label}
+        </Button>
+      ))}
+    </div>
   ) : (
     <></>
   );
+
+  const renderHeadline = headline ? (
+    <Heading variant={'h6'}>
+      <strong data-testid={'enhancedDataTable-filterBar-headline'}>
+        {headline}
+      </strong>
+    </Heading>
+  ) : (
+    <></>
+  );
+
+  const renderToolbar =
+    headline || toolbarActions ? (
+      <Toolbar className={classes.toolbar}>
+        {renderHeadline}
+        {renderToolbarActions}
+      </Toolbar>
+    ) : (
+      <></>
+    );
 
   const renderActiveFilters = React.useMemo(() => {
     return activeFilters ? (
@@ -321,7 +368,7 @@ export function EnhancedDataTableToolbar<D>(
 
   return (
     <>
-      {renderHeadline}
+      {renderToolbar}
       {renderFilterBar}
     </>
   );

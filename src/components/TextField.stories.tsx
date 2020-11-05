@@ -46,3 +46,9 @@ export const WithIconButtonAdornment = () => {
 export const Password = () => (
   <TextField label="Password" required={true} type="password" />
 );
+
+export const TimePicker = () => <TextField type="time" label="Some label" />;
+
+export const Multiline = () => (
+  <TextField multiline={true} rows={5} label="Some label" />
+);

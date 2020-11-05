@@ -19,10 +19,7 @@ export interface RadioButtonTilesProps<D> {
   /**
    * Callback function for clicking a button tile
    */
-  onChange?: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: D
-  ) => void;
+  onChange?: (value: D) => void;
   /** Number of tiles to displayed in a row
    * @default 3
    */
@@ -75,10 +72,7 @@ interface RadioButtonTileProps<D> {
   icon: React.ElementType<SvgIconProps>;
   checked?: boolean;
   index: number;
-  onChange?: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: D
-  ) => void;
+  onChange?: (value: D) => void;
 }
 
 const useTileStyles = makeStyles<Theme, { checked?: boolean }>(
@@ -120,7 +114,7 @@ function RadioButtonTile<D>(props: RadioButtonTileProps<D>) {
   return (
     <div
       className={classes.root}
-      onClick={(e) => (onChange ? onChange(e, value) : null)}
+      onClick={() => (onChange ? onChange(value) : null)}
       data-testid={`radioButtonTiles-item-${index}`}
       aria-selected={checked}
     >

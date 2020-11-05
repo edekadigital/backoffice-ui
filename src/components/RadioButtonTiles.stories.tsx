@@ -10,10 +10,7 @@ export default {
 
 export const Default = () => {
   const [value, setValue] = React.useState<string | undefined>(undefined);
-  const handleChange = (
-    _: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: string
-  ) => {
+  const handleChange = (value: string) => {
     setValue(value);
   };
   return (
@@ -30,10 +27,7 @@ export const Default = () => {
 
 export const ThreeTilesPerLine = () => {
   const [value, setValue] = React.useState<string | undefined>(undefined);
-  const handleChange = (
-    _: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: string
-  ) => {
+  const handleChange = (value: string) => {
     setValue(value);
   };
   return (
@@ -55,10 +49,7 @@ export const ThreeTilesPerLine = () => {
 
 export const TwoTilesPerLine = () => {
   const [value, setValue] = React.useState<string>('a');
-  const handleChange = (
-    _: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: string
-  ) => {
+  const handleChange = (value: string) => {
     setValue(value);
   };
   return (
@@ -78,10 +69,7 @@ export const TwoTilesPerLine = () => {
 };
 export const FourTilesPerLine = () => {
   const [value, setValue] = React.useState<string>('a');
-  const handleChange = (
-    _: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    value: string
-  ) => {
+  const handleChange = (value: string) => {
     setValue(value);
   };
   return (

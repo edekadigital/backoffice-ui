@@ -108,6 +108,14 @@ export interface TextFieldProps {
    * The value of the input element, required for a controlled component.
    */
   value?: TextFieldValue;
+  /**
+   * If `true`, a textarea element will be rendered instead of an input.
+   */
+  multiline?: boolean;
+  /**
+   * Number of rows to display when multiline option is set to true.
+   */
+  rows?: string | number;
 }
 
 const useInputStyles = makeStyles((theme: Theme) => ({

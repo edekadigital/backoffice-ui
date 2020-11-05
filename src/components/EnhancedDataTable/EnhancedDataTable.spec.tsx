@@ -41,11 +41,11 @@ const testData = [
 let fetchDataFn: jest.Mock<Promise<EnhancedDataTableFetchResult<TestData>>>;
 
 const fetchData: EnhancedDataTableFetchData<TestData> = ({
-  pageSize = 10,
-  pageIndex = 0,
+  size = 10,
+  page = 0,
 }) => {
   return new Promise((resolve) => {
-    resolve(paginateTable(pageSize, pageIndex, testData));
+    resolve(paginateTable(size, page, testData));
   });
 };
 
@@ -60,7 +60,7 @@ describe('<EnhancedDataTable />', () => {
     const fetchUndefined: EnhancedDataTableFetchData<TestData> = () =>
       Promise.resolve({
         totalCount: 0,
-        pageIndex: 0,
+        page: 0,
       } as EnhancedDataTableFetchResult<TestData>);
     const { container, queryByTestId } = render(
       <EnhancedDataTable columns={columns} fetchData={fetchUndefined} />
@@ -95,8 +95,8 @@ describe('<EnhancedDataTable />', () => {
       filters: undefined,
       order: 'asc',
       orderBy: undefined,
-      pageIndex: 0,
-      pageSize: 10,
+      page: 0,
+      size: 10,
     });
     expect(getByTestId('enhancedDataTable-container')).toBeTruthy();
     expect(getByTestId('enhancedDataTable-filterBar-headline').innerHTML).toBe(
@@ -134,7 +134,7 @@ describe('<EnhancedDataTable />', () => {
   it('should render a null result info if data is empty', async () => {
     const fetchEmpty: EnhancedDataTableFetchData<TestData> = () => {
       return new Promise((resolve) => {
-        resolve({ data: [], totalCount: 0, pageIndex: 0 });
+        resolve({ data: [], totalCount: 0, page: 0 });
       });
     };
     const { queryByTestId, getByText } = render(
@@ -145,6 +145,30 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
     expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
     expect(getByText('Keine Datensätze gefunden')).toBeTruthy();
+  });
+
+  it('should render a custom null result info if data is empty', async () => {
+    const fetchEmpty: EnhancedDataTableFetchData<TestData> = () => {
+      return new Promise((resolve) => {
+        resolve({ data: [], totalCount: 0, page: 0 });
+      });
+    };
+
+    const customNullResult = <span data-testid="nullResult">Empty</span>;
+
+    const { queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchEmpty}
+        customNullResult={customNullResult}
+      />
+    );
+    await waitFor(() => {});
+    expect(queryByTestId('enhancedDataTable-container')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-pagination')).toBeFalsy();
+    expect(queryByTestId('enhancedDataTable-emptyResult')).toBeTruthy();
+    expect(queryByTestId('nullResult')).toBeTruthy();
+    expect(queryByTestId('nullResult')!.textContent).toBe('Empty');
   });
 
   it('should render a null result info if fetch data function promise is being rejected', async () => {
@@ -195,7 +219,7 @@ describe('<EnhancedDataTable />', () => {
       container.querySelector('.MuiTablePagination-select')?.firstChild
         ?.textContent
     ).toBe('1');
-    expect(fetchDataFn.mock.calls[0][0].pageSize).toBe(1);
+    expect(fetchDataFn.mock.calls[0][0].size).toBe(1);
   });
 
   it('should be possible to change rows per page manually', async () => {
@@ -208,7 +232,7 @@ describe('<EnhancedDataTable />', () => {
       />
     );
     await waitFor(() => {});
-    expect(fetchDataFn.mock.calls[0][0].pageSize).toBe(1);
+    expect(fetchDataFn.mock.calls[0][0].size).toBe(1);
     userEvent.click(container.querySelector('.MuiTablePagination-select')!);
     const paginationSelectItems = baseElement.querySelectorAll(
       '.MuiTablePagination-menuItem'
@@ -219,7 +243,7 @@ describe('<EnhancedDataTable />', () => {
     userEvent.click(paginationSelectItems[1]);
     await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
-    expect(fetchDataFn.mock.calls[1][0].pageSize).toBe(2);
+    expect(fetchDataFn.mock.calls[1][0].size).toBe(2);
   });
 
   it('should be possible to paginate', async () => {
@@ -232,13 +256,13 @@ describe('<EnhancedDataTable />', () => {
       />
     );
     await waitFor(() => {});
-    expect(fetchDataFn.mock.calls[0][0].pageIndex).toBe(0);
+    expect(fetchDataFn.mock.calls[0][0].page).toBe(0);
     userEvent.click(
       container.querySelectorAll('button[title="Nächste Seite"]')[1]!
     );
     await waitFor(() => {});
     expect(fetchDataFn).toHaveBeenCalledTimes(2);
-    expect(fetchDataFn.mock.calls[1][0].pageIndex).toBe(1);
+    expect(fetchDataFn.mock.calls[1][0].page).toBe(1);
   });
 
   it('should be possible to click a row', async () => {
@@ -661,5 +685,26 @@ describe('<EnhancedDataTable />', () => {
     expect(getAllByTestId('custom-component')[1].innerHTML).toBe(
       testData[1].name
     );
+  });
+
+  it('should show additional action buttons in table head if toolbarActions prop is given', () => {
+    const handler = jest.fn();
+    const actions = [
+      {
+        icon: GetApp,
+        label: 'FooFoo',
+        handler,
+      },
+    ];
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        toolbarActions={actions}
+      />
+    );
+    expect(getByTestId('enhancedDataTable-filterBar-actions')).toBeTruthy();
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-actions-0'));
+    expect(handler).toHaveBeenCalledTimes(1);
   });
 });
