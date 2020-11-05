@@ -4,6 +4,17 @@ import { render } from '../../test-utils';
 import { TextEditor } from './TextEditor';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('./useEditorState', () => {
+  const { useEditorState: actualUseEditorState } = jest.requireActual(
+    './useEditorState'
+  );
+  return {
+    useEditorState: jest.fn((initialValue?: string) =>
+      actualUseEditorState(initialValue, true)
+    ),
+  };
+});
+
 jest.mock('draft-js', () => ({
   // @ts-expect-error
   ...jest.requireActual('draft-js'),
@@ -127,7 +138,21 @@ describe('<TextEditor />', () => {
     expect(onChange.mock.calls[3][0]).toBe(`> ${value}`);
   });
 
-  /** TODO: Fix this test - problem with button click - inlineStyleRanges array in editor state doesnt get updated in tests */
+  it('should handle inline style "bold" correctly', () => {
+    const onChange = jest.fn();
+    const { getByTestId } = render(
+      <TextEditor
+        onChange={onChange}
+        value="Lorem ipsum"
+        inlineStyleOptions={['BOLD']}
+      />
+    );
+    expect(getByTestId('textEditor-inlineStyleOptions')).toBeTruthy();
+    const boldButton = getByTestId('textEditor-inlineStyleOption-BOLD');
+    userEvent.click(boldButton);
+    expect(onChange.mock.calls[0][0]).toBe('**Lorem ipsum**');
+  });
+
   it('should handle inline styles correctly', () => {
     const onChange = jest.fn();
     const { getByTestId, queryByTestId } = render(
