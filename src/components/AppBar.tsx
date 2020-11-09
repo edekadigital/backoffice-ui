@@ -215,7 +215,7 @@ const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
  * | -------------------------------------------------------- | ----------------------------------------- |
  * | `appBar-title`                                           | App bar title                             |
  * | `appBar-actionItem-${index}`                             | App bar action icon button                |
- * | `appBar-menuItem-${index}-${itemIndex}`                  | App bar menu item in action menu          |
+ * | `appBar-menuItem-${index}-${itemIndex}`                  | App bar menu item in action grid menu     |
  */
 export const AppBar: React.FC<AppBarProps> = (props) => {
   const { actions = [], children, color } = props;

@@ -134,8 +134,8 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
  * | `titleBar-additionalContent`             | Additional content container |
  * | `titleBar-actions`                       | Action buttons container     |
  * | `titleBar-actionItem-${index}`           | Action button                |
- * | `titleBar-actionMenu-${index}`           | Action menu                  |
- * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action menu     |
+ * | `titleBar-actionMenu-${index}`           | Action grid menu             |
+ * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action grid menu|
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const {

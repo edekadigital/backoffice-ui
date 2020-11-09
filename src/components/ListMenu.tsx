@@ -45,6 +45,12 @@ const useMenuStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
+/**
+ * | Test ID                                                            | Description                               |
+ * | ------------------------------------------------------------------ | ----------------------------------------- |
+ * | `listMenu` (or `listMenu-${index}`)                                | List Menu container                       |
+ * | `listMenu-menuItem-${itemIndex}` (`listMenu-menuItem-${itemIndex}`)| Menu item                                 |
+ */
 export const ListMenu: React.FC<ListMenuProps> = ({
   items,
   index,

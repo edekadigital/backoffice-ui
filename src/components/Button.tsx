@@ -111,6 +111,12 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
+/**
+ * | Test ID                | Description                               |
+ * | ---------------------- | ----------------------------------------- |
+ * | `splitButton-main`     | Splitted button: Main button              |
+ * | `splitButton-menu`     | Splitted button: Menu button              |
+ */
 export const Button: React.FC<ButtonProps> = (props) => {
   const {
     variant = 'contained',
@@ -177,10 +183,14 @@ export const Button: React.FC<ButtonProps> = (props) => {
                 groupedContainedPrimary: classes.buttonGroupContainedPrimary,
               }}
             >
-              <Button variant={variant} {...additionalProps}>
+              <Button
+                variant={variant}
+                {...additionalProps}
+                data-testid="splitButton-main"
+              >
                 {content()}
               </Button>
-              <Button onClick={handleMenuOpen}>
+              <Button onClick={handleMenuOpen} data-testid="splitButton-menu">
                 <KeyboardArrowDownIcon />
               </Button>
             </ButtonGroup>
