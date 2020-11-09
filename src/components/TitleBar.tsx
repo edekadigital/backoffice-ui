@@ -3,16 +3,12 @@ import {
   SvgIconProps,
   Theme,
   IconButton as MuiIconButton,
-  Menu as MuiMenu,
-  MenuItem as MuiMenuItem,
-  ListItemIcon as MuiListItemIcon,
-  ListItemText as MuiListItemText,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
-import { Button } from '..';
+import { Button, ListMenu } from '..';
 
 export interface TitleBarActionItem {
   icon: React.ElementType<SvgIconProps>;
@@ -129,12 +125,6 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
   },
 }));
 
-const useListMenuIconStyles = makeStyles<Theme>((theme) => ({
-  root: {
-    minWidth: theme.spacing(4.5),
-  },
-}));
-
 /**
  * | Test ID                                  | Description                  |
  * | ---------------------------------------- | ---------------------------- |
@@ -239,7 +229,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
       const open = activeMenu?.index === index;
 
       return (
-        <TitleBarListMenu
+        <ListMenu
           index={index}
           items={tempAction.items}
           anchorEl={anchorEl}
@@ -281,6 +271,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
   );
 };
 
+/*
 const TitleBarListMenu: React.FC<TitleBarActionListMenuProps> = ({
   index,
   items,
@@ -325,3 +316,4 @@ const TitleBarListMenu: React.FC<TitleBarActionListMenuProps> = ({
     </MuiMenu>
   );
 };
+*/

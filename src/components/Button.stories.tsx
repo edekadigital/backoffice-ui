@@ -119,3 +119,22 @@ export const Progress = () => (
     Some Label
   </Button>
 );
+
+export const AsMenuButton = () => (
+  <Button
+    menu={{ items: [{ handler: () => {}, label: 'Do something special' }] }}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const AsMenuSplitButton = () => (
+  <Button
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+  >
+    Some menu button label
+  </Button>
+);
