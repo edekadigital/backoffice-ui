@@ -46,10 +46,11 @@ const useMenuStyles = makeStyles<Theme>((theme) => ({
 }));
 
 /**
- * | Test ID                                                            | Description                               |
- * | ------------------------------------------------------------------ | ----------------------------------------- |
- * | `listMenu` (or `listMenu-${index}`)                                | List Menu container                       |
- * | `listMenu-menuItem-${itemIndex}` (`listMenu-menuItem-${itemIndex}`)| Menu item                                 |
+ * | Test ID                                                                       | Description                               |
+ * | ----------------------------------------------------------------------------- | ----------------------------------------- |
+ * | `listMenu` (or `listMenu-${index}`)                                           | List Menu container                       |
+ * | `listMenu-menuItem-${itemIndex}` (`listMenu-menuItem-${itemIndex}`)           | Menu item                                 |
+ * | `listMenu-menuItem-${itemIndex}-icon` (`listMenu-menuItem-${itemIndex}-icon`) | Menu item icon                            |
  */
 export const ListMenu: React.FC<ListMenuProps> = ({
   items,
@@ -59,11 +60,14 @@ export const ListMenu: React.FC<ListMenuProps> = ({
   onClose,
 }) => {
   const classes = useMenuStyles();
-  const renderIcon = (item: ListMenuItem) => {
+  const renderIcon = (item: ListMenuItem, key: string) => {
     if (item.icon) {
       const IconComponent = item.icon;
       return (
-        <MuiListItemIcon classes={{ root: classes.iconStyles }}>
+        <MuiListItemIcon
+          classes={{ root: classes.iconStyles }}
+          data-testid={`${key}-icon`}
+        >
           <IconComponent fontSize="small" />
         </MuiListItemIcon>
       );
@@ -82,7 +86,7 @@ export const ListMenu: React.FC<ListMenuProps> = ({
 
     return (
       <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
-        {renderIcon(tempItem)}
+        {renderIcon(tempItem, key)}
         <MuiListItemText primary={tempItem.label} />
       </MuiMenuItem>
     );
