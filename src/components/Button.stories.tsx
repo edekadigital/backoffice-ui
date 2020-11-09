@@ -134,6 +134,7 @@ export const SplitButton = () => (
       splitButton: true,
       items: [{ handler: () => {}, label: 'Do something special' }],
     }}
+    onClick={() => console.log('CLICK')}
   >
     Some menu button label
   </Button>

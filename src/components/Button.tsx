@@ -178,7 +178,9 @@ export const Button: React.FC<ButtonProps> = (props) => {
           <>
             <ButtonGroup
               variant={variant}
-              {...additionalProps}
+              color={additionalProps.color}
+              disabled={additionalProps.disabled}
+              size={additionalProps.size}
               classes={{
                 groupedContainedPrimary: classes.buttonGroupContainedPrimary,
               }}
