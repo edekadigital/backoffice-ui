@@ -62,10 +62,12 @@ describe('<Button/>', () => {
 
   it('should open menu if provided', () => {
     const fooFn = jest.fn();
+    const onClickFn = jest.fn();
     const { getByTestId } = render(
       <Button
         menu={{ items: [{ label: 'foo', handler: fooFn }] }}
         data-testid="button"
+        onClick={onClickFn}
       >
         {label}
       </Button>
@@ -76,6 +78,7 @@ describe('<Button/>', () => {
     expect(getByTestId('listMenu-menuItem-0').textContent).toBe('foo');
     userEvent.click(getByTestId('listMenu-menuItem-0'));
     expect(fooFn).toHaveBeenCalledTimes(1);
+    expect(onClickFn).toHaveBeenCalledTimes(0);
   });
 
   it('should render button as split button', () => {

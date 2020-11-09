@@ -186,8 +186,8 @@ export const Button: React.FC<ButtonProps> = (props) => {
               }}
             >
               <Button
-                variant={variant}
                 {...additionalProps}
+                variant={variant}
                 data-testid="splitButton-main"
               >
                 {content()}
@@ -208,9 +208,9 @@ export const Button: React.FC<ButtonProps> = (props) => {
         return (
           <>
             <MuiButton
+              {...additionalProps}
               variant={variant}
               onClick={handleMenuOpen}
-              {...additionalProps}
             >
               {content()}
               <KeyboardArrowDownIcon />
