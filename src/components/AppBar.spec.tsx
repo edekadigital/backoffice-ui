@@ -119,14 +119,14 @@ describe('<AppBar />', () => {
       <AppBar actions={actions}>Some title</AppBar>
     );
 
-    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0-0')).not.toBeVisible();
     userEvent.click(getByTestId('appBar-actionItem-0'));
-    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
-    fireEvent.keyDown(getByTestId('appBar-menuItem-0-0'), {
+    expect(getByTestId('listMenu-menuItem-0-0')).toBeVisible();
+    fireEvent.keyDown(getByTestId('listMenu-menuItem-0-0'), {
       key: 'Esc',
       code: 'Esc',
     });
-    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0-0')).not.toBeVisible();
   });
 
   it('should render list menu and call item handler and close menu afterwards', () => {
@@ -152,9 +152,9 @@ describe('<AppBar />', () => {
     );
 
     userEvent.click(getByTestId('appBar-actionItem-0'));
-    expect(getByTestId('appBar-menuItem-0-0')).toBeVisible();
-    userEvent.click(getByTestId('appBar-menuItem-0-0'));
+    expect(getByTestId('listMenu-menuItem-0-0')).toBeVisible();
+    userEvent.click(getByTestId('listMenu-menuItem-0-0'));
     expect(handler).toBeCalledTimes(1);
-    expect(getByTestId('appBar-menuItem-0-0')).not.toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0-0')).not.toBeVisible();
   });
 });

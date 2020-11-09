@@ -113,17 +113,17 @@ describe('<TitleBar/>', () => {
     expect(getByTestId('titleBar-actions')).toBeTruthy();
     expect(getByTestId('titleBar-actionItem-0')).toBeTruthy();
     expect(getByTestId('titleBar-actionItem-0').textContent).toBe('');
-    expect(getByTestId('titleBar-actionMenu-0')).not.toBeVisible();
+    expect(getByTestId('listMenu-0')).not.toBeVisible();
     userEvent.click(getByTestId('titleBar-actionItem-0'));
-    expect(getByTestId('titleBar-actionMenu-0')).toBeVisible();
-    expect(getByTestId('titleBar-menuItem-0-0').textContent).toBe(
+    expect(getByTestId('listMenu-0')).toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0-0').textContent).toBe(
       menuItemLabel1
     );
-    userEvent.click(getByTestId('titleBar-menuItem-0-0'));
+    userEvent.click(getByTestId('listMenu-menuItem-0-0'));
 
     expect(menuItemClickFn1).toBeCalledTimes(1);
     await waitFor(() => {
-      expect(getByTestId('titleBar-actionMenu-0')).not.toBeVisible();
+      expect(getByTestId('listMenu-0')).not.toBeVisible();
     });
   });
 
@@ -148,12 +148,12 @@ describe('<TitleBar/>', () => {
       </TitleBar>
     );
     userEvent.click(getByTestId('titleBar-actionItem-0'));
-    fireEvent.keyDown(getByTestId('titleBar-menuItem-0-0'), {
+    fireEvent.keyDown(getByTestId('listMenu-menuItem-0-0'), {
       key: 'Esc',
       code: 'Esc',
     });
     await waitFor(() => {
-      expect(getByTestId('titleBar-actionMenu-0')).not.toBeVisible();
+      expect(getByTestId('listMenu-0')).not.toBeVisible();
     });
     expect(menuItemClickFn1).toHaveBeenCalledTimes(0);
   });

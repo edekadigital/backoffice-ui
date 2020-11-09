@@ -47,12 +47,12 @@ const useMenuStyles = makeStyles<Theme>((theme) => ({
 
 export const ListMenu: React.FC<ListMenuProps> = ({
   items,
+  index,
   open,
   anchorEl,
   onClose,
 }) => {
   const classes = useMenuStyles();
-
   const renderIcon = (item: ListMenuItem) => {
     if (item.icon) {
       const IconComponent = item.icon;
@@ -65,8 +65,10 @@ export const ListMenu: React.FC<ListMenuProps> = ({
   };
 
   const renderItems = items.map((tempItem, itemIndex) => {
-    const key = `listMenu-menuItem-${itemIndex}`;
-
+    const key =
+      index !== undefined
+        ? `listMenu-menuItem-${index}-${itemIndex}`
+        : `listMenu-menuItem-${itemIndex}`;
     const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
       tempItem.handler(event);
       onClose();
@@ -90,7 +92,7 @@ export const ListMenu: React.FC<ListMenuProps> = ({
       getContentAnchorEl={null}
       open={open}
       onClose={() => onClose()}
-      data-testid="listMenu"
+      data-testid={index !== undefined ? `listMenu-${index}` : 'listMenu'}
     >
       {renderItems}
     </MuiMenu>

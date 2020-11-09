@@ -116,6 +116,7 @@ const useGridMenuStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: 280,
     maxHeight: 380,
+    marginTop: theme.spacing(1),
   },
   list: {
     display: 'flex',
