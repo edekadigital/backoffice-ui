@@ -3,17 +3,9 @@ import { cleanup, fireEvent } from '@testing-library/react';
 import { render } from '../../test-utils';
 import { TextEditor } from './TextEditor';
 import userEvent from '@testing-library/user-event';
+import { useEditorState } from './useEditorState';
 
-jest.mock('./useEditorState', () => {
-  const { useEditorState: actualUseEditorState } = jest.requireActual(
-    './useEditorState'
-  );
-  return {
-    useEditorState: jest.fn((initialValue?: string) =>
-      actualUseEditorState(initialValue, true)
-    ),
-  };
-});
+jest.mock('./useEditorState');
 
 jest.mock('draft-js', () => ({
   // @ts-expect-error
@@ -36,10 +28,22 @@ jest.mock('draft-js', () => ({
   }),
 }));
 
+const setupEditorStateMock = (preSelectAll?: boolean) => {
+  (useEditorState as jest.MockedFunction<
+    typeof useEditorState
+  >).mockImplementation((initialValue?: string) => {
+    const { useEditorState: actualUseEditorState } = jest.requireActual(
+      './useEditorState'
+    );
+    return actualUseEditorState(initialValue, preSelectAll);
+  });
+};
+
 describe('<TextEditor />', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
+    setupEditorStateMock();
     const { getByTestId, queryByTestId } = render(
       <TextEditor onChange={() => {}} />
     );
@@ -57,6 +61,7 @@ describe('<TextEditor />', () => {
   });
 
   it('should handle the user input correctly', () => {
+    setupEditorStateMock();
     const onChange = jest.fn();
     const { getByTestId } = render(<TextEditor onChange={onChange} />);
     const value = 'Foo bar';
@@ -67,6 +72,7 @@ describe('<TextEditor />', () => {
   });
 
   it('should be controllable and handle an external value correctly', () => {
+    setupEditorStateMock();
     const onChange = jest.fn();
     const value =
       'I **am** a *Markdown* ++String++! [I am m an inline-style link](https://www.edeka.de).';
@@ -75,6 +81,7 @@ describe('<TextEditor />', () => {
   });
 
   it('should handle heading types correctly', () => {
+    setupEditorStateMock();
     const onChange = jest.fn();
     const value = 'Lorem ipsum';
     const { getByTestId, queryByTestId } = render(
@@ -102,6 +109,7 @@ describe('<TextEditor />', () => {
   });
 
   it('should handle block types correctly', () => {
+    setupEditorStateMock();
     const onChange = jest.fn();
     const value = 'Lorem ipsum';
     const { getByTestId, queryByTestId } = render(
@@ -138,26 +146,14 @@ describe('<TextEditor />', () => {
     expect(onChange.mock.calls[3][0]).toBe(`> ${value}`);
   });
 
-  it('should handle inline style "bold" correctly', () => {
-    const onChange = jest.fn();
-    const { getByTestId } = render(
-      <TextEditor
-        onChange={onChange}
-        value="Lorem ipsum"
-        inlineStyleOptions={['BOLD']}
-      />
-    );
-    expect(getByTestId('textEditor-inlineStyleOptions')).toBeTruthy();
-    const boldButton = getByTestId('textEditor-inlineStyleOption-BOLD');
-    userEvent.click(boldButton);
-    expect(onChange.mock.calls[0][0]).toBe('**Lorem ipsum**');
-  });
-
   it('should handle inline styles correctly', () => {
+    setupEditorStateMock(true);
     const onChange = jest.fn();
+    const value = 'Lorem ipsum';
     const { getByTestId, queryByTestId } = render(
       <TextEditor
         onChange={onChange}
+        value={value}
         inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
       />
     );
@@ -171,21 +167,25 @@ describe('<TextEditor />', () => {
     expect(boldButton).toBeTruthy();
     expect(italicButton).toBeTruthy();
     expect(underlineButton).toBeTruthy();
-    const editor = getByTestId('mocked-editor');
 
-    userEvent.type(editor, 'x');
-    userEvent.type(editor, '{selectall}');
-    fireEvent.mouseDown(boldButton!);
-    userEvent.type(editor, 'a');
-    /*
-    expect(onChange.mock.calls[1][0]).toBe(`# ${value}`);
-    expect(onChange.mock.calls[2][0]).toBe(`## ${value}`);
-    expect(onChange.mock.calls[3][0]).toBe(`### ${value}`);
-    */
+    userEvent.click(boldButton!);
+    userEvent.click(boldButton!);
+    userEvent.click(italicButton!);
+    userEvent.click(italicButton!);
+    userEvent.click(underlineButton!);
+    userEvent.click(underlineButton!);
+
+    expect(onChange.mock.calls[0][0]).toBe(`**${value}**`);
+    expect(onChange.mock.calls[1][0]).toBe(`${value}`);
+    expect(onChange.mock.calls[2][0]).toBe(`*${value}*`);
+    expect(onChange.mock.calls[3][0]).toBe(`${value}`);
+    expect(onChange.mock.calls[4][0]).toBe(`++${value}++`);
+    expect(onChange.mock.calls[5][0]).toBe(`${value}`);
   });
 
   /** TODO: Fix this test: The add-link button won't be enabled after selecting the typed text (but only here in the test) */
   it('should be possible to add an inline link', () => {
+    setupEditorStateMock(true);
     const onChange = jest.fn();
     const value = 'Lorem';
     const { getByTestId, queryByTestId } = render(
