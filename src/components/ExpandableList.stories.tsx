@@ -96,3 +96,27 @@ export const Disabled = () => {
     />
   );
 };
+
+export const WithMinMax = () => {
+  const handleChange = (listItems: Array<ListItem>) => {
+    console.log(listItems);
+  };
+
+  const initialItems = [
+    { value: 'Banane', checked: true },
+    { value: 'Apfel', checked: false },
+    { value: 'Melone', checked: false },
+  ];
+
+  return (
+    <ExpandableList
+      optionLabel="Option"
+      addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
+      checkable="single"
+      initialItems={initialItems}
+      max={5}
+      min={2}
+    />
+  );
+};

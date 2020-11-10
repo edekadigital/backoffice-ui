@@ -46,6 +46,14 @@ export interface ExpandableListProps {
    * if true component is shown as disabled
    */
   disabled?: boolean;
+  /**
+   * if set delete button will be shown as disabled when minimum amount of options is reached
+   */
+  min?: number;
+  /**
+   * if set add button will be shown as disabled when maximum amount of options is reached
+   */
+  max?: number;
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -122,6 +130,8 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     onChange,
     checkable,
     disabled = false,
+    min,
+    max,
   } = props;
 
   const [items, setItems] = React.useState(addUniqueId(initialItems));
@@ -169,6 +179,14 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     updateState([...items, { value: '', id: createUniqueId(items) }]);
   };
 
+  const isMaxItems = React.useMemo(() => {
+    return max && items.length === max ? true : false;
+  }, [items]);
+
+  const isMinItems = React.useMemo(() => {
+    return min && items.length === min ? true : false;
+  }, [items]);
+
   const renderItems = React.useMemo(() => {
     return items.map((item, index) => {
       const label = optionLabel + ' ' + (index + 1);
@@ -184,6 +202,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           checkable={checkable}
           checked={item.checked}
           disabled={disabled}
+          isMinItems={isMinItems}
         />
       );
     });
@@ -199,7 +218,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         onClick={handleAddItem}
         className={classes.addButton}
         data-testid="expandable-list-add"
-        disabled={disabled}
+        disabled={disabled || isMaxItems}
       >
         {addButtonLabel}
       </Button>
@@ -217,6 +236,7 @@ export interface ExpandableListItemProps {
   checked?: boolean;
   disabled?: boolean;
   checkable?: boolean | string;
+  isMinItems?: boolean;
 }
 
 const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
@@ -230,6 +250,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     disabled = false,
     checkable,
     value,
+    isMinItems,
   } = props;
   const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
     onChange(event.target.value);
@@ -277,7 +298,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
             icon={Delete}
             onClick={onDeleteClick}
             data-testid={`expandableList-item-delete-${index}`}
-            disabled={disabled}
+            disabled={disabled || isMinItems}
           />
         </div>
       </div>
