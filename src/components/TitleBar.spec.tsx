@@ -41,7 +41,7 @@ describe('<TitleBar/>', () => {
   });
 
   it('should render with additional content (text)', () => {
-    const additionalContent = 'ID: 012345678';
+    const additionalContent = <>ID: 012345678</>;
     const { getByTestId } = render(
       <TitleBar additionalContent={additionalContent}>lorem</TitleBar>
     );
@@ -56,19 +56,6 @@ describe('<TitleBar/>', () => {
       <TitleBar additionalContent={additionalContent}>lorem</TitleBar>
     );
     expect(getByTestId('titleBar-additionalContent')).toBeTruthy();
-    expect(getByTestId('node')).toBeTruthy();
-  });
-
-  it('should render with info content (text)', () => {
-    const info = 'ID: 012345678';
-    const { getByTestId } = render(<TitleBar info={info}>lorem</TitleBar>);
-    expect(getByTestId('titleBar-info').textContent).toBe(info);
-  });
-
-  it('should render with info content (node)', () => {
-    const info = <div data-testid="node" />;
-    const { getByTestId } = render(<TitleBar info={info}>lorem</TitleBar>);
-    expect(getByTestId('titleBar-info')).toBeTruthy();
     expect(getByTestId('node')).toBeTruthy();
   });
 

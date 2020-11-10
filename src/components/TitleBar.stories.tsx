@@ -63,7 +63,7 @@ export const WithNonFloatingReverseNavigation = () => {
 export const WithAdditionalContent = () => {
   return (
     <Page>
-      <TitleBar gutterBottom additionalContent={'ID: 012345678'}>
+      <TitleBar gutterBottom additionalContent={<>ID: 012345678</>}>
         Lorem ipsum dolor <strong>sit amet</strong>
       </TitleBar>
       <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
