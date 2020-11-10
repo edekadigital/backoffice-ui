@@ -17,7 +17,8 @@ const setup = (
   noInitialItems = false,
   isCheckable: CheckOptions | undefined = undefined,
   itemsOverride?: { value: string }[],
-  minMax?: { min: number; max: number }
+  minMax?: { min: number; max: number },
+  isDisabled = false
 ) => {
   const onChangeFn = jest.fn();
   const initialItems = itemsOverride ? [...items, ...itemsOverride] : items;
@@ -28,6 +29,7 @@ const setup = (
       checkable={isCheckable}
       min={minMax?.min}
       max={minMax?.max}
+      disabled={isDisabled}
     />
   );
   const string = 'foo';
@@ -112,6 +114,24 @@ describe('<ExpandableList />', () => {
       max: 3,
     });
     const { getByTestId } = renderResult;
+    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
+      'disabled'
+    );
+  });
+
+  it('should show buttons and texfield as disabled when option disabled is set to true', () => {
+    const { renderResult } = setup(
+      false,
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
+    const { getByTestId } = renderResult;
+    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
+      'disabled'
+    );
+    expect(getByTestId('expandable-list-add')).toHaveAttribute('disabled');
     expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
       'disabled'
     );
