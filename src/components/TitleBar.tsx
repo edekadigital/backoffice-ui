@@ -126,7 +126,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
 }));
 
 /**
- * | Test ID                                  | Description                  |
+ * | Test ID       0                           | Description                  |
  * | ---------------------------------------- | ---------------------------- |
  * | `titleBar-backButton`                    | Reverse navigation button    |
  * | `titleBar-title`                         | Title text                   |

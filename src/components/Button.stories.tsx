@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Button, Delete, ArrowForward, CloudDownload } from '..'; // @edekadigital/backoffice-ui
+import { Add } from '../icons';
 
 export default {
   title: 'Components/Button',
@@ -130,6 +131,84 @@ export const MenuButton = () => (
 
 export const SplitButton = () => (
   <Button
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonPrimary = () => (
+  <Button
+    color="primary"
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonSecondary = () => (
+  <Button
+    color="secondary"
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonDisabled = () => (
+  <Button
+    disabled
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonWithIcon = () => (
+  <Button
+    icon={Add}
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonSmall = () => (
+  <Button
+    size="small"
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonLarge = () => (
+  <Button
+    size="large"
     menu={{
       splitButton: true,
       items: [{ handler: () => {}, label: 'Do something special' }],
