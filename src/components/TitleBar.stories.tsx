@@ -10,6 +10,7 @@ import {
   OpenInNew,
   Logout,
 } from '..';
+import { Body } from '../typography/Body';
 
 export default {
   title: 'Components/TitleBar',
@@ -70,17 +71,6 @@ export const WithAdditionalContent = () => {
   );
 };
 
-export const WithInfo = () => {
-  return (
-    <Page>
-      <TitleBar gutterBottom info={'Rendered successfully'}>
-        Lorem ipsum dolor <strong>sit amet</strong>
-      </TitleBar>
-      <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
-    </Page>
-  );
-};
-
 export const WithActions = () => {
   const actions: TitleBarActions = [
     {
@@ -123,17 +113,13 @@ export const FullExample = () => {
   const handleBackClick = () => {
     console.log('handleBackClick');
   };
-  const status = 'ID: 012345678';
-
-  const info = (
-    <StatusChip
-      label={'Changes saved'}
-      icon={CheckCircleFilled}
-      color={'success'}
-      size={'small'}
-      variant={'naked'}
-    />
+  const status = (
+    <>
+      <StatusChip label={'Active'} color={'success'} size={'small'} />
+      <>ID: 012345678 · Teilnehmer: 324</>
+    </>
   );
+
   const actions: TitleBarActions = [
     {
       icon: Star,
@@ -166,7 +152,6 @@ export const FullExample = () => {
         onBackClick={handleBackClick}
         additionalContent={status}
         actions={actions}
-        info={info}
         gutterBottom
       >
         Lorem ipsum dolor <strong>sit amet</strong>

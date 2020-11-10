@@ -44,7 +44,7 @@ export interface TitleBarProps {
   /**
    * Additional text or elements to show below the headline.
    */
-  additionalContent?: React.ReactNode;
+  additionalContent?: React.ReactElement;
   /**
    * The title to show.
    */
@@ -58,10 +58,6 @@ export interface TitleBarProps {
    * If `true`, the title bar will have a bottom margin.
    */
   gutterBottom?: boolean;
-  /**
-   * Additional info text next to the title, e.g. a save confirmation or status chip
-   */
-  info?: React.ReactNode;
   /**
    * Callback fired when the the back button is clicked
    * If set, a back (arrow) button will be displayed.
@@ -106,17 +102,18 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     },
     marginRight: theme.spacing(),
   },
-  additionalContent: ({ onBackClick, floatingBackButton = true }) => ({
+  additionalContentWrapper: ({ onBackClick, floatingBackButton = true }) => ({
     [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
       marginLeft: floatingBackButton && onBackClick ? theme.spacing(5.5) : 0,
     },
+
     width: '100%',
+    display: 'flex',
+    alignItems: 'center',
   }),
-  info: {
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      display: 'flex',
-      alignItems: 'center',
-      marginTop: theme.spacing(0.5),
+  additionalContentItem: {
+    '&:not(:last-child)': {
+      marginRight: theme.spacing(2),
     },
   },
   actionsWrapper: {
@@ -130,7 +127,6 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
  * | ---------------------------------------- | ---------------------------- |
  * | `titleBar-backButton`                    | Reverse navigation button    |
  * | `titleBar-title`                         | Title text                   |
- * | `titleBar-info`                          | Info container               |
  * | `titleBar-additionalContent`             | Additional content container |
  * | `titleBar-actions`                       | Action buttons container     |
  * | `titleBar-actionItem-${index}`           | Action button                |
@@ -138,13 +134,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
  * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action grid menu|
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
-  const {
-    onBackClick,
-    children,
-    additionalContent,
-    actions = [],
-    info,
-  } = props;
+  const { onBackClick, children, additionalContent, actions = [] } = props;
 
   const [activeMenu, setActiveMenu] = React.useState<{
     anchorEl: HTMLElement;
@@ -154,14 +144,32 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const classes = useStyles(props);
 
   const additionalContentEl = additionalContent ? (
-    <div className={classes.additionalContent}>
-      <Typography
-        variant="caption"
-        color={'textSecondary'}
-        data-testid="titleBar-additionalContent"
-      >
-        {additionalContent}
-      </Typography>
+    <div className={classes.additionalContentWrapper}>
+      {additionalContent.props.children ? (
+        additionalContent.props.children.map(
+          (item: React.ReactElement, index: number) => (
+            <div className={classes.additionalContentItem} key={index}>
+              <Typography
+                variant="caption"
+                color={'textSecondary'}
+                data-testid={`titleBar-additionalContent-${index}`}
+              >
+                {item}
+              </Typography>
+            </div>
+          )
+        )
+      ) : (
+        <div className={classes.additionalContentItem}>
+          <Typography
+            variant="caption"
+            color={'textSecondary'}
+            data-testid="titleBar-additionalContent"
+          >
+            {additionalContent}
+          </Typography>
+        </div>
+      )}
     </div>
   ) : null;
 
@@ -172,18 +180,6 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
       data-testid="titleBar-backButton"
       className={classes.backButton}
     />
-  ) : null;
-
-  const infoEl = info ? (
-    <div className={classes.info}>
-      <Typography
-        variant="caption"
-        color={'textSecondary'}
-        data-testid="titleBar-info"
-      >
-        {info}
-      </Typography>
-    </div>
   ) : null;
 
   const closeMenu = () => {
@@ -263,7 +259,6 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
             {children}
           </Typography>
         </div>
-        {infoEl}
         {additionalContentEl}
       </div>
       {actionsEl}
