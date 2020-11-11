@@ -179,13 +179,9 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     updateState([...items, { value: '', id: createUniqueId(items) }]);
   };
 
-  const isMaxItems = React.useMemo(() => {
-    return max && items.length === max ? true : false;
-  }, [items]);
+  const isMaxItems = max && items.length === max ? true : false;
 
-  const isMinItems = React.useMemo(() => {
-    return min && items.length === min ? true : false;
-  }, [items]);
+  const isMinItems = min && items.length === min ? true : false;
 
   const renderItems = React.useMemo(() => {
     return items.map((item, index) => {
