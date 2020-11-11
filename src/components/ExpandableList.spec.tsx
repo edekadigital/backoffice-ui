@@ -15,14 +15,21 @@ const items = [
 
 const setup = (
   noInitialItems = false,
-  isCheckable: CheckOptions | undefined = undefined
+  isCheckable: CheckOptions | undefined = undefined,
+  itemsOverride?: { value: string }[],
+  minMax?: { min: number; max: number },
+  isDisabled = false
 ) => {
   const onChangeFn = jest.fn();
+  const initialItems = itemsOverride ? [...items, ...itemsOverride] : items;
   const renderResult = render(
     <ExpandableList
-      initialItems={!noInitialItems ? items : undefined}
+      initialItems={!noInitialItems ? initialItems : undefined}
       onChange={onChangeFn}
       checkable={isCheckable}
+      min={minMax?.min}
+      max={minMax?.max}
+      disabled={isDisabled}
     />
   );
   const string = 'foo';
@@ -88,5 +95,45 @@ describe('<ExpandableList />', () => {
     userEvent.type(getByTestId('expandableList-item-0'), string);
     expect(onChangeFn).toHaveBeenCalledTimes(string.length);
     expect(onChangeFn.mock.calls[2][0][0].value).toEqual(string);
+  });
+
+  it('should show add button as disabled when max items is reached', () => {
+    const items = [
+      {
+        value: 'foobar',
+      },
+    ];
+    const { renderResult } = setup(false, undefined, items, { min: 2, max: 3 });
+    const { getByTestId } = renderResult;
+    expect(getByTestId('expandable-list-add')).toHaveAttribute('disabled');
+  });
+
+  it('should show delete button as disabled when min items is reached', () => {
+    const { renderResult } = setup(false, undefined, undefined, {
+      min: 2,
+      max: 3,
+    });
+    const { getByTestId } = renderResult;
+    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
+      'disabled'
+    );
+  });
+
+  it('should show buttons and texfield as disabled when option disabled is set to true', () => {
+    const { renderResult } = setup(
+      false,
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
+    const { getByTestId } = renderResult;
+    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
+      'disabled'
+    );
+    expect(getByTestId('expandable-list-add')).toHaveAttribute('disabled');
+    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
+      'disabled'
+    );
   });
 });
