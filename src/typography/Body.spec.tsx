@@ -17,15 +17,12 @@ describe('<Body />', () => {
     expect(getByText(bodyContent)!).toBeTruthy();
   });
 
-  it('should render the body component with primary color', () => {
-    const { getByTestId } = render(
-      <Body color={'primary'} data-testid={bodyId}>
+  it('should render the body component with success color', () => {
+    const { getByText } = render(
+      <Body color={'success'} data-testid={bodyId}>
         {bodyContent}
       </Body>
     );
-
-    expect(getByTestId(bodyId)!.classList).toContain(
-      'MuiTypography-colorPrimary'
-    );
+    expect(getByText(bodyContent)!).toBeTruthy();
   });
 });
