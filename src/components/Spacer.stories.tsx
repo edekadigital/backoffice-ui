@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Spacer } from '..'; // @edekadigital/backoffice-ui
-import { Body } from '../typography/Body';
 
 export default {
   title: 'Components/Spacer',
@@ -9,16 +8,16 @@ export default {
 
 export const Vertical = () => (
   <>
-    <Body>Content before Spacer</Body>
+    <span style={{ border: 'solid 1px blue' }}>Content before Spacer</span>
     <Spacer vertical={4} />
-    <Body>Content after Spacer</Body>
+    <span style={{ border: 'solid 1px red' }}>Content after Spacer</span>
   </>
 );
 
 export const Horizontal = () => (
   <div style={{ display: 'flex' }}>
-    <Body>Content before Spacer</Body>
+    <span style={{ border: 'solid 1px blue' }}>Content before Spacer</span>
     <Spacer horizontal={4} />
-    <Body>Content after Spacer</Body>
+    <span style={{ border: 'solid 1px red' }}>Content after Spacer</span>
   </div>
 );
