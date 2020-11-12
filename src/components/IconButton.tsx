@@ -71,6 +71,11 @@ export interface IconButtonProps {
   type?: ButtonType;
 }
 
+/**
+ * | Test ID                | Description                                       |
+ * | ---------------------- | ------------------------------------------------- |
+ * | `iconButton-progress`  | progress indicator if showProgress is set to true |
+ */
 export const IconButton: React.FC<IconButtonProps> = (props) => {
   const {
     icon,
