@@ -105,6 +105,38 @@ export const WithActions = () => {
   );
 };
 
+export const WithActionsAndCaption = () => {
+  const actions = (
+    <Button
+      icon={Add}
+      variant="outlined"
+      color={'primary'}
+      onClick={() => {
+        console.log('Button clicked');
+      }}
+    >
+      Save
+    </Button>
+  );
+
+  return (
+    <Page>
+      <TitleBar
+        gutterBottom
+        actions={actions}
+        actionsCaption={
+          <Body variant="caption" color="error">
+            Caption text
+          </Body>
+        }
+      >
+        Lorem ipsum dolor <strong>sit amet</strong>
+      </TitleBar>
+      <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
+    </Page>
+  );
+};
+
 export const FullExample = () => {
   const handleBackClick = () => {
     console.log('handleBackClick');
