@@ -1,16 +1,7 @@
 import * as React from 'react';
-import {
-  TitleBar,
-  StatusChip,
-  CheckCircleFilled,
-  Page,
-  TitleBarActions,
-  Star,
-  MoreVert,
-  OpenInNew,
-  Logout,
-} from '..';
-import { Body } from '../typography/Body';
+import { TitleBar, StatusChip, Page, MoreVert, Button, Body, Spacer } from '..';
+import { Add } from '../icons';
+import { IconButton } from './IconButton';
 
 export default {
   title: 'Components/TitleBar',
@@ -72,32 +63,37 @@ export const WithAdditionalContent = () => {
 };
 
 export const WithActions = () => {
-  const actions: TitleBarActions = [
-    {
-      icon: Star,
-      handler: () => console.log('some action'),
-      label: 'Some action',
-    },
-    {
-      icon: MoreVert,
-      items: [
-        {
-          label: 'Lorem ipsum',
-          icon: OpenInNew,
-          handler: () => {
-            console.log('loremipsum');
-          },
-        },
-        {
-          label: 'Foo Bar',
-          icon: Logout,
-          handler: () => {
-            console.log('foobar');
-          },
-        },
-      ],
-    },
-  ];
+  const actions = (
+    <>
+      <Button
+        icon={Add}
+        variant="outlined"
+        color={'primary'}
+        onClick={() => {
+          console.log('Button clicked');
+        }}
+      >
+        Save
+      </Button>
+      <Button
+        color="primary"
+        menu={{
+          splitButton: true,
+          items: [{ handler: () => {}, label: 'Do something special' }],
+        }}
+        onClick={() => console.log('CLICK')}
+      >
+        Some menu button label
+      </Button>
+      <IconButton
+        icon={MoreVert}
+        menu={[
+          { handler: () => console.log('Clicked lorem'), label: 'Lorem' },
+          { handler: () => console.log('Clicked ipsum'), label: 'Ipsum' },
+        ]}
+      />
+    </>
+  );
 
   return (
     <Page>
@@ -116,42 +112,61 @@ export const FullExample = () => {
   const status = (
     <>
       <StatusChip label={'Active'} color={'success'} size={'small'} />
-      <>ID: 012345678 · Teilnehmer: 324</>
+      <>ID: 012345678 · Number: 324</>
     </>
   );
 
-  const actions: TitleBarActions = [
-    {
-      icon: Star,
-      handler: () => console.log('some action'),
-      label: 'Some action',
-    },
-    {
-      icon: MoreVert,
-      items: [
-        {
-          label: 'Lorem ipsum',
-          icon: OpenInNew,
-          handler: () => {
-            console.log('loremipsum');
-          },
-        },
-        {
-          label: 'Foo Bar',
-          icon: Logout,
-          handler: () => {
-            console.log('foobar');
-          },
-        },
-      ],
-    },
-  ];
+  const actions = (
+    <>
+      <Button
+        icon={Add}
+        variant="outlined"
+        color={'primary'}
+        onClick={() => {
+          console.log('Button clicked');
+        }}
+      >
+        Save
+      </Button>
+      <Button
+        color="primary"
+        menu={{
+          splitButton: true,
+          items: [{ handler: () => {}, label: 'Do something special' }],
+        }}
+        onClick={() => console.log('CLICK')}
+      >
+        Some menu button label
+      </Button>
+      <IconButton
+        icon={MoreVert}
+        menu={[
+          { handler: () => console.log('Clicked lorem'), label: 'Lorem' },
+          { handler: () => console.log('Clicked ipsum'), label: 'Ipsum' },
+        ]}
+      />
+    </>
+  );
+
+  const actionsCaption = (
+    <>
+      <Body variant="caption" color="textSecondary">
+        Status:&nbsp;
+      </Body>
+      <Body variant="caption" color="warning">
+        Entwurf
+      </Body>
+      <Spacer horizontal={7} />
+    </>
+  );
+
   return (
     <Page>
       <TitleBar
         onBackClick={handleBackClick}
         additionalContent={status}
         actions={actions}
+        actionsCaption={actionsCaption}
         gutterBottom
       >
         Lorem ipsum dolor <strong>sit amet</strong>

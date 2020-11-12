@@ -141,28 +141,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
     }
   }, [icon, showProgress]);
 
-  const content = () => {
-    if (IconComponent) {
-      if (iconPosition === 'left' || menu) {
-        return (
-          <>
-            <IconComponent className={classes.iconLeft} />
-            {children}
-          </>
-        );
-      } else {
-        return (
-          <>
-            {children}
-            <IconComponent className={classes.iconRight} />
-          </>
-        );
-      }
-    } else {
-      return children;
-    }
-  };
-
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -172,6 +150,28 @@ export const Button: React.FC<ButtonProps> = (props) => {
   };
 
   return React.useMemo(() => {
+    const content = () => {
+      if (IconComponent) {
+        if (iconPosition === 'left' || menu) {
+          return (
+            <>
+              <IconComponent className={classes.iconLeft} />
+              {children}
+            </>
+          );
+        } else {
+          return (
+            <>
+              {children}
+              <IconComponent className={classes.iconRight} />
+            </>
+          );
+        }
+      } else {
+        return children;
+      }
+    };
+
     if (menu?.items) {
       if (menu.splitButton) {
         return (
@@ -231,5 +231,16 @@ export const Button: React.FC<ButtonProps> = (props) => {
         </MuiButton>
       );
     }
-  }, [anchorEl, props]);
+  }, [
+    IconComponent,
+    additionalProps,
+    anchorEl,
+    children,
+    classes.buttonGroupContainedPrimary,
+    classes.iconLeft,
+    classes.iconRight,
+    iconPosition,
+    menu,
+    variant,
+  ]);
 };

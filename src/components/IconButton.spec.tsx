@@ -16,6 +16,14 @@ describe('<IconButton/>', () => {
     expect(getByTestId('iconbutton')).toBeTruthy();
   });
 
+  it('should render the icon button component with progress indicator', () => {
+    const { getByTestId } = render(
+      <IconButton icon={ArrowDropDown} data-testid="iconbutton" showProgress />
+    );
+    expect(getByTestId('iconbutton')).toBeTruthy();
+    expect(getByTestId('iconButton-progress')).toBeTruthy();
+  });
+
   it('should notice onClick event for IconButton', () => {
     let click = false;
 
@@ -33,5 +41,23 @@ describe('<IconButton/>', () => {
 
     userEvent.click(getByTestId('iconbutton'));
     expect(click).toBe(true);
+  });
+
+  it('should open menu on click if menu prop is provided', () => {
+    const handleClick = jest.fn();
+    const menuItemClick = jest.fn();
+    const { getByTestId } = render(
+      <IconButton
+        icon={ArrowDropDown}
+        onClick={handleClick}
+        menu={[{ handler: menuItemClick, label: 'Foo' }]}
+        data-testid="iconbutton"
+      />
+    );
+    userEvent.click(getByTestId('iconbutton'));
+    expect(handleClick).toHaveBeenCalledTimes(0);
+    expect(getByTestId('listMenu')).toBeVisible();
+    userEvent.click(getByTestId('listMenu-menuItem-0'));
+    expect(menuItemClick).toHaveBeenCalledTimes(1);
   });
 });

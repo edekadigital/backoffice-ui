@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../test-utils';
-import { Star, TitleBar } from '..';
+import { Button, TitleBar } from '..';
 
 describe('<TitleBar/>', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
-    const { getByTestId, queryByTestId } = render(<TitleBar>lorem</TitleBar>);
+    const { getByTestId, queryByTestId } = render(
+      <TitleBar gutterBottom>lorem</TitleBar>
+    );
     expect(getByTestId('titleBar-title').textContent).toBe('lorem');
     expect(queryByTestId('titleBar-backButton')).toBeFalsy();
     expect(queryByTestId('titleBar-info')).toBeFalsy();
@@ -40,17 +42,7 @@ describe('<TitleBar/>', () => {
     expect(onBackClickFn).toHaveBeenCalledTimes(1);
   });
 
-  it('should render with additional content (text)', () => {
-    const additionalContent = <>ID: 012345678</>;
-    const { getByTestId } = render(
-      <TitleBar additionalContent={additionalContent}>lorem</TitleBar>
-    );
-    expect(getByTestId('titleBar-additionalContent').textContent).toBe(
-      additionalContent
-    );
-  });
-
-  it('should render with additional content (node)', () => {
+  it('should render with single additional content element', () => {
     const additionalContent = <div data-testid="node" />;
     const { getByTestId } = render(
       <TitleBar additionalContent={additionalContent}>lorem</TitleBar>
@@ -59,89 +51,86 @@ describe('<TitleBar/>', () => {
     expect(getByTestId('node')).toBeTruthy();
   });
 
-  it('should render with simple action button with label', () => {
+  it('should render with multiple additional content elements', () => {
+    const additionalContent = (
+      <>
+        <div data-testid="element1" />
+        <div data-testid="element2" />
+      </>
+    );
+    const { getByTestId } = render(
+      <TitleBar additionalContent={additionalContent}>lorem</TitleBar>
+    );
+    expect(getByTestId('titleBar-additionalContent')).toBeTruthy();
+    expect(getByTestId('element1')).toBeTruthy();
+    expect(getByTestId('element2')).toBeTruthy();
+  });
+  it('should render with single action item', () => {
     const clickFn = jest.fn();
     const label = 'label';
-    const actions = [
-      {
-        handler: clickFn,
-        icon: Star,
-        label: label,
-      },
-    ];
+    const actions = (
+      <Button onClick={clickFn} data-testid="actionButton">
+        {label}
+      </Button>
+    );
     const { getByTestId } = render(
       <TitleBar actions={actions}>lorem</TitleBar>
     );
     expect(getByTestId('titleBar-actions')).toBeTruthy();
     expect(getByTestId('titleBar-actionItem-0')).toBeTruthy();
+    expect(getByTestId('actionButton')).toBeTruthy();
     expect(getByTestId('titleBar-actionItem-0').textContent).toBe(label);
-    userEvent.click(getByTestId('titleBar-actionItem-0'));
+    userEvent.click(getByTestId('actionButton'));
     expect(clickFn).toHaveBeenCalledTimes(1);
   });
 
-  it('should render with an action menu', async () => {
-    const menuItemLabel1 = 'foo';
-    const menuItemClickFn1 = jest.fn();
-    const actions = [
-      {
-        icon: Star,
-        items: [
-          {
-            label: menuItemLabel1,
-            icon: Star,
-            handler: menuItemClickFn1,
-          },
-        ],
-      },
-    ];
+  it('should render with multiple action items', () => {
+    const clickFn1 = jest.fn();
+    const clickFn2 = jest.fn();
+    const label1 = 'label1';
+    const label2 = 'label2';
+    const actions = (
+      <>
+        <Button onClick={clickFn1} data-testid="actionButton1">
+          {label1}
+        </Button>
+        <Button onClick={clickFn2} data-testid="actionButton2">
+          {label2}
+        </Button>
+      </>
+    );
     const { getByTestId } = render(
       <TitleBar actions={actions}>lorem</TitleBar>
     );
     expect(getByTestId('titleBar-actions')).toBeTruthy();
     expect(getByTestId('titleBar-actionItem-0')).toBeTruthy();
-    expect(getByTestId('titleBar-actionItem-0').textContent).toBe('');
-    expect(getByTestId('listMenu-0')).not.toBeVisible();
-    userEvent.click(getByTestId('titleBar-actionItem-0'));
-    expect(getByTestId('listMenu-0')).toBeVisible();
-    expect(getByTestId('listMenu-menuItem-0-0').textContent).toBe(
-      menuItemLabel1
-    );
-    userEvent.click(getByTestId('listMenu-menuItem-0-0'));
-
-    expect(menuItemClickFn1).toBeCalledTimes(1);
-    await waitFor(() => {
-      expect(getByTestId('listMenu-0')).not.toBeVisible();
-    });
+    expect(getByTestId('titleBar-actionItem-1')).toBeTruthy();
+    expect(getByTestId('actionButton1')).toBeTruthy();
+    expect(getByTestId('actionButton2')).toBeTruthy();
+    expect(getByTestId('titleBar-actionItem-0').textContent).toBe(label1);
+    expect(getByTestId('titleBar-actionItem-1').textContent).toBe(label2);
+    userEvent.click(getByTestId('actionButton1'));
+    userEvent.click(getByTestId('actionButton2'));
+    expect(clickFn1).toHaveBeenCalledTimes(1);
+    expect(clickFn2).toHaveBeenCalledTimes(1);
   });
 
-  it('should be possible to close the action menu by pressing esc key', async () => {
-    const menuItemLabel1 = 'foo';
-    const menuItemClickFn1 = jest.fn();
-    const actions = [
-      {
-        icon: Star,
-        items: [
-          {
-            label: menuItemLabel1,
-            icon: Star,
-            handler: menuItemClickFn1,
-          },
-        ],
-      },
-    ];
+  it('should render with action items caption element', () => {
+    const label = 'label';
+    const actions = (
+      <Button onClick={jest.fn()} data-testid="actionButton">
+        {label}
+      </Button>
+    );
+
+    const actionsCaption = <div data-testid="actionsCaption" />;
     const { getByTestId } = render(
-      <TitleBar actions={actions} gutterBottom>
+      <TitleBar actions={actions} actionsCaption={actionsCaption}>
         lorem
       </TitleBar>
     );
-    userEvent.click(getByTestId('titleBar-actionItem-0'));
-    fireEvent.keyDown(getByTestId('listMenu-menuItem-0-0'), {
-      key: 'Esc',
-      code: 'Esc',
-    });
-    await waitFor(() => {
-      expect(getByTestId('listMenu-0')).not.toBeVisible();
-    });
-    expect(menuItemClickFn1).toHaveBeenCalledTimes(0);
+    expect(getByTestId('titleBar-actions')).toBeTruthy();
+    expect(getByTestId('titleBar-actionsCaption')).toBeTruthy();
+    expect(getByTestId('actionButton')).toBeTruthy();
   });
 });
