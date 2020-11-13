@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { Typography as MuiTypography, makeStyles } from '@material-ui/core';
+import {
+  Typography as MuiTypography,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 
 export type BodyVariant = 'body1' | 'body2' | 'caption';
 
@@ -32,27 +36,30 @@ export interface BodyProps {
   /**
    * If `true`, the body text will have a bottom margin.
    */
-  gutterBottom?: boolean;
+  gutterBottom?: boolean | number;
   /**
    * Defines how the body text should be aligned.
    */
   align?: BodyAlign;
 }
 
-const useStyles = makeStyles({
-  gutterBottom: {
-    marginBottom: '0.5em',
+const useStyles = makeStyles<Theme, { gutterBottom: number }>((theme) => ({
+  root: ({ gutterBottom }) => {
+    return { marginBottom: theme.spacing(gutterBottom) };
   },
-});
+}));
 
 export const Body: React.FC<BodyProps> = (props) => {
   const {
     variant = 'body1',
     component = 'p',
     children,
+    gutterBottom = 0,
     ...additionalProps
   } = props;
-  const classes = useStyles();
+  const classes = useStyles({
+    gutterBottom: gutterBottom === true ? 0.5 : +gutterBottom,
+  });
   return (
     <MuiTypography
       variant={variant}
