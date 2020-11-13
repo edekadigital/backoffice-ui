@@ -129,7 +129,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel = 'Option hinzufügen',
     onChange,
     checkable,
-    disabled = false,
+    disabled,
     min,
     max,
   } = props;
@@ -254,7 +254,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     onCheck,
     index,
     checked = false,
-    disabled = false,
+    disabled,
     checkable,
     value,
     isMinItems,
