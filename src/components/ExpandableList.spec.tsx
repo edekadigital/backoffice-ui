@@ -151,10 +151,7 @@ describe('<ExpandableList />', () => {
     const { renderResult, onChangeFn } = setup(false, undefined, itemsOverride);
     const { getByTestId } = renderResult;
     userEvent.click(getByTestId('expandable-list-add'));
-    // expect(onChangeFn).toHaveBeenCalledTimes(1);
-    console.log(onChangeFn.mock.calls[0][0][2]);
     expect(onChangeFn.mock.calls[0][0][2].id).toEqual(undefined);
     expect(onChangeFn.mock.calls[0][0][0].id).toEqual(itemsOverride[0].id);
-    // expect(onChangeFn.mock.calls[0][0]).toBe(items.length + 1);
   });
 });
