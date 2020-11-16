@@ -39,18 +39,20 @@ export interface BodyProps {
   /**
    * If `true`, the body text will have a bottom margin.
    */
-  gutterBottom?: boolean;
+  gutterBottom?: boolean | number;
   /**
    * Defines how the body text should be aligned.
    */
   align?: BodyAlign;
 }
 
-const useStyles = makeStyles<Theme, BodyProps>((theme: Theme) => ({
-  gutterBottom: {
-    marginBottom: '0.5em',
-  },
-  root: ({ color }) => {
+interface BodyPropsStyles {
+  gutterBottom: number;
+  color?: BodyColor;
+}
+
+const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
+  root: ({ color, gutterBottom }) => {
     const sanitizedColorName: BodyColor = color || 'initial';
     const colorMap: { [k: string]: string } = {
       info: theme.palette.primary.main,
@@ -66,6 +68,7 @@ const useStyles = makeStyles<Theme, BodyProps>((theme: Theme) => ({
         sanitizedColorName in colorMap
           ? colorMap[sanitizedColorName]
           : theme.palette.text.primary,
+      marginBottom: theme.spacing(gutterBottom),
     };
   },
 }));
@@ -75,10 +78,15 @@ export const Body: React.FC<BodyProps> = (props) => {
     variant = 'body1',
     component = 'p',
     children,
+    gutterBottom = 0,
     color,
     ...additionalProps
   } = props;
-  const classes = useStyles({ color });
+
+  const classes = useStyles({
+    color,
+    gutterBottom: gutterBottom === true ? 0.5 : +gutterBottom,
+  });
   return (
     <MuiTypography
       variant={variant}

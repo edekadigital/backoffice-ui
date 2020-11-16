@@ -16,12 +16,12 @@ const items = [
 const setup = (
   noInitialItems = false,
   isCheckable: CheckOptions | undefined = undefined,
-  itemsOverride?: { value: string }[],
+  itemsOverride?: { value: string; id?: string }[],
   minMax?: { min: number; max: number },
   isDisabled = false
 ) => {
   const onChangeFn = jest.fn();
-  const initialItems = itemsOverride ? [...items, ...itemsOverride] : items;
+  const initialItems = itemsOverride ? [...itemsOverride] : items;
   const renderResult = render(
     <ExpandableList
       initialItems={!noInitialItems ? initialItems : undefined}
@@ -102,6 +102,12 @@ describe('<ExpandableList />', () => {
       {
         value: 'foobar',
       },
+      {
+        value: 'bar',
+      },
+      {
+        value: 'foobar',
+      },
     ];
     const { renderResult } = setup(false, undefined, items, { min: 2, max: 3 });
     const { getByTestId } = renderResult;
@@ -135,5 +141,17 @@ describe('<ExpandableList />', () => {
     expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
       'disabled'
     );
+  });
+
+  it('should use external id and return new items with id undefined', () => {
+    const itemsOverride = [
+      { value: 'Foo', id: '123' },
+      { value: 'Bar', id: '456' },
+    ];
+    const { renderResult, onChangeFn } = setup(false, undefined, itemsOverride);
+    const { getByTestId } = renderResult;
+    userEvent.click(getByTestId('expandable-list-add'));
+    expect(onChangeFn.mock.calls[0][0][2].id).toEqual(undefined);
+    expect(onChangeFn.mock.calls[0][0][0].id).toEqual(itemsOverride[0].id);
   });
 });

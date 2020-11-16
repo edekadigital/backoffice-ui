@@ -137,3 +137,29 @@ export const VariantCaption = () => (
     est laborum.
   </Body>
 );
+
+export const WithGutterBottomTrue = () => (
+  <>
+    <Body variant="body1" gutterBottom={true}>
+      Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Body>
+    <Body>
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliqu ex ea commodo consequat.
+    </Body>
+  </>
+);
+
+export const WithCustomGutterBottom = () => (
+  <>
+    <Body variant="body1" gutterBottom={3}>
+      Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Body>
+    <Body>
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliqu ex ea commodo consequat.
+    </Body>
+  </>
+);

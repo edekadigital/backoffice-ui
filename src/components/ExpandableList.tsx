@@ -101,7 +101,7 @@ const createUniqueId = (items: Array<ListItem>) => {
     uniqueId === undefined ||
     items.find((item) => item.id === uniqueId)
   );
-  return uniqueId;
+  return `internal_${uniqueId}`;
 };
 
 const addUniqueId = (items: Array<ListItem>) => {
@@ -129,23 +129,34 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel = 'Option hinzufügen',
     onChange,
     checkable,
-    disabled = false,
+    disabled,
     min,
     max,
   } = props;
 
-  const [items, setItems] = React.useState(addUniqueId(initialItems));
+  const hasId = initialItems.every((item) => item.id);
+
+  const [items, setItems] = React.useState(
+    hasId ? initialItems : addUniqueId(initialItems)
+  );
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
     setItems(() => [...newItems]);
     onChange(
       newItems.map((item: ListItem, index: number) => {
-        return {
-          value: item.value,
-          checked: item.checked,
-          index,
-        };
+        return hasId
+          ? {
+              value: item.value,
+              checked: item.checked,
+              index,
+              id: !item.id?.indexOf('internal_') ? undefined : item.id,
+            }
+          : {
+              value: item.value,
+              checked: item.checked,
+              index,
+            };
       })
     );
   };
@@ -243,7 +254,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     onCheck,
     index,
     checked = false,
-    disabled = false,
+    disabled,
     checkable,
     value,
     isMinItems,
