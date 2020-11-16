@@ -13,6 +13,9 @@ export type BodyColor =
   | 'initial'
   | 'primary'
   | 'error'
+  | 'warning'
+  | 'success'
+  | 'info'
   | 'textPrimary'
   | 'textSecondary';
 
@@ -43,9 +46,30 @@ export interface BodyProps {
   align?: BodyAlign;
 }
 
-const useStyles = makeStyles<Theme, { gutterBottom: number }>((theme) => ({
-  root: ({ gutterBottom }) => {
-    return { marginBottom: theme.spacing(gutterBottom) };
+interface BodyPropsStyles {
+  gutterBottom: number;
+  color?: BodyColor;
+}
+
+const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
+  root: ({ color, gutterBottom }) => {
+    const sanitizedColorName: BodyColor = color || 'initial';
+    const colorMap: { [k: string]: string } = {
+      info: theme.palette.primary.main,
+      warning: theme.palette.warning.dark,
+      success: theme.palette.success.main,
+      error: theme.palette.error.dark,
+      primary: theme.palette.primary.main,
+      textPrimary: theme.palette.text.primary,
+      textSecondary: theme.palette.text.secondary,
+    };
+    return {
+      color:
+        sanitizedColorName in colorMap
+          ? colorMap[sanitizedColorName]
+          : theme.palette.text.primary,
+      marginBottom: theme.spacing(gutterBottom),
+    };
   },
 }));
 
@@ -55,9 +79,12 @@ export const Body: React.FC<BodyProps> = (props) => {
     component = 'p',
     children,
     gutterBottom = 0,
+    color,
     ...additionalProps
   } = props;
+
   const classes = useStyles({
+    color,
     gutterBottom: gutterBottom === true ? 0.5 : +gutterBottom,
   });
   return (

@@ -1,18 +1,8 @@
 import * as React from 'react';
-import {
-  SvgIconProps,
-  Theme,
-  IconButton as MuiIconButton,
-  Menu as MuiMenu,
-  MenuItem as MuiMenuItem,
-  ListItemIcon as MuiListItemIcon,
-  ListItemText as MuiListItemText,
-  Typography,
-} from '@material-ui/core';
+import { SvgIconProps, Theme, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ArrowBack } from '../icons';
 import { IconButton } from './IconButton';
-import { Button } from '..';
 
 export interface TitleBarActionItem {
   icon: React.ElementType<SvgIconProps>;
@@ -20,35 +10,20 @@ export interface TitleBarActionItem {
   handler: React.MouseEventHandler<HTMLElement>;
 }
 
-export interface TitleBarActionListMenuItem extends TitleBarActionItem {
-  label: string;
-}
-
-export interface TitleBarActionListMenu {
-  icon: React.ElementType<SvgIconProps>;
-  label?: string;
-  items: TitleBarActionListMenuItem[];
-}
-
-export type TitleBarActions = (TitleBarActionItem | TitleBarActionListMenu)[];
-
-interface TitleBarActionListMenuProps {
-  index: number;
-  items: TitleBarActionListMenuItem[];
-  open: boolean;
-  anchorEl?: HTMLElement;
-  onClose: Function;
-}
-
 export interface TitleBarProps {
   /**
    * Additional action items to show, e.g. a button.
    */
-  actions?: TitleBarActions;
+  actions?: React.ReactElement;
+  /**
+   * Additional caption text for the action items.
+   * Element(s) will be rendered in a seperated line under the action items
+   */
+  actionsCaption?: React.ReactElement;
   /**
    * Additional text or elements to show below the headline.
    */
-  additionalContent?: React.ReactNode;
+  additionalContent?: React.ReactElement;
   /**
    * The title to show.
    */
@@ -62,10 +37,6 @@ export interface TitleBarProps {
    * If `true`, the title bar will have a bottom margin.
    */
   gutterBottom?: boolean;
-  /**
-   * Additional info text next to the title, e.g. a save confirmation or status chip
-   */
-  info?: React.ReactNode;
   /**
    * Callback fired when the the back button is clicked
    * If set, a back (arrow) button will be displayed.
@@ -81,16 +52,9 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     },
     display: 'flex',
     minHeight: 60,
-    alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
   }),
-  wrapper: {
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-  },
   titleWrapper: {
     minHeight: 60,
     marginBottom: theme.spacing(1),
@@ -110,68 +74,125 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     },
     marginRight: theme.spacing(),
   },
-  additionalContent: ({ onBackClick, floatingBackButton = true }) => ({
+  additionalContentWrapper: ({ onBackClick, floatingBackButton = true }) => ({
     [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
       marginLeft: floatingBackButton && onBackClick ? theme.spacing(5.5) : 0,
     },
+
     width: '100%',
+    display: 'flex',
+    alignItems: 'center',
   }),
-  info: {
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      display: 'flex',
-      alignItems: 'center',
-      marginTop: theme.spacing(0.5),
+  additionalContentItem: {
+    '&:not(:last-child)': {
+      marginRight: theme.spacing(2),
     },
   },
   actionsWrapper: {
-    alignSelf: 'start',
+    display: 'flex',
     lineHeight: '60px',
   },
-}));
-
-const useListMenuIconStyles = makeStyles<Theme>((theme) => ({
-  root: {
-    minWidth: theme.spacing(4.5),
+  actionItem: {
+    '&:not(:last-child)': {
+      marginRight: theme.spacing(1),
+    },
+  },
+  actionsCaption: {
+    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+      float: 'right',
+    },
+    display: 'flex',
   },
 }));
 
 /**
- * | Test ID                                  | Description                  |
+ * | Test ID       0                           | Description                  |
  * | ---------------------------------------- | ---------------------------- |
  * | `titleBar-backButton`                    | Reverse navigation button    |
  * | `titleBar-title`                         | Title text                   |
- * | `titleBar-info`                          | Info container               |
  * | `titleBar-additionalContent`             | Additional content container |
+ * | `titleBar-additionalContent-${index}`    | Additional content element   |
  * | `titleBar-actions`                       | Action buttons container     |
  * | `titleBar-actionItem-${index}`           | Action button                |
- * | `titleBar-actionMenu-${index}`           | Action menu                  |
- * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action menu     |
+ * | `titleBar-actionMenu-${index}`           | Action grid menu             |
+ * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action grid menu|
+ * | `titleBar-actionsCaption`                | Actions caption container    |
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const {
     onBackClick,
     children,
     additionalContent,
-    actions = [],
-    info,
+    actions,
+    actionsCaption,
   } = props;
-
-  const [activeMenu, setActiveMenu] = React.useState<{
-    anchorEl: HTMLElement;
-    index: number;
-  } | null>(null);
 
   const classes = useStyles(props);
 
   const additionalContentEl = additionalContent ? (
-    <div className={classes.additionalContent}>
-      <Typography
-        variant="caption"
-        color={'textSecondary'}
-        data-testid="titleBar-additionalContent"
-      >
-        {additionalContent}
-      </Typography>
+    <div
+      className={classes.additionalContentWrapper}
+      data-testid="titleBar-additionalContent"
+    >
+      {Array.isArray(additionalContent.props.children) ? (
+        additionalContent.props.children.map(
+          (item: React.ReactElement, index: number) => (
+            <div className={classes.additionalContentItem} key={index}>
+              <Typography
+                variant="caption"
+                color={'textSecondary'}
+                data-testid={`titleBar-additionalContent-${index}`}
+              >
+                {item}
+              </Typography>
+            </div>
+          )
+        )
+      ) : (
+        <div
+          className={classes.additionalContentItem}
+          data-testid="titleBar-additionalContent-0"
+        >
+          <Typography variant="caption" color={'textSecondary'}>
+            {additionalContent}
+          </Typography>
+        </div>
+      )}
+    </div>
+  ) : null;
+
+  const actionsEl = actions ? (
+    <div data-testid="titleBar-actions">
+      <div className={classes.actionsWrapper}>
+        {Array.isArray(actions.props.children) ? (
+          actions.props.children.map(
+            (action: React.ReactElement, index: number) => (
+              <div
+                key={index}
+                className={classes.actionItem}
+                data-testid={`titleBar-actionItem-${index}`}
+              >
+                {action}
+              </div>
+            )
+          )
+        ) : (
+          <div
+            className={classes.actionItem}
+            data-testid="titleBar-actionItem-0"
+          >
+            {actions}
+          </div>
+        )}
+      </div>
+      {actionsCaption ? (
+        <div
+          className={classes.actionsCaption}
+          data-testid="titleBar-actionsCaption"
+        >
+          {actionsCaption}
+        </div>
+      ) : null}
     </div>
   ) : null;
 
@@ -184,84 +205,9 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     />
   ) : null;
 
-  const infoEl = info ? (
-    <div className={classes.info}>
-      <Typography
-        variant="caption"
-        color={'textSecondary'}
-        data-testid="titleBar-info"
-      >
-        {info}
-      </Typography>
-    </div>
-  ) : null;
-
-  const closeMenu = () => {
-    setActiveMenu(null);
-  };
-
-  const actionItems = actions.map((tempAction, index) => {
-    const {
-      handler = (event: React.MouseEvent<HTMLElement>) =>
-        setActiveMenu({ index, anchorEl: event.currentTarget }),
-      icon,
-    } = tempAction as TitleBarActionItem;
-    const key = `titleBar-actionItem-${index}`;
-
-    const renderActionButton = tempAction.label ? (
-      <Button
-        icon={icon}
-        variant="outlined"
-        color={'primary'}
-        data-testid={key}
-        key={key}
-        onClick={handler}
-      >
-        {tempAction.label}
-      </Button>
-    ) : (
-      <MuiIconButton
-        color="inherit"
-        onClick={handler}
-        key={key}
-        data-testid={key}
-      >
-        <tempAction.icon fontSize="small" />
-      </MuiIconButton>
-    );
-
-    return renderActionButton;
-  });
-
-  const actionMenus = actions.map((tempAction, index) => {
-    if ('items' in tempAction) {
-      const anchorEl = activeMenu?.anchorEl;
-      const open = activeMenu?.index === index;
-
-      return (
-        <TitleBarListMenu
-          index={index}
-          items={tempAction.items}
-          anchorEl={anchorEl}
-          open={open}
-          key={index}
-          onClose={closeMenu}
-        />
-      );
-    } else return null;
-  });
-
-  const actionsEl =
-    actions.length > 0 ? (
-      <div data-testid="titleBar-actions" className={classes.actionsWrapper}>
-        {actionItems}
-        {actionMenus}
-      </div>
-    ) : null;
-
   return (
     <div className={classes.root}>
-      <div className={classes.wrapper}>
+      <div>
         <div className={classes.titleWrapper}>
           {backButton}
           <Typography
@@ -273,55 +219,9 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
             {children}
           </Typography>
         </div>
-        {infoEl}
         {additionalContentEl}
       </div>
       {actionsEl}
     </div>
-  );
-};
-
-const TitleBarListMenu: React.FC<TitleBarActionListMenuProps> = ({
-  index,
-  items,
-  open,
-  anchorEl,
-  onClose,
-}) => {
-  const iconClasses = useListMenuIconStyles();
-
-  const renderItems = items.map((tempItem, itemIndex) => {
-    const key = `titleBar-menuItem-${index}-${itemIndex}`;
-
-    const IconComponent = tempItem.icon;
-
-    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
-      tempItem.handler(event);
-      onClose();
-    };
-
-    return (
-      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
-        <MuiListItemIcon classes={iconClasses}>
-          <IconComponent fontSize="small" />
-        </MuiListItemIcon>
-        <MuiListItemText primary={tempItem.label} />
-      </MuiMenuItem>
-    );
-  });
-
-  return (
-    <MuiMenu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      keepMounted={true}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      getContentAnchorEl={null}
-      open={open}
-      onClose={() => onClose()}
-      data-testid={`titleBar-actionMenu-${index}`}
-    >
-      {renderItems}
-    </MuiMenu>
   );
 };

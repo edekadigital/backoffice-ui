@@ -2,8 +2,16 @@ import * as React from 'react';
 import {
   IconButton as MuiIconButton,
   CircularProgress,
+  SvgIconProps,
 } from '@material-ui/core';
 import { ButtonColor, ButtonComponent, ButtonIcon, ButtonType } from './Button';
+import { ListMenu } from '..';
+
+export interface IconButtonMenuItem {
+  icon?: React.ElementType<SvgIconProps>;
+  label: string;
+  handler: React.MouseEventHandler<HTMLElement>;
+}
 
 export interface IconButtonProps {
   className?: string;
@@ -41,6 +49,10 @@ export interface IconButtonProps {
    */
   icon: ButtonIcon;
   /**
+   * If provided, a selection menu will be shown on clicking the icon button itself, instead of calling the onClick callback function
+   */
+  menu?: Array<IconButtonMenuItem>;
+  /**
    * Callback fired when the button has been clicked.
    */
   onClick?: React.MouseEventHandler;
@@ -59,22 +71,58 @@ export interface IconButtonProps {
   type?: ButtonType;
 }
 
+/**
+ * | Test ID                | Description                                       |
+ * | ---------------------- | ------------------------------------------------- |
+ * | `iconButton-progress`  | progress indicator if showProgress is set to true |
+ */
 export const IconButton: React.FC<IconButtonProps> = (props) => {
   const {
     icon,
     color = 'default',
+    menu,
     showProgress = false,
+    onClick,
     ...additionalProps
   } = props;
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const IconComponent = icon;
   const content = !showProgress ? (
     <IconComponent />
   ) : (
-    <CircularProgress size={24} color="inherit" />
+    <CircularProgress
+      size={24}
+      color="inherit"
+      data-testid="iconButton-progress"
+    />
   );
   return (
-    <MuiIconButton color={color} {...additionalProps}>
-      {content}
-    </MuiIconButton>
+    <>
+      <MuiIconButton
+        color={color}
+        onClick={menu ? handleMenuOpen : onClick}
+        {...additionalProps}
+      >
+        {content}
+      </MuiIconButton>
+      {menu ? (
+        <ListMenu
+          items={menu}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          anchorEl={anchorEl}
+        />
+      ) : null}
+    </>
   );
 };

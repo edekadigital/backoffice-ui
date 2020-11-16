@@ -4,7 +4,6 @@ import { render } from '../test-utils';
 import { Subtitle } from '..';
 
 const subtitleContent = 'test content';
-const subtitleId = 'subtitle-test-id';
 
 describe('<Subtitle/>', () => {
   afterEach(cleanup);
@@ -13,31 +12,5 @@ describe('<Subtitle/>', () => {
     const { getByText } = render(<Subtitle>{subtitleContent}</Subtitle>);
 
     expect(getByText(subtitleContent)!).toBeTruthy();
-  });
-
-  it('should render the subtitle component with textSecondary color', () => {
-    const { getByTestId } = render(
-      <Subtitle color="textSecondary" data-testid={subtitleId}>
-        {subtitleContent}
-      </Subtitle>
-    );
-
-    expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
-    expect(getByTestId(subtitleId)!.classList).toContain(
-      'MuiTypography-colorTextSecondary'
-    );
-  });
-
-  it('should render the subtitle component with align center', () => {
-    const { getByTestId } = render(
-      <Subtitle align="center" data-testid={subtitleId}>
-        {subtitleContent}
-      </Subtitle>
-    );
-
-    expect(getByTestId(subtitleId)!.textContent).toEqual(subtitleContent);
-    expect(getByTestId(subtitleId)!.classList).toContain(
-      'MuiTypography-alignCenter'
-    );
   });
 });
