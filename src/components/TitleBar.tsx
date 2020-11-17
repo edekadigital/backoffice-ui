@@ -61,12 +61,12 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     flex: '0 0 auto',
     marginTop: theme.spacing(-0.5),
   },
-  backButton: {
+  backButton: ({ floatingBackButton = true, onBackClick }) => ({
     marginLeft: theme.spacing(-2),
     [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      marginLeft: 0,
+      marginLeft: floatingBackButton && onBackClick ? 0 : theme.spacing(-2),
     },
-  },
+  }),
   main: {
     flex: '1 1 100%',
     display: 'flex',
@@ -93,15 +93,15 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     flexWrap: 'wrap',
     paddingTop: theme.spacing(0.25),
   },
-  actionItem: {
-    marginRight: theme.spacing(1),
+  actionItem: ({ menu }) => ({
+    marginRight: menu ? theme.spacing(1) : 0,
     paddingBottom: theme.spacing(1),
-  },
-  actionsCaptionWrapper: {
-    marginRight: theme.spacing(1),
+  }),
+  actionsCaptionWrapper: ({ menu }) => ({
+    marginRight: menu ? theme.spacing(1) : 0,
     float: 'right',
     display: 'flex',
-  },
+  }),
 }));
 
 /**
