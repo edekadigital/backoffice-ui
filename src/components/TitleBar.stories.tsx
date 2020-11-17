@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { TitleBar, StatusChip, Page, MoreVert, Button, Body, Spacer } from '..';
+import {
+  TitleBar,
+  StatusChip,
+  Page,
+  MoreVert,
+  Button,
+  Body,
+  TitleBarMenuItem,
+} from '..';
 import { Add } from '../icons';
 import { IconButton } from './IconButton';
 
@@ -148,6 +156,17 @@ export const FullExample = () => {
     </>
   );
 
+  const menu: Array<TitleBarMenuItem> = [
+    {
+      handler: () => console.log('clicked 1'),
+      label: 'Menu item 1',
+    },
+    {
+      handler: () => console.log('clicked 2'),
+      label: 'Menu item 2',
+    },
+  ];
+
   const actions = (
     <>
       <Button
@@ -168,15 +187,8 @@ export const FullExample = () => {
         }}
         onClick={() => console.log('CLICK')}
       >
-        Some menu button label
+        Publish data
       </Button>
-      <IconButton
-        icon={MoreVert}
-        menu={[
-          { handler: () => console.log('Clicked lorem'), label: 'Lorem' },
-          { handler: () => console.log('Clicked ipsum'), label: 'Ipsum' },
-        ]}
-      />
     </>
   );
 
@@ -188,7 +200,6 @@ export const FullExample = () => {
       <Body variant="caption" color="warning">
         Entwurf
       </Body>
-      <Spacer horizontal={7} />
     </>
   );
 
@@ -199,9 +210,11 @@ export const FullExample = () => {
         additionalContent={status}
         actions={actions}
         actionsCaption={actionsCaption}
+        menu={menu}
         gutterBottom
       >
-        Lorem ipsum dolor <strong>sit amet</strong>
+        Lorem ipsum dolor dolor ipsum dolor ipsum dolor
+        <strong>sit amet</strong>
       </TitleBar>
       <div style={{ border: 'solid 1px', minHeight: '100vh' }}>Content</div>
     </Page>
