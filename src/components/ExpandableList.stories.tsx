@@ -128,8 +128,6 @@ export const WithExternalId = () => {
       onChange={handleChange}
       checkable="single"
       initialItems={initialItems}
-      max={5}
-      min={2}
     />
   );
 };
