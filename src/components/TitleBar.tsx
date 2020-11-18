@@ -116,6 +116,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
  * | `titleBar-actionMenu-${index}`           | Action grid menu             |
  * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action grid menu|
  * | `titleBar-actionsCaption`                | Actions caption container    |
+ * | `titleBar-menuButton`                    | Additional menu button       |
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const {
@@ -208,7 +209,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
   ) : null;
 
   const menuContainer = menu ? (
-    <div className={classes.fixedButtons}>
+    <div className={classes.fixedButtons} data-testid="titleBar-menuButton">
       <IconButton icon={MoreVert} menu={menu} />
     </div>
   ) : null;
