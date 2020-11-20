@@ -93,13 +93,6 @@ export const WithActions = () => {
       >
         Some menu button label
       </Button>
-      <IconButton
-        icon={MoreVert}
-        menu={[
-          { handler: () => console.log('Clicked lorem'), label: 'Lorem' },
-          { handler: () => console.log('Clicked ipsum'), label: 'Ipsum' },
-        ]}
-      />
     </>
   );
 
