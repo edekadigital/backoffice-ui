@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { SvgIconProps, Theme, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { ArrowBack } from '../icons';
+import { ArrowBack, MoreVert } from '../icons';
 import { IconButton } from './IconButton';
 
-export interface TitleBarActionItem {
-  icon: React.ElementType<SvgIconProps>;
-  label?: string;
+export interface TitleBarMenuItem {
+  icon?: React.ElementType<SvgIconProps>;
+  label: string;
   handler: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -38,6 +38,10 @@ export interface TitleBarProps {
    */
   gutterBottom?: boolean;
   /**
+   * Additional menu to show.
+   */
+  menu?: Array<TitleBarMenuItem>;
+  /**
    * Callback fired when the the back button is clicked
    * If set, a back (arrow) button will be displayed.
    */
@@ -46,63 +50,61 @@ export interface TitleBarProps {
 
 const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
   root: ({ gutterBottom, floatingBackButton = true, onBackClick }) => ({
-    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      marginLeft: floatingBackButton && onBackClick ? theme.spacing(-5.5) : 0,
-    },
     display: 'flex',
-    minHeight: 60,
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  }),
-  titleWrapper: {
-    minHeight: 60,
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: 0,
+    flexWrap: 'nowrap',
+    marginBottom: theme.spacing(gutterBottom ? 2 : 0),
+    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+      marginLeft: floatingBackButton && onBackClick ? theme.spacing(-6) : 0,
     },
+  }),
+  fixedButtons: {
+    flex: '0 0 auto',
+    marginTop: theme.spacing(-0.5),
   },
-  title: {
-    marginRight: theme.spacing(2),
-  },
-  backButton: {
+  backButton: ({ floatingBackButton = true, onBackClick }) => ({
     marginLeft: theme.spacing(-2),
     [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      marginLeft: theme.spacing(-1.5),
+      marginLeft: floatingBackButton && onBackClick ? 0 : theme.spacing(-2),
     },
-    marginRight: theme.spacing(),
+  }),
+  main: {
+    flex: '1 1 100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
-  additionalContentWrapper: ({ onBackClick, floatingBackButton = true }) => ({
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      marginLeft: floatingBackButton && onBackClick ? theme.spacing(5.5) : 0,
-    },
-
+  title: {
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  additionalContentWrapper: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-  }),
+  },
   additionalContentItem: {
     '&:not(:last-child)': {
       marginRight: theme.spacing(2),
     },
   },
-  actionsWrapper: {
+  actionsWrapper: ({ menu }) => ({
     display: 'flex',
-    lineHeight: '60px',
-  },
+    flexWrap: 'wrap',
+    paddingTop: theme.spacing(0.25),
+    marginRight: menu ? theme.spacing(1) : 0,
+  }),
   actionItem: {
+    paddingBottom: theme.spacing(1),
     '&:not(:last-child)': {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(2),
     },
   },
-  actionsCaption: {
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
-      float: 'right',
-    },
+  actionsCaptionWrapper: ({ menu }) => ({
+    marginRight: menu ? theme.spacing(1) : 0,
+    float: 'right',
     display: 'flex',
-  },
+  }),
 }));
 
 /**
@@ -117,6 +119,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
  * | `titleBar-actionMenu-${index}`           | Action grid menu             |
  * | `titleBar-menuItem-${index}-${itemIndex}`| Menu item of action grid menu|
  * | `titleBar-actionsCaption`                | Actions caption container    |
+ * | `titleBar-menuButton`                    | Additional menu button       |
  */
 export const TitleBar: React.FC<TitleBarProps> = (props) => {
   const {
@@ -125,6 +128,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     additionalContent,
     actions,
     actionsCaption,
+    menu,
   } = props;
 
   const classes = useStyles(props);
@@ -161,7 +165,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     </div>
   ) : null;
 
-  const actionsEl = actions ? (
+  const actionsContainer = actions ? (
     <div data-testid="titleBar-actions">
       <div className={classes.actionsWrapper}>
         {Array.isArray(actions.props.children) ? (
@@ -187,7 +191,7 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
       </div>
       {actionsCaption ? (
         <div
-          className={classes.actionsCaption}
+          className={classes.actionsCaptionWrapper}
           data-testid="titleBar-actionsCaption"
         >
           {actionsCaption}
@@ -196,20 +200,28 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
     </div>
   ) : null;
 
-  const backButton = onBackClick ? (
-    <IconButton
-      icon={ArrowBack}
-      onClick={onBackClick}
-      data-testid="titleBar-backButton"
-      className={classes.backButton}
-    />
+  const backButtonContainer = onBackClick ? (
+    <div className={classes.fixedButtons}>
+      <IconButton
+        icon={ArrowBack}
+        onClick={onBackClick}
+        data-testid="titleBar-backButton"
+        className={classes.backButton}
+      />
+    </div>
+  ) : null;
+
+  const menuContainer = menu ? (
+    <div className={classes.fixedButtons} data-testid="titleBar-menuButton">
+      <IconButton icon={MoreVert} menu={menu} />
+    </div>
   ) : null;
 
   return (
     <div className={classes.root}>
-      <div>
-        <div className={classes.titleWrapper}>
-          {backButton}
+      {backButtonContainer}
+      <div className={classes.main}>
+        <div className={classes.title}>
           <Typography
             component="h2"
             variant="h4"
@@ -218,10 +230,11 @@ export const TitleBar: React.FC<TitleBarProps> = (props) => {
           >
             {children}
           </Typography>
+          {additionalContentEl}
         </div>
-        {additionalContentEl}
+        {actionsContainer}
       </div>
-      {actionsEl}
+      {menuContainer}
     </div>
   );
 };

@@ -133,4 +133,13 @@ describe('<TitleBar/>', () => {
     expect(getByTestId('titleBar-actionsCaption')).toBeTruthy();
     expect(getByTestId('actionButton')).toBeTruthy();
   });
+
+  it('should render with menu button', () => {
+    const menuItemHandler = jest.fn();
+    const menu = [{ handler: menuItemHandler, label: 'Lorem' }];
+    const { getByTestId } = render(<TitleBar menu={menu}>lorem</TitleBar>);
+
+    expect(getByTestId('titleBar-menuButton')).toBeTruthy();
+    expect(getByTestId('titleBar-menuButton')).toBeVisible();
+  });
 });
