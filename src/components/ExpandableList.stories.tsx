@@ -128,8 +128,20 @@ export const WithExternalId = () => {
       onChange={handleChange}
       checkable="single"
       initialItems={initialItems}
-      max={5}
-      min={2}
+    />
+  );
+};
+
+export const NoInitialItems = () => {
+  const handleChange = (listItems: Array<ListItem>) => {
+    console.log(listItems);
+  };
+
+  return (
+    <ExpandableList
+      optionLabel="Option"
+      addButtonLabel="Option hinzufügen"
+      onChange={handleChange}
     />
   );
 };

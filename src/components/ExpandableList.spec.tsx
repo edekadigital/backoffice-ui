@@ -114,15 +114,13 @@ describe('<ExpandableList />', () => {
     expect(getByTestId('expandable-list-add')).toHaveAttribute('disabled');
   });
 
-  it('should show delete button as disabled when min items is reached', () => {
+  it('should not show delete button  when min items is reached', () => {
     const { renderResult } = setup(false, undefined, undefined, {
       min: 2,
       max: 3,
     });
-    const { getByTestId } = renderResult;
-    expect(getByTestId('expandableList-item-delete-0')).toHaveAttribute(
-      'disabled'
-    );
+    const { queryByTestId } = renderResult;
+    expect(queryByTestId('expandableList-item-delete-0')).toBeFalsy();
   });
 
   it('should show buttons and texfield as disabled when option disabled is set to true', () => {

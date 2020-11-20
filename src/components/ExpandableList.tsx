@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField, IconButton, Button } from '..';
+import { TextField, IconButton, Button, Spacer } from '..';
 import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
@@ -84,6 +84,10 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
   },
   list: { paddingLeft: theme.spacing(2) },
   checkIcon: { color: theme.palette.success.main },
+  placeholder: {
+    width: theme.spacing(6),
+    display: 'inline-block',
+  },
 }));
 
 const createUniqueId = (items: Array<ListItem>) => {
@@ -281,6 +285,17 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     />
   ) : null;
 
+  const deleteButton = !isMinItems ? (
+    <IconButton
+      icon={Delete}
+      onClick={onDeleteClick}
+      data-testid={`expandableList-item-delete-${index}`}
+      disabled={disabled}
+    />
+  ) : (
+    <div className={classes.placeholder} />
+  );
+
   return (
     <Typography
       variant="body1"
@@ -301,12 +316,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
         </div>
         <div className={classes.icons}>
           {checkButton}
-          <IconButton
-            icon={Delete}
-            onClick={onDeleteClick}
-            data-testid={`expandableList-item-delete-${index}`}
-            disabled={disabled || isMinItems}
-          />
+          {deleteButton}
         </div>
       </div>
     </Typography>
