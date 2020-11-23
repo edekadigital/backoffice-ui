@@ -8,7 +8,11 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { Checkbox } from '../Checkbox';
-import { EnhancedDataTableColumn, RowClickCallback } from './EnhancedDataTable';
+import {
+  EnhancedDataTableColumn,
+  RowActionItem,
+  RowClickCallback,
+} from './EnhancedDataTable';
 import { IconButton } from '../IconButton';
 import { ArrowForward } from '../../icons';
 
@@ -19,6 +23,7 @@ export interface EnhancedDataTableBodyProps<D> {
   selectedRows?: D[];
   onSelectRowClick: (row: D) => void;
   onRowClick?: RowClickCallback<D>;
+  rowActions?: Array<RowActionItem<D>>;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,6 +45,7 @@ export function EnhancedDataTableBody<D extends object>(
     selectedRows,
     onSelectRowClick,
     onRowClick,
+    rowActions,
   } = props;
 
   const classes = useStyles();
@@ -102,6 +108,22 @@ export function EnhancedDataTableBody<D extends object>(
         <></>
       );
 
+      const renderRowActions =
+        rowActions && !onRowClick ? (
+          rowActions.map((action, index) => (
+            <TableCell
+              onClick={() => action.handler(row)}
+              key={index}
+              padding="checkbox"
+              data-testid={`enhancedDataTable-body-row-action-${index}`}
+            >
+              <IconButton icon={action.icon} key={index} />
+            </TableCell>
+          ))
+        ) : (
+          <></>
+        );
+
       return (
         <TableRow
           hover={selectable || !!onRowClick}
@@ -114,10 +136,19 @@ export function EnhancedDataTableBody<D extends object>(
           {renderCheckbox}
           {renderColumns(row, index)}
           {renderArrowRight}
+          {renderRowActions}
         </TableRow>
       );
     });
-  }, [data, selectedRows, selectable, onSelectRowClick, onRowClick, columns]);
+  }, [
+    data,
+    selectedRows,
+    selectable,
+    onSelectRowClick,
+    onRowClick,
+    columns,
+    rowActions,
+  ]);
 
   return (
     <TableBody data-testid={'enhancedDataTable-body'}>{renderRows}</TableBody>

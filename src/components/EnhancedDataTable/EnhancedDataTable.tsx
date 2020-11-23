@@ -8,6 +8,7 @@ import {
   Table,
   TablePagination,
   CircularProgress,
+  SvgIconProps,
 } from '@material-ui/core';
 import {
   EnhancedDataTableToolbar,
@@ -50,6 +51,11 @@ interface PaginationState {
   totalCount: number;
 }
 
+export interface RowActionItem<D> {
+  icon: React.ElementType<SvgIconProps>;
+  handler: (clickedRow: D) => void;
+}
+
 export type RowClickCallback<D> = (clickedRow: D) => void;
 export interface EnhancedDataTableProps<D extends object> {
   /**
@@ -89,6 +95,10 @@ export interface EnhancedDataTableProps<D extends object> {
    * Array of additional actions in the table toolbar, will be displayed as buttons
    */
   toolbarActions?: Array<ToolbarActionItem>;
+  /**
+   * Array of actions per row, each action returning an item (row). Only rendered if onRowClick is NOT being served.
+   */
+  rowActions?: Array<RowActionItem<D>>;
   /**
    * Callback function for clicking and returning an item (row).
    * If no callback function is being served, the table rows will not be clickable.
@@ -203,6 +213,7 @@ export function EnhancedDataTable<D extends object>(
     onRowClick,
     defaultPageSize = 10,
     rowsPerPageOptions = [5, 10, 25],
+    rowActions = [],
   } = props;
   const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
@@ -361,6 +372,7 @@ export function EnhancedDataTable<D extends object>(
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
                 clickable={!!onRowClick}
+                rowActions={rowActions}
                 selectedRowsCount={selectedRows.length}
               />
               <EnhancedDataTableBody
@@ -370,6 +382,7 @@ export function EnhancedDataTable<D extends object>(
                 selectedRows={selectedRows}
                 onSelectRowClick={handleSelectRowClick}
                 onRowClick={onRowClick}
+                rowActions={rowActions}
               />
             </Table>
           </TableContainer>

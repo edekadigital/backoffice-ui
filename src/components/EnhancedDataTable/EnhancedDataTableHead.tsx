@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { EnhancedDataTableColumn, Order } from './EnhancedDataTable';
+import {
+  EnhancedDataTableColumn,
+  Order,
+  RowActionItem,
+} from './EnhancedDataTable';
 import {
   TableHead,
   TableRow,
@@ -21,6 +25,7 @@ export interface EnhancedDataTableHeadProps<D> {
   onSelectAllClick: React.ChangeEventHandler<HTMLInputElement>;
   clickable?: boolean;
   selectedRowsCount?: number;
+  rowActions?: RowActionItem<D>[];
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,6 +48,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     onSelectAllClick,
     clickable,
     selectedRowsCount = 0,
+    rowActions,
   } = props;
 
   const classes = useStyles();
@@ -91,14 +97,27 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     <></>
   );
 
-  const renderEmptyCell = clickable ? (
-    <TableCell
-      padding="checkbox"
-      data-testid={'enhancedDataTable-head-emptyColumn'}
-    />
-  ) : (
-    <></>
-  );
+  const renderEmptyCell = React.useMemo(() => {
+    if (clickable) {
+      return (
+        <TableCell
+          padding="checkbox"
+          data-testid={'enhancedDataTable-head-emptyColumn'}
+        />
+      );
+    } else if (rowActions && !clickable) {
+      const tempCellHeads = rowActions.map((item, index) => (
+        <TableCell
+          key={index}
+          padding="checkbox"
+          data-testid={`enhancedDataTable-head-emptyColumn-${index}`}
+        />
+      ));
+      return tempCellHeads;
+    } else {
+      return <></>;
+    }
+  }, [rowActions, clickable]);
 
   return (
     <TableHead data-testid={'enhancedDataTable-head'}>
