@@ -145,17 +145,3 @@ export const NoInitialItems = () => {
     />
   );
 };
-
-export const NoInitialItems = () => {
-  const handleChange = (listItems: Array<ListItem>) => {
-    console.log(listItems);
-  };
-
-  return (
-    <ExpandableList
-      optionLabel="Option"
-      addButtonLabel="Option hinzufügen"
-      onChange={handleChange}
-    />
-  );
-};
