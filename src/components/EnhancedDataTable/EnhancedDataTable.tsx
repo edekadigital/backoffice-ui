@@ -21,7 +21,6 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 import { Subtitle } from '../../typography/Subtitle';
-import { ArrowForward } from '../../icons';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
