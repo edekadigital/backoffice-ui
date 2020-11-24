@@ -119,7 +119,11 @@ export function EnhancedDataTableBody<D extends object>(
             padding="checkbox"
             data-testid={`enhancedDataTable-body-row-action-${index}`}
           >
-            <IconButton icon={action.icon} key={index} />
+            <IconButton
+              icon={action.icon}
+              key={index}
+              data-testid={`enhancedDataTable-body-row-action-icon-${index}`}
+            />
           </TableCell>
         ))
       ) : (

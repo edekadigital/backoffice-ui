@@ -105,19 +105,17 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
   ) : (
     <></>
   );
-  const renderEmptyCellRowActions = React.useMemo(() => {
-    if (rowActions) {
-      const cellHeads = rowActions.map((item, index) => (
-        <TableCell
-          key={index}
-          padding="checkbox"
-          data-testid={`enhancedDataTable-head-emptyColumn-${index}`}
-        />
-      ));
-      return cellHeads;
-    }
-    return <></>;
-  }, [rowActions]);
+  const renderEmptyCellRowActions = rowActions ? (
+    rowActions.map((item, index) => (
+      <TableCell
+        key={index}
+        padding="checkbox"
+        data-testid={`enhancedDataTable-head-emptyColumn-${index}`}
+      />
+    ))
+  ) : (
+    <></>
+  );
 
   return (
     <TableHead data-testid={'enhancedDataTable-head'}>

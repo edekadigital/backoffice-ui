@@ -198,6 +198,8 @@ const useStyles = makeStyles((theme: Theme) =>
  * | `enhancedDataTable-body-row-click-${index}`              | Row click (on row itself)                       |
  * | `enhancedDataTable-body-row-clickArrow-${index}`         | Row click (on icon)                             |
  * | `enhancedDataTable-body-row-${rowIndex}-column-${index}` | Specific table cell                             |
+ * | `enhancedDataTable-body-row-action-${index}`             | Row Action                                      |
+ * | `enhancedDataTable-body-row-action-icon-${index}`        | Row action icon                                 |
  * | `enhancedDataTable-pagination`                           | Table Pagination container                      |
  * | `enhancedDataTable-emptyResult`                          | Null result container                           |
  * | `enhancedDataTable-selectionMenu`                        | Selection menu drawer container                 |
