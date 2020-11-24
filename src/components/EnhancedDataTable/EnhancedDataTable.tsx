@@ -21,6 +21,7 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 import { Subtitle } from '../../typography/Subtitle';
+import { ArrowForward } from '../../icons';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
@@ -96,9 +97,14 @@ export interface EnhancedDataTableProps<D extends object> {
    */
   toolbarActions?: Array<ToolbarActionItem>;
   /**
-   * Array of actions per row, each action returning an item (row). Only rendered if onRowClick is NOT being served.
+   * Array of actions per row, each action returning an item (row). Rendered to the left of onRowClick icon if it is present.
    */
   rowActions?: Array<RowActionItem<D>>;
+  /**
+   * Custom icon which is rendered at the end of each row when onRowClick is being served. Default is ArrowForward.
+   * @default ArrowForward
+   */
+  rowClickIcon?: React.ElementType<SvgIconProps>;
   /**
    * Callback function for clicking and returning an item (row).
    * If no callback function is being served, the table rows will not be clickable.
@@ -214,6 +220,7 @@ export function EnhancedDataTable<D extends object>(
     defaultPageSize = 10,
     rowsPerPageOptions = [5, 10, 25],
     rowActions = [],
+    rowClickIcon,
   } = props;
   const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
@@ -383,6 +390,7 @@ export function EnhancedDataTable<D extends object>(
                 onSelectRowClick={handleSelectRowClick}
                 onRowClick={onRowClick}
                 rowActions={rowActions}
+                rowClickIcon={rowClickIcon}
               />
             </Table>
           </TableContainer>

@@ -6,6 +6,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
+  SvgIconProps,
 } from '@material-ui/core';
 import { Checkbox } from '../Checkbox';
 import {
@@ -14,7 +15,7 @@ import {
   RowClickCallback,
 } from './EnhancedDataTable';
 import { IconButton } from '../IconButton';
-import { ArrowForward } from '../../icons';
+import { ArrowForward } from '@material-ui/icons';
 
 export interface EnhancedDataTableBodyProps<D> {
   data: D[];
@@ -24,6 +25,7 @@ export interface EnhancedDataTableBodyProps<D> {
   onSelectRowClick: (row: D) => void;
   onRowClick?: RowClickCallback<D>;
   rowActions?: Array<RowActionItem<D>>;
+  rowClickIcon?: React.ElementType<SvgIconProps>;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,6 +48,7 @@ export function EnhancedDataTableBody<D extends object>(
     onSelectRowClick,
     onRowClick,
     rowActions,
+    rowClickIcon = ArrowForward,
   } = props;
 
   const classes = useStyles();
@@ -100,7 +103,7 @@ export function EnhancedDataTableBody<D extends object>(
           data-testid={`enhancedDataTable-body-row-click-${index}`}
         >
           <IconButton
-            icon={ArrowForward}
+            icon={rowClickIcon}
             data-testid={`enhancedDataTable-body-row-clickArrow-${index}`}
           />
         </TableCell>
@@ -108,21 +111,20 @@ export function EnhancedDataTableBody<D extends object>(
         <></>
       );
 
-      const renderRowActions =
-        rowActions && !onRowClick ? (
-          rowActions.map((action, index) => (
-            <TableCell
-              onClick={() => action.handler(row)}
-              key={index}
-              padding="checkbox"
-              data-testid={`enhancedDataTable-body-row-action-${index}`}
-            >
-              <IconButton icon={action.icon} key={index} />
-            </TableCell>
-          ))
-        ) : (
-          <></>
-        );
+      const renderRowActions = rowActions ? (
+        rowActions.map((action, index) => (
+          <TableCell
+            onClick={() => action.handler(row)}
+            key={index}
+            padding="checkbox"
+            data-testid={`enhancedDataTable-body-row-action-${index}`}
+          >
+            <IconButton icon={action.icon} key={index} />
+          </TableCell>
+        ))
+      ) : (
+        <></>
+      );
 
       return (
         <TableRow
@@ -135,8 +137,8 @@ export function EnhancedDataTableBody<D extends object>(
         >
           {renderCheckbox}
           {renderColumns(row, index)}
-          {renderArrowRight}
           {renderRowActions}
+          {renderArrowRight}
         </TableRow>
       );
     });

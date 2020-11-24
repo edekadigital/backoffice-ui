@@ -97,33 +97,34 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     <></>
   );
 
-  const renderEmptyCell = React.useMemo(() => {
-    if (clickable) {
-      return (
-        <TableCell
-          padding="checkbox"
-          data-testid={'enhancedDataTable-head-emptyColumn'}
-        />
-      );
-    } else if (rowActions && !clickable) {
-      const tempCellHeads = rowActions.map((item, index) => (
+  const renderEmptyCell = clickable ? (
+    <TableCell
+      padding="checkbox"
+      data-testid={'enhancedDataTable-head-emptyColumn'}
+    />
+  ) : (
+    <></>
+  );
+  const renderEmptyCellRowActions = React.useMemo(() => {
+    if (rowActions) {
+      const cellHeads = rowActions.map((item, index) => (
         <TableCell
           key={index}
           padding="checkbox"
           data-testid={`enhancedDataTable-head-emptyColumn-${index}`}
         />
       ));
-      return tempCellHeads;
-    } else {
-      return <></>;
+      return cellHeads;
     }
-  }, [rowActions, clickable]);
+    return <></>;
+  }, [rowActions]);
 
   return (
     <TableHead data-testid={'enhancedDataTable-head'}>
       <TableRow>
         {renderCheckbox}
         {renderHeadCells}
+        {renderEmptyCellRowActions}
         {renderEmptyCell}
       </TableRow>
     </TableHead>
