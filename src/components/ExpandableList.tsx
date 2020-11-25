@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { TextField, IconButton, Button, Spacer } from '..';
+import { TextField, IconButton, Button } from '..';
 import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
+import { CheckCircle } from '@material-ui/icons';
 import clsx from 'clsx';
 
 export interface ListItem {
@@ -269,7 +269,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
 
   const classes = useExpandableListStyles();
   const icon = () => (
-    <Check
+    <CheckCircle
       className={clsx({ [classes.checkIcon]: checked })}
       data-testid={`expandableList-item-additional-icon-${index}`}
     />
