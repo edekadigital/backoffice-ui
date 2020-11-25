@@ -15,7 +15,7 @@ import {
   RowClickCallback,
 } from './EnhancedDataTable';
 import { IconButton } from '../IconButton';
-import { ArrowForward } from '@material-ui/icons';
+import { ArrowForward } from '../../icons';
 
 export interface EnhancedDataTableBodyProps<D> {
   data: D[];
@@ -111,24 +111,25 @@ export function EnhancedDataTableBody<D extends object>(
         <></>
       );
 
-      const renderRowActions = rowActions ? (
-        rowActions.map((action, index) => (
-          <TableCell
-            onClick={() => action.handler(row)}
-            key={index}
-            padding="checkbox"
-            data-testid={`enhancedDataTable-body-row-action-${index}`}
-          >
-            <IconButton
-              icon={action.icon}
+      const renderRowActions = (rowIndex: number) =>
+        rowActions ? (
+          rowActions.map((action, index) => (
+            <TableCell
+              onClick={() => action.handler(row)}
               key={index}
-              data-testid={`enhancedDataTable-body-row-action-icon-${index}`}
-            />
-          </TableCell>
-        ))
-      ) : (
-        <></>
-      );
+              padding="checkbox"
+              data-testid={`enhancedDataTable-body-row-${rowIndex}-action-${index}`}
+            >
+              <IconButton
+                icon={action.icon}
+                key={index}
+                data-testid={`enhancedDataTable-body-row-${rowIndex}-action-icon-${index}`}
+              />
+            </TableCell>
+          ))
+        ) : (
+          <></>
+        );
 
       return (
         <TableRow
@@ -141,7 +142,7 @@ export function EnhancedDataTableBody<D extends object>(
         >
           {renderCheckbox}
           {renderColumns(row, index)}
-          {renderRowActions}
+          {renderRowActions(index)}
           {renderArrowRight}
         </TableRow>
       );
@@ -154,6 +155,7 @@ export function EnhancedDataTableBody<D extends object>(
     onRowClick,
     columns,
     rowActions,
+    rowClickIcon,
   ]);
 
   return (

@@ -715,7 +715,7 @@ describe('<EnhancedDataTable />', () => {
       { icon: GetApp, handler: handlerA },
       { icon: Edit, handler: handlerB },
     ];
-    const { getAllByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       <EnhancedDataTable
         columns={columns}
         fetchData={fetchDataFn}
@@ -723,24 +723,20 @@ describe('<EnhancedDataTable />', () => {
       />
     );
     await waitFor(() => {});
-    expect(
-      getAllByTestId('enhancedDataTable-body-row-action-0')[0]
-    ).toBeTruthy();
-    expect(
-      getAllByTestId('enhancedDataTable-body-row-action-1')[0]
-    ).toBeTruthy();
+    expect(getByTestId('enhancedDataTable-body-row-0-action-0')).toBeTruthy();
+    expect(getByTestId('enhancedDataTable-body-row-0-action-1')).toBeTruthy();
     expect(getByTestId('enhancedDataTable-head-emptyColumn-0')).toBeTruthy();
     expect(getByTestId('enhancedDataTable-head-emptyColumn-1')).toBeTruthy();
   });
 
-  it('should call callback of  row actions', async () => {
+  it('should call callback of row actions', async () => {
     const handlerA = jest.fn();
     const handlerB = jest.fn();
     const actions = [
       { icon: GetApp, handler: handlerA },
       { icon: Edit, handler: handlerB },
     ];
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <EnhancedDataTable
         columns={columns}
         fetchData={fetchDataFn}
@@ -748,8 +744,8 @@ describe('<EnhancedDataTable />', () => {
       />
     );
     await waitFor(() => {});
-    userEvent.click(getAllByTestId('enhancedDataTable-body-row-action-0')[0]);
-    userEvent.click(getAllByTestId('enhancedDataTable-body-row-action-1')[1]);
+    userEvent.click(getByTestId('enhancedDataTable-body-row-0-action-0'));
+    userEvent.click(getByTestId('enhancedDataTable-body-row-1-action-1'));
     expect(handlerA).toBeCalledTimes(1);
     expect(handlerB).toBeCalledTimes(1);
     expect(handlerA).toHaveBeenCalledWith(testData[0]);
