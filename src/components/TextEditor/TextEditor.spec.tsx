@@ -21,6 +21,7 @@ jest.mock('draft-js', () => ({
     };
     return (
       <input
+        placeholder={props.placeholder}
         data-testid="mocked-editor"
         onChange={(e) => modifiedOnchange(e)}
       />
@@ -44,7 +45,7 @@ describe('<TextEditor />', () => {
 
   it('should render the component', () => {
     setupEditorStateMock();
-    const { getByTestId, queryByTestId } = render(
+    const { getByPlaceholderText, getByTestId, queryByTestId } = render(
       <TextEditor
         onChange={() => {}}
         editorSize="large"
@@ -62,6 +63,7 @@ describe('<TextEditor />', () => {
     expect(queryByTestId('textEditor-linkOption-add')).toBeFalsy();
     expect(queryByTestId('textEditor-linkOption-remove')).toBeFalsy();
     expect(queryByTestId('textEditor-linkOption-form')).toBeFalsy();
+    expect(getByPlaceholderText('placeholder')).toBeTruthy();
   });
 
   it('should handle the user input correctly', () => {
@@ -71,6 +73,7 @@ describe('<TextEditor />', () => {
     const value = 'Foo bar';
 
     const editor = getByTestId('mocked-editor');
+    userEvent.click(getByTestId('textEditor-editorWrapper'));
     fireEvent.change(editor, { target: { value } });
     expect(onChange.mock.calls[0][0]).toBe(value);
   });
@@ -139,6 +142,22 @@ describe('<TextEditor />', () => {
     expect(onChange.mock.calls[1][0]).toBe(`1. ${value}`);
     expect(onChange.mock.calls[2][0]).toBe(`- ${value}`);
     expect(onChange.mock.calls[3][0]).toBe(`> ${value}`);
+  });
+
+  it('should remove placeholder if the user changes block type before entering any text', () => {
+    setupEditorStateMock();
+    const { queryByPlaceholderText, getByTestId } = render(
+      <TextEditor
+        onChange={() => {}}
+        blockTypeOptions={['ordered-list-item']}
+        placeholder="placeholder"
+      />
+    );
+    const orderedButton = getByTestId(
+      'textEditor-blockTypeOption-ordered-list-item'
+    );
+    userEvent.click(orderedButton!);
+    expect(queryByPlaceholderText('placeholder')).toBeFalsy();
   });
 
   it('should handle inline styles correctly', () => {

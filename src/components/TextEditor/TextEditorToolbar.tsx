@@ -123,21 +123,26 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
     .getBlockForKey(selection.getStartKey())
     .getType();
 
-  const handleInlineStyle = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    inlineStyle: string
-  ) => {
-    e.preventDefault();
-    props.onChange(RichUtils.toggleInlineStyle(props.editorState, inlineStyle));
-  };
+  const handleInlineStyle = React.useCallback(
+    (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      inlineStyle: string
+    ) => {
+      e.preventDefault();
+      props.onChange(
+        RichUtils.toggleInlineStyle(props.editorState, inlineStyle)
+      );
+    },
+    [props]
+  );
 
-  const handleBlockType = (
-    e: React.MouseEvent<HTMLElement>,
-    blockType: string
-  ) => {
-    e.preventDefault();
-    props.onChange(RichUtils.toggleBlockType(props.editorState, blockType));
-  };
+  const handleBlockType = React.useCallback(
+    (e: React.MouseEvent<HTMLElement>, blockType: string) => {
+      e.preventDefault();
+      props.onChange(RichUtils.toggleBlockType(props.editorState, blockType));
+    },
+    [props]
+  );
 
   const renderHeadingTypeOptions = React.useMemo(() => {
     if (!props.headingTypeOptions || props.headingTypeOptions.length < 1)
@@ -169,7 +174,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.headingTypeOptions, handleBlockType]);
+  }, [props.headingTypeOptions, classes.divider, blockType, handleBlockType]);
 
   const renderInlineStyleOptions = React.useMemo(() => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
@@ -205,7 +210,12 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.inlineStyleOptions, handleInlineStyle]);
+  }, [
+    props.inlineStyleOptions,
+    props.editorState,
+    classes.divider,
+    handleInlineStyle,
+  ]);
 
   const renderBlockTypeOptions = React.useMemo(() => {
     if (!props.blockTypeOptions || props.blockTypeOptions.length < 1)
@@ -237,7 +247,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.blockTypeOptions, handleBlockType]);
+  }, [props.blockTypeOptions, classes.divider, blockType, handleBlockType]);
 
   const renderLinkOption = React.useMemo(() => {
     if (!props.linkOption) {
@@ -252,7 +262,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.linkOption, props.onChange, props.editorState]);
+  }, [props.linkOption, props.editorState, props.onChange, classes.divider]);
 
   return (
     <div className={classes.toolbar} data-testid="textEditor-toolbar">

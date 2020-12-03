@@ -82,7 +82,7 @@ export const LargeSize = () => {
   );
 };
 
-export const Controlled = () => {
+export const WithInitialValue = () => {
   const defaultValue = `## Hello World!
   I **am** a *Markdown* ++String++! [I'm an inline-style link](https://www.google.com).`;
   const [markdown, setMarkdown] = React.useState<string | undefined>(
