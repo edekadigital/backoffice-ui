@@ -21,6 +21,10 @@ export interface TextEditorProps {
    */
   headingTypeOptions?: HeadingType[];
   /**
+   * The initial value of the input element
+   */
+  initialValue?: string;
+  /**
    * List of allowed inline style options to be provided in the editors toolbar
    */
   inlineStyleOptions?: InlineStyleType[];
@@ -36,10 +40,6 @@ export interface TextEditorProps {
    * The short hint displayed in the input before the user enters a value.
    */
   placeholder?: string;
-  /**
-   * The value of the input element, required for a controlled component.
-   */
-  value?: string;
 }
 
 export type HeadingType = 'header-one' | 'header-two' | 'header-three';
@@ -92,7 +92,7 @@ const useTextEditorStyles = makeStyles<Theme, TextEditorProps>((theme) => ({
 export const TextEditor: React.FC<TextEditorProps> = (props) => {
   const classes = useTextEditorStyles(props);
   const editor = React.useRef<Editor | null>(null);
-  const [editorState, setEditorState] = useEditorState(props.value);
+  const [editorState, setEditorState] = useEditorState(props.initialValue);
 
   const onChange = React.useCallback(
     (editorState: EditorState) => {
@@ -105,7 +105,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       props.onChange(markdownString);
       setEditorState(editorState);
     },
-    [props.onChange, editorState]
+    [props, setEditorState]
   );
 
   const placeholderText = () => {

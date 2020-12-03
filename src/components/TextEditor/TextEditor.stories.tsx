@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextEditor } from './TextEditor';
 
 export default {
-  title: 'Lab|TextEditor',
+  title: 'Components/TextEditor',
   component: TextEditor,
   decorators: [
     (storyFn: () => React.ReactNode) => (
@@ -101,7 +101,7 @@ export const Controlled = () => {
       </div>
       <TextEditor
         onChange={onChange}
-        value={markdown}
+        initialValue={markdown}
         blockTypeOptions={[
           'ordered-list-item',
           'unordered-list-item',

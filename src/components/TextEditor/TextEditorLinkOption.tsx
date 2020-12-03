@@ -63,7 +63,6 @@ export const TextEditorLinkOption: React.FC<{
   const handleConfirm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const contentState = editorState.getCurrentContent();
-
     const contentStateWithEntity = contentState.createEntity(
       'LINK',
       'MUTABLE',

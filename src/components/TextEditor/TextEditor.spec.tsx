@@ -45,7 +45,11 @@ describe('<TextEditor />', () => {
   it('should render the component', () => {
     setupEditorStateMock();
     const { getByTestId, queryByTestId } = render(
-      <TextEditor onChange={() => {}} />
+      <TextEditor
+        onChange={() => {}}
+        editorSize="large"
+        placeholder="placeholder"
+      />
     );
     expect(getByTestId('textEditor')).toBeTruthy();
     expect(getByTestId('textEditor-editorWrapper')).toBeTruthy();
@@ -68,15 +72,6 @@ describe('<TextEditor />', () => {
 
     const editor = getByTestId('mocked-editor');
     fireEvent.change(editor, { target: { value } });
-    expect(onChange.mock.calls[0][0]).toBe(value);
-  });
-
-  it('should be controllable and handle an external value correctly', () => {
-    setupEditorStateMock();
-    const onChange = jest.fn();
-    const value =
-      'I **am** a *Markdown* ++String++! [I am m an inline-style link](https://www.edeka.de).';
-    render(<TextEditor onChange={onChange} value={value} />);
     expect(onChange.mock.calls[0][0]).toBe(value);
   });
 
@@ -153,7 +148,7 @@ describe('<TextEditor />', () => {
     const { getByTestId, queryByTestId } = render(
       <TextEditor
         onChange={onChange}
-        value={value}
+        initialValue={value}
         inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
       />
     );
@@ -183,43 +178,65 @@ describe('<TextEditor />', () => {
     expect(onChange.mock.calls[5][0]).toBe(`${value}`);
   });
 
-  /** TODO: Fix this test: The add-link button won't be enabled after selecting the typed text (but only here in the test) */
   it('should be possible to add an inline link', () => {
     setupEditorStateMock(true);
     const onChange = jest.fn();
     const value = 'Lorem';
+    const url = 'www.edeka.de';
     const { getByTestId, queryByTestId } = render(
-      <TextEditor onChange={onChange} linkOption />
+      <TextEditor onChange={onChange} initialValue={value} linkOption />
     );
     const addButton = queryByTestId('textEditor-linkOption-add');
     expect(addButton).toBeTruthy();
-    expect(addButton!.classList).toContain('Mui-disabled');
-    const editor = getByTestId('mocked-editor');
-
-    userEvent.type(editor, value);
-    userEvent.type(editor, '{selectall}');
-    //expect(addButton!.classList).not.toContain('Mui-disabled');
-    //expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
-    //userEvent.click(addButton!);
+    expect(addButton!.classList).not.toContain('Mui-disabled');
+    expect(queryByTestId('textEditor-linkOption-form')).toBeFalsy();
+    userEvent.click(addButton!);
+    expect(queryByTestId('textEditor-linkOption-form')).toBeTruthy();
+    expect(queryByTestId('textEditor-linkOption-form-input')).toBeTruthy();
+    userEvent.type(
+      getByTestId('textEditor-linkOption-form-input').querySelector('input')!,
+      url
+    );
+    userEvent.click(getByTestId('textEditor-linkOption-form-submit'));
+    expect(onChange.mock.calls[0][0]).toBe(`[${value}](${url})`);
   });
 
-  /** TODO: Fix test: undo and redo buttons don't get enabled after input text, but only in the test */
-  it('should be possible to to undo and redo user actions', () => {
-    const onChange = jest.fn();
+  it('should be possible to close link form modal', () => {
+    setupEditorStateMock(true);
     const value = 'Lorem';
-    const { getByTestId, queryByTestId } = render(
-      <TextEditor onChange={onChange} linkOption />
+    const { getByTestId } = render(
+      <TextEditor onChange={() => jest.fn()} initialValue={value} linkOption />
     );
-    const undoButton = queryByTestId('textEditor-undo');
-    const redoButton = queryByTestId('textEditor-redo');
-    expect(undoButton).toBeTruthy();
-    expect(redoButton).toBeTruthy();
-    expect(undoButton!.classList).toContain('Mui-disabled');
-    const editor = getByTestId('mocked-editor');
+    const addButton = getByTestId('textEditor-linkOption-add');
+    userEvent.click(addButton!);
+    expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
+    userEvent.click(addButton!);
+    expect(getByTestId('textEditor-linkOption-form')).not.toBeVisible();
 
-    userEvent.type(editor, value);
-    //expect(undoButton!.classList).not.toContain('Mui-disabled');
-    //userEvent.click(undoButton!);
-    //console.log(onChange.mock.calls);
+    userEvent.click(addButton!);
+    expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
+    userEvent.click(getByTestId('textEditor-linkOption-form-cancel'));
+    expect(getByTestId('textEditor-linkOption-form')).not.toBeVisible();
+
+    userEvent.click(addButton!);
+    expect(getByTestId('textEditor-linkOption-form')).toBeVisible();
+    fireEvent.keyDown(getByTestId('textEditor-linkOption-form'), {
+      key: 'Esc',
+      code: 'Esc',
+    });
+    expect(getByTestId('textEditor-linkOption-form')).not.toBeVisible();
+  });
+
+  it('should be possible to remove a link', () => {
+    setupEditorStateMock(true);
+    const onChange = jest.fn();
+    const value = '[Lorem](http://edeka.de)';
+    const { getByTestId } = render(
+      <TextEditor onChange={onChange} initialValue={value} linkOption />
+    );
+    const removeButton = getByTestId('textEditor-linkOption-remove');
+    expect(removeButton).toBeVisible();
+    userEvent.click(removeButton);
+    expect(onChange.mock.calls[0][0]).toBe('Lorem');
   });
 });
