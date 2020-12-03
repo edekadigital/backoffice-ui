@@ -1,12 +1,14 @@
 import * as React from 'react';
 import {
   ButtonProps as MuiButtonProps,
-  default as MuiButton,
-} from '@material-ui/core/Button';
+  Button as MuiButton,
+  ButtonGroup,
+} from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { KeyboardArrowDownIcon, ListMenu } from '..';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
@@ -19,6 +21,16 @@ export type ButtonType = 'submit' | 'reset' | 'button';
 export type ButtonIcon = React.ElementType<SvgIconProps>;
 
 export type ButtonIconPosition = 'left' | 'right';
+
+export interface ButtonMenuItem {
+  label: string;
+  handler: React.MouseEventHandler<HTMLElement>;
+}
+
+export interface ButtonMenu {
+  splitButton?: boolean;
+  items?: Array<ButtonMenuItem>;
+}
 
 export interface ButtonProps {
   className?: string;
@@ -52,6 +64,11 @@ export interface ButtonProps {
    * @default "left"
    */
   iconPosition?: ButtonIconPosition;
+  /**
+   * If provided, a selection menu will be shown on clicking the button itself (`splitButton=false`)
+   * or on clicking the arrow icon in split button mode (`splitButton=true`)
+   */
+  menu?: ButtonMenu;
   /**
    * Callback fired when the button has been clicked.
    */
@@ -88,9 +105,18 @@ const useStyles = makeStyles((theme: Theme) => {
     iconRight: {
       marginLeft: theme.spacing(),
     },
+    buttonGroupContainedPrimary: {
+      borderColor: `${theme.palette.common.white}!important`,
+    },
   };
 });
 
+/**
+ * | Test ID                | Description                               |
+ * | ---------------------- | ----------------------------------------- |
+ * | `splitButton-main`     | Splitted button: Main button              |
+ * | `splitButton-menu`     | Splitted button: Menu button              |
+ */
 export const Button: React.FC<ButtonProps> = (props) => {
   const {
     variant = 'contained',
@@ -98,9 +124,12 @@ export const Button: React.FC<ButtonProps> = (props) => {
     iconPosition = 'left',
     showProgress = false,
     children,
+    menu,
     ...additionalProps
   } = props;
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const IconComponent = React.useMemo(() => {
     if (showProgress) {
@@ -112,31 +141,106 @@ export const Button: React.FC<ButtonProps> = (props) => {
     }
   }, [icon, showProgress]);
 
-  const content = React.useMemo(() => {
-    if (IconComponent) {
-      if (iconPosition === 'left') {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  return React.useMemo(() => {
+    const content = () => {
+      if (IconComponent) {
+        if (iconPosition === 'left' || menu) {
+          return (
+            <>
+              <IconComponent className={classes.iconLeft} />
+              {children}
+            </>
+          );
+        } else {
+          return (
+            <>
+              {children}
+              <IconComponent className={classes.iconRight} />
+            </>
+          );
+        }
+      } else {
+        return children;
+      }
+    };
+
+    if (menu?.items) {
+      if (menu.splitButton) {
         return (
           <>
-            <IconComponent className={classes.iconLeft} />
-            {children}
+            <ButtonGroup
+              variant={variant}
+              color={additionalProps.color}
+              disabled={additionalProps.disabled}
+              size={additionalProps.size}
+              classes={{
+                groupedContainedPrimary: classes.buttonGroupContainedPrimary,
+              }}
+            >
+              <Button
+                {...additionalProps}
+                variant={variant}
+                data-testid="splitButton-main"
+              >
+                {content()}
+              </Button>
+              <Button onClick={handleMenuOpen} data-testid="splitButton-menu">
+                <KeyboardArrowDownIcon />
+              </Button>
+            </ButtonGroup>
+            <ListMenu
+              items={menu.items}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorEl={anchorEl}
+            />
           </>
         );
       } else {
         return (
           <>
-            {children}
-            <IconComponent className={classes.iconRight} />
+            <MuiButton
+              {...additionalProps}
+              variant={variant}
+              onClick={handleMenuOpen}
+            >
+              {content()}
+              <KeyboardArrowDownIcon />
+            </MuiButton>
+            <ListMenu
+              items={menu.items}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorEl={anchorEl}
+            />
           </>
         );
       }
     } else {
-      return children;
+      return (
+        <MuiButton variant={variant} {...additionalProps}>
+          {content()}
+        </MuiButton>
+      );
     }
-  }, [IconComponent, iconPosition, children, classes]);
-
-  return (
-    <MuiButton variant={variant} {...additionalProps}>
-      {content}
-    </MuiButton>
-  );
+  }, [
+    IconComponent,
+    additionalProps,
+    anchorEl,
+    children,
+    classes.buttonGroupContainedPrimary,
+    classes.iconLeft,
+    classes.iconRight,
+    iconPosition,
+    menu,
+    variant,
+  ]);
 };

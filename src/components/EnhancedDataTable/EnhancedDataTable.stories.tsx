@@ -6,6 +6,7 @@ import {
   RowClickCallback,
   EnhancedDataTableFetchData,
   ActiveFilter,
+  RowActionItem,
 } from './EnhancedDataTable';
 import {
   sortTable,
@@ -16,6 +17,8 @@ import {
   Subtitle,
   Image,
   Add,
+  Edit,
+  CloudDownload,
 } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 import { ToolbarActionItem } from './EnhancedDataTableToolbar';
@@ -730,6 +733,176 @@ export const WithToolbarActions = () => {
       columns={columns}
       selectionActions={selectionActions}
       toolbarActions={toolbarActions}
+    />
+  );
+};
+
+export const WithRowActions = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    size = 10,
+    page = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+    TestData
+  >> = [
+    {
+      icon: GetApp,
+      handler: (data) => console.log(data, 'Make api call to get zip file'),
+    },
+    {
+      icon: Delete,
+      handler: (data) => {
+        console.log(data, 'Delete Rows');
+      },
+    },
+  ];
+
+  const rowActions: Array<RowActionItem<TestData>> = [
+    {
+      icon: Delete,
+      handler: (row) => console.log(row, 'Some action is called'),
+    },
+    {
+      icon: Edit,
+      handler: (row) => console.log(row, 'Some other action is called'),
+    },
+  ];
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with selectable rows'}
+      columns={columns}
+      selectionActions={selectionActions}
+      rowActions={rowActions}
+    />
+  );
+};
+
+export const WithRowActionsAndClickableWithCustomIcon = () => {
+  interface TestData {
+    city: string;
+    age?: number;
+    name: string;
+    type: string;
+  }
+
+  const fetchData: EnhancedDataTableFetchData<TestData> = ({
+    size = 10,
+    page = 0,
+    order,
+    orderBy,
+  }) => {
+    let data: TestData[] = [
+      {
+        city: 'Hamburg',
+        age: 35,
+        name: 'Kane David',
+        type: 'Automatic',
+      },
+      {
+        city: 'Göteborg',
+        age: 23,
+        name: 'Mullins Clemons',
+        type: 'Manual',
+      },
+    ];
+
+    // import {sortTable} from 'utils/tableUtils'
+    data = sortTable(data, orderBy, order);
+
+    // import {paginateTable} from 'utils/tableUtils'
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(paginateTable(size, page, data)), 500);
+    });
+  };
+
+  const columns: Array<EnhancedDataTableColumn<TestData>> = [
+    { accessor: 'name', label: 'Name' },
+    { accessor: 'city', label: 'City' },
+    { accessor: 'age', label: 'Age' },
+    { accessor: 'type', label: 'Type' },
+  ];
+
+  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
+    TestData
+  >> = [
+    {
+      icon: GetApp,
+      handler: (data) => console.log(data, 'Make api call to get zip file'),
+    },
+    {
+      icon: Delete,
+      handler: (data) => {
+        console.log(data, 'Delete Rows');
+      },
+    },
+  ];
+
+  const rowActions: Array<RowActionItem<TestData>> = [
+    {
+      icon: Delete,
+      handler: (row) => console.log(row, 'Some action is called'),
+    },
+    {
+      icon: Edit,
+      handler: (row) => console.log(row, 'Some other action is called'),
+    },
+  ];
+
+  const clickAction: RowClickCallback<TestData> = (data: TestData) => {
+    console.log(data, 'Clicked row');
+  };
+
+  return (
+    <EnhancedDataTable
+      fetchData={fetchData}
+      headline={'Table with selectable rows'}
+      columns={columns}
+      selectionActions={selectionActions}
+      rowActions={rowActions}
+      onRowClick={clickAction}
+      rowClickIcon={CloudDownload}
     />
   );
 };

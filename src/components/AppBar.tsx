@@ -3,8 +3,6 @@ import MuiAppBar from '@material-ui/core/AppBar';
 import MuiIconButton from '@material-ui/core/IconButton';
 import MuiMenu from '@material-ui/core/Menu';
 import MuiMenuItem from '@material-ui/core/MenuItem';
-import MuiListItemIcon from '@material-ui/core/ListItemIcon';
-import MuiListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import {
@@ -15,6 +13,7 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 import { ServiceIcon } from './internal';
+import { ListMenu } from '..';
 
 // "colorTransparent" key is missing in type definition for AppBar prop "classes"
 type AppBarClasses = never;
@@ -113,16 +112,11 @@ const useAppBarStyles = makeStyles((theme) => ({
   },
 }));
 
-const useListMenuIconStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: theme.spacing(4.5),
-  },
-}));
-
 const useGridMenuStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: 280,
     maxHeight: 380,
+    marginTop: theme.spacing(1),
   },
   list: {
     display: 'flex',
@@ -160,50 +154,6 @@ const useGridMenuTextStyles = makeStyles((theme) => ({
     width: '100%',
   },
 }));
-
-const AppBarListMenu: React.FC<AppBarActionListMenuProps> = ({
-  index,
-  items,
-  open,
-  anchorEl,
-  onClose,
-}) => {
-  const iconClasses = useListMenuIconStyles();
-
-  const renderItems = items.map((tempItem, itemIndex) => {
-    const key = `appBar-menuItem-${index}-${itemIndex}`;
-
-    const IconComponent = tempItem.icon;
-
-    const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
-      tempItem.handler(event);
-      onClose();
-    };
-
-    return (
-      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
-        <MuiListItemIcon classes={iconClasses}>
-          <IconComponent fontSize="small" />
-        </MuiListItemIcon>
-        <MuiListItemText primary={tempItem.label} />
-      </MuiMenuItem>
-    );
-  });
-
-  return (
-    <MuiMenu
-      anchorEl={anchorEl}
-      anchorOrigin={anchorOrigin}
-      keepMounted={true}
-      transformOrigin={transformOrigin}
-      getContentAnchorEl={null}
-      open={open}
-      onClose={() => onClose()}
-    >
-      {renderItems}
-    </MuiMenu>
-  );
-};
 
 const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
   index,
@@ -265,7 +215,7 @@ const AppBarGridMenu: React.FC<AppBarActionGridMenuProps> = ({
  * | -------------------------------------------------------- | ----------------------------------------- |
  * | `appBar-title`                                           | App bar title                             |
  * | `appBar-actionItem-${index}`                             | App bar action icon button                |
- * | `appBar-menuItem-${index}-${itemIndex}`                  | App bar menu item in action menu          |
+ * | `appBar-menuItem-${index}-${itemIndex}`                  | App bar menu item in action grid menu     |
  */
 export const AppBar: React.FC<AppBarProps> = (props) => {
   const { actions = [], children, color } = props;
@@ -324,7 +274,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
         case 'list':
         default:
           return (
-            <AppBarListMenu
+            <ListMenu
               index={index}
               items={tempAction.items}
               anchorEl={anchorEl}

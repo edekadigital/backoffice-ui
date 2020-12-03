@@ -3,7 +3,7 @@ import { TextField, IconButton, Button } from '..';
 import { Delete, Add } from '../icons';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, SvgIconProps, Typography } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
+import { CheckCircle } from '@material-ui/icons';
 import clsx from 'clsx';
 
 export interface ListItem {
@@ -46,6 +46,14 @@ export interface ExpandableListProps {
    * if true component is shown as disabled
    */
   disabled?: boolean;
+  /**
+   * if set delete button will be shown as disabled when minimum amount of options is reached
+   */
+  min?: number;
+  /**
+   * if set add button will be shown as disabled when maximum amount of options is reached
+   */
+  max?: number;
 }
 
 const useExpandableListStyles = makeStyles((theme: Theme) => ({
@@ -76,6 +84,10 @@ const useExpandableListStyles = makeStyles((theme: Theme) => ({
   },
   list: { paddingLeft: theme.spacing(2) },
   checkIcon: { color: theme.palette.success.main },
+  placeholder: {
+    width: theme.spacing(6),
+    display: 'inline-block',
+  },
 }));
 
 const createUniqueId = (items: Array<ListItem>) => {
@@ -93,7 +105,7 @@ const createUniqueId = (items: Array<ListItem>) => {
     uniqueId === undefined ||
     items.find((item) => item.id === uniqueId)
   );
-  return uniqueId;
+  return `internal_${uniqueId}`;
 };
 
 const addUniqueId = (items: Array<ListItem>) => {
@@ -121,21 +133,34 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     addButtonLabel = 'Option hinzufügen',
     onChange,
     checkable,
-    disabled = false,
+    disabled,
+    min,
+    max,
   } = props;
 
-  const [items, setItems] = React.useState(addUniqueId(initialItems));
+  const hasId = initialItems.every((item) => item.id);
+
+  const [items, setItems] = React.useState(
+    hasId ? initialItems : addUniqueId(initialItems)
+  );
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
     setItems(() => [...newItems]);
     onChange(
       newItems.map((item: ListItem, index: number) => {
-        return {
-          value: item.value,
-          checked: item.checked,
-          index,
-        };
+        return hasId
+          ? {
+              value: item.value,
+              checked: item.checked,
+              index,
+              id: !item.id?.indexOf('internal_') ? undefined : item.id,
+            }
+          : {
+              value: item.value,
+              checked: item.checked,
+              index,
+            };
       })
     );
   };
@@ -169,6 +194,10 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     updateState([...items, { value: '', id: createUniqueId(items) }]);
   };
 
+  const isMaxItems = max && items.length === max ? true : false;
+
+  const isMinItems = min && items.length === min ? true : false;
+
   const renderItems = React.useMemo(() => {
     return items.map((item, index) => {
       const label = optionLabel + ' ' + (index + 1);
@@ -184,6 +213,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
           checkable={checkable}
           checked={item.checked}
           disabled={disabled}
+          isMinItems={isMinItems}
         />
       );
     });
@@ -199,7 +229,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         onClick={handleAddItem}
         className={classes.addButton}
         data-testid="expandable-list-add"
-        disabled={disabled}
+        disabled={disabled || isMaxItems}
       >
         {addButtonLabel}
       </Button>
@@ -217,6 +247,7 @@ export interface ExpandableListItemProps {
   checked?: boolean;
   disabled?: boolean;
   checkable?: boolean | string;
+  isMinItems?: boolean;
 }
 
 const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
@@ -227,9 +258,10 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
     onCheck,
     index,
     checked = false,
-    disabled = false,
+    disabled,
     checkable,
     value,
+    isMinItems,
   } = props;
   const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
     onChange(event.target.value);
@@ -237,7 +269,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
 
   const classes = useExpandableListStyles();
   const icon = () => (
-    <Check
+    <CheckCircle
       className={clsx({ [classes.checkIcon]: checked })}
       data-testid={`expandableList-item-additional-icon-${index}`}
     />
@@ -252,6 +284,17 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
       disabled={disabled}
     />
   ) : null;
+
+  const deleteButton = !isMinItems ? (
+    <IconButton
+      icon={Delete}
+      onClick={onDeleteClick}
+      data-testid={`expandableList-item-delete-${index}`}
+      disabled={disabled}
+    />
+  ) : (
+    <div className={classes.placeholder} />
+  );
 
   return (
     <Typography
@@ -273,12 +316,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = (props) => {
         </div>
         <div className={classes.icons}>
           {checkButton}
-          <IconButton
-            icon={Delete}
-            onClick={onDeleteClick}
-            data-testid={`expandableList-item-delete-${index}`}
-            disabled={disabled}
-          />
+          {deleteButton}
         </div>
       </div>
     </Typography>

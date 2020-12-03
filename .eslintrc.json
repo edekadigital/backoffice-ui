@@ -1,5 +1,9 @@
 {
-  "extends": ["./node_modules/gts/", "plugin:react/recommended"],
+  "extends": [
+    "./node_modules/gts/",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
   "plugins": ["jest"],
   "settings": {
     "react": {

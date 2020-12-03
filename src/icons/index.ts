@@ -54,6 +54,7 @@ export { default as History } from '@material-ui/icons/History';
 export { default as Home } from '@material-ui/icons/Home';
 export { default as Info } from '@material-ui/icons/Info';
 export { default as Input } from '@material-ui/icons/Input';
+export { default as KeyboardArrowDownIcon } from '@material-ui/icons/KeyboardArrowDown';
 export { default as Launch } from '@material-ui/icons/Launch';
 export { default as Link } from '@material-ui/icons/Link';
 export { default as LinkOffIcon } from '@material-ui/icons/LinkOff';

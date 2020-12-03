@@ -4,6 +4,7 @@ import { fireEvent, cleanup } from '@testing-library/react';
 import { Button } from './Button';
 import { ArrowForward } from '..';
 import { render } from '../test-utils';
+import userEvent from '@testing-library/user-event';
 
 const label = 'Some Label';
 
@@ -57,5 +58,49 @@ describe('<Button/>', () => {
     );
     fireEvent.click(getByTestId('button'));
     expect(clicked).toBe(true);
+  });
+
+  it('should open menu if provided', () => {
+    const fooFn = jest.fn();
+    const onClickFn = jest.fn();
+    const { getByTestId } = render(
+      <Button
+        menu={{ items: [{ label: 'foo', handler: fooFn }] }}
+        data-testid="button"
+        onClick={onClickFn}
+      >
+        {label}
+      </Button>
+    );
+    userEvent.click(getByTestId('button'));
+    expect(getByTestId('listMenu')).toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0')).toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0').textContent).toBe('foo');
+    userEvent.click(getByTestId('listMenu-menuItem-0'));
+    expect(fooFn).toHaveBeenCalledTimes(1);
+    expect(onClickFn).toHaveBeenCalledTimes(0);
+  });
+
+  it('should render button as split button', () => {
+    const onClickFn = jest.fn();
+    const fooFn = jest.fn();
+    const { getByTestId } = render(
+      <Button
+        menu={{ splitButton: true, items: [{ label: 'foo', handler: fooFn }] }}
+        onClick={onClickFn}
+      >
+        {label}
+      </Button>
+    );
+    expect(getByTestId('splitButton-main')).toBeTruthy();
+    expect(getByTestId('splitButton-menu')).toBeTruthy();
+    userEvent.click(getByTestId('splitButton-main'));
+    expect(onClickFn).toHaveBeenCalledTimes(1);
+    userEvent.click(getByTestId('splitButton-menu'));
+    expect(getByTestId('listMenu')).toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0')).toBeVisible();
+    expect(getByTestId('listMenu-menuItem-0').textContent).toBe('foo');
+    userEvent.click(getByTestId('listMenu-menuItem-0'));
+    expect(fooFn).toHaveBeenCalledTimes(1);
   });
 });

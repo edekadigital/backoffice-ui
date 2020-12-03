@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { EnhancedDataTableColumn, Order } from './EnhancedDataTable';
+import {
+  EnhancedDataTableColumn,
+  Order,
+  RowActionItem,
+} from './EnhancedDataTable';
 import {
   TableHead,
   TableRow,
@@ -21,6 +25,7 @@ export interface EnhancedDataTableHeadProps<D> {
   onSelectAllClick: React.ChangeEventHandler<HTMLInputElement>;
   clickable?: boolean;
   selectedRowsCount?: number;
+  rowActions?: RowActionItem<D>[];
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,6 +48,7 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
     onSelectAllClick,
     clickable,
     selectedRowsCount = 0,
+    rowActions,
   } = props;
 
   const classes = useStyles();
@@ -99,12 +105,24 @@ export function EnhancedDataTableHead<D>(props: EnhancedDataTableHeadProps<D>) {
   ) : (
     <></>
   );
+  const renderEmptyCellRowActions = rowActions ? (
+    rowActions.map((item, index) => (
+      <TableCell
+        key={index}
+        padding="checkbox"
+        data-testid={`enhancedDataTable-head-emptyColumn-${index}`}
+      />
+    ))
+  ) : (
+    <></>
+  );
 
   return (
     <TableHead data-testid={'enhancedDataTable-head'}>
       <TableRow>
         {renderCheckbox}
         {renderHeadCells}
+        {renderEmptyCellRowActions}
         {renderEmptyCell}
       </TableRow>
     </TableHead>

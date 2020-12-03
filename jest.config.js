@@ -5,6 +5,7 @@ module.exports = {
   collectCoverageFrom: [
     './src/{typography,forms,layouts,global,components}/**/*.{ts,tsx}',
     '!./src/**/*.stories.{ts,tsx}',
+    '!./src/**/index.ts',
   ],
   coverageThreshold: {
     global: {
