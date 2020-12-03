@@ -51,13 +51,10 @@ export const TextEditorLinkOption: React.FC<{
       return;
     }
     event.preventDefault();
-    const selection = editorState.getSelection();
-    if (!selection.isCollapsed()) {
-      const linkInstance = getLinkInstanceOfSelection();
-      const url = linkInstance ? linkInstance.getData().url : '';
-      setAnchorEl(event.currentTarget);
-      setUrl(url);
-    }
+    const linkInstance = getLinkInstanceOfSelection();
+    const url = linkInstance ? linkInstance.getData().url : '';
+    setAnchorEl(event.currentTarget);
+    setUrl(url);
   };
 
   const handleConfirm = (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,9 +82,7 @@ export const TextEditorLinkOption: React.FC<{
   const removeLink = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const selection = editorState.getSelection();
-    if (!selection.isCollapsed()) {
-      onChange(RichUtils.toggleLink(editorState, selection, null));
-    }
+    onChange(RichUtils.toggleLink(editorState, selection, null));
   };
 
   const closePopover = () => {
