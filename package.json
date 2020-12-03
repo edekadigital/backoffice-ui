@@ -30,6 +30,19 @@
     "prepublishOnly": "npm run build",
     "format": "prettier \"**/*.{ts,json,md,tsx}\" --write"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc --noemit && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "gts fix"
+    ],
+    "*.{json,md,js}": [
+      "prettier --write"
+    ]
+  },
   "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
