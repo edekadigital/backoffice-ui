@@ -20,9 +20,9 @@ export interface AdditionalActionItem {
 export type CheckOptions = 'single' | 'multiple';
 export interface ExpandableListProps {
   /**
-   * initial list items with given value
+   * needed for controlled component
    */
-  initialItems?: Array<ListItem>;
+  value?: Array<ListItem>;
   /**
    * label to be displayed in the option field
    * @default 'Option'
@@ -128,7 +128,7 @@ const addUniqueId = (items: Array<ListItem>) => {
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
+    value = [{ value: '' }, { value: '' }, { value: '' }],
     optionLabel = 'Option',
     addButtonLabel = 'Option hinzufügen',
     onChange,
@@ -138,11 +138,9 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     max,
   } = props;
 
-  const hasId = initialItems.every((item) => item.id);
+  const hasId = value.every((item) => item.id);
 
-  const [items, setItems] = React.useState(
-    hasId ? initialItems : addUniqueId(initialItems)
-  );
+  const [items, setItems] = React.useState(hasId ? value : addUniqueId(value));
   const classes = useExpandableListStyles();
 
   const updateState = (newItems: Array<ListItem>) => {
