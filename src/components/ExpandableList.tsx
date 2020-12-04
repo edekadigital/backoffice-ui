@@ -20,9 +20,9 @@ export interface AdditionalActionItem {
 export type CheckOptions = 'single' | 'multiple';
 export interface ExpandableListProps {
   /**
-   * required for controlled component or initial items
+   * initial list items with given value
    */
-  value?: Array<ListItem>;
+  initialItems?: Array<ListItem>;
   /**
    * label to be displayed in the option field
    * @default 'Option'
@@ -128,7 +128,7 @@ const addUniqueId = (items: Array<ListItem>) => {
 
 export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
   const {
-    value = [{ value: '' }, { value: '' }, { value: '' }],
+    initialItems = [{ value: '' }, { value: '' }, { value: '' }],
     optionLabel = 'Option',
     addButtonLabel = 'Option hinzufügen',
     onChange,
@@ -138,67 +138,57 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
     max,
   } = props;
 
-  const hasId = value.every((item) => item.id);
+  const hasId = initialItems.every((item) => item.id);
 
-  const [items, setItems] = React.useState(hasId ? value : addUniqueId(value));
+  const [items, setItems] = React.useState(
+    hasId ? initialItems : addUniqueId(initialItems)
+  );
   const classes = useExpandableListStyles();
 
-  const updateState = React.useCallback(
-    (newItems: Array<ListItem>) => {
-      setItems(() => [...newItems]);
-      onChange(
-        newItems.map((item: ListItem, index: number) => {
-          return hasId
-            ? {
-                value: item.value,
-                checked: item.checked,
-                index,
-                id: !item.id?.indexOf('internal_') ? undefined : item.id,
-              }
-            : {
-                value: item.value,
-                checked: item.checked,
-                index,
-              };
-        })
-      );
-    },
-    [hasId, onChange]
-  );
+  const updateState = (newItems: Array<ListItem>) => {
+    setItems(() => [...newItems]);
+    onChange(
+      newItems.map((item: ListItem, index: number) => {
+        return hasId
+          ? {
+              value: item.value,
+              checked: item.checked,
+              index,
+              id: !item.id?.indexOf('internal_') ? undefined : item.id,
+            }
+          : {
+              value: item.value,
+              checked: item.checked,
+              index,
+            };
+      })
+    );
+  };
 
-  const handleUpdateItem = React.useCallback(
-    (id: string, value: string) => {
-      const index = items.findIndex((item) => item.id === id);
-      items[index].value = value;
-      updateState(items);
-    },
-    [items, updateState]
-  );
+  const handleUpdateItem = (id: string, value: string) => {
+    const index = items.findIndex((item) => item.id === id);
+    items[index].value = value;
+    updateState(items);
+  };
 
-  const handleUpdateCheck = React.useCallback(
-    (id: string) => {
-      const newItems = items;
-      const index = newItems.findIndex((item) => item.id === id);
-      if (checkable === 'single') {
-        newItems.map((item) => {
-          item.checked = false;
-        });
-        newItems[index].checked = true;
-      } else {
-        newItems[index].checked = !newItems[index].checked;
-      }
-      updateState(newItems);
-    },
-    [checkable, items, updateState]
-  );
+  const handleUpdateCheck = (id: string) => {
+    const newItems = items;
+    const index = newItems.findIndex((item) => item.id === id);
+    if (checkable === 'single') {
+      newItems.map((item) => {
+        item.checked = false;
+      });
+      newItems[index].checked = true;
+    } else {
+      newItems[index].checked = !newItems[index].checked;
+    }
+    updateState(newItems);
+  };
 
-  const handleDeleteItem = React.useCallback(
-    (index: number) => {
-      const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
-      updateState(newItems);
-    },
-    [items, updateState]
-  );
+  const handleDeleteItem = (index: number) => {
+    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
+    updateState(newItems);
+  };
 
   const handleAddItem = () => {
     updateState([...items, { value: '', id: createUniqueId(items) }]);
@@ -227,16 +217,7 @@ export const ExpandableList: React.FC<ExpandableListProps> = (props) => {
         />
       );
     });
-  }, [
-    checkable,
-    disabled,
-    handleDeleteItem,
-    handleUpdateCheck,
-    handleUpdateItem,
-    isMinItems,
-    items,
-    optionLabel,
-  ]);
+  }, [items]);
 
   return (
     <div data-testid="expandableList">

@@ -24,7 +24,7 @@ const setup = (
   const initialItems = itemsOverride ? [...itemsOverride] : items;
   const renderResult = render(
     <ExpandableList
-      value={!noInitialItems ? initialItems : undefined}
+      initialItems={!noInitialItems ? initialItems : undefined}
       onChange={onChangeFn}
       checkable={isCheckable}
       min={minMax?.min}

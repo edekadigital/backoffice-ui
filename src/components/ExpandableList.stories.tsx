@@ -36,7 +36,7 @@ export const Default = () => {
 
   return (
     <ExpandableList
-      value={initialItems}
+      initialItems={initialItems}
       optionLabel="Option"
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
@@ -55,7 +55,7 @@ export const CheckableMultiple = () => {
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
       checkable="multiple"
-      value={initialItemsChecked}
+      initialItems={initialItemsChecked}
     />
   );
 };
@@ -71,7 +71,7 @@ export const CheckableSingle = () => {
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
       checkable="single"
-      value={initialItemsCheckedSingle}
+      initialItems={initialItemsCheckedSingle}
     />
   );
 };
@@ -86,7 +86,7 @@ export const Disabled = () => {
       optionLabel="Option"
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
-      value={initialItems}
+      initialItems={initialItems}
       disabled={true}
     />
   );
@@ -103,7 +103,7 @@ export const WithMinMax = () => {
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
       checkable="single"
-      value={initialItemsChecked}
+      initialItems={initialItemsChecked}
       max={5}
       min={2}
     />
@@ -127,7 +127,7 @@ export const WithExternalId = () => {
       addButtonLabel="Option hinzufügen"
       onChange={handleChange}
       checkable="single"
-      value={initialItems}
+      initialItems={initialItems}
     />
   );
 };
