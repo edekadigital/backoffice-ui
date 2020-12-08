@@ -30,6 +30,7 @@ export * from './components/StatusChip';
 export * from './components/Spacer';
 export * from './components/Switch';
 export * from './components/TabNavigation';
+export * from './components/TextEditor/TextEditor';
 export * from './components/TextField';
 export * from './components/TitleBar';
 export * from './components/LogTable';

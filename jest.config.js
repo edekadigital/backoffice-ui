@@ -15,4 +15,7 @@ module.exports = {
       statements: 90,
     },
   },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sss|styl)$': '<rootDir>/node_modules/jest-css-modules',
+  },
 };
