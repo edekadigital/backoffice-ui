@@ -92,7 +92,7 @@ export const TextEditorLinkOption: React.FC<{
 
   const open = Boolean(anchorEl);
   return (
-    <>
+    <span>
       <Tooltip title="Link einfügen" placement={'top'} enterDelay={500} arrow>
         <span>
           <StyledToggleButton
@@ -170,6 +170,6 @@ export const TextEditorLinkOption: React.FC<{
           </ButtonBar>
         </form>
       </Popover>
-    </>
+    </span>
   );
 };
