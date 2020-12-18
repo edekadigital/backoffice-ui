@@ -41,6 +41,7 @@ const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
   toolbar: {
     borderBottom: `solid 1px ${theme.palette.grey[300]}`,
     display: 'flex',
+    flexWrap: 'wrap',
   },
   divider: {
     margin: theme.spacing(1, 0.25),
@@ -270,30 +271,36 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
       {renderInlineStyleOptions}
       {renderBlockTypeOptions}
       {renderLinkOption}
-      <Tooltip title="Rückgängig" placement={'top'} enterDelay={500} arrow>
-        <span>
-          <IconButton
-            onClick={() => props.onChange(EditorState.undo(props.editorState))}
-            disabled={props.editorState.getUndoStack().size < 1}
-            classes={{ root: classes.iconButton }}
-            data-testid="textEditor-undo"
-          >
-            <Undo />
-          </IconButton>
-        </span>
-      </Tooltip>
-      <Tooltip title="Wiederholen" placement={'top'} enterDelay={500} arrow>
-        <span>
-          <IconButton
-            onClick={() => props.onChange(EditorState.redo(props.editorState))}
-            disabled={props.editorState.getRedoStack().size < 1}
-            classes={{ root: classes.iconButton }}
-            data-testid="textEditor-redo"
-          >
-            <Redo />
-          </IconButton>
-        </span>
-      </Tooltip>
+      <span>
+        <Tooltip title="Rückgängig" placement={'top'} enterDelay={500} arrow>
+          <span>
+            <IconButton
+              onClick={() =>
+                props.onChange(EditorState.undo(props.editorState))
+              }
+              disabled={props.editorState.getUndoStack().size < 1}
+              classes={{ root: classes.iconButton }}
+              data-testid="textEditor-undo"
+            >
+              <Undo />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="Wiederholen" placement={'top'} enterDelay={500} arrow>
+          <span>
+            <IconButton
+              onClick={() =>
+                props.onChange(EditorState.redo(props.editorState))
+              }
+              disabled={props.editorState.getRedoStack().size < 1}
+              classes={{ root: classes.iconButton }}
+              data-testid="textEditor-redo"
+            >
+              <Redo />
+            </IconButton>
+          </span>
+        </Tooltip>
+      </span>
     </div>
   );
 };
