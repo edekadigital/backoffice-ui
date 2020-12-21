@@ -4,6 +4,8 @@ import { default as MuiPaper } from '@material-ui/core/Paper';
 import { Heading } from '../typography/Heading';
 import { Divider } from '@material-ui/core';
 
+export type PaperColor = 'initial' | 'primary';
+
 export interface PaperProps {
   /**
    * If `true`, the paper component will have a bottom margin.
@@ -13,13 +15,29 @@ export interface PaperProps {
    * Optional paper headline
    */
   headline?: string;
+  /**
+   * Optional background color, allowed are theme colors primary and secondary
+   * @default initial
+   */
+  backgroundColor?: PaperColor;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
-  paperRoot: ({ gutterBottom }) => ({
-    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
-    padding: theme.spacing(3),
-  }),
+  paperRoot: ({ gutterBottom, backgroundColor = 'initial' }) => {
+    const colorMap = {
+      primary: theme.palette.primary.main,
+      initial: theme.palette.background.paper,
+    };
+    return {
+      marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+      padding: theme.spacing(3),
+      backgroundColor: colorMap[backgroundColor],
+      color:
+        backgroundColor === 'primary'
+          ? theme.palette.primary.contrastText
+          : theme.palette.text.primary,
+    };
+  },
   headingRoot: {
     marginTop: theme.spacing(-1),
   },

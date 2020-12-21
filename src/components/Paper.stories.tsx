@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Body, Button } from '..';
+import { Body, Button, SelectField } from '..';
 import { Switch } from './Switch';
 import { FormRow } from '../forms/FormRow';
 import { StatusChip } from './StatusChip';
@@ -92,4 +92,29 @@ export const FormExample = () => (
       </ButtonBar>
     </Paper>
   </GridRow>
+);
+
+export const ColoredBackground = () => (
+  <>
+    <Paper headline={'Lorem ipsum'} backgroundColor="primary" gutterBottom>
+      <Body color="primaryContrast" gutterBottom={3}>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua.
+      </Body>
+      <FormRow gutterBottom>
+        <TextField label={'Value A (Decimal)'} color="primaryContrast" />
+      </FormRow>
+      <FormRow gutterBottom>
+        <SelectField
+          label={'Value B (Decimal)'}
+          color="primaryContrast"
+          menuItems={[
+            { value: 'foo', label: 'foo' },
+            { value: 'bar', label: 'bar' },
+          ]}
+        />
+      </FormRow>
+    </Paper>
+  </>
 );

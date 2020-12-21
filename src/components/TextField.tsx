@@ -24,6 +24,8 @@ export type TextFieldType =
   | 'url'
   | 'week';
 
+export type TextFieldColor = 'primary' | 'primaryContrast';
+
 export interface TextFieldProps {
   /**
    * The label content.
@@ -116,17 +118,52 @@ export interface TextFieldProps {
    * Number of rows to display when multiline option is set to true.
    */
   rows?: string | number;
+  /**
+   * Textfield color, available are primary and primaryContrast.
+   * @default primary
+   */
+  color?: TextFieldColor;
 }
 
-const useInputStyles = makeStyles((theme: Theme) => ({
-  root: {
-    background: theme.palette.background.paper,
-  },
-}));
+const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
+  (theme: Theme) => ({
+    root: ({ color }) => ({
+      background:
+        color === 'primaryContrast'
+          ? theme.palette.primary.main
+          : theme.palette.background.paper,
+      '& fieldset': {
+        borderColor:
+          color === 'primaryContrast'
+            ? theme.palette.primary.contrastText
+            : theme.palette.grey[400],
+      },
+      '&.Mui-focused MuiOutlinedInput-notchedOutline': {
+        borderColor:
+          color === 'primaryContrast'
+            ? theme.palette.grey[200]
+            : theme.palette.primary.main,
+      },
+    }),
+  })
+);
 
-const useLabelStyles = makeStyles((theme: Theme) => ({
-  root: { color: theme.palette.text.primary },
-}));
+const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
+  (theme: Theme) => ({
+    root: ({ color }) => ({
+      color:
+        color === 'primaryContrast'
+          ? theme.palette.primary.contrastText
+          : theme.palette.text.primary,
+      '&.Mui-focused': {
+        color:
+          color === 'primaryContrast'
+            ? theme.palette.grey[200]
+            : theme.palette.primary.main,
+      },
+    }),
+  })
+);
 
 /**
  * | Test ID             | Description              |
@@ -140,10 +177,11 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     type = 'text',
     required = false,
     inputTestId = 'textField-input',
+    color = 'primary',
     ...additionalProps
   } = props;
-  const inputClasses = useInputStyles();
-  const labelClasses = useLabelStyles();
+  const inputClasses = useInputStyles({ color });
+  const labelClasses = useLabelStyles({ color });
   const InputProps = {
     classes: inputClasses,
     endAdornment: endAdornment ? (
