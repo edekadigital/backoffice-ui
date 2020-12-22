@@ -96,7 +96,12 @@ export const FormExample = () => (
 
 export const ColoredBackground = () => (
   <>
-    <Paper headline={'Lorem ipsum'} backgroundColor="primary" gutterBottom>
+    <Paper
+      headline={'Lorem ipsum'}
+      backgroundColor="primary"
+      gutterBottom
+      divider={false}
+    >
       <Body color="primaryContrast" gutterBottom={3}>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -104,8 +109,6 @@ export const ColoredBackground = () => (
       </Body>
       <FormRow gutterBottom>
         <TextField label={'Value A (Decimal)'} color="primaryContrast" />
-      </FormRow>
-      <FormRow gutterBottom>
         <SelectField
           label={'Value B (Decimal)'}
           color="primaryContrast"
@@ -115,6 +118,7 @@ export const ColoredBackground = () => (
           ]}
         />
       </FormRow>
+      <Button>Lorem</Button>
     </Paper>
   </>
 );

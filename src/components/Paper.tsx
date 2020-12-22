@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { default as MuiPaper } from '@material-ui/core/Paper';
 import { Heading } from '../typography/Heading';
 import { Divider } from '@material-ui/core';
+import { Spacer } from '..';
 
 export type PaperColor = 'initial' | 'primary';
 
@@ -20,6 +21,11 @@ export interface PaperProps {
    * @default initial
    */
   backgroundColor?: PaperColor;
+  /**
+   * If false divider is not shown underneath the headline
+   * @default true
+   */
+  divider?: boolean;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
@@ -54,6 +60,7 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
  */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
+  const { divider = true } = props;
 
   const headline = props.headline ? (
     <>
@@ -62,7 +69,11 @@ export const Paper: React.FC<PaperProps> = (props) => {
           {props.headline}
         </Heading>
       </div>
-      <Divider classes={{ root: classes.dividerRoot }} />
+      {divider ? (
+        <Divider classes={{ root: classes.dividerRoot }} />
+      ) : (
+        <Spacer vertical={3} />
+      )}
     </>
   ) : null;
 

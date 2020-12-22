@@ -138,7 +138,19 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
             ? theme.palette.primary.contrastText
             : theme.palette.grey[400],
       },
-      '&.Mui-focused MuiOutlinedInput-notchedOutline': {
+      '& .MuiInputBase-input': {
+        color:
+          color === 'primaryContrast'
+            ? theme.palette.primary.contrastText
+            : theme.palette.text.primary,
+      },
+      '& .MuiSelect-icon': {
+        color:
+          color === 'primaryContrast'
+            ? theme.palette.primary.contrastText
+            : theme.palette.text.primary,
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
         borderColor:
           color === 'primaryContrast'
             ? theme.palette.grey[200]

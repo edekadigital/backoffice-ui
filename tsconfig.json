@@ -6,7 +6,9 @@
     "lib": ["dom"],
     "rootDir": "src",
     "outDir": "lib",
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
