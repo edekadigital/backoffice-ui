@@ -55,32 +55,34 @@ const useProgressBarStyles = makeStyles<Theme, Pick<ProgressBarItem, 'color'>>(
       padding: '16px 16px 18px',
     },
     progressBar: ({ color }) => {
-      switch (color) {
-        case 'success':
-          return {
-            backgroundColor: theme.palette.success.main,
-          };
-        case 'error':
-          return {
-            backgroundColor: theme.palette.error.main,
-          };
-        default:
-          return { backgroundColor: theme.palette.primary.main };
-      }
+      const sanitizedColorName: ProgressBarColors = color || 'primary';
+      const colorMap: { [k: string]: string } = {
+        info: theme.palette.primary.main,
+        warning: theme.palette.warning.main,
+        success: theme.palette.success.main,
+        error: theme.palette.error.main,
+      };
+      return {
+        backgroundColor:
+          sanitizedColorName in colorMap
+            ? colorMap[sanitizedColorName]
+            : theme.palette.primary.main,
+      };
     },
     progressBackground: ({ color }) => {
-      switch (color) {
-        case 'success':
-          return {
-            backgroundColor: theme.palette.success.light,
-          };
-        case 'error':
-          return {
-            backgroundColor: theme.palette.error.light,
-          };
-        default:
-          return { backgroundColor: theme.palette.primary.light };
-      }
+      const sanitizedColorName: ProgressBarColors = color || 'primary';
+      const colorMap: { [k: string]: string } = {
+        info: theme.palette.primary.light,
+        warning: theme.palette.warning.light,
+        success: theme.palette.success.light,
+        error: theme.palette.error.light,
+      };
+      return {
+        backgroundColor:
+          sanitizedColorName in colorMap
+            ? colorMap[sanitizedColorName]
+            : theme.palette.primary.light,
+      };
     },
   })
 );
@@ -93,7 +95,12 @@ export interface ProgressBarItem {
   index?: number;
 }
 
-export type ProgressBarColors = 'primary' | 'success' | 'error' | undefined;
+export type ProgressBarColors =
+  | 'primary'
+  | 'success'
+  | 'error'
+  | 'info'
+  | 'warning';
 
 const ProgressBarItem: React.FC<ProgressBarItem> = (props) => {
   const { headline, description, value, color = 'primary', index } = props;
