@@ -71,6 +71,8 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
  * | ----------------- | -------------------- |
  * | `paper`           | Paper container      |
  * | `paper-headline`  | Paper headline       |
+ * | `paper-iamge`     | Paper image       |
+ * | `paper-divider`   | Paper divider       |
  */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
@@ -95,7 +97,9 @@ export const Paper: React.FC<PaperProps> = (props) => {
 
   const image =
     props.image && mobile ? (
-      <div className={classes.image}>{props.image}</div>
+      <div className={classes.image} data-testid="paper-image">
+        {props.image}
+      </div>
     ) : null;
 
   return (
