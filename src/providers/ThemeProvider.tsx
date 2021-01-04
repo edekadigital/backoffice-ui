@@ -3,13 +3,13 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/';
 import shadows from '@material-ui/core/styles/shadows';
 import { grey, red, common, orange, green } from '@material-ui/core/colors';
 import { deDE } from '@material-ui/core/locale';
-import { edekaBlue, edekaYellow } from '../constants';
+import { edekaBlue } from '../constants';
 
 const theme = createMuiTheme(
   {
     palette: {
       primary: { main: edekaBlue.main, light: edekaBlue[50] },
-      secondary: { main: edekaYellow.main },
+      secondary: { main: '#fff' },
       warning: {
         main: orange[500],
         light: orange[50],

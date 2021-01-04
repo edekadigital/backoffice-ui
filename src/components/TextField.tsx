@@ -132,12 +132,24 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
         color === 'primaryContrast'
           ? theme.palette.primary.main
           : theme.palette.background.paper,
-      '& fieldset': {
-        borderColor:
-          color === 'primaryContrast'
-            ? theme.palette.primary.contrastText
-            : theme.palette.grey[400],
+      '&.MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: theme.palette.grey[400],
+        },
+        '&:hover fieldset': {
+          borderColor:
+            color === 'primaryContrast'
+              ? theme.palette.primary.contrastText
+              : theme.palette.text.primary,
+        },
+        '&.Mui-focused fieldset': {
+          borderColor:
+            color === 'primaryContrast'
+              ? theme.palette.primary.contrastText
+              : theme.palette.primary.main,
+        },
       },
+
       '& .MuiInputBase-input': {
         color:
           color === 'primaryContrast'
@@ -149,12 +161,6 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
           color === 'primaryContrast'
             ? theme.palette.primary.contrastText
             : theme.palette.text.primary,
-      },
-      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor:
-          color === 'primaryContrast'
-            ? theme.palette.grey[200]
-            : theme.palette.primary.main,
       },
     }),
   })
@@ -170,7 +176,7 @@ const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
       '&.Mui-focused': {
         color:
           color === 'primaryContrast'
-            ? theme.palette.grey[200]
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
       },
     }),

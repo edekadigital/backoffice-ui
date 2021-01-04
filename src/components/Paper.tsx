@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { default as MuiPaper } from '@material-ui/core/Paper';
 import { Heading } from '../typography/Heading';
-import { Divider } from '@material-ui/core';
+import { Divider, useMediaQuery, useTheme } from '@material-ui/core';
 import { Spacer } from '..';
 
 export type PaperColor = 'initial' | 'primary';
@@ -26,6 +26,10 @@ export interface PaperProps {
    * @default true
    */
   divider?: boolean;
+  /**
+   * Image that will appear in the right top corner, will disappear on mobile viewport
+   */
+  image?: React.ReactElement;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
@@ -42,6 +46,7 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
         backgroundColor === 'primary'
           ? theme.palette.primary.contrastText
           : theme.palette.text.primary,
+      position: 'relative',
     };
   },
   headingRoot: {
@@ -49,6 +54,15 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
   },
   dividerRoot: {
     margin: theme.spacing(2, -3),
+  },
+  image: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+  },
+  container: {
+    position: 'relative',
+    zIndex: 1,
   },
 }));
 
@@ -60,6 +74,8 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
  */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
+  const theme = useTheme<Theme>();
+  const mobile = useMediaQuery(theme.breakpoints.up('md'));
   const { divider = true } = props;
 
   const headline = props.headline ? (
@@ -77,6 +93,11 @@ export const Paper: React.FC<PaperProps> = (props) => {
     </>
   ) : null;
 
+  const image =
+    props.image && mobile ? (
+      <div className={classes.image}>{props.image}</div>
+    ) : null;
+
   return (
     <MuiPaper
       variant={'outlined'}
@@ -84,7 +105,8 @@ export const Paper: React.FC<PaperProps> = (props) => {
       data-testid={'paper'}
     >
       {headline}
-      {props.children}
+      <div className={classes.container}>{props.children}</div>
+      {image}
     </MuiPaper>
   );
 };

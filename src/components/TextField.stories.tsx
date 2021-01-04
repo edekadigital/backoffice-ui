@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
 import { IconButton } from './IconButton';
+import { Paper } from './Paper';
 
 export default {
   title: 'Components/TextField',
@@ -52,3 +53,11 @@ export const TimePicker = () => <TextField type="time" label="Some label" />;
 export const Multiline = () => (
   <TextField multiline={true} rows={5} label="Some label" />
 );
+
+export const WithContrastColor = () => {
+  return (
+    <Paper backgroundColor="primary">
+      <TextField color="primaryContrast" label="Some Label" />
+    </Paper>
+  );
+};
