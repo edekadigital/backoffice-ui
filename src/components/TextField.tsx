@@ -24,7 +24,7 @@ export type TextFieldType =
   | 'url'
   | 'week';
 
-export type TextFieldColor = 'primary' | 'primaryContrast';
+export type TextFieldColor = 'primary' | 'secondary';
 
 export interface TextFieldProps {
   /**
@@ -119,7 +119,7 @@ export interface TextFieldProps {
    */
   rows?: string | number;
   /**
-   * Textfield color, available are primary and primaryContrast.
+   * Textfield color, available are primary and secondary.
    * @default primary
    */
   color?: TextFieldColor;
@@ -129,7 +129,7 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
   (theme: Theme) => ({
     root: ({ color }) => ({
       background:
-        color === 'primaryContrast'
+        color === 'secondary'
           ? theme.palette.primary.main
           : theme.palette.background.paper,
       '&.MuiOutlinedInput-root': {
@@ -138,28 +138,28 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
         },
         '&:hover fieldset': {
           borderColor:
-            color === 'primaryContrast'
-              ? theme.palette.primary.contrastText
+            color === 'secondary'
+              ? theme.palette.secondary.main
               : theme.palette.text.primary,
         },
         '&.Mui-focused fieldset': {
           borderColor:
-            color === 'primaryContrast'
-              ? theme.palette.primary.contrastText
+            color === 'secondary'
+              ? theme.palette.secondary.main
               : theme.palette.primary.main,
         },
       },
 
       '& .MuiInputBase-input': {
         color:
-          color === 'primaryContrast'
-            ? theme.palette.primary.contrastText
+          color === 'secondary'
+            ? theme.palette.secondary.main
             : theme.palette.text.primary,
       },
       '& .MuiSelect-icon': {
         color:
-          color === 'primaryContrast'
-            ? theme.palette.primary.contrastText
+          color === 'secondary'
+            ? theme.palette.secondary.main
             : theme.palette.text.primary,
       },
     }),
@@ -170,13 +170,13 @@ const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
   (theme: Theme) => ({
     root: ({ color }) => ({
       color:
-        color === 'primaryContrast'
-          ? theme.palette.primary.contrastText
+        color === 'secondary'
+          ? theme.palette.secondary.main
           : theme.palette.text.primary,
       '&.Mui-focused': {
         color:
-          color === 'primaryContrast'
-            ? theme.palette.primary.contrastText
+          color === 'secondary'
+            ? theme.palette.secondary.main
             : theme.palette.primary.main,
       },
     }),

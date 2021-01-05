@@ -103,7 +103,7 @@ export const WithContrastColor = () => {
         value=""
         menuItems={menuItems}
         id="test-id"
-        color="primaryContrast"
+        color="secondary"
       />
     </Paper>
   );

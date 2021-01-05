@@ -9,7 +9,7 @@ const theme = createMuiTheme(
   {
     palette: {
       primary: { main: edekaBlue.main, light: edekaBlue[50] },
-      secondary: { main: '#fff' },
+      secondary: { main: common.white },
       warning: {
         main: orange[500],
         light: orange[50],

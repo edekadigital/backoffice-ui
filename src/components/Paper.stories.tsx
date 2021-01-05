@@ -8,7 +8,6 @@ import { MyLocation } from '../icons';
 import { GridRow } from '../layouts/GridRow';
 import { TextField } from './TextField';
 import { ButtonBar } from './ButtonBar';
-import { Image } from './Image';
 
 export default {
   title: 'Components/Paper',
@@ -96,58 +95,46 @@ export const FormExample = () => (
 );
 
 export const ColoredBackground = () => (
-  <>
-    <Paper
-      headline={'Lorem ipsum'}
-      backgroundColor="primary"
-      gutterBottom
-      divider={false}
-    >
-      <Body color="primaryContrast" gutterBottom={3}>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua.
-      </Body>
-      <FormRow gutterBottom>
-        <TextField label={'Value A (Decimal)'} color="primaryContrast" />
-        <SelectField
-          label={'Value B (Decimal)'}
-          color="primaryContrast"
-          menuItems={[
-            { value: 'foo', label: 'foo' },
-            { value: 'bar', label: 'bar' },
-          ]}
-        />
-      </FormRow>
-      <Button color="secondary">Lorem</Button>
-    </Paper>
-  </>
+  <Paper
+    headline={'Lorem ipsum'}
+    backgroundColor="primary"
+    gutterBottom
+    divider={false}
+  >
+    <Body color="secondary" gutterBottom={3}>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua.
+    </Body>
+    <FormRow gutterBottom>
+      <TextField label={'Value A (Decimal)'} color="secondary" />
+      <SelectField
+        label={'Value B (Decimal)'}
+        color="secondary"
+        menuItems={[
+          { value: 'foo', label: 'foo' },
+          { value: 'bar', label: 'bar' },
+        ]}
+      />
+    </FormRow>
+    <Button color="secondary">Lorem</Button>
+  </Paper>
 );
 
 export const WithImage = () => {
-  const image = React.useMemo(
-    () => (
-      <Image
-        src="https://via.placeholder.com/150"
-        alt="placeholder"
-        mode="height"
-      />
-    ),
-    []
-  );
   return (
     <Paper
       headline={'Lorem ipsum'}
       backgroundColor="primary"
       gutterBottom
       divider={false}
-      image={image}
+      image="https://via.placeholder.com/150"
     >
       <GridRow gridVariant="4-4-4" gutterBottom={true}>
-        <TextField label={'Value A (Decimal)'} color="primaryContrast" />
+        <TextField label={'Value A (Decimal)'} color="secondary" />
         <SelectField
           label={'Value B (Decimal)'}
-          color="primaryContrast"
+          color="secondary"
           menuItems={[
             { value: 'foo', label: 'foo' },
             { value: 'bar', label: 'bar' },

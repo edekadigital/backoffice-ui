@@ -57,7 +57,7 @@ export const Multiline = () => (
 export const WithContrastColor = () => {
   return (
     <Paper backgroundColor="primary">
-      <TextField color="primaryContrast" label="Some Label" />
+      <TextField color="secondary" label="Some Label" />
     </Paper>
   );
 };

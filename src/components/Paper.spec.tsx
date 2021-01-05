@@ -35,9 +35,8 @@ describe('<Paper />', () => {
   it('should render with an image', () => {
     const headline = 'Foo';
     setMatchMedia('desktop');
-    const image = <Image src="https://via.placeholder.com/150" alt="lorem" />;
     const { getByTestId } = render(
-      <Paper headline={headline} image={image}>
+      <Paper headline={headline} image="https://via.placeholder.com/150">
         Lorem
       </Paper>
     );

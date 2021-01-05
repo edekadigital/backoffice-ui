@@ -4,6 +4,7 @@ import { default as MuiPaper } from '@material-ui/core/Paper';
 import { Heading } from '../typography/Heading';
 import { Divider, useMediaQuery, useTheme } from '@material-ui/core';
 import { Spacer } from '..';
+import { Image } from './Image';
 
 export type PaperColor = 'initial' | 'primary';
 
@@ -17,7 +18,7 @@ export interface PaperProps {
    */
   headline?: string;
   /**
-   * Optional background color, allowed are theme colors primary and secondary
+   * Optional background color, allowed are theme colors, currently only primary theme color
    * @default initial
    */
   backgroundColor?: PaperColor;
@@ -29,7 +30,7 @@ export interface PaperProps {
   /**
    * Image that will appear in the right top corner, will disappear on mobile viewport
    */
-  image?: React.ReactElement;
+  image?: React.ElementType<SVGImageElement> | string;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
@@ -71,13 +72,13 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
  * | ----------------- | -------------------- |
  * | `paper`           | Paper container      |
  * | `paper-headline`  | Paper headline       |
- * | `paper-iamge`     | Paper image       |
+ * | `paper-image`     | Paper image       |
  * | `paper-divider`   | Paper divider       |
  */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
   const theme = useTheme<Theme>();
-  const mobile = useMediaQuery(theme.breakpoints.up('md'));
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { divider = true } = props;
 
   const headline = props.headline ? (
@@ -95,12 +96,24 @@ export const Paper: React.FC<PaperProps> = (props) => {
     </>
   ) : null;
 
-  const image =
-    props.image && mobile ? (
-      <div className={classes.image} data-testid="paper-image">
-        {props.image}
-      </div>
-    ) : null;
+  const image = React.useMemo(() => {
+    if (props.image && !mobile) {
+      if (typeof props.image === 'string') {
+        return (
+          <div className={classes.image} data-testid="paper-image">
+            <Image alt="image" mode="height" src={props.image} />;
+          </div>
+        );
+      } else {
+        return (
+          <div className={classes.image} data-testid="paper-image">
+            {props.image}
+          </div>
+        );
+      }
+    }
+    return null;
+  }, [classes.image, mobile, props.image]);
 
   return (
     <MuiPaper
