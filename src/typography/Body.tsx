@@ -17,7 +17,8 @@ export type BodyColor =
   | 'success'
   | 'info'
   | 'textPrimary'
-  | 'textSecondary';
+  | 'textSecondary'
+  | 'secondary';
 
 export type BodyAlign = 'left' | 'center' | 'right';
 
@@ -62,6 +63,7 @@ const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
       primary: theme.palette.primary.main,
       textPrimary: theme.palette.text.primary,
       textSecondary: theme.palette.text.secondary,
+      secondary: theme.palette.secondary.main,
     };
     return {
       color:

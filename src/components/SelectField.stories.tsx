@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Paper } from './Paper';
 import { SelectField } from './SelectField';
 import { TextField } from './TextField';
 
@@ -85,5 +86,25 @@ export const Controlled = () => {
       onChange={handleChange}
       label="Some label"
     />
+  );
+};
+
+export const WithContrastColor = () => {
+  const menuItems = [
+    { value: '', label: 'Keine Angabe' },
+    { value: 'de', label: 'Germany' },
+    { value: 'se', label: 'Sweden' },
+    { value: 'pl', label: 'Poland' },
+  ];
+  return (
+    <Paper backgroundColor="primary">
+      <SelectField
+        label="Some label"
+        value=""
+        menuItems={menuItems}
+        id="test-id"
+        color="secondary"
+      />
+    </Paper>
   );
 };

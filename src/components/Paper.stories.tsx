@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Paper } from './Paper';
-import { Body, Button } from '..';
+import { Body, Button, SelectField } from '..';
 import { Switch } from './Switch';
 import { FormRow } from '../forms/FormRow';
 import { StatusChip } from './StatusChip';
@@ -93,3 +93,55 @@ export const FormExample = () => (
     </Paper>
   </GridRow>
 );
+
+export const ColoredBackground = () => (
+  <Paper
+    headline={'Lorem ipsum'}
+    backgroundColor="primary"
+    gutterBottom
+    divider={false}
+  >
+    <Body color="secondary" gutterBottom={3}>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua.
+    </Body>
+    <FormRow gutterBottom>
+      <TextField label={'Value A (Decimal)'} color="secondary" />
+      <SelectField
+        label={'Value B (Decimal)'}
+        color="secondary"
+        menuItems={[
+          { value: 'foo', label: 'foo' },
+          { value: 'bar', label: 'bar' },
+        ]}
+      />
+    </FormRow>
+    <Button color="secondary">Lorem</Button>
+  </Paper>
+);
+
+export const WithImage = () => {
+  return (
+    <Paper
+      headline={'Lorem ipsum'}
+      backgroundColor="primary"
+      gutterBottom
+      divider={false}
+      image="https://via.placeholder.com/150"
+    >
+      <GridRow gridVariant="4-4-4" gutterBottom={true}>
+        <TextField label={'Value A (Decimal)'} color="secondary" />
+        <SelectField
+          label={'Value B (Decimal)'}
+          color="secondary"
+          menuItems={[
+            { value: 'foo', label: 'foo' },
+            { value: 'bar', label: 'bar' },
+          ]}
+        />
+        <Button color="secondary">Lorem ipsum</Button>
+      </GridRow>
+    </Paper>
+  );
+};

@@ -2,7 +2,11 @@ import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { default as MuiPaper } from '@material-ui/core/Paper';
 import { Heading } from '../typography/Heading';
-import { Divider } from '@material-ui/core';
+import { Divider, useMediaQuery, useTheme } from '@material-ui/core';
+import { Spacer } from '..';
+import { Image } from './Image';
+
+export type PaperColor = 'initial' | 'primary';
 
 export interface PaperProps {
   /**
@@ -13,18 +17,53 @@ export interface PaperProps {
    * Optional paper headline
    */
   headline?: string;
+  /**
+   * Optional background color, allowed are theme colors, currently only primary theme color
+   * @default initial
+   */
+  backgroundColor?: PaperColor;
+  /**
+   * If false divider is not shown underneath the headline
+   * @default true
+   */
+  divider?: boolean;
+  /**
+   * Image that will appear in the right top corner, will disappear on mobile viewport
+   */
+  image?: React.ElementType<SVGImageElement> | string;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
-  paperRoot: ({ gutterBottom }) => ({
-    marginBottom: theme.spacing(gutterBottom ? 3 : 0),
-    padding: theme.spacing(3),
-  }),
+  paperRoot: ({ gutterBottom, backgroundColor = 'initial' }) => {
+    const colorMap = {
+      primary: theme.palette.primary.main,
+      initial: theme.palette.background.paper,
+    };
+    return {
+      marginBottom: theme.spacing(gutterBottom ? 3 : 0),
+      padding: theme.spacing(3),
+      backgroundColor: colorMap[backgroundColor],
+      color:
+        backgroundColor === 'primary'
+          ? theme.palette.primary.contrastText
+          : theme.palette.text.primary,
+      position: 'relative',
+    };
+  },
   headingRoot: {
     marginTop: theme.spacing(-1),
   },
   dividerRoot: {
     margin: theme.spacing(2, -3),
+  },
+  image: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+  },
+  container: {
+    position: 'relative',
+    zIndex: 1,
   },
 }));
 
@@ -33,9 +72,14 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
  * | ----------------- | -------------------- |
  * | `paper`           | Paper container      |
  * | `paper-headline`  | Paper headline       |
+ * | `paper-image`     | Paper image       |
+ * | `paper-divider`   | Paper divider       |
  */
 export const Paper: React.FC<PaperProps> = (props) => {
   const classes = useStyles(props);
+  const theme = useTheme<Theme>();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { divider = true } = props;
 
   const headline = props.headline ? (
     <>
@@ -44,9 +88,32 @@ export const Paper: React.FC<PaperProps> = (props) => {
           {props.headline}
         </Heading>
       </div>
-      <Divider classes={{ root: classes.dividerRoot }} />
+      {divider ? (
+        <Divider classes={{ root: classes.dividerRoot }} />
+      ) : (
+        <Spacer vertical={3} />
+      )}
     </>
   ) : null;
+
+  const image = React.useMemo(() => {
+    if (props.image && !mobile) {
+      if (typeof props.image === 'string') {
+        return (
+          <div className={classes.image} data-testid="paper-image">
+            <Image alt="image" mode="height" src={props.image} />;
+          </div>
+        );
+      } else {
+        return (
+          <div className={classes.image} data-testid="paper-image">
+            {props.image}
+          </div>
+        );
+      }
+    }
+    return null;
+  }, [classes.image, mobile, props.image]);
 
   return (
     <MuiPaper
@@ -55,7 +122,8 @@ export const Paper: React.FC<PaperProps> = (props) => {
       data-testid={'paper'}
     >
       {headline}
-      {props.children}
+      <div className={classes.container}>{props.children}</div>
+      {image}
     </MuiPaper>
   );
 };

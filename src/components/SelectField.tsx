@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField, TextFieldValue } from './TextField';
+import { TextField, TextFieldColor, TextFieldValue } from './TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
 export interface SelectFieldMenuItem {
@@ -56,6 +56,11 @@ export interface SelectFieldProps {
    * The value of the input element, required for a controlled component.
    */
   value?: TextFieldValue;
+  /**
+   * Textfield color, available are primary and primaryContrast.
+   * @default primary
+   */
+  color?: TextFieldColor;
 }
 
 /**
