@@ -24,6 +24,8 @@ export type TextFieldType =
   | 'url'
   | 'week';
 
+export type TextFieldColor = 'primary' | 'secondary';
+
 export interface TextFieldProps {
   /**
    * The label content.
@@ -116,17 +118,70 @@ export interface TextFieldProps {
    * Number of rows to display when multiline option is set to true.
    */
   rows?: string | number;
+  /**
+   * Textfield color, available are primary and secondary.
+   * @default primary
+   */
+  color?: TextFieldColor;
 }
 
-const useInputStyles = makeStyles((theme: Theme) => ({
-  root: {
-    background: theme.palette.background.paper,
-  },
-}));
+const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
+  (theme: Theme) => ({
+    root: ({ color }) => ({
+      background:
+        color === 'secondary'
+          ? theme.palette.primary.main
+          : theme.palette.background.paper,
+      '&.MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: theme.palette.grey[400],
+        },
+        '&:hover fieldset': {
+          borderColor:
+            color === 'secondary'
+              ? theme.palette.secondary.main
+              : theme.palette.text.primary,
+        },
+        '&.Mui-focused fieldset': {
+          borderColor:
+            color === 'secondary'
+              ? theme.palette.secondary.main
+              : theme.palette.primary.main,
+        },
+      },
 
-const useLabelStyles = makeStyles((theme: Theme) => ({
-  root: { color: theme.palette.text.primary },
-}));
+      '& .MuiInputBase-input': {
+        color:
+          color === 'secondary'
+            ? theme.palette.secondary.main
+            : theme.palette.text.primary,
+      },
+      '& .MuiSelect-icon': {
+        color:
+          color === 'secondary'
+            ? theme.palette.secondary.main
+            : theme.palette.text.primary,
+      },
+    }),
+  })
+);
+
+const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
+  (theme: Theme) => ({
+    root: ({ color }) => ({
+      color:
+        color === 'secondary'
+          ? theme.palette.secondary.main
+          : theme.palette.text.primary,
+      '&.Mui-focused': {
+        color:
+          color === 'secondary'
+            ? theme.palette.secondary.main
+            : theme.palette.primary.main,
+      },
+    }),
+  })
+);
 
 /**
  * | Test ID             | Description              |
@@ -140,10 +195,11 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     type = 'text',
     required = false,
     inputTestId = 'textField-input',
+    color = 'primary',
     ...additionalProps
   } = props;
-  const inputClasses = useInputStyles();
-  const labelClasses = useLabelStyles();
+  const inputClasses = useInputStyles({ color });
+  const labelClasses = useLabelStyles({ color });
   const InputProps = {
     classes: inputClasses,
     endAdornment: endAdornment ? (
