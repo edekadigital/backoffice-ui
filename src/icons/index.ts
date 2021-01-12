@@ -83,6 +83,7 @@ export { default as Redo } from '@material-ui/icons/Redo';
 export { default as Refresh } from '@material-ui/icons/Refresh';
 export { default as Remove } from '@material-ui/icons/Remove';
 export { default as RemoveCircle } from '@material-ui/icons/RemoveCircle';
+export { default as Save } from '@material-ui/icons/Save';
 export { default as SaveAlt } from '@material-ui/icons/SaveAlt';
 export { default as Schedule } from '@material-ui/icons/Schedule';
 export { default as ShortTextIcon } from '@material-ui/icons/ShortText';
