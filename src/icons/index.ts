@@ -22,6 +22,7 @@ export { default as Backup } from '@material-ui/icons/Backup';
 export { default as Calendar } from '@material-ui/icons/Event';
 export { default as Cancel } from '@material-ui/icons/Cancel';
 export { default as Check } from '@material-ui/icons/Check';
+export { default as CheckCircle } from '@material-ui/icons/CheckCircle';
 export { default as CheckBoxIcon } from '@material-ui/icons/CheckBox';
 export { default as CheckCircleFilled } from '@material-ui/icons/CheckCircle';
 export { default as ChevronLeft } from '@material-ui/icons/ChevronLeft';
