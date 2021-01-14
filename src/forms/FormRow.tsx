@@ -13,7 +13,7 @@ export type FormRowJustify =
   | 'space-between'
   | undefined;
 
-export type FormRowItemSize = 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
+export type FormRowItemSize = 1 | 2 | 3 | 4 | 6 | 8 | 9 | 10 | 12 | 'auto';
 
 export interface FormRowProps {
   /**
