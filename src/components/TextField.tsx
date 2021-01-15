@@ -259,7 +259,13 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       variant={'outlined'}
     />
   ) : (
-    <Grid container spacing={3} alignItems="center" alignContent="stretch">
+    <Grid
+      container
+      spacing={3}
+      alignItems="center"
+      alignContent="stretch"
+      data-testid="grid-container-textfield"
+    >
       <Grid item>{startAdornment}</Grid>
       <Grid item className={classes.startAdornment}>
         <MuiTextField

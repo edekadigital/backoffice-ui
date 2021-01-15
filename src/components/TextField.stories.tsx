@@ -1,6 +1,5 @@
-import { CheckCircle } from '@material-ui/icons';
 import * as React from 'react';
-import { ButtonBar, Delete, FormRow, TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
+import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
 import { IconButton } from './IconButton';
 import { Paper } from './Paper';
 
