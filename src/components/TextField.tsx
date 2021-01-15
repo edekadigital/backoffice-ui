@@ -4,6 +4,7 @@ import {
   Theme,
   InputAdornment,
   SelectProps as MuiSelectProps,
+  Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -25,6 +26,8 @@ export type TextFieldType =
   | 'week';
 
 export type TextFieldColor = 'primary' | 'secondary';
+
+export type StartAdornmentPosition = 'start' | 'before';
 
 export interface TextFieldProps {
   /**
@@ -52,6 +55,15 @@ export interface TextFieldProps {
    * End InputAdornment for this component, e.g an icon Button
    */
   endAdornment?: React.ReactElement;
+  /**
+   * Start InputAdornment for this component, e.g an icon Button or a text
+   */
+  startAdornment?: React.ReactElement;
+  /**
+   * Position of start adornment, can either be start or before
+   * @default start
+   */
+  startAdornmentPosition?: StartAdornmentPosition;
   /**
    * If `true`, the label will be displayed in an error state.
    */
@@ -166,6 +178,12 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
   })
 );
 
+const useStyles = makeStyles(() => ({
+  startAdornment: {
+    flexGrow: 2,
+  },
+}));
+
 const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
   (theme: Theme) => ({
     root: ({ color }) => ({
@@ -192,6 +210,8 @@ const useLabelStyles = makeStyles<Theme, { color: TextFieldColor }>(
 export const TextField: React.FC<TextFieldProps> = (props) => {
   const {
     endAdornment,
+    startAdornment,
+    startAdornmentPosition = 'start',
     type = 'text',
     required = false,
     inputTestId = 'textField-input',
@@ -200,11 +220,16 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   } = props;
   const inputClasses = useInputStyles({ color });
   const labelClasses = useLabelStyles({ color });
+  const classes = useStyles();
   const InputProps = {
     classes: inputClasses,
     endAdornment: endAdornment ? (
       <InputAdornment position="end">{endAdornment}</InputAdornment>
     ) : undefined,
+    startAdornment:
+      startAdornment && startAdornmentPosition === 'start' ? (
+        <InputAdornment position="start">{startAdornment}</InputAdornment>
+      ) : null,
   };
   const InputLabelProps = {
     classes: labelClasses,
@@ -221,7 +246,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
 
   const inputProps = !props.select ? { 'data-testid': inputTestId } : {};
 
-  return (
+  return startAdornmentPosition === 'start' ? (
     <MuiTextField
       {...additionalProps}
       SelectProps={SelectProps}
@@ -233,5 +258,22 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       inputProps={inputProps}
       variant={'outlined'}
     />
+  ) : (
+    <Grid container spacing={3} alignItems="center" alignContent="stretch">
+      <Grid item>{startAdornment}</Grid>
+      <Grid item className={classes.startAdornment}>
+        <MuiTextField
+          {...additionalProps}
+          SelectProps={SelectProps}
+          type={type}
+          required={required}
+          InputProps={InputProps}
+          InputLabelProps={InputLabelProps}
+          fullWidth={true}
+          inputProps={inputProps}
+          variant={'outlined'}
+        />
+      </Grid>
+    </Grid>
   );
 };
