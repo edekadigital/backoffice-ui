@@ -30,7 +30,7 @@ export interface SelectFieldProps {
   /**
    * Pass a ref to the input element.
    */
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.Ref<HTMLInputElement>;
   /**
    * Overwrites the default `data-testid` for the input element.
    */

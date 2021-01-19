@@ -38,4 +38,25 @@ describe('<TextField />', () => {
     );
     expect(getByTestId('adornment').textContent).toBe('adornment');
   });
+
+  it('should render the text field component with a start adornment', () => {
+    const adornment = <div data-testid={'adornment'}>adornment</div>;
+    const { getByTestId } = render(
+      <TextField data-testid={'textfield-id'} startAdornment={adornment} />
+    );
+    expect(getByTestId('adornment').textContent).toBe('adornment');
+  });
+
+  it('should render the text field component with a start adornment with position outside', () => {
+    const adornment = <div data-testid={'adornment'}>adornment</div>;
+    const { getByTestId } = render(
+      <TextField
+        data-testid={'textfield-id'}
+        startAdornment={adornment}
+        startAdornmentPosition="outside"
+      />
+    );
+    expect(getByTestId('adornment').textContent).toBe('adornment');
+    expect(getByTestId('grid-container-textfield')).toBeTruthy();
+  });
 });

@@ -32,16 +32,33 @@ export const WithValue = () => (
   <TextField label="Some label" value="Some value" />
 );
 
-export const WithTextAdornment = () => {
+export const WithTextEndAdornment = () => {
   const adornment = <>Test</>;
   return <TextField label="Some label" endAdornment={adornment} />;
 };
 
-export const WithIconButtonAdornment = () => {
+export const WithIconButtonEndAdornment = () => {
   const adornment = (
     <IconButton onClick={() => {}} icon={Visibility} edge="end" />
   );
   return <TextField label="Some label" endAdornment={adornment} />;
+};
+
+export const WithTextStartAdornmentBefore = () => {
+  return (
+    <TextField
+      label="Some label"
+      startAdornment={<>1.</>}
+      startAdornmentPosition="outside"
+    />
+  );
+};
+
+export const WithIconButtonStartAdornment = () => {
+  const adornment = (
+    <IconButton onClick={() => {}} icon={Visibility} edge="end" />
+  );
+  return <TextField label="Some label" startAdornment={adornment} />;
 };
 
 export const Password = () => (
@@ -54,7 +71,7 @@ export const Multiline = () => (
   <TextField multiline={true} rows={5} label="Some label" />
 );
 
-export const WithContrastColor = () => {
+export const Invert = () => {
   return (
     <Paper backgroundColor="primary">
       <TextField color="secondary" label="Some Label" />
