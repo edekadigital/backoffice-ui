@@ -27,7 +27,7 @@ export type TextFieldType =
 
 export type TextFieldColor = 'primary' | 'secondary';
 
-export type StartAdornmentPosition = 'start' | 'before';
+export type StartAdornmentPosition = 'inside' | 'outside';
 
 export interface TextFieldProps {
   /**
@@ -60,7 +60,7 @@ export interface TextFieldProps {
    */
   startAdornment?: React.ReactElement;
   /**
-   * Position of start adornment, can either be start or before
+   * Position of start adornment, can either be inside or outside
    * @default start
    */
   startAdornmentPosition?: StartAdornmentPosition;
@@ -211,7 +211,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   const {
     endAdornment,
     startAdornment,
-    startAdornmentPosition = 'start',
+    startAdornmentPosition = 'inside',
     type = 'text',
     required = false,
     inputTestId = 'textField-input',
@@ -227,7 +227,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       <InputAdornment position="end">{endAdornment}</InputAdornment>
     ) : undefined,
     startAdornment:
-      startAdornment && startAdornmentPosition === 'start' ? (
+      startAdornment && startAdornmentPosition === 'inside' ? (
         <InputAdornment position="start">{startAdornment}</InputAdornment>
       ) : null,
   };
@@ -246,7 +246,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
 
   const inputProps = !props.select ? { 'data-testid': inputTestId } : {};
 
-  return startAdornmentPosition === 'start' ? (
+  return startAdornmentPosition === 'inside' ? (
     <MuiTextField
       {...additionalProps}
       SelectProps={SelectProps}

@@ -39,7 +39,7 @@ describe('<TextField />', () => {
     expect(getByTestId('adornment').textContent).toBe('adornment');
   });
 
-  it('should render the text field component with an start adornment', () => {
+  it('should render the text field component with a start adornment', () => {
     const adornment = <div data-testid={'adornment'}>adornment</div>;
     const { getByTestId } = render(
       <TextField data-testid={'textfield-id'} startAdornment={adornment} />
@@ -47,13 +47,13 @@ describe('<TextField />', () => {
     expect(getByTestId('adornment').textContent).toBe('adornment');
   });
 
-  it('should render the text field component with an start adornment with position before', () => {
+  it('should render the text field component with a start adornment with position outside', () => {
     const adornment = <div data-testid={'adornment'}>adornment</div>;
     const { getByTestId } = render(
       <TextField
         data-testid={'textfield-id'}
         startAdornment={adornment}
-        startAdornmentPosition="before"
+        startAdornmentPosition="outside"
       />
     );
     expect(getByTestId('adornment').textContent).toBe('adornment');

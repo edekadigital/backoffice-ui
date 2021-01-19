@@ -49,7 +49,7 @@ export const WithTextStartAdornmentBefore = () => {
     <TextField
       label="Some label"
       startAdornment={<>1.</>}
-      startAdornmentPosition="before"
+      startAdornmentPosition="outside"
     />
   );
 };
