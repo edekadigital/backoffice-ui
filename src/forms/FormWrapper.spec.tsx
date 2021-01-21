@@ -42,21 +42,15 @@ describe('<FormWrapper/>', () => {
     expect(cancel).toEqual(true);
   });
 
-  it('should render an  form wrapper component with content', () => {
+  it('should render a form wrapper component with content', () => {
     let submit = false;
-    let cancel = false;
     const onSubmit = () => {
       submit = true;
-    };
-
-    const onCancel = () => {
-      cancel = true;
     };
 
     const { getByTestId } = render(
       <FormWrapper
         cancelLabel={labelCancel}
-        onCancel={onCancel}
         submitLabel={labelSubmit}
         onSubmit={onSubmit}
       >
@@ -68,11 +62,8 @@ describe('<FormWrapper/>', () => {
     );
 
     expect(getByTestId('formWrapper-submit').textContent).toEqual(labelSubmit);
-    expect(getByTestId('formWrapper-cancel').textContent).toEqual(labelCancel);
 
     userEvent.click(getByTestId('formWrapper-submit'));
-    userEvent.click(getByTestId('formWrapper-cancel'));
     expect(submit).toEqual(true);
-    expect(cancel).toEqual(true);
   });
 });
