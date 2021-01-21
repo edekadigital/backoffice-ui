@@ -28,7 +28,7 @@ describe('<Body />', () => {
 
   it('should render the body component with success background color', () => {
     const { getByText } = render(
-      <Body backgroundColor={'success'} data-testid={bodyId}>
+      <Body backgroundColor={'success'} dense={false} data-testid={bodyId}>
         {bodyContent}
       </Body>
     );
