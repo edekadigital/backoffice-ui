@@ -163,3 +163,87 @@ export const WithCustomGutterBottom = () => (
     </Body>
   </>
 );
+
+export const WithBackgroundColorSuccess = () => (
+  <Body backgroundColor="success">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorError = () => (
+  <Body backgroundColor="error">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorInfo = () => (
+  <Body backgroundColor="info">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorWarning = () => (
+  <Body backgroundColor="warning">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorPrimary = () => (
+  <Body backgroundColor="primary">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorSecondary = () => (
+  <Body backgroundColor="secondary">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorInitial = () => (
+  <Body backgroundColor="initial">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
