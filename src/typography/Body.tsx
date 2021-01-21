@@ -54,7 +54,7 @@ export interface BodyProps {
   backgroundColor?: BodyBackgroundColor;
   /**
    * Defines padding of component, if set to false padding will be added.
-   * @default false
+   * @default true
    */
   dense?: boolean;
   /**
