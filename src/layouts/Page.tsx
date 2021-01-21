@@ -40,7 +40,7 @@ const useStyles = makeStyles<Theme, { paddingBottom?: boolean }>(
 export const Page: React.FC<PageProps> = (props) => {
   const { children, variant, paddingBottom } = props;
   const classes = useStyles({ paddingBottom });
-  //const maxWidth = variant === 'narrow' ? 'lg' : false;
+
   let maxWidth: false | 'sm' | 'lg';
   switch (variant) {
     case 'narrow':

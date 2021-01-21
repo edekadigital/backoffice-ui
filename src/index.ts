@@ -22,7 +22,6 @@ export * from './components/Image';
 export * from './components/ListMenu';
 export * from './components/Paper';
 export * from './components/RadioButtonTiles';
-export * from './components/ReverseNavigation';
 export * from './components/SearchField';
 export * from './components/SelectField';
 export * from './components/ServiceTiles';
