@@ -300,9 +300,9 @@ describe('<EnhancedDataTable />', () => {
 
   it('should be possible to select a row, call a selection action and unselect the selected row', async () => {
     const actionHandler = jest.fn();
-    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-      TestData
-    >> = [
+    const selectionActions: Array<
+      EnhancedDataTableSelectionMenuActions<TestData>
+    > = [
       {
         icon: GetApp,
         handler: actionHandler,
@@ -342,9 +342,9 @@ describe('<EnhancedDataTable />', () => {
 
   it('should be possible to select and unselect all rows by clicking the checkbox in table head and call a selection action', async () => {
     const actionHandler = jest.fn();
-    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-      TestData
-    >> = [
+    const selectionActions: Array<
+      EnhancedDataTableSelectionMenuActions<TestData>
+    > = [
       {
         icon: GetApp,
         handler: actionHandler,
@@ -384,9 +384,9 @@ describe('<EnhancedDataTable />', () => {
 
   it('should be possible to select all rows by clicking the checkbox in the selection menu and call a selection action', async () => {
     const actionHandler = jest.fn();
-    const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-      TestData
-    >> = [
+    const selectionActions: Array<
+      EnhancedDataTableSelectionMenuActions<TestData>
+    > = [
       {
         icon: GetApp,
         handler: actionHandler,

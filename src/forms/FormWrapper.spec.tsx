@@ -1,13 +1,12 @@
 import * as React from 'react';
 
 import { cleanup } from '@testing-library/react';
-import { FormFieldSet, FormRow, FormWrapper, TextField } from '..';
+import { FormRow, FormWrapper, TextField } from '..';
 import { render } from '../test-utils';
 import userEvent from '@testing-library/user-event';
 
 const labelSubmit = 'submit';
 const labelCancel = 'cancel';
-const title = 'title';
 const label = 'label';
 const label2 = 'label2';
 
@@ -61,12 +60,10 @@ describe('<FormWrapper/>', () => {
         submitLabel={labelSubmit}
         onSubmit={onSubmit}
       >
-        <FormFieldSet title={title}>
-          <FormRow>
-            <TextField label={label} />
-            <TextField label={label2} />
-          </FormRow>
-        </FormFieldSet>
+        <FormRow>
+          <TextField label={label} />
+          <TextField label={label2} />
+        </FormRow>
       </FormWrapper>
     );
 

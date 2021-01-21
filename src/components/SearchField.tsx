@@ -29,7 +29,6 @@ export interface SearchFieldProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   progress: {
-    position: 'absolute',
     left: 0,
     width: '100%',
     marginTop: -theme.spacing(0.5),

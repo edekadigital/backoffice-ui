@@ -33,11 +33,9 @@ export * from './components/TabNavigation';
 export * from './components/TextEditor/TextEditor';
 export * from './components/TextField';
 export * from './components/TitleBar';
-export * from './components/LogTable';
 export * from './components/Checkbox';
 
 export * from './forms/FormWrapper';
-export * from './forms/FormFieldSet';
 export * from './forms/FormRow';
 
 export * from './typography/Body';
