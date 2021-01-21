@@ -165,7 +165,7 @@ export const WithCustomGutterBottom = () => (
 );
 
 export const WithBackgroundColorSuccess = () => (
-  <Body backgroundColor="success">
+  <Body dense={false} backgroundColor="success">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -177,7 +177,7 @@ export const WithBackgroundColorSuccess = () => (
 );
 
 export const WithBackgroundColorError = () => (
-  <Body backgroundColor="error">
+  <Body dense={false} backgroundColor="error">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -189,7 +189,7 @@ export const WithBackgroundColorError = () => (
 );
 
 export const WithBackgroundColorInfo = () => (
-  <Body backgroundColor="info">
+  <Body dense={false} backgroundColor="info">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -201,7 +201,7 @@ export const WithBackgroundColorInfo = () => (
 );
 
 export const WithBackgroundColorWarning = () => (
-  <Body backgroundColor="warning">
+  <Body dense={false} backgroundColor="warning">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -213,7 +213,7 @@ export const WithBackgroundColorWarning = () => (
 );
 
 export const WithBackgroundColorPrimary = () => (
-  <Body backgroundColor="primary">
+  <Body dense={false} backgroundColor="primary">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -225,7 +225,7 @@ export const WithBackgroundColorPrimary = () => (
 );
 
 export const WithBackgroundColorSecondary = () => (
-  <Body backgroundColor="secondary">
+  <Body dense={false} backgroundColor="secondary">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -237,7 +237,7 @@ export const WithBackgroundColorSecondary = () => (
 );
 
 export const WithBackgroundColorInitial = () => (
-  <Body backgroundColor="initial">
+  <Body dense={false} backgroundColor="initial">
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
