@@ -1,8 +1,9 @@
 const { default: babel } = require('@rollup/plugin-babel');
 const { default: nodeResolve } = require('@rollup/plugin-node-resolve');
+const styles = require('rollup-plugin-styles');
 
 function isBareModuleId(id) {
-  return !id.startsWith('.') && !id.startsWith('/');
+  return !id.startsWith('.') && !id.startsWith('/') && !/\.css$/.test(id);
 }
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
@@ -16,6 +17,8 @@ const cjs = [
       nodeResolve({
         extensions,
       }),
+
+      styles(),
 
       babel({
         extensions,
@@ -41,6 +44,8 @@ const esm = [
       nodeResolve({
         extensions,
       }),
+
+      styles(),
 
       babel({
         extensions,
