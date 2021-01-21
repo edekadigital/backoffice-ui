@@ -2,7 +2,7 @@ import * as React from 'react';
 import Container from '@material-ui/core/Container';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export type PageVariant = 'default' | 'narrow' | 'narrowest';
+export type PageVariant = 'default' | 'narrow' | 'slim';
 
 export type PageChildren = React.ReactNode | React.ReactNode[];
 
@@ -46,7 +46,7 @@ export const Page: React.FC<PageProps> = (props) => {
     case 'narrow':
       maxWidth = 'lg';
       break;
-    case 'narrowest':
+    case 'slim':
       maxWidth = 'sm';
       break;
     default:

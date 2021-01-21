@@ -65,8 +65,8 @@ export const Narrow = () => (
   </Page>
 );
 
-export const Narrowest = () => (
-  <Page variant="narrowest">
+export const Slim = () => (
+  <Page variant="slim">
     <Content />
   </Page>
 );

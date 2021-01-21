@@ -36,9 +36,9 @@ describe('<Page />', () => {
     expect(narrowDiv.item(0)!.classList).toContain('MuiContainer-maxWidthLg');
   });
 
-  it('should render the page component as narrowest variant', () => {
+  it('should render the page component as slim variant', () => {
     const { getByText, container } = render(
-      <Page variant="narrowest">
+      <Page variant="slim">
         <p>{pageContent}</p>
       </Page>
     );
