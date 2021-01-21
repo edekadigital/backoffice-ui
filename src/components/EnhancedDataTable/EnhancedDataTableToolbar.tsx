@@ -45,10 +45,6 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
       borderBottom: `solid 1px ${theme.palette.grey[300]}`,
       paddingLeft: theme.spacing(2),
-      [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
-        minHeight: theme.spacing(9),
-        height: theme.spacing(9),
-      },
     },
     filterToolbar: {
       marginLeft: -theme.spacing(1),
@@ -135,12 +131,15 @@ export function EnhancedDataTableToolbar<D>(
     setPopoverAnchorEl(null);
   };
 
-  const handleDeleteFilterClick = (filter: ActiveFilter<D>) => () => {
-    const newActiveFilters = activeFilters.filter(
-      (activeFilter) => activeFilter !== filter
-    );
-    setActiveFilters(newActiveFilters as Array<ActiveFilter<D>> | []);
-  };
+  const handleDeleteFilterClick = React.useCallback(
+    (filter: ActiveFilter<D>) => () => {
+      const newActiveFilters = activeFilters.filter(
+        (activeFilter) => activeFilter !== filter
+      );
+      setActiveFilters(newActiveFilters as Array<ActiveFilter<D>> | []);
+    },
+    [activeFilters, setActiveFilters]
+  );
 
   const handleFilterSelectClick = (selectedFilter: Filter<D>) => {
     setSelectedFilter(selectedFilter as ActiveFilter<D>);
@@ -201,10 +200,11 @@ export function EnhancedDataTableToolbar<D>(
   );
 
   const renderHeadline = headline ? (
-    <Heading variant={'h6'}>
-      <strong data-testid={'enhancedDataTable-filterBar-headline'}>
-        {headline}
-      </strong>
+    <Heading
+      variant={'h6'}
+      data-testid={'enhancedDataTable-filterBar-headline'}
+    >
+      {headline}
     </Heading>
   ) : (
     <></>
@@ -236,7 +236,7 @@ export function EnhancedDataTableToolbar<D>(
     ) : (
       <></>
     );
-  }, [activeFilters]);
+  }, [activeFilters, classes.chipRoot, handleDeleteFilterClick]);
 
   const popoverFilterList = selectableFilters ? (
     selectableFilters!.map((filter, index) => (

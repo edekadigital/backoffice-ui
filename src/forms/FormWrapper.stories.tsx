@@ -26,7 +26,7 @@ export const Default = () => {
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
-      <FormRow>
+      <FormRow gutterBottom={true}>
         <TextField label="Some Label" />
         <TextField label="Some Label" />
       </FormRow>
