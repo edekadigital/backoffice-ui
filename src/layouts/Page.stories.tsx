@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   Page,
   Body,
-  ReverseNavigation,
   Star,
   MyLocation,
   AppBar,
@@ -22,6 +21,7 @@ import {
 } from '..'; // @edekadigital/backoffice-ui
 import { PageWrapper } from './PageWrapper';
 import { GridRow } from './GridRow';
+import { TitleBar } from '../components/TitleBar';
 
 export default {
   title: 'Layouts/Page',
@@ -65,14 +65,20 @@ export const Narrow = () => (
   </Page>
 );
 
-export const WithReverseNavigation = () => {
+export const Slim = () => (
+  <Page variant="slim">
+    <Content />
+  </Page>
+);
+
+export const WithTitleBar = () => {
   const clickHandler = () => {};
 
   return (
     <Page paddingBottom={true}>
-      <ReverseNavigation onBackClick={clickHandler} gutterBottom={true}>
-        LoremIpsum
-      </ReverseNavigation>
+      <TitleBar onBackClick={clickHandler} gutterBottom>
+        Lorem Ipsum
+      </TitleBar>
       <Content />
     </Page>
   );

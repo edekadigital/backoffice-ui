@@ -1,11 +1,16 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Button } from '../components/Button';
-import { ButtonBar } from '../components/ButtonBar';
+import { ButtonBar, ButtonBarAlign } from '../components/ButtonBar';
 
 export type FormWrapperHandler = () => void;
 
 export interface FormWrapperProps {
+  /**
+   * Aligns the the form buttons to the `left` or `right`.
+   * @default "left"
+   */
+  alignButtons?: ButtonBarAlign;
   /**
    * The label text of the submit button.
    */
@@ -41,7 +46,14 @@ const useStyles = makeStyles<Theme>((theme) => ({
  * | `formWrapper-submit`| submit button            |
  */
 export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
-  const { children, submitLabel, cancelLabel, onSubmit, onCancel } = props;
+  const {
+    children,
+    submitLabel,
+    cancelLabel,
+    onSubmit,
+    onCancel,
+    alignButtons,
+  } = props;
 
   const classes = useStyles();
 
@@ -60,6 +72,7 @@ export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
           variant="text"
           onClick={onCancel}
           data-testid="formWrapper-cancel"
+          color="primary"
         >
           {cancelLabel}
         </Button>
@@ -74,8 +87,8 @@ export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
       data-testid="formWrapper-form"
     >
       <div className={classes.content}>{children}</div>
-      <ButtonBar>
-        <Button type="submit" data-testid="formWrapper-submit">
+      <ButtonBar align={alignButtons}>
+        <Button type="submit" data-testid="formWrapper-submit" color="primary">
           {submitLabel}
         </Button>
         {cancelButton}

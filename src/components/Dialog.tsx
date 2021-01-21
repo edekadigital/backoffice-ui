@@ -61,9 +61,9 @@ export const Dialog: React.FC<DialogProps> = (props) => {
   const classes = useDialogStyles();
   const theme = useTheme<Theme>();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const dialogTestId = { 'data-testid': 'dialog' } as React.InputHTMLAttributes<
-    HTMLInputElement
-  >;
+  const dialogTestId = {
+    'data-testid': 'dialog',
+  } as React.InputHTMLAttributes<HTMLInputElement>;
 
   return (
     <MuiDialog

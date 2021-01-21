@@ -25,6 +25,10 @@ export interface FormRowProps {
    */
   gutterBottom?: boolean | number;
   /**
+   * If `true`, the form row will have a top margin.
+   */
+  gutterTop?: boolean | number;
+  /**
    * Justifies the form row items. Default is `flex-start` (css)
    */
   justify?: FormRowJustify;
@@ -41,6 +45,7 @@ export interface FormRowProps {
 interface SanitizedFormProps {
   children: React.ReactNode[];
   gutterBottom: number;
+  gutterTop: number;
   justify: GridJustification;
   gridLayout: FormRowItemSize[];
   maxWidth?: Breakpoint | number;
@@ -50,6 +55,7 @@ function getSanitizedProps(props: FormRowProps): SanitizedFormProps {
   const {
     children,
     gutterBottom = 0,
+    gutterTop = 0,
     justify,
     gridLayout = [],
     maxWidth,
@@ -62,6 +68,7 @@ function getSanitizedProps(props: FormRowProps): SanitizedFormProps {
   return {
     children: Array.isArray(children) ? children : [children],
     gutterBottom: gutterBottom === true ? 3 : +gutterBottom,
+    gutterTop: gutterTop === true ? 3 : +gutterTop,
     justify: mapJustifyToJustifyContent(justify),
     gridLayout: tempGridLayout,
     maxWidth,
@@ -85,7 +92,7 @@ function mapJustifyToJustifyContent(
 }
 
 const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
-  root: ({ gutterBottom, maxWidth }) => {
+  root: ({ gutterBottom, gutterTop, maxWidth }) => {
     let maxWidthValue: number | undefined = undefined;
 
     if (typeof maxWidth === 'number') {
@@ -98,6 +105,7 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
       marginBottom: theme.spacing(
         Math.max(gutterBottom - GRID_SPACING * 0.5, 0)
       ),
+      paddingTop: theme.spacing(gutterTop),
       maxWidth: maxWidthValue,
     };
   },

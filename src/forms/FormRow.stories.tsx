@@ -23,6 +23,10 @@ export const MultiRow = () => (
       <TextField label="Some Label" />
       <TextField label="Some Label" />
     </FormRow>
+    <FormRow gutterTop>
+      <TextField label="Some Label" />
+      <TextField label="Some Label" />
+    </FormRow>
   </>
 );
 

@@ -188,9 +188,9 @@ export const Selectable = () => {
     { accessor: 'type', label: 'Type' },
   ];
 
-  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-    TestData
-  >> = [
+  const selectionActions: Array<
+    EnhancedDataTableSelectionMenuActions<TestData>
+  > = [
     {
       icon: GetApp,
       handler: (data) => console.log(data, 'Make api call to get zip file'),
@@ -627,9 +627,9 @@ export const AllFunctionalities = () => {
     { accessor: 'type', label: 'Type', component: TypeChipComponent },
   ];
 
-  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-    TestData
-  >> = [
+  const selectionActions: Array<
+    EnhancedDataTableSelectionMenuActions<TestData>
+  > = [
     {
       icon: GetApp,
       handler: (data) => console.log(data, 'Make api call to get zip file'),
@@ -703,9 +703,9 @@ export const WithToolbarActions = () => {
     { accessor: 'type', label: 'Type' },
   ];
 
-  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-    TestData
-  >> = [
+  const selectionActions: Array<
+    EnhancedDataTableSelectionMenuActions<TestData>
+  > = [
     {
       icon: GetApp,
       handler: (data) => console.log(data, 'Make api call to get zip file'),
@@ -782,9 +782,9 @@ export const WithRowActions = () => {
     { accessor: 'type', label: 'Type' },
   ];
 
-  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-    TestData
-  >> = [
+  const selectionActions: Array<
+    EnhancedDataTableSelectionMenuActions<TestData>
+  > = [
     {
       icon: GetApp,
       handler: (data) => console.log(data, 'Make api call to get zip file'),
@@ -864,9 +864,9 @@ export const WithRowActionsAndClickableWithCustomIcon = () => {
     { accessor: 'type', label: 'Type' },
   ];
 
-  const selectionActions: Array<EnhancedDataTableSelectionMenuActions<
-    TestData
-  >> = [
+  const selectionActions: Array<
+    EnhancedDataTableSelectionMenuActions<TestData>
+  > = [
     {
       icon: GetApp,
       handler: (data) => console.log(data, 'Make api call to get zip file'),
