@@ -25,4 +25,13 @@ describe('<Body />', () => {
     );
     expect(getByText(bodyContent)!).toBeTruthy();
   });
+
+  it('should render the body component with success background color', () => {
+    const { getByText } = render(
+      <Body backgroundColor={'success'} dense={false} data-testid={bodyId}>
+        {bodyContent}
+      </Body>
+    );
+    expect(getByText(bodyContent)!).toBeTruthy();
+  });
 });

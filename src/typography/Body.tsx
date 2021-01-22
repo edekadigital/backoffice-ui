@@ -20,6 +20,15 @@ export type BodyColor =
   | 'textSecondary'
   | 'secondary';
 
+export type BodyBackgroundColor =
+  | 'initial'
+  | 'primary'
+  | 'error'
+  | 'warning'
+  | 'success'
+  | 'info'
+  | 'secondary';
+
 export type BodyAlign = 'left' | 'center' | 'right';
 
 export interface BodyProps {
@@ -35,8 +44,19 @@ export interface BodyProps {
   component?: BodyComponent;
   /**
    * Defines the text color. Only theme colors are allowed.
+   * @default initial
    */
   color?: BodyColor;
+  /**
+   * Defines the background color of the component.
+   * @default initial
+   */
+  backgroundColor?: BodyBackgroundColor;
+  /**
+   * Defines padding of component, if set to false padding will be added.
+   * @default true
+   */
+  dense?: boolean;
   /**
    * If `true`, the body text will have a bottom margin.
    */
@@ -50,12 +70,18 @@ export interface BodyProps {
 interface BodyPropsStyles {
   gutterBottom: number;
   color?: BodyColor;
+  backgroundColor?: BodyBackgroundColor;
+  dense?: boolean;
 }
 
 const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
-  root: ({ color, gutterBottom }) => {
-    const sanitizedColorName: BodyColor = color || 'initial';
-    const colorMap: { [k: string]: string } = {
+  root: ({
+    color = 'initial',
+    gutterBottom,
+    backgroundColor = 'initial',
+    dense = true,
+  }) => {
+    const colorMap: Record<BodyColor, string> = {
       info: theme.palette.primary.main,
       warning: theme.palette.warning.dark,
       success: theme.palette.success.main,
@@ -64,12 +90,22 @@ const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
       textPrimary: theme.palette.text.primary,
       textSecondary: theme.palette.text.secondary,
       secondary: theme.palette.secondary.main,
+      initial: theme.palette.text.primary,
+    };
+
+    const backgroundColorMap: Record<BodyBackgroundColor, string> = {
+      info: theme.palette.info.light,
+      warning: theme.palette.warning.light,
+      success: theme.palette.success.light,
+      error: theme.palette.error.light,
+      primary: theme.palette.primary.light,
+      secondary: theme.palette.secondary.light,
+      initial: theme.palette.background.default,
     };
     return {
-      color:
-        sanitizedColorName in colorMap
-          ? colorMap[sanitizedColorName]
-          : theme.palette.text.primary,
+      color: colorMap[color],
+      backgroundColor: backgroundColorMap[backgroundColor],
+      padding: dense ? 0 : theme.spacing(2.5),
       marginBottom: theme.spacing(gutterBottom),
     };
   },
@@ -82,12 +118,16 @@ export const Body: React.FC<BodyProps> = (props) => {
     children,
     gutterBottom = 0,
     color,
+    backgroundColor,
+    dense,
     ...additionalProps
   } = props;
 
   const classes = useStyles({
     color,
     gutterBottom: gutterBottom === true ? 0.5 : +gutterBottom,
+    backgroundColor,
+    dense,
   });
   return (
     <MuiTypography

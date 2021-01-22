@@ -163,3 +163,87 @@ export const WithCustomGutterBottom = () => (
     </Body>
   </>
 );
+
+export const WithBackgroundColorSuccess = () => (
+  <Body dense={false} backgroundColor="success">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorError = () => (
+  <Body dense={false} backgroundColor="error">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorInfo = () => (
+  <Body dense={false} backgroundColor="info">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorWarning = () => (
+  <Body dense={false} backgroundColor="warning">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorPrimary = () => (
+  <Body dense={false} backgroundColor="primary">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorSecondary = () => (
+  <Body dense={false} backgroundColor="secondary">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
+
+export const WithBackgroundColorInitial = () => (
+  <Body dense={false} backgroundColor="initial">
+    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </Body>
+);
