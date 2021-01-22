@@ -81,3 +81,6 @@ If the test coverage is below 90%, the tests will fail. To show a report of the 
 ```bash
 npm run show-coverage-report
 ```
+
+Gladbach 4:2 Dortmund
+P.S: NUR DER HSV.
