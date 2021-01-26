@@ -236,8 +236,8 @@ export const WithBackgroundColorSecondary = () => (
   </Body>
 );
 
-export const WithBackgroundColorInitial = () => (
-  <Body dense={false} backgroundColor="initial">
+export const WithBackgroundColorInherit = () => (
+  <Body dense={false}>
     Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip

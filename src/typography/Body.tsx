@@ -21,7 +21,7 @@ export type BodyColor =
   | 'secondary';
 
 export type BodyBackgroundColor =
-  | 'initial'
+  | 'inherit'
   | 'primary'
   | 'error'
   | 'warning'
@@ -49,7 +49,7 @@ export interface BodyProps {
   color?: BodyColor;
   /**
    * Defines the background color of the component.
-   * @default initial
+   * @default inherit
    */
   backgroundColor?: BodyBackgroundColor;
   /**
@@ -78,7 +78,7 @@ const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
   root: ({
     color = 'initial',
     gutterBottom,
-    backgroundColor = 'initial',
+    backgroundColor = 'inherit',
     dense = true,
   }) => {
     const colorMap: Record<BodyColor, string> = {
@@ -100,7 +100,7 @@ const useStyles = makeStyles<Theme, BodyPropsStyles>((theme: Theme) => ({
       error: theme.palette.error.light,
       primary: theme.palette.primary.light,
       secondary: theme.palette.secondary.light,
-      initial: theme.palette.background.default,
+      inherit: 'inherit',
     };
     return {
       color: colorMap[color],
