@@ -2,7 +2,7 @@ import * as React from 'react';
 import Container from '@material-ui/core/Container';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export type PageVariant = 'default' | 'narrow';
+export type PageVariant = 'default' | 'narrow' | 'slim';
 
 export type PageChildren = React.ReactNode | React.ReactNode[];
 
@@ -40,7 +40,18 @@ const useStyles = makeStyles<Theme, { paddingBottom?: boolean }>(
 export const Page: React.FC<PageProps> = (props) => {
   const { children, variant, paddingBottom } = props;
   const classes = useStyles({ paddingBottom });
-  const maxWidth = variant === 'narrow' ? 'lg' : false;
+
+  let maxWidth: false | 'sm' | 'lg';
+  switch (variant) {
+    case 'narrow':
+      maxWidth = 'lg';
+      break;
+    case 'slim':
+      maxWidth = 'sm';
+      break;
+    default:
+      maxWidth = false;
+  }
 
   return children ? (
     <Container

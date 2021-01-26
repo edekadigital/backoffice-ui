@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Page, Body, ReverseNavigation, AppBar, PageWrapper } from '..'; // @edekadigital/backoffice-ui
+import { Page, Body, AppBar, PageWrapper, TitleBar } from '..'; // @edekadigital/backoffice-ui
 
 export default {
   title: 'Layouts/PageWrapper',
@@ -27,9 +27,9 @@ export const Default = () => {
         <strong>Lorem</strong>Ipsum
       </AppBar>
       <Page>
-        <ReverseNavigation onBackClick={clickHandler} gutterBottom={true}>
+        <TitleBar onBackClick={clickHandler} gutterBottom={true}>
           LoremIpsum
-        </ReverseNavigation>
+        </TitleBar>
         <Content />
       </Page>
     </PageWrapper>

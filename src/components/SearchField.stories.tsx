@@ -4,6 +4,11 @@ import { SearchField } from '..'; // @edekadigital/backoffice-ui
 export default {
   title: 'Components/SearchField',
   component: SearchField,
+  decorators: [
+    (storyFn: () => React.ReactNode) => (
+      <div style={{ margin: 120 }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 export const Default = () => {

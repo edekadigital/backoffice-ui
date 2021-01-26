@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
+export type ButtonBarAlign = 'left' | 'right';
 export interface ButtonBarProps {
   /**
    * Aligns the items to the `left` or `right`.
    * @default "left"
    */
-  align?: 'left' | 'right';
+  align?: ButtonBarAlign;
 }
 
 const useStyles = makeStyles<Theme, ButtonBarProps>((theme) => ({

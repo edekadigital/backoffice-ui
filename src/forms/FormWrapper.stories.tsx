@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormWrapper, FormFieldSet, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
+import { FormWrapper, FormRow, TextField } from '..'; // @edekadigital/backoffice-ui
 
 export default {
   title: 'Forms/FormWrapper',
@@ -22,26 +22,23 @@ export const Default = () => {
       onSubmit={onSubmit}
       onCancel={onCancel}
     >
-      <FormFieldSet title="Lorem ipsum">
-        <FormRow gutterBottom={true}>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-        <FormRow>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-      </FormFieldSet>
-      <FormFieldSet title="Lorem ipsum">
-        <FormRow gutterBottom={true}>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-        <FormRow>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-      </FormFieldSet>
+      <FormRow gutterBottom={true}>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+      <FormRow gutterBottom={true}>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+
+      <FormRow gutterBottom={true}>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+      <FormRow>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
     </FormWrapper>
   );
 };
@@ -52,16 +49,14 @@ export const OnlySubmit = () => {
   };
   return (
     <FormWrapper submitLabel="Login" onSubmit={onSubmit}>
-      <FormFieldSet title="Lorem ipsum">
-        <FormRow gutterBottom={true}>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-        <FormRow>
-          <TextField label="Some Label" />
-          <TextField label="Some Label" />
-        </FormRow>
-      </FormFieldSet>
+      <FormRow gutterBottom={true}>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
+      <FormRow>
+        <TextField label="Some Label" />
+        <TextField label="Some Label" />
+      </FormRow>
     </FormWrapper>
   );
 };

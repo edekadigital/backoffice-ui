@@ -69,7 +69,7 @@ describe('<FormRow/>', () => {
 
   it('should render the form row with width as a string', () => {
     const { getByTestId, getByText } = render(
-      <FormRow maxWidth={'md'} gutterBottom={true}>
+      <FormRow maxWidth={'md'} gutterTop={true}>
         <div>{label}</div>
         <div>{label2}</div>
       </FormRow>
