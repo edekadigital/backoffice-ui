@@ -148,7 +148,7 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
       <Grid
         container={true}
         justify={justify}
-        alignItems="center"
+        alignItems="flex-start"
         spacing={GRID_SPACING}
       >
         {items}
