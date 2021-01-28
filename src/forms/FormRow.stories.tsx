@@ -53,3 +53,14 @@ export const SingleFieldWithMaxWidth = () => (
     <TextField label="Some Label" />
   </FormRow>
 );
+
+export const TwoFieldsWithOneErrorMessage = () => (
+  <FormRow>
+    <TextField
+      label="Some Label"
+      error={true}
+      helperText="Some Error Text"
+    ></TextField>
+    <TextField label="Some Label" error={true}></TextField>
+  </FormRow>
+);
