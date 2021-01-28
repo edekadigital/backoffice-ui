@@ -1,10 +1,13 @@
-name: Build Validation
+name: Publish @edekadigital/backoffice-ui
 
-on: pull_request
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
-  verify-pr:
-    name: Build Validation
+  publish-edeka-ui:
+    name: Publish @edekadigital/backoffice-ui
 
     runs-on: ubuntu-latest
 
@@ -17,6 +20,9 @@ jobs:
         with:
           node-version: '14'
 
+      - name: NPM authentication
+        run: printf '\n//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}' >> .npmrc
+
       - name: Install dependencies
         run: npm ci
 
@@ -25,6 +31,9 @@ jobs:
 
       - name: Test
         run: npm run test
+
+      - name: Publish
+        run: npm publish
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
