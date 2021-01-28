@@ -1,0 +1,41 @@
+name: Deploy-Storybook
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-storybook:
+    name: Build & Deploy Storybook
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Deploy Storybook
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: public
+          CLEAN: true
+
+      - name: Archive storybook artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: storybook
+          path: public
