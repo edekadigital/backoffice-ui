@@ -89,6 +89,29 @@ export const Controlled = () => {
   );
 };
 
+export const WithDefaultValue = () => {
+  const menuItems = [
+    { value: '', label: 'Keine Angabe' },
+    { value: 'de', label: 'Germany' },
+    { value: 'se', label: 'Sweden' },
+    { value: 'pl', label: 'Poland' },
+  ];
+  const [value, setValue] = React.useState<string>();
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setValue(event.target.value as string);
+  };
+
+  return (
+    <SelectField
+      menuItems={menuItems}
+      value={value}
+      onChange={handleChange}
+      label="Some label"
+      defaultValue={menuItems[1].value}
+    />
+  );
+};
+
 export const WithContrastColor = () => {
   const menuItems = [
     { value: '', label: 'Keine Angabe' },

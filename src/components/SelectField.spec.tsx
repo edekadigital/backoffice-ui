@@ -54,4 +54,16 @@ describe('<SelectField/>', () => {
 
     expect(getByTestId('textField-label').textContent).toEqual(label);
   });
+
+  it('should render the select field component with default value', () => {
+    const { getByTestId } = render(
+      <SelectField
+        label={label}
+        menuItems={items}
+        defaultValue={items[1].value}
+      />
+    );
+
+    expect(getByTestId('textField-input').textContent).toBe(items[1].label);
+  });
 });
