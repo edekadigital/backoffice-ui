@@ -61,6 +61,10 @@ export interface SelectFieldProps {
    * @default primary
    */
   color?: TextFieldColor;
+  /**
+   * The value of the input element that is set per default.
+   */
+  defaultValue?: TextFieldValue;
 }
 
 /**
