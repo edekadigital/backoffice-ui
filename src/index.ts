@@ -21,6 +21,7 @@ export * from './components/IconButton';
 export * from './components/Image';
 export * from './components/ListMenu';
 export * from './components/Paper';
+export * from './components/ProgressBar';
 export * from './components/RadioButtonTiles';
 export * from './components/SearchField';
 export * from './components/SelectField';
