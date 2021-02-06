@@ -12,7 +12,13 @@ import { KeyboardArrowDownIcon, ListMenu } from '..';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonColor = 'inherit' | 'default' | 'primary' | 'secondary';
+export type ButtonColor =
+  | 'inherit'
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'success';
 
 export type ButtonComponent = React.ElementType<MuiButtonProps>;
 
@@ -97,6 +103,80 @@ export interface ButtonProps {
   variant?: ButtonVariant;
 }
 
+const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
+  (theme: Theme) => {
+    const buttonColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: theme.palette.grey[300],
+      inherit: 'inherit',
+    };
+
+    const buttonTextColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.contrastText,
+      error: theme.palette.error.contrastText,
+      primary: theme.palette.primary.contrastText,
+      secondary: theme.palette.secondary.contrastText,
+      default: theme.palette.text.primary,
+      inherit: 'inherit',
+    };
+    const buttonHoverColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.dark,
+      error: theme.palette.error.dark,
+      primary: theme.palette.primary.dark,
+      secondary: theme.palette.secondary.dark,
+      default: theme.palette.grey.A100,
+      inherit: 'inherit',
+    };
+
+    const buttonTextHoverColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.dark,
+      error: theme.palette.error.dark,
+      primary: theme.palette.primary.dark,
+      secondary: theme.palette.secondary.dark,
+      default: theme.palette.grey.A100,
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedBorderColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.dark,
+      error: theme.palette.error.dark,
+      primary: theme.palette.primary.dark,
+      secondary: theme.palette.secondary.dark,
+      default: theme.palette.grey.A100,
+      inherit: 'inherit',
+    };
+
+    return {
+      contained: ({ color }) => {
+        return {
+          backgroundColor: buttonColorMap[color],
+          color: buttonTextColorMap[color],
+          '&:hover': { backgroundColor: buttonHoverColorMap[color] },
+        };
+      },
+      // TODO split, menu button
+      // TODO set color in right colors
+      // TODO set outlines border color right
+      // TODO ICON Button
+      // TODO Hover state
+      outlined: ({ color }) => {
+        return {
+          borderColor: buttonColorMap[color],
+          color: buttonColorMap[color],
+        };
+      },
+      text: ({ color }) => {
+        return {
+          color: buttonColorMap[color],
+        };
+      },
+    };
+  }
+);
+
 const useStyles = makeStyles((theme: Theme) => {
   return {
     iconLeft: {
@@ -110,7 +190,6 @@ const useStyles = makeStyles((theme: Theme) => {
     },
   };
 });
-
 /**
  * | Test ID                | Description                               |
  * | ---------------------- | ----------------------------------------- |
@@ -125,9 +204,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
     showProgress = false,
     children,
     menu,
+    color = 'default',
     ...additionalProps
   } = props;
   const classes = useStyles();
+  const classesOverides = useOveridesStyles({ color });
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -178,7 +259,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
           <>
             <ButtonGroup
               variant={variant}
-              color={additionalProps.color}
+              // color={additionalProps.color}
               disabled={additionalProps.disabled}
               size={additionalProps.size}
               classes={{
@@ -211,6 +292,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
               {...additionalProps}
               variant={variant}
               onClick={handleMenuOpen}
+              classes={classesOverides}
             >
               {content()}
               <KeyboardArrowDownIcon />
@@ -226,7 +308,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
       }
     } else {
       return (
-        <MuiButton variant={variant} {...additionalProps}>
+        <MuiButton
+          variant={variant}
+          {...additionalProps}
+          classes={classesOverides}
+        >
           {content()}
         </MuiButton>
       );
@@ -239,6 +325,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     classes.buttonGroupContainedPrimary,
     classes.iconLeft,
     classes.iconRight,
+    classesOverides,
     iconPosition,
     menu,
     variant,

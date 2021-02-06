@@ -20,7 +20,12 @@ const theme = createMuiTheme(
         light: red[50],
         dark: red[900],
       },
-      success: { main: green[500], light: green[50], dark: green[700] },
+      success: {
+        main: green[500],
+        light: green[50],
+        dark: green[700],
+        contrastText: common.white,
+      },
       background: { default: grey[100], paper: common.white },
     },
     typography: {

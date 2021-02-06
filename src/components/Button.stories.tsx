@@ -15,6 +15,12 @@ export const ContainedColorPrimary = () => (
 export const ContainedColorSecondary = () => (
   <Button color={'secondary'}>Some Label</Button>
 );
+export const ContainedColorSuccess = () => (
+  <Button color="success">Some Label</Button>
+);
+export const ContainedColorError = () => (
+  <Button color="error">Some Label</Button>
+);
 export const ContainedDisabled = () => (
   <Button disabled={true}>Some Label</Button>
 );
@@ -38,6 +44,16 @@ export const TextColorPrimary = () => (
 );
 export const TextColorSecondary = () => (
   <Button variant="text" color={'secondary'}>
+    Some Label
+  </Button>
+);
+export const TextColorSuccess = () => (
+  <Button variant="text" color="success">
+    Some Label
+  </Button>
+);
+export const TextColorError = () => (
+  <Button variant="text" color="error">
     Some Label
   </Button>
 );
@@ -75,6 +91,16 @@ export const OutlinedColorPrimary = () => (
 );
 export const OutlinedColorSecondary = () => (
   <Button variant="outlined" color={'secondary'}>
+    Some Label
+  </Button>
+);
+export const OutlinedColorSuccess = () => (
+  <Button variant="outlined" color="success">
+    Some Label
+  </Button>
+);
+export const OutlinedColorError = () => (
+  <Button variant="outlined" color="error">
     Some Label
   </Button>
 );
@@ -157,6 +183,32 @@ export const SplitButtonPrimary = () => (
 export const SplitButtonSecondary = () => (
   <Button
     color="secondary"
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonSuccess = () => (
+  <Button
+    color="success"
+    menu={{
+      splitButton: true,
+      items: [{ handler: () => {}, label: 'Do something special' }],
+    }}
+    onClick={() => console.log('CLICK')}
+  >
+    Some menu button label
+  </Button>
+);
+
+export const SplitButtonError = () => (
+  <Button
+    color="error"
     menu={{
       splitButton: true,
       items: [{ handler: () => {}, label: 'Do something special' }],
