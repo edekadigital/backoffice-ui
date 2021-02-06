@@ -132,20 +132,20 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
     };
 
     const buttonTextHoverColorMap: Record<ButtonColor, string> = {
-      success: theme.palette.success.dark,
-      error: theme.palette.error.dark,
-      primary: theme.palette.primary.dark,
+      success: theme.palette.success.light,
+      error: theme.palette.error.light,
+      primary: 'rgba(26, 101, 178, 0.04)',
       secondary: theme.palette.secondary.dark,
-      default: theme.palette.grey.A100,
+      default: theme.palette.action.hover,
       inherit: 'inherit',
     };
 
     const buttonOutlinedBorderColorMap: Record<ButtonColor, string> = {
-      success: theme.palette.success.dark,
-      error: theme.palette.error.dark,
-      primary: theme.palette.primary.dark,
-      secondary: theme.palette.secondary.dark,
-      default: theme.palette.grey.A100,
+      success: theme.palette.success.light,
+      error: theme.palette.error.light,
+      primary: 'rgba(26, 101, 178, 0.5)',
+      secondary: theme.palette.secondary.light,
+      default: theme.palette.action.hover,
       inherit: 'inherit',
     };
 
@@ -157,20 +157,22 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
           '&:hover': { backgroundColor: buttonHoverColorMap[color] },
         };
       },
-      // TODO split, menu button
-      // TODO set color in right colors
-      // TODO set outlines border color right
-      // TODO ICON Button
-      // TODO Hover state
       outlined: ({ color }) => {
         return {
-          borderColor: buttonColorMap[color],
+          borderColor: buttonOutlinedBorderColorMap[color],
           color: buttonColorMap[color],
+          '&:hover': {
+            backgroundColor: buttonTextHoverColorMap[color],
+            borderColor: buttonColorMap[color],
+          },
         };
       },
       text: ({ color }) => {
         return {
           color: buttonColorMap[color],
+          '&:hover': {
+            backgroundColor: buttonTextHoverColorMap[color],
+          },
         };
       },
     };
@@ -259,23 +261,27 @@ export const Button: React.FC<ButtonProps> = (props) => {
           <>
             <ButtonGroup
               variant={variant}
-              // color={additionalProps.color}
               disabled={additionalProps.disabled}
               size={additionalProps.size}
               classes={{
                 groupedContainedPrimary: classes.buttonGroupContainedPrimary,
               }}
             >
-              <Button
+              <MuiButton
                 {...additionalProps}
                 variant={variant}
                 data-testid="splitButton-main"
+                classes={classesOverides}
               >
                 {content()}
-              </Button>
-              <Button onClick={handleMenuOpen} data-testid="splitButton-menu">
+              </MuiButton>
+              <MuiButton
+                onClick={handleMenuOpen}
+                data-testid="splitButton-menu"
+                classes={classesOverides}
+              >
                 <KeyboardArrowDownIcon />
-              </Button>
+              </MuiButton>
             </ButtonGroup>
             <ListMenu
               items={menu.items}
