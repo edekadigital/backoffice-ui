@@ -3,6 +3,7 @@ import {
   ButtonProps as MuiButtonProps,
   Button as MuiButton,
   ButtonGroup,
+  fade,
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -132,20 +133,38 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
     };
 
     const buttonTextHoverColorMap: Record<ButtonColor, string> = {
-      success: theme.palette.success.light,
-      error: theme.palette.error.light,
-      primary: 'rgba(26, 101, 178, 0.04)',
-      secondary: theme.palette.secondary.dark,
+      success: fade(theme.palette.success.main, 0.04),
+      error: fade(theme.palette.error.main, 0.04),
+      primary: fade(theme.palette.primary.main, 0.04),
+      secondary: fade(theme.palette.secondary.main, 0.04),
       default: theme.palette.action.hover,
       inherit: 'inherit',
     };
 
     const buttonOutlinedBorderColorMap: Record<ButtonColor, string> = {
-      success: theme.palette.success.light,
-      error: theme.palette.error.light,
-      primary: 'rgba(26, 101, 178, 0.5)',
-      secondary: theme.palette.secondary.light,
-      default: theme.palette.action.hover,
+      success: fade(theme.palette.success.main, 0.5),
+      error: fade(theme.palette.error.main, 0.5),
+      primary: fade(theme.palette.primary.main, 0.5),
+      secondary: fade(theme.palette.secondary.main, 0.5),
+      default: fade(theme.palette.common.black, 0.23),
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedHoverBorderColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: fade(theme.palette.common.black, 0.23),
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedTextColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: theme.palette.text.primary,
       inherit: 'inherit',
     };
 
@@ -160,16 +179,16 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
       outlined: ({ color }) => {
         return {
           borderColor: buttonOutlinedBorderColorMap[color],
-          color: buttonColorMap[color],
+          color: buttonOutlinedTextColorMap[color],
           '&:hover': {
             backgroundColor: buttonTextHoverColorMap[color],
-            borderColor: buttonColorMap[color],
+            borderColor: buttonOutlinedHoverBorderColorMap[color],
           },
         };
       },
       text: ({ color }) => {
         return {
-          color: buttonColorMap[color],
+          color: buttonOutlinedTextColorMap[color],
           '&:hover': {
             backgroundColor: buttonTextHoverColorMap[color],
           },
