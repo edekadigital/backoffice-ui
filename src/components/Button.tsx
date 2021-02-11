@@ -103,7 +103,7 @@ export interface ButtonProps {
    */
   variant?: ButtonVariant;
 }
-
+// https://github.com/mui-org/material-ui/issues/24778, success, error, warning, info might be added to type Color
 const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
   (theme: Theme) => {
     const buttonColorMap: Record<ButtonColor, string> = {
