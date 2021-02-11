@@ -3,6 +3,7 @@ import {
   ButtonProps as MuiButtonProps,
   Button as MuiButton,
   ButtonGroup,
+  fade,
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -12,7 +13,13 @@ import { KeyboardArrowDownIcon, ListMenu } from '..';
 
 export type ButtonVariant = 'contained' | 'text' | 'outlined';
 
-export type ButtonColor = 'inherit' | 'default' | 'primary' | 'secondary';
+export type ButtonColor =
+  | 'inherit'
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'success';
 
 export type ButtonComponent = React.ElementType<MuiButtonProps>;
 
@@ -96,6 +103,100 @@ export interface ButtonProps {
    */
   variant?: ButtonVariant;
 }
+// https://github.com/mui-org/material-ui/issues/24778, success, error, warning, info might be added to type Color
+const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
+  (theme: Theme) => {
+    const buttonColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: theme.palette.grey[300],
+      inherit: 'inherit',
+    };
+
+    const buttonTextColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.contrastText,
+      error: theme.palette.error.contrastText,
+      primary: theme.palette.primary.contrastText,
+      secondary: theme.palette.secondary.contrastText,
+      default: theme.palette.text.primary,
+      inherit: 'inherit',
+    };
+    const buttonHoverColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.dark,
+      error: theme.palette.error.dark,
+      primary: theme.palette.primary.dark,
+      secondary: theme.palette.secondary.dark,
+      default: theme.palette.grey.A100,
+      inherit: 'inherit',
+    };
+
+    const buttonTextHoverColorMap: Record<ButtonColor, string> = {
+      success: fade(theme.palette.success.main, 0.04),
+      error: fade(theme.palette.error.main, 0.04),
+      primary: fade(theme.palette.primary.main, 0.04),
+      secondary: fade(theme.palette.secondary.main, 0.04),
+      default: theme.palette.action.hover,
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedBorderColorMap: Record<ButtonColor, string> = {
+      success: fade(theme.palette.success.main, 0.5),
+      error: fade(theme.palette.error.main, 0.5),
+      primary: fade(theme.palette.primary.main, 0.5),
+      secondary: fade(theme.palette.secondary.main, 0.5),
+      default: fade(theme.palette.common.black, 0.23),
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedHoverBorderColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: fade(theme.palette.common.black, 0.23),
+      inherit: 'inherit',
+    };
+
+    const buttonOutlinedTextColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: theme.palette.text.primary,
+      inherit: 'inherit',
+    };
+
+    return {
+      contained: ({ color }) => {
+        return {
+          backgroundColor: buttonColorMap[color],
+          color: buttonTextColorMap[color],
+          '&:hover': { backgroundColor: buttonHoverColorMap[color] },
+        };
+      },
+      outlined: ({ color }) => {
+        return {
+          borderColor: buttonOutlinedBorderColorMap[color],
+          color: buttonOutlinedTextColorMap[color],
+          '&:hover': {
+            backgroundColor: buttonTextHoverColorMap[color],
+            borderColor: buttonOutlinedHoverBorderColorMap[color],
+          },
+        };
+      },
+      text: ({ color }) => {
+        return {
+          color: buttonOutlinedTextColorMap[color],
+          '&:hover': {
+            backgroundColor: buttonTextHoverColorMap[color],
+          },
+        };
+      },
+    };
+  }
+);
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -110,7 +211,6 @@ const useStyles = makeStyles((theme: Theme) => {
     },
   };
 });
-
 /**
  * | Test ID                | Description                               |
  * | ---------------------- | ----------------------------------------- |
@@ -125,9 +225,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
     showProgress = false,
     children,
     menu,
+    color = 'default',
     ...additionalProps
   } = props;
   const classes = useStyles();
+  const classesOverides = useOveridesStyles({ color });
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -178,23 +280,27 @@ export const Button: React.FC<ButtonProps> = (props) => {
           <>
             <ButtonGroup
               variant={variant}
-              color={additionalProps.color}
               disabled={additionalProps.disabled}
               size={additionalProps.size}
               classes={{
                 groupedContainedPrimary: classes.buttonGroupContainedPrimary,
               }}
             >
-              <Button
+              <MuiButton
                 {...additionalProps}
                 variant={variant}
                 data-testid="splitButton-main"
+                classes={classesOverides}
               >
                 {content()}
-              </Button>
-              <Button onClick={handleMenuOpen} data-testid="splitButton-menu">
+              </MuiButton>
+              <MuiButton
+                onClick={handleMenuOpen}
+                data-testid="splitButton-menu"
+                classes={classesOverides}
+              >
                 <KeyboardArrowDownIcon />
-              </Button>
+              </MuiButton>
             </ButtonGroup>
             <ListMenu
               items={menu.items}
@@ -211,6 +317,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
               {...additionalProps}
               variant={variant}
               onClick={handleMenuOpen}
+              classes={classesOverides}
             >
               {content()}
               <KeyboardArrowDownIcon />
@@ -226,7 +333,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
       }
     } else {
       return (
-        <MuiButton variant={variant} {...additionalProps}>
+        <MuiButton
+          variant={variant}
+          {...additionalProps}
+          classes={classesOverides}
+        >
           {content()}
         </MuiButton>
       );
@@ -239,6 +350,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     classes.buttonGroupContainedPrimary,
     classes.iconLeft,
     classes.iconRight,
+    classesOverides,
     iconPosition,
     menu,
     variant,

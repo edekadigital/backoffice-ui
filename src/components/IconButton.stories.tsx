@@ -17,6 +17,8 @@ export const Primary = () => <IconButton color="primary" icon={ArrowForward} />;
 export const PrimaryDisabled = () => (
   <IconButton color="primary" icon={ArrowForward} disabled={true} />
 );
+export const Sucess = () => <IconButton color="success" icon={ArrowForward} />;
+export const Error = () => <IconButton color="error" icon={ArrowForward} />;
 export const Download = () => (
   <IconButton
     color="primary"

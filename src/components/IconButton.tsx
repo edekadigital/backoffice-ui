@@ -3,9 +3,11 @@ import {
   IconButton as MuiIconButton,
   CircularProgress,
   SvgIconProps,
+  Theme,
 } from '@material-ui/core';
 import { ButtonColor, ButtonComponent, ButtonIcon, ButtonType } from './Button';
 import { ListMenu } from '..';
+import { makeStyles } from '@material-ui/styles';
 
 export interface IconButtonMenuItem {
   icon?: React.ElementType<SvgIconProps>;
@@ -71,6 +73,36 @@ export interface IconButtonProps {
   type?: ButtonType;
 }
 
+const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
+  (theme: Theme) => {
+    const buttonColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.main,
+      error: theme.palette.error.main,
+      primary: theme.palette.primary.main,
+      secondary: theme.palette.secondary.main,
+      default: theme.palette.action.active,
+      inherit: 'inherit',
+    };
+    const buttonHoverColorMap: Record<ButtonColor, string> = {
+      success: theme.palette.success.light,
+      error: theme.palette.error.light,
+      primary: theme.palette.primary.light,
+      secondary: theme.palette.secondary.dark,
+      default: theme.palette.action.hover,
+      inherit: 'inherit',
+    };
+
+    return {
+      root: ({ color }) => {
+        return {
+          color: buttonColorMap[color],
+          '&:hover': { backgroundColor: buttonHoverColorMap[color] },
+        };
+      },
+    };
+  }
+);
+
 /**
  * | Test ID                | Description                                       |
  * | ---------------------- | ------------------------------------------------- |
@@ -85,6 +117,8 @@ export const IconButton: React.FC<IconButtonProps> = (props) => {
     onClick,
     ...additionalProps
   } = props;
+
+  const classes = useOveridesStyles({ color });
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -109,7 +143,7 @@ export const IconButton: React.FC<IconButtonProps> = (props) => {
   return (
     <>
       <MuiIconButton
-        color={color}
+        classes={classes}
         onClick={menu ? handleMenuOpen : onClick}
         {...additionalProps}
       >
