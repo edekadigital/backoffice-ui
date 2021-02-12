@@ -35,6 +35,7 @@ interface TextEditorToolbarProps
   > {
   editorState: EditorState;
   onChange(editorState: EditorState): void;
+  disabled: boolean;
 }
 
 const useTextEditorToolbarStyles = makeStyles<Theme>((theme) => ({
@@ -166,6 +167,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
                 selected={type.style === blockType}
                 onMouseDown={(e) => handleBlockType(e, type.style)}
                 data-testid={`textEditor-headingOption-${type.style}`}
+                disabled={props.disabled}
               >
                 {type.icon}
               </StyledToggleButton>
@@ -175,7 +177,13 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.headingTypeOptions, classes.divider, blockType, handleBlockType]);
+  }, [
+    props.headingTypeOptions,
+    props.disabled,
+    classes.divider,
+    blockType,
+    handleBlockType,
+  ]);
 
   const renderInlineStyleOptions = React.useMemo(() => {
     if (!props.inlineStyleOptions || props.inlineStyleOptions.length < 1)
@@ -202,6 +210,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
                   .getCurrentInlineStyle()
                   .has(type.style)}
                 data-testid={`textEditor-inlineStyleOption-${type.style}`}
+                disabled={props.disabled}
               >
                 {type.icon}
               </StyledToggleButton>
@@ -214,6 +223,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
   }, [
     props.inlineStyleOptions,
     props.editorState,
+    props.disabled,
     classes.divider,
     handleInlineStyle,
   ]);
@@ -239,6 +249,7 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
                 selected={type.style === blockType}
                 onMouseDown={(e) => handleBlockType(e, type.style)}
                 data-testid={`textEditor-blockTypeOption-${type.style}`}
+                disabled={props.disabled}
               >
                 {type.icon}
               </StyledToggleButton>
@@ -248,7 +259,13 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
         <Divider flexItem orientation="vertical" className={classes.divider} />
       </>
     );
-  }, [props.blockTypeOptions, classes.divider, blockType, handleBlockType]);
+  }, [
+    props.blockTypeOptions,
+    props.disabled,
+    classes.divider,
+    blockType,
+    handleBlockType,
+  ]);
 
   const renderLinkOption = React.useMemo(() => {
     if (!props.linkOption) {
@@ -278,7 +295,9 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
               onClick={() =>
                 props.onChange(EditorState.undo(props.editorState))
               }
-              disabled={props.editorState.getUndoStack().size < 1}
+              disabled={
+                props.editorState.getUndoStack().size < 1 || props.disabled
+              }
               classes={{ root: classes.iconButton }}
               data-testid="textEditor-undo"
             >
@@ -292,7 +311,9 @@ export const TextEditorToolbar: React.FC<TextEditorToolbarProps> = (props) => {
               onClick={() =>
                 props.onChange(EditorState.redo(props.editorState))
               }
-              disabled={props.editorState.getRedoStack().size < 1}
+              disabled={
+                props.editorState.getRedoStack().size < 1 || props.disabled
+              }
               classes={{ root: classes.iconButton }}
               data-testid="textEditor-redo"
             >

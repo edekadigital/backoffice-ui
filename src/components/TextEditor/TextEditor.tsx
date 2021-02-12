@@ -40,6 +40,11 @@ export interface TextEditorProps {
    * The short hint displayed in the input before the user enters a value.
    */
   placeholder?: string;
+  /**
+   * If `true`, the text editor will be disabled.
+   * @default false
+   */
+  disabled?: boolean;
 }
 
 export type HeadingType = 'header-one' | 'header-two' | 'header-three';
@@ -91,6 +96,7 @@ const useTextEditorStyles = makeStyles<Theme, TextEditorProps>((theme) => ({
 }));
 
 export const TextEditor: React.FC<TextEditorProps> = (props) => {
+  const { disabled = false } = props;
   const classes = useTextEditorStyles(props);
   const editor = React.useRef<Editor | null>(null);
   const [editorState, setEditorState] = useEditorState(props.initialValue);
@@ -129,6 +135,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         headingTypeOptions={props.headingTypeOptions}
         inlineStyleOptions={props.inlineStyleOptions}
         linkOption={props.linkOption}
+        disabled={disabled}
       />
       <div
         className={classes.editor}
@@ -140,6 +147,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
           onChange={onChange}
           placeholder={placeholderText()}
           ref={editor}
+          readOnly={disabled}
         />
       </div>
     </div>

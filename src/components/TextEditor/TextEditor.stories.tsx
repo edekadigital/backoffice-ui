@@ -146,3 +146,35 @@ export const Multiple = () => {
     </>
   );
 };
+
+export const Disabled = () => {
+  const defaultValue = 'This editor is read only.';
+  const [markdown, setMarkdown] = React.useState<string | undefined>(
+    defaultValue
+  );
+  const onChange = (markdownString?: string) => {
+    setMarkdown(markdownString);
+  };
+  const renderMarkdownOutput = markdown ? (
+    <pre style={{ border: 'dotted 1px' }}>{markdown}</pre>
+  ) : null;
+  return (
+    <>
+      <TextEditor
+        onChange={onChange}
+        initialValue={markdown}
+        blockTypeOptions={[
+          'ordered-list-item',
+          'unordered-list-item',
+          'blockquote',
+        ]}
+        headingTypeOptions={['header-one', 'header-two', 'header-three']}
+        inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+        linkOption
+        placeholder="Write a text..."
+        disabled={true}
+      />
+      {renderMarkdownOutput}
+    </>
+  );
+};
