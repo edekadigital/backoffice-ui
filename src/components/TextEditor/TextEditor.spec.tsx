@@ -258,4 +258,34 @@ describe('<TextEditor />', () => {
     userEvent.click(removeButton);
     expect(onChange.mock.calls[0][0]).toBe('Lorem');
   });
+
+  it('should not be able to edit content when disabled prop is set to true', () => {
+    setupEditorStateMock();
+    const onChange = jest.fn();
+    const value = 'Bar Foo';
+    const initialValue = 'Foo Bar';
+    const { getByTestId, queryByTestId } = render(
+      <TextEditor
+        onChange={onChange}
+        disabled={true}
+        initialValue={initialValue}
+        inlineStyleOptions={['BOLD']}
+        blockTypeOptions={['ordered-list-item']}
+        headingTypeOptions={['header-one']}
+      />
+    );
+
+    const editor = getByTestId('mocked-editor');
+    const h1Button = queryByTestId('textEditor-headingOption-header-one');
+    const orderedButton = queryByTestId(
+      'textEditor-blockTypeOption-ordered-list-item'
+    );
+    const boldButton = queryByTestId('textEditor-inlineStyleOption-BOLD');
+    userEvent.click(getByTestId('textEditor-editorWrapper'));
+    fireEvent.change(editor, { target: { value } });
+    userEvent.click(orderedButton!);
+    userEvent.click(h1Button!);
+    userEvent.click(boldButton!);
+    expect(onChange.mock.calls.length).toBe(1);
+  });
 });
