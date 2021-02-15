@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { DateField } from './DateField';
 
 export default {
@@ -39,5 +40,36 @@ export const Controlled = () => {
       value={value}
       onChange={handleChange}
     />
+  );
+};
+
+export const ReactHookFormExample = () => {
+  const { handleSubmit, watch, control } = useForm<{
+    dateField: string;
+  }>();
+  const [submittedValue, setSubmittedValue] = React.useState<string>();
+  const watchedValue = watch('dateField');
+  return (
+    <>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.dateField))}>
+        <Controller
+          render={({ ref, ...props }) => (
+            <DateField
+              label="Geburtsdatum"
+              placeholder="TT.MM.JJJJ"
+              inputRef={ref}
+              {...props}
+            />
+          )}
+          name="dateField"
+          control={control}
+        />
+        <br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <pre>Watched value: {watchedValue}</pre>
+      <pre>Submitted value: {submittedValue}</pre>
+    </>
   );
 };
