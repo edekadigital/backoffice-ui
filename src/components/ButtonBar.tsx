@@ -4,7 +4,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export type ButtonBarAlign = 'left' | 'right' | 'center';
 export interface ButtonBarProps {
   /**
-   * Aligns the items to the `left` or `right`.
+   * Aligns the items to the `left`, `right` or `center`.
    * @default "left"
    */
   align?: ButtonBarAlign;

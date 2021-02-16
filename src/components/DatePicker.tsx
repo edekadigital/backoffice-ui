@@ -33,7 +33,11 @@ export interface DatePickerProps {
   /**
    * Pass a ref to the input element.
    */
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.Ref<HTMLInputElement>;
+  /**
+   * Name attribute of the input element.
+   */
+  name?: string;
   /**
    * Callback fired when the value is changed.
    */

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Launch, Star, History, CloudDownload, Check } from '../icons';
 import { RadioButtonTiles } from './RadioButtonTiles';
-import { Page } from '..';
+import { Body, Page } from '..';
+import { Controller, useForm } from 'react-hook-form';
 
 export default {
   title: 'Components/RadioButtonTiles',
@@ -87,5 +88,54 @@ export const FourTilesPerLine = () => {
         tilesPerLine={4}
       />
     </Page>
+  );
+};
+
+export const ReactHookFormExample = () => {
+  const { control, handleSubmit, watch } = useForm<{ selected: string }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    string | undefined
+  >();
+
+  const watchedValue = watch('selected');
+  return (
+    <>
+      <Body gutterBottom={3} variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.selected))}>
+        <Controller
+          render={({ value, onChange }) => (
+            <RadioButtonTiles
+              items={[
+                { label: 'Option A', value: 'a', icon: Launch },
+                { label: 'Option B', value: 'b', icon: Star },
+                { label: 'Option C', value: 'c', icon: History },
+                { value: 'd', icon: CloudDownload },
+                { value: 'e', icon: Check },
+              ]}
+              tilesPerLine={4}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+          name="selected"
+          defaultValue={undefined}
+          control={control}
+        />
+        <br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <pre>
+        Watched value:{' '}
+        {watchedValue !== undefined ? watchedValue.toString() : ''}
+      </pre>
+      <pre>
+        Submitted value:{' '}
+        {submittedValue !== undefined ? submittedValue.toString() : ''}
+      </pre>
+    </>
   );
 };

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
+import { useForm } from 'react-hook-form';
+import { Body, TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
 import { IconButton } from './IconButton';
 import { Paper } from './Paper';
 
@@ -76,5 +77,36 @@ export const Invert = () => {
     <Paper backgroundColor="primary">
       <TextField color="secondary" label="Some Label" />
     </Paper>
+  );
+};
+
+export const ReactHookFormExample = () => {
+  const { register, handleSubmit, watch } = useForm<{ text: string }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    string | undefined
+  >();
+
+  const watchedValue = watch('text');
+  return (
+    <>
+      <Body gutterBottom={3} variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.text))}>
+        <TextField name="text" inputRef={register} />
+        <br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <pre>
+        Watched value:{' '}
+        {watchedValue !== undefined ? watchedValue.toString() : ''}
+      </pre>
+      <pre>
+        Submitted value:{' '}
+        {submittedValue !== undefined ? submittedValue.toString() : ''}
+      </pre>
+    </>
   );
 };

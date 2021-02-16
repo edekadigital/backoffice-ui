@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Body } from '../..';
 import { TextEditor } from './TextEditor';
 
 export default {
@@ -175,6 +177,48 @@ export const Disabled = () => {
         disabled={true}
       />
       {renderMarkdownOutput}
+    </>
+  );
+};
+
+export const ReactHookFormExample = () => {
+  const { control, handleSubmit, watch } = useForm<{ text: string }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    string | undefined
+  >();
+
+  const watchedValue = watch('text');
+  return (
+    <>
+      <Body gutterBottom={3} variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.text))}>
+        <Controller
+          render={({ onChange }) => (
+            <TextEditor
+              placeholder="Write a text..."
+              inlineStyleOptions={['BOLD', 'ITALIC', 'UNDERLINE']}
+              onChange={onChange}
+            />
+          )}
+          name="text"
+          defaultValue=""
+          control={control}
+        />
+        <br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <pre>
+        Watched value:{' '}
+        {watchedValue !== undefined ? watchedValue.toString() : ''}
+      </pre>
+      <pre>
+        Submitted value:{' '}
+        {submittedValue !== undefined ? submittedValue.toString() : ''}
+      </pre>
     </>
   );
 };
