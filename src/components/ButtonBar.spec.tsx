@@ -28,4 +28,14 @@ describe('<ButtonBar />', () => {
     expect(getByTestId('buttonBar-item-0')).toBeTruthy();
     expect(getByTestId('buttonBar-item-0').textContent).toBe('Lorem');
   });
+
+  it('should render the button bar centered aligned', () => {
+    const { getByTestId } = render(
+      <ButtonBar align={'center'}>
+        <div>Lorem</div>
+      </ButtonBar>
+    );
+    expect(getByTestId('buttonBar-item-0')).toBeTruthy();
+    expect(getByTestId('buttonBar-item-0').textContent).toBe('Lorem');
+  });
 });
