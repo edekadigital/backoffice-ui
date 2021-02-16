@@ -62,6 +62,7 @@ export const ReactHookFormExample = () => {
             />
           )}
           name="dateField"
+          defaultValue=""
           control={control}
         />
         <br />

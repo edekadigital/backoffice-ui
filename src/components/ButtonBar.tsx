@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export type ButtonBarAlign = 'left' | 'right';
+export type ButtonBarAlign = 'left' | 'right' | 'center';
 export interface ButtonBarProps {
   /**
    * Aligns the items to the `left` or `right`.
@@ -14,11 +14,24 @@ const useStyles = makeStyles<Theme, ButtonBarProps>((theme) => ({
   root: {
     margin: theme.spacing(-2),
   },
-  wrapper: ({ align = 'left' }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: align === 'right' ? 'flex-end' : 'initial',
-  }),
+  wrapper: ({ align = 'left' }) => {
+    let justify;
+    switch (align) {
+      case 'center':
+        justify = 'center';
+        break;
+      case 'right':
+        justify = 'flex-end';
+        break;
+      default:
+        justify = 'initial';
+    }
+    return {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: justify,
+    };
+  },
   item: {
     margin: theme.spacing(2),
   },
