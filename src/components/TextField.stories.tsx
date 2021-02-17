@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Body, TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
+import { Body, Button, TextField, Visibility } from '..'; // @edekadigital/backoffice-ui
 import { IconButton } from './IconButton';
 import { Paper } from './Paper';
 
@@ -97,16 +97,10 @@ export const ReactHookFormExample = () => {
         <TextField name="text" inputRef={register} />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      <pre>
-        Watched value:{' '}
-        {watchedValue !== undefined ? watchedValue.toString() : ''}
-      </pre>
-      <pre>
-        Submitted value:{' '}
-        {submittedValue !== undefined ? submittedValue.toString() : ''}
-      </pre>
+      <pre>Watched value: {watchedValue}</pre>
+      <pre>Submitted value: {submittedValue}</pre>
     </>
   );
 };

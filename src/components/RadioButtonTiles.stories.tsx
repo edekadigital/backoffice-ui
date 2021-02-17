@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Launch, Star, History, CloudDownload, Check } from '../icons';
 import { RadioButtonTiles } from './RadioButtonTiles';
-import { Body, Page } from '..';
+import { Body, Button, Page } from '..';
 import { Controller, useForm } from 'react-hook-form';
 
 export default {
@@ -126,16 +126,10 @@ export const ReactHookFormExample = () => {
         />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      <pre>
-        Watched value:{' '}
-        {watchedValue !== undefined ? watchedValue.toString() : ''}
-      </pre>
-      <pre>
-        Submitted value:{' '}
-        {submittedValue !== undefined ? submittedValue.toString() : ''}
-      </pre>
+      <pre>Watched value: {watchedValue}</pre>
+      <pre>Submitted value: {submittedValue}</pre>
     </>
   );
 };

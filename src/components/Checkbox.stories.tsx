@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Body, Checkbox } from '..'; // @edekadigital/backoffice-ui
+import { Body, Button, Checkbox } from '..'; // @edekadigital/backoffice-ui
 import { edekaBlue } from '../constants/colors';
 
 export default {
@@ -33,7 +33,7 @@ export const ReactHookFormExample = () => {
         <Checkbox name="checked" inputRef={register} />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
       <pre>
         Watched value:{' '}

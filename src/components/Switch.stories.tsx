@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Body, Switch } from '..'; // @edekadigital/backoffice-ui
+import { Body, Button, Switch } from '..'; // @edekadigital/backoffice-ui
 
 export default {
   title: 'Components/Switch',
@@ -48,7 +48,7 @@ export const ReactHookFormExample = () => {
         <Switch label="Some label" name="switch" inputRef={register} />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
       <pre>
         Watched value:{' '}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Button } from '..';
 import { DateField } from './DateField';
 
 export default {
@@ -67,7 +68,7 @@ export const ReactHookFormExample = () => {
         />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
       <pre>Watched value: {watchedValue}</pre>
       <pre>Submitted value: {submittedValue}</pre>

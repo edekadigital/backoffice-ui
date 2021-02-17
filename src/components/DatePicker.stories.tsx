@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Body, DatePicker } from '..'; // @edekadigital/backoffice-ui
+import { Body, Button, DatePicker } from '..'; // @edekadigital/backoffice-ui
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -84,9 +84,9 @@ export const WithValue = () => {
 };
 
 export const ReactHookFormExample = () => {
-  const { control, handleSubmit, watch } = useForm<{ date: boolean }>();
+  const { control, handleSubmit, watch } = useForm<{ date: Date }>();
   const [submittedValue, setSubmittedValue] = React.useState<
-    boolean | undefined
+    Date | undefined
   >();
 
   const watchedValue = watch('date');
@@ -107,15 +107,11 @@ export const ReactHookFormExample = () => {
         />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
+      <pre>Watched value: {watchedValue ? watchedValue.toString() : ''}</pre>
       <pre>
-        Watched value:{' '}
-        {watchedValue !== undefined ? watchedValue.toString() : ''}
-      </pre>
-      <pre>
-        Submitted value:{' '}
-        {submittedValue !== undefined ? submittedValue.toString() : ''}
+        Submitted value: {submittedValue ? submittedValue.toString() : ''}
       </pre>
     </>
   );
