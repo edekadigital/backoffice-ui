@@ -22,7 +22,7 @@ export interface CheckboxProps {
   /**
    * Pass a ref to the `input` element.
    */
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.Ref<HTMLInputElement>;
   /**
    * If `true`, the component appears indeterminate.
    */
@@ -32,6 +32,10 @@ export interface CheckboxProps {
    * This might be helpful e.g. if the checkbox is being placed on a dark background.
    */
   inverted?: boolean;
+  /**
+   * Name attribute of the input element.
+   */
+  name?: string;
   /**
    * Callback fired when the state is changed.
    *

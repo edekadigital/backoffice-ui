@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { DatePicker } from '..'; // @edekadigital/backoffice-ui
+import { Body, Button, DatePicker } from '..'; // @edekadigital/backoffice-ui
 import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 export default {
   title: 'Components/DatePicker',
@@ -80,4 +81,38 @@ export const WithError = () => {
 export const WithValue = () => {
   const [value, setValue] = useState<Date | null>(new Date('12 24 2020'));
   return <DatePicker label="Some label" value={value} onChange={setValue} />;
+};
+
+export const ReactHookFormExample = () => {
+  const { control, handleSubmit, watch } = useForm<{ date: Date }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    Date | undefined
+  >();
+
+  const watchedValue = watch('date');
+  return (
+    <>
+      <Body gutterBottom={3} variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.date))}>
+        <Controller
+          render={({ ref, ...props }) => (
+            <DatePicker label="Geburtsdatum" inputRef={ref} {...props} />
+          )}
+          name="date"
+          defaultValue={undefined}
+          control={control}
+        />
+        <br />
+        <br />
+        <Button type="submit">Submit</Button>
+      </form>
+      <pre>Watched value: {watchedValue ? watchedValue.toString() : ''}</pre>
+      <pre>
+        Submitted value: {submittedValue ? submittedValue.toString() : ''}
+      </pre>
+    </>
+  );
 };

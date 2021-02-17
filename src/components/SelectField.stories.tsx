@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Body, Button } from '..';
 import { Paper } from './Paper';
 import { SelectField } from './SelectField';
 import { TextField } from './TextField';
@@ -129,5 +131,49 @@ export const WithContrastColor = () => {
         color="secondary"
       />
     </Paper>
+  );
+};
+
+export const ReactHookFormExample = () => {
+  const { handleSubmit, watch, control } = useForm<{
+    country: string;
+  }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    string | undefined
+  >();
+
+  const watchedValue = watch('country');
+  return (
+    <>
+      <Body gutterBottom={3} variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.country))}>
+        <Controller
+          render={({ ref, ...props }) => (
+            <SelectField
+              label="Some label"
+              menuItems={[
+                { value: '', label: 'Keine Angabe' },
+                { value: 'de', label: 'Germany' },
+                { value: 'se', label: 'Sweden' },
+                { value: 'pl', label: 'Poland' },
+              ]}
+              inputRef={ref}
+              {...props}
+            />
+          )}
+          name="country"
+          control={control}
+          defaultValue=""
+        />
+        <br />
+        <br />
+        <Button type="submit">Submit</Button>
+      </form>
+      <pre>Watched value: {watchedValue}</pre>
+      <pre>Submitted value: {submittedValue}</pre>
+    </>
   );
 };

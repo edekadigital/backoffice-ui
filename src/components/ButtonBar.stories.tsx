@@ -19,3 +19,10 @@ export const RightAligned = () => (
     <Button variant="text">Lorem ipsum</Button>
   </ButtonBar>
 );
+
+export const CenterAligned = () => (
+  <ButtonBar align={'center'}>
+    <Button>Lorem ipsum</Button>
+    <Button variant="text">Lorem ipsum</Button>
+  </ButtonBar>
+);

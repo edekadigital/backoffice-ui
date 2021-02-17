@@ -24,6 +24,14 @@ export interface SwitchProps {
    */
   id?: string;
   /**
+   * Pass a ref to the input element.
+   */
+  inputRef?: React.Ref<HTMLInputElement>;
+  /**
+   * Name attribute of the input element.
+   */
+  name?: string;
+  /**
    * The value of the input element, required for a controlled component.
    */
   value?: SwitchValue;

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Switch } from '..'; // @edekadigital/backoffice-ui
+import { useForm } from 'react-hook-form';
+import { Body, Button, Switch } from '..'; // @edekadigital/backoffice-ui
 
 export default {
   title: 'Components/Switch',
@@ -28,4 +29,35 @@ export const Controlled = () => {
     );
   };
   return <StoryComponent />;
+};
+
+export const ReactHookFormExample = () => {
+  const { register, handleSubmit, watch } = useForm<{ switch: boolean }>();
+  const [submittedValue, setSubmittedValue] = React.useState<
+    boolean | undefined
+  >();
+
+  const watchedValue = watch('switch');
+  return (
+    <>
+      <Body gutterBottom variant="body2" backgroundColor="primary">
+        <strong>For further information see:</strong>{' '}
+        https://react-hook-form.com/
+      </Body>
+      <form onSubmit={handleSubmit((d) => setSubmittedValue(d.switch))}>
+        <Switch label="Some label" name="switch" inputRef={register} />
+        <br />
+        <br />
+        <Button type="submit">Submit</Button>
+      </form>
+      <pre>
+        Watched value:{' '}
+        {watchedValue !== undefined ? watchedValue.toString() : ''}
+      </pre>
+      <pre>
+        Submitted value:{' '}
+        {submittedValue !== undefined ? submittedValue.toString() : ''}
+      </pre>
+    </>
+  );
 };
