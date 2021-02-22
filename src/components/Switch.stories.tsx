@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Body, Button, Switch } from '..'; // @edekadigital/backoffice-ui
 
 export default {
@@ -32,10 +32,24 @@ export const Controlled = () => {
 };
 
 export const ReactHookFormExample = () => {
-  const { register, handleSubmit, watch } = useForm<{ switch: boolean }>();
+  const { control, handleSubmit, watch, reset } = useForm<{
+    switch: boolean;
+  }>();
   const [submittedValue, setSubmittedValue] = React.useState<
     boolean | undefined
   >();
+
+  const [data, setData] = React.useState<{ switch: true }>();
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setData({ switch: true });
+    }, 1000);
+  }, []);
+
+  React.useEffect(() => {
+    reset(data);
+  }, [data, reset]);
 
   const watchedValue = watch('switch');
   return (
@@ -45,7 +59,20 @@ export const ReactHookFormExample = () => {
         https://react-hook-form.com/
       </Body>
       <form onSubmit={handleSubmit((d) => setSubmittedValue(d.switch))}>
-        <Switch label="Some label" name="switch" inputRef={register} />
+        <Controller
+          name="switch"
+          control={control}
+          defaultValue={false}
+          render={({ onChange, value }) => {
+            return (
+              <Switch
+                label="EDEKA-Inspiration"
+                onChange={(e) => onChange(e.target.checked)}
+                checked={value}
+              />
+            );
+          }}
+        />
         <br />
         <br />
         <Button type="submit">Submit</Button>
