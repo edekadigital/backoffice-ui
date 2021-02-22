@@ -28,6 +28,10 @@ export interface SwitchProps {
    */
   inputRef?: React.Ref<HTMLInputElement>;
   /**
+   * Overwrites the default `data-testid` for the input element.
+   */
+  inputTestId?: string;
+  /**
    * Name attribute of the input element.
    */
   name?: string;
@@ -50,9 +54,9 @@ export interface SwitchProps {
  * | `switch-input`   | switch input field/button  |
  */
 export const Switch: React.FC<SwitchProps> = (props) => {
-  const { label, ...additionalProps } = props;
+  const { label, inputTestId = 'switch-input', ...additionalProps } = props;
   const inputProps = {
-    'data-testid': 'switch-input',
+    'data-testid': inputTestId,
   } as React.InputHTMLAttributes<HTMLInputElement>;
   const control = (
     <MuiSwitch color="primary" inputProps={inputProps} {...additionalProps} />
