@@ -79,6 +79,27 @@ export const Default = () => {
           TH: false,
         },
       },
+      {
+        label: 'Lorem ipsum dolor 2',
+        values: {
+          BB: false,
+          BE: false,
+          BW: false,
+          BY: false,
+          HB: false,
+          HE: false,
+          HH: false,
+          MV: false,
+          NI: false,
+          NW: false,
+          RP: false,
+          SH: false,
+          SL: false,
+          SN: false,
+          ST: false,
+          TH: false,
+        },
+      },
     ],
     []
   );

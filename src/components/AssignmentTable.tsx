@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
     overflow: 'hidden',
-    borderBottom: `solid 1px ${theme.palette.grey[300]}`,
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
@@ -154,7 +153,7 @@ export const AssignmentTable = ({
           </TableHead>
           <TableBody>
             {rows.map((row, rowIndex) => (
-              <TableRow key={`assignmentTable-row-${rowIndex}`}>
+              <TableRow key={`assignmentTable-row-${rowIndex}`} hover>
                 <TableCell variant="head">{row.label}</TableCell>
                 {columns.map(({ accessor }, columnIndex) => {
                   const key = `assignmentTable-cell-${rowIndex}-${columnIndex}`;
