@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Add } from '../icons';
 
-import { AssignmentTable } from './AssignmentTable';
+import { AssignmentTable, AssignmentTableProps } from './AssignmentTable';
 
 export default {
   title: 'Components/AssignmentTable',
@@ -9,7 +9,27 @@ export default {
 };
 
 export const Default = () => {
-  const columns = React.useMemo(
+  type Key =
+    | 'BB'
+    | 'BE'
+    | 'BW'
+    | 'BY'
+    | 'HB'
+    | 'HE'
+    | 'HH'
+    | 'MV'
+    | 'NI'
+    | 'NW'
+    | 'RP'
+    | 'SH'
+    | 'SL'
+    | 'SN'
+    | 'ST'
+    | 'TH';
+
+  type TableProps = AssignmentTableProps<Key>;
+
+  const columns = React.useMemo<TableProps['columns']>(
     () => [
       { accessor: 'BB', abbreviation: 'BB', label: 'Brandenburg' },
       { accessor: 'BE', abbreviation: 'BE', label: 'Berlin' },
@@ -35,7 +55,7 @@ export const Default = () => {
     []
   );
 
-  const initialsRows = React.useMemo(
+  const initialsRows = React.useMemo<TableProps['rows']>(
     () => [
       {
         label: 'Loremipsum',
@@ -106,18 +126,17 @@ export const Default = () => {
 
   const [rows, setRows] = React.useState(initialsRows);
 
-  const handleChange = (
-    rowIndex: number,
-    accessor: string,
-    newValue: boolean
+  const handleChange: TableProps['onChange'] = (
+    rowIndex,
+    accessor,
+    newValue
   ) => {
     setRows((prevRows) =>
       prevRows.map((row, index) => {
         let updatedRow = row;
-        if (index === rowIndex && accessor in updatedRow.values) {
+        if (index === rowIndex) {
           updatedRow = { ...row };
-          // TODO improve types
-          (updatedRow.values as Record<string, boolean>)[accessor] = newValue;
+          updatedRow.values[accessor] = newValue;
         }
         return updatedRow;
       })

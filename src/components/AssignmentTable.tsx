@@ -14,40 +14,43 @@ import { Checkbox } from './Checkbox';
 import { Button } from './Button';
 import { Heading } from '../typography/Heading';
 
-type Accessor = string;
 interface ActionItem {
   label: string;
   icon?: React.ElementType<SvgIconProps>;
   handler: React.MouseEventHandler<HTMLElement>;
 }
-interface Row {
+
+type Accessor<K extends string> = K;
+
+interface Row<K extends string> {
   label: string;
-  values: Record<Accessor, boolean>;
+  values: Record<Accessor<K>, boolean>;
 }
-interface Column {
-  accessor: Accessor;
+interface Column<K extends string> {
+  accessor: Accessor<K>;
   label?: string;
   abbreviation?: string;
 }
 
-type ChangeHandler = (
+type ChangeHandler<K extends string> = (
   rowIndex: number,
-  accessor: Accessor,
+  accessor: Accessor<K>,
   value: boolean
 ) => unknown;
-export interface AssignmentTableProps {
+
+export interface AssignmentTableProps<K extends string = string> {
   /**
    * The core columns configuration object for the entire table.
    */
-  columns: Column[];
+  columns: Column<K>[];
   /**
    * Set of rows.
    */
-  rows: Row[];
+  rows: Row<K>[];
   /**
    * Callback fired when the state is changed.
    */
-  onChange?: ChangeHandler;
+  onChange?: ChangeHandler<K>;
   /**
    * Table headline
    */
@@ -77,17 +80,17 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const AssignmentTable = ({
+export const AssignmentTable = <K extends string>({
   columns,
   rows,
   onChange,
   headline,
   actions = [],
-}: AssignmentTableProps) => {
+}: AssignmentTableProps<K>) => {
   const classes = useStyles();
 
   const createChangeHandler = React.useCallback(
-    (rowIndex: number, accessor: Accessor) =>
+    (rowIndex: number, accessor: Accessor<K>) =>
       onChange
         ? (_: unknown, checked: boolean) => {
             onChange(rowIndex, accessor, checked);
