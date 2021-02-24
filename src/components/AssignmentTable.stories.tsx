@@ -1,70 +1,121 @@
 import * as React from 'react';
+import { Add } from '../icons';
 
-import { AssignmentTable, AssignmentTableProps } from './AssignmentTable';
+import { AssignmentTable } from './AssignmentTable';
 
 export default {
   title: 'Components/AssignmentTable',
   component: AssignmentTable,
 };
 
-/*
-{ accessor: 'BB', label: 'Brandenburg', sortable: false },
-    { accessor: 'BE', label: 'Berlin', sortable: false },
-    { accessor: 'BW', label: 'Baden-Württemberg', sortable: false },
-    { accessor: 'BY', label: 'Bayern', sortable: false },
-    { accessor: 'HB', label: 'Bremen', sortable: false },
-    { accessor: 'HE', label: 'Hessen', sortable: false },
-    { accessor: 'HH', label: 'Hamburg', sortable: false },
-    { accessor: 'MV', label: 'Mecklenburg-Vorpommern', sortable: false },
-    { accessor: 'NI', label: 'Niedersachsen', sortable: false },
-    { accessor: 'NW', label: 'Nordrhein-Westfalen', sortable: false },
-    { accessor: 'RP', label: 'Rheinland-Pfalz', sortable: false },
-    { accessor: 'SH', label: 'Schleswig-Holstein', sortable: false },
-    { accessor: 'SL', label: 'Saarland', sortable: false },
-    { accessor: 'SN', label: 'Sachsen', sortable: false },
-    { accessor: 'ST', label: 'Sachsen-Anhalt', sortable: false },
-    { accessor: 'TH', label: 'Thüringen', sortable: false },
-    */
-
 export const Default = () => {
-  type State =
-    | 'BB'
-    | 'BE'
-    | 'BW'
-    | 'BY'
-    | 'HB'
-    | 'HE'
-    | 'HH'
-    | 'MV'
-    | 'NI'
-    | 'NW'
-    | 'RP'
-    | 'SH'
-    | 'SL'
-    | 'SN'
-    | 'ST'
-    | 'TH';
+  const columns = React.useMemo(
+    () => [
+      { accessor: 'BB', abbreviation: 'BB', label: 'Brandenburg' },
+      { accessor: 'BE', abbreviation: 'BE', label: 'Berlin' },
+      { accessor: 'BW', abbreviation: 'BW', label: 'Baden-Württemberg' },
+      { accessor: 'BY', abbreviation: 'BY', label: 'Bayern' },
+      { accessor: 'HB', abbreviation: 'HB', label: 'Bremen' },
+      { accessor: 'HE', abbreviation: 'HE', label: 'Hessen' },
+      { accessor: 'HH', abbreviation: 'HH', label: 'Hamburg' },
+      {
+        accessor: 'MV',
+        abbreviation: 'MV',
+        label: 'Mecklenburg-Vorpommern',
+      },
+      { accessor: 'NI', abbreviation: 'NI', label: 'Niedersachsen' },
+      { accessor: 'NW', abbreviation: 'NW', label: 'Nordrhein-Westfalen' },
+      { accessor: 'RP', abbreviation: 'RP', label: 'Rheinland-Pfalz' },
+      { accessor: 'SH', abbreviation: 'SH', label: 'Schleswig-Holstein' },
+      { accessor: 'SL', abbreviation: 'SL', label: 'Saarland' },
+      { accessor: 'SN', abbreviation: 'SN', label: 'Sachsen' },
+      { accessor: 'ST', abbreviation: 'ST', label: 'Sachsen-Anhalt' },
+      { accessor: 'TH', abbreviation: 'TH', label: 'Thüringen' },
+    ],
+    []
+  );
 
-  type Data = Record<State, boolean>;
+  const initialsRows = React.useMemo(
+    () => [
+      {
+        label: 'Loremipsum',
+        values: {
+          BB: false,
+          BE: false,
+          BW: false,
+          BY: false,
+          HB: false,
+          HE: false,
+          HH: false,
+          MV: false,
+          NI: false,
+          NW: false,
+          RP: false,
+          SH: false,
+          SL: false,
+          SN: false,
+          ST: false,
+          TH: false,
+        },
+      },
+      {
+        label: 'Lorem ipsum dolor',
+        values: {
+          BB: false,
+          BE: false,
+          BW: false,
+          BY: false,
+          HB: false,
+          HE: false,
+          HH: false,
+          MV: false,
+          NI: false,
+          NW: false,
+          RP: false,
+          SH: false,
+          SL: false,
+          SN: false,
+          ST: false,
+          TH: false,
+        },
+      },
+    ],
+    []
+  );
 
-  const columns: AssignmentTableProps<Data>['columns'] = [
-    { accessor: 'BB' },
-    { accessor: 'BE' },
-    { accessor: 'BW' },
-    { accessor: 'BY' },
-    { accessor: 'HB' },
-    { accessor: 'HE' },
-    { accessor: 'HH' },
-    { accessor: 'MV' },
-    { accessor: 'NI' },
-    { accessor: 'NW' },
-    { accessor: 'RP' },
-    { accessor: 'SH' },
-    { accessor: 'SL' },
-    { accessor: 'SN' },
-    { accessor: 'ST' },
-    { accessor: 'TH' },
-  ];
+  const [rows, setRows] = React.useState(initialsRows);
 
-  return <AssignmentTable columns={columns} rows={[]} />;
+  const handleChange = (
+    rowIndex: number,
+    accessor: string,
+    newValue: boolean
+  ) => {
+    setRows((prevRows) =>
+      prevRows.map((row, index) => {
+        let updatedRow = row;
+        if (index === rowIndex && accessor in updatedRow.values) {
+          updatedRow = { ...row };
+          // TODO improve types
+          (updatedRow.values as Record<string, boolean>)[accessor] = newValue;
+        }
+        return updatedRow;
+      })
+    );
+  };
+
+  return (
+    <AssignmentTable
+      columns={columns}
+      rows={rows}
+      onChange={handleChange}
+      headline="Lorem ipsum dolor"
+      actions={[
+        {
+          icon: Add,
+          label: 'Some Action',
+          handler: () => console.log('Some Action is called'),
+        },
+      ]}
+    />
+  );
 };
