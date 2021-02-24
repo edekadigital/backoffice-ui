@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GridRow } from '..';
 import { Button } from './Button';
 import { Dialog } from './Dialog';
 import { Loader } from './Loader';
@@ -16,10 +17,6 @@ export const WithMessage = () => {
   return <Loader message="Lorem ipsum dolor sit amet." />;
 };
 
-export const WithPadding = () => {
-  return <Loader message="Lorem ipsum dolor sit amet." padding={10} />;
-};
-
 export const InsideDialog = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const handleClose = React.useCallback(() => {
@@ -29,7 +26,9 @@ export const InsideDialog = () => {
     <>
       <Button onClick={() => setOpen(true)}>open dialog</Button>
       <Dialog open={open} title={'Lorem ipsum'} onClose={handleClose}>
-        <Loader message="Lorem ipsum dolor sit amet." padding={20} />
+        <GridRow gutterBottom={10} gutterTop={10}>
+          <Loader message="Lorem ipsum dolor sit amet." />
+        </GridRow>
       </Dialog>
     </>
   );

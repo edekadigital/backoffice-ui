@@ -10,7 +10,7 @@ describe('<ListMenu/>', () => {
     expect(getByTestId('circular-progress')).toBeTruthy();
   });
   it('should render the component with message', () => {
-    const { getByTestId } = render(<Loader message="Message" padding={true} />);
+    const { getByTestId } = render(<Loader message="Message" />);
     expect(getByTestId('circular-progress')).toBeTruthy();
     expect(getByTestId('message')).toBeTruthy();
   });
