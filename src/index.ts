@@ -34,6 +34,7 @@ export * from './components/TextEditor/TextEditor';
 export * from './components/TextField';
 export * from './components/TitleBar';
 export * from './components/Checkbox';
+export * from './components/AssignmentTable';
 
 export * from './forms/FormWrapper';
 export * from './forms/FormRow';
