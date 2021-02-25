@@ -31,7 +31,6 @@ const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
 export const GridRow: React.FC<GridRowProps> = (props) => {
   const { gridVariant = '12' } = props;
   const classes = useStyles(props);
-
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children];
