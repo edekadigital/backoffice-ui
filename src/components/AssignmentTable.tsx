@@ -80,6 +80,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * | Test ID                                                 | Description                                     |
+ * | ------------------------------------------------------- | ----------------------------------------------- |
+ * | `assignmentTable-headline`                              | Table headline                                  |
+ * | `assignmentTable-actions`                               | Additional actions displayed in table head      |
+ * | `assignmentTable-actions-${index}`                      | Button inside addtional actions                 |
+ * | `assignmentTable-container`                             | table container                                 |
+ * | `assignmentTable-head`                                  | table head container                            |
+ * | `assignmentTable-head-column-${index}`                  | table head column                               |
+ * | `assignmentTable-row-${rowIndex}`                       | Row                                             |
+ * | `assignmentTable-row-${rowIndex}-column-${columnIndex}` | Specific table cell                             |
+ */
 export const AssignmentTable = <K extends string>({
   columns,
   rows,
@@ -134,7 +146,7 @@ export const AssignmentTable = <K extends string>({
               <TableCell>&#8203;</TableCell>
               {columns.map((column, columnIndex) => {
                 const { label, accessor, abbreviation } = column;
-                const key = `assignmentTable-head-${columnIndex}`;
+                const key = `assignmentTable-head-column-${columnIndex}`;
                 return (
                   <TableCell
                     key={key}
@@ -155,27 +167,30 @@ export const AssignmentTable = <K extends string>({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, rowIndex) => (
-              <TableRow key={`assignmentTable-row-${rowIndex}`} hover>
-                <TableCell variant="head">{row.label}</TableCell>
-                {columns.map(({ accessor }, columnIndex) => {
-                  const key = `assignmentTable-cell-${rowIndex}-${columnIndex}`;
-                  return (
-                    <TableCell
-                      key={key}
-                      data-testid={key}
-                      align="center"
-                      padding="checkbox"
-                    >
-                      <Checkbox
-                        checked={row.values[accessor]}
-                        onChange={createChangeHandler(rowIndex, accessor)}
-                      />
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
+            {rows.map((row, rowIndex) => {
+              const rowKey = `assignmentTable-row-${rowIndex}`;
+              return (
+                <TableRow key={rowKey} data-testid={rowKey} hover>
+                  <TableCell variant="head">{row.label}</TableCell>
+                  {columns.map(({ accessor }, columnIndex) => {
+                    const columnKey = `assignmentTable-row-${rowIndex}-column-${columnIndex}`;
+                    return (
+                      <TableCell
+                        key={columnKey}
+                        data-testid={columnKey}
+                        align="center"
+                        padding="checkbox"
+                      >
+                        <Checkbox
+                          checked={row.values[accessor]}
+                          onChange={createChangeHandler(rowIndex, accessor)}
+                        />
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
