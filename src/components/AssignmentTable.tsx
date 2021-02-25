@@ -115,18 +115,18 @@ export const AssignmentTable = <K extends string>({
     <Paper className={classes.paper} variant="outlined">
       {(headline || actions.length) && (
         <Toolbar className={classes.toolbar} disableGutters>
-          <Heading variant={'h6'} data-testid={'assignmentTable-headline'}>
+          <Heading variant="h6" data-testid="assignmentTable-headline">
             {headline}
           </Heading>
           <div
             className={classes.actions}
-            data-testid={'assignmentTable-actions'}
+            data-testid="assignmentTable-actions"
           >
             {actions.map((action, index) => {
               const key = `assignmentTable-actions-${index}`;
               return (
                 <Button
-                  color={'primary'}
+                  color="primary"
                   icon={action.icon}
                   onClick={action.handler}
                   key={key}
@@ -139,9 +139,9 @@ export const AssignmentTable = <K extends string>({
           </div>
         </Toolbar>
       )}
-      <TableContainer data-testid={'assignmentTable-container'}>
+      <TableContainer data-testid="assignmentTable-container">
         <Table>
-          <TableHead data-testid={'assignmentTable-head'}>
+          <TableHead data-testid="assignmentTable-head">
             <TableRow>
               <TableCell>&#8203;</TableCell>
               {columns.map((column, columnIndex) => {
