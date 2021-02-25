@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme: Theme) => ({
  * | `assignmentTable-head`                                  | table head container                            |
  * | `assignmentTable-head-column-${index}`                  | table head column                               |
  * | `assignmentTable-row-${rowIndex}`                       | Row                                             |
+ * | `assignmentTable-row-${rowIndex}-label`                 | Row label                                       |
  * | `assignmentTable-row-${rowIndex}-column-${columnIndex}` | Specific table cell                             |
  */
 export const AssignmentTable = <K extends string>({
@@ -171,7 +172,9 @@ export const AssignmentTable = <K extends string>({
               const rowKey = `assignmentTable-row-${rowIndex}`;
               return (
                 <TableRow key={rowKey} data-testid={rowKey} hover>
-                  <TableCell variant="head">{row.label}</TableCell>
+                  <TableCell variant="head" data-testid={`${rowKey}-label`}>
+                    {row.label}
+                  </TableCell>
                   {columns.map(({ accessor }, columnIndex) => {
                     const columnKey = `assignmentTable-row-${rowIndex}-column-${columnIndex}`;
                     return (
