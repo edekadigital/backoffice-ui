@@ -7,7 +7,9 @@ type IconColor =
   | 'primary'
   | 'secondary'
   | 'error'
-  | 'success';
+  | 'success'
+  | 'warning'
+  | 'info';
 
 type IconSize = 'inherit' | 'default' | 'small' | 'large';
 
@@ -21,6 +23,8 @@ const useStyles = makeStyles<Theme, { color: IconColor }>((theme: Theme) => {
   const iconColorMap: Record<IconColor, string> = {
     success: theme.palette.success.main,
     error: theme.palette.error.main,
+    warning: theme.palette.warning.main,
+    info: theme.palette.info.main,
     primary: theme.palette.primary.main,
     secondary: theme.palette.secondary.main,
     default: theme.palette.action.active,

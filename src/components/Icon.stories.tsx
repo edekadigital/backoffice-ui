@@ -28,6 +28,14 @@ export const Success = () => {
   return <Icon color="success" icon={Person} />;
 };
 
+export const Warning = () => {
+  return <Icon color="warning" icon={Person} />;
+};
+
+export const Info = () => {
+  return <Icon color="info" icon={Person} />;
+};
+
 export const DifferentSizes = () => {
   return (
     <>

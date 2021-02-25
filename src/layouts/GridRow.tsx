@@ -10,11 +10,11 @@ export interface GridRowProps {
    */
   gridVariant?: GridVariant;
   /**
-   * If `true`, the form row will have a bottom margin.
+   * If `true`, the grid row will have a bottom margin.
    */
   gutterBottom?: boolean | number;
   /**
-   * If `true`, the form row will have a top margin.
+   * If `true`, the grid row will have a top margin.
    */
   gutterTop?: boolean | number;
 }
