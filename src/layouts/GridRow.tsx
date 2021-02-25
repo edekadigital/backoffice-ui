@@ -12,20 +12,12 @@ export interface GridRowProps {
   /**
    * If `true`, the grid row will have a bottom margin.
    */
-  gutterBottom?: boolean | number;
-  /**
-   * If `true`, the grid row will have a top margin.
-   */
-  gutterTop?: boolean | number;
+  gutterBottom?: boolean;
 }
 
-const useStyles = makeStyles<
-  Theme,
-  { gutterBottom: number; gutterTop: number }
->((theme) => ({
-  container: ({ gutterBottom, gutterTop }) => ({
-    marginBottom: theme.spacing(gutterBottom),
-    marginTop: theme.spacing(gutterTop),
+const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
+  container: ({ gutterBottom }) => ({
+    marginBottom: theme.spacing(gutterBottom ? 1.5 : 0),
     overflowX: 'hidden',
   }),
 }));
@@ -37,11 +29,9 @@ const useStyles = makeStyles<
  * | `gridRow-item-{n}`  | Grid item _n_        |
  */
 export const GridRow: React.FC<GridRowProps> = (props) => {
-  const { gridVariant = '12', gutterBottom = 0, gutterTop = 0 } = props;
-  const classes = useStyles({
-    gutterBottom: gutterBottom === true ? 1.5 : +gutterBottom,
-    gutterTop: gutterTop === true ? 1.5 : +gutterTop,
-  });
+  const { gridVariant = '12' } = props;
+  const classes = useStyles(props);
+
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children];

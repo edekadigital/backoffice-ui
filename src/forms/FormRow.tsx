@@ -112,7 +112,6 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
   item: {
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'center',
     '&:not(:only-child):last-child': {
       justifyContent: 'flex-end',
     },

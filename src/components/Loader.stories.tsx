@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GridRow } from '..';
+import { FlexContainer } from '..';
 import { Button } from './Button';
 import { Dialog } from './Dialog';
 import { Loader } from './Loader';
@@ -26,9 +26,9 @@ export const InsideDialog = () => {
     <>
       <Button onClick={() => setOpen(true)}>open dialog</Button>
       <Dialog open={open} title={'Lorem ipsum'} onClose={handleClose}>
-        <GridRow gutterBottom={10} gutterTop={10}>
+        <FlexContainer gutterBottom={10} gutterTop={10} justify="center">
           <Loader message="Lorem ipsum dolor sit amet." />
-        </GridRow>
+        </FlexContainer>
       </Dialog>
     </>
   );

@@ -49,6 +49,7 @@ export * from './typography/Subtitle';
 export * from './layouts/Page';
 export * from './layouts/PageWrapper';
 export * from './layouts/GridRow';
+export * from './layouts/FlexContainer';
 
 export * from './icons';
 

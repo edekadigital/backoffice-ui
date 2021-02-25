@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Body, FormRow } from '..';
+import { Body, FlexContainer } from '..';
 import { HighlightOffSharpIcon, Person } from '../icons';
 import { Icon } from './Icon';
 
@@ -46,10 +46,8 @@ export const DifferentSizes = () => {
   );
 };
 export const IconWithText = () => (
-  <FormRow>
-    <>
-      <Icon size="large" color="error" icon={HighlightOffSharpIcon} />
-      <Body component="span">Lorem Ispum dolor sit amet.</Body>
-    </>
-  </FormRow>
+  <FlexContainer disableGutters={true}>
+    <Icon size="large" color="error" icon={HighlightOffSharpIcon} />
+    <Body component="span">Lorem Ispum dolor sit amet.</Body>
+  </FlexContainer>
 );
