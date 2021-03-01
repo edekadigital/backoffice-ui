@@ -14,12 +14,15 @@ export * from './components/ContentGroup';
 export * from './components/DateField';
 export * from './components/DatePicker';
 export * from './components/Dialog';
+export * from './components/Divider';
 export * from './components/DrawerNavigation';
 export * from './components/EnhancedDataTable/EnhancedDataTable';
 export * from './components/Hide';
+export * from './components/Icon';
 export * from './components/IconButton';
 export * from './components/Image';
 export * from './components/ListMenu';
+export * from './components/Loader';
 export * from './components/Paper';
 export * from './components/ProgressBar';
 export * from './components/RadioButtonTiles';
@@ -47,6 +50,7 @@ export * from './typography/Subtitle';
 export * from './layouts/Page';
 export * from './layouts/PageWrapper';
 export * from './layouts/GridRow';
+export * from './layouts/FlexContainer';
 
 export * from './icons';
 
