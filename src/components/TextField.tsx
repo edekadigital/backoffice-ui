@@ -162,13 +162,13 @@ const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(
         },
       },
 
-      '& .MuiInputBase-input': {
+      '& .MuiInputBase-input:not(.Mui-disabled)': {
         color:
           color === 'secondary'
             ? theme.palette.secondary.main
             : theme.palette.text.primary,
       },
-      '& .MuiSelect-icon': {
+      '& .MuiSelect-icon:not(.Mui-disabled)': {
         color:
           color === 'secondary'
             ? theme.palette.secondary.main

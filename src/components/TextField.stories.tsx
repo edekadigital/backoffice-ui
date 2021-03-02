@@ -16,7 +16,9 @@ export default {
 
 export const Default = () => <TextField label="Some label" />;
 export const Required = () => <TextField label="Some label" required={true} />;
-export const Disabled = () => <TextField label="Some label" disabled={true} />;
+export const Disabled = () => (
+  <TextField label="Some label" disabled={true} value="Lorem ipsum" />
+);
 export const WithPlaceholder = () => (
   <TextField label="Some label" placeholder="Placeholder" />
 );

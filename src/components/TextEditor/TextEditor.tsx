@@ -83,10 +83,11 @@ const useTextEditorStyles = makeStyles<Theme, TextEditorProps>((theme) => ({
   toolbar: {
     borderBottom: `solid 1px ${theme.palette.grey[300]}`,
   },
-  editor: ({ editorSize = 'small' }) => ({
+  editor: ({ editorSize = 'small', disabled }) => ({
     minHeight: editorSize === 'small' ? 100 : 400,
     maxHeight: editorSize === 'small' ? 100 : 400,
     overflowY: 'scroll',
+    color: disabled ? theme.palette.text.disabled : theme.palette.text.primary,
     margin: theme.spacing(1.5),
     '& blockquote': {
       borderLeft: `${theme.spacing(0.5)}px solid ${theme.palette.grey[300]}`,
