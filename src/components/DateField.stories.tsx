@@ -20,6 +20,9 @@ export const WithPlaceholder = () => (
 export const Required = () => (
   <DateField label="Geburtsdatum" placeholder="TT.MM.JJJJ" required={true} />
 );
+export const Disabled = () => (
+  <DateField label="Geburtsdatum" value="05.10.1987" required={true} disabled />
+);
 export const WithError = () => (
   <DateField
     label="Geburtsdatum"

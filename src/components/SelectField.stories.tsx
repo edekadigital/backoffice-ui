@@ -49,7 +49,12 @@ export const Disabled = () => {
     { value: 'de', label: 'Germany' },
   ];
   return (
-    <SelectField label="Some label" disabled={true} menuItems={menuItems} />
+    <SelectField
+      label="Some label"
+      disabled={true}
+      menuItems={menuItems}
+      value="de"
+    />
   );
 };
 
