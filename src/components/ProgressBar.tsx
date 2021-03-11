@@ -20,12 +20,15 @@ export type ProgressBarColors =
 const useProgressBarStyles = makeStyles<Theme, Pick<ProgressBarProps, 'color'>>(
   (theme: Theme) => ({
     container: {
-      height: theme.spacing(13),
+      height: theme.spacing(15),
       border: `${theme.spacing(0.25)}px solid ${theme.palette.grey[300]}`,
       borderRadius: '4px',
       padding: `${theme.spacing(2)}px ${theme.spacing(2)}px ${theme.spacing(
         2.25
       )}px`,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
     },
     progressBar: ({ color }) => {
       const sanitizedColorName: ProgressBarColors = color || 'primary';
@@ -83,24 +86,26 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
           {headline}
         </Body>
       ) : null}
-      {description ? (
-        <Body
-          gutterBottom={1}
-          variant="caption"
-          data-testid="progressBar-description"
-        >
-          {description}
-        </Body>
-      ) : null}
-      <LinearProgress
-        classes={{
-          bar1Determinate: classes.progressBar,
-          colorPrimary: classes.progressBackground,
-        }}
-        variant="determinate"
-        value={value}
-        data-testid="progressBar-bar"
-      />
+      <div>
+        {description ? (
+          <Body
+            gutterBottom={1}
+            variant="caption"
+            data-testid="progressBar-description"
+          >
+            {description}
+          </Body>
+        ) : null}
+        <LinearProgress
+          classes={{
+            bar1Determinate: classes.progressBar,
+            colorPrimary: classes.progressBackground,
+          }}
+          variant="determinate"
+          value={value}
+          data-testid="progressBar-bar"
+        />
+      </div>
     </div>
   );
 };

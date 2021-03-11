@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
+import { GridRow, Page } from '..';
 import { ProgressBarColors, ProgressBar } from './ProgressBar';
 
 export default {
@@ -40,5 +41,21 @@ export const WithChangingProps = () => {
         -
       </Button>
     </>
+  );
+};
+
+export const InsideLayout = () => {
+  return (
+    <Page variant="narrow">
+      <GridRow gridVariant="3-3-3-3">
+        <ProgressBar
+          headline="Lorem ipsum dolor sit amet, consetetur sadipscing"
+          description="Ipsum"
+          value={10}
+        />
+        <ProgressBar headline="Lorem Ipsum" description="Ipsum" value={10} />
+        <ProgressBar headline="Lorem Ipsum" description="Ipsum" value={10} />
+      </GridRow>
+    </Page>
   );
 };
