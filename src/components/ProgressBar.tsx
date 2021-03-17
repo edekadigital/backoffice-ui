@@ -20,7 +20,7 @@ export type ProgressBarColors =
 const useProgressBarStyles = makeStyles<Theme, Pick<ProgressBarProps, 'color'>>(
   (theme: Theme) => ({
     container: {
-      height: theme.spacing(15),
+      height: '100%',
       border: `${theme.spacing(0.25)}px solid ${theme.palette.grey[300]}`,
       borderRadius: '4px',
       padding: `${theme.spacing(2)}px ${theme.spacing(2)}px ${theme.spacing(
