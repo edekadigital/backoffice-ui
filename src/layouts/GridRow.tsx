@@ -3,6 +3,8 @@ import { Grid, Theme } from '@material-ui/core';
 import makeStyles from '@material-ui/styles/makeStyles';
 
 export type GridVariant = '12' | '6-6' | '4-8' | '8-4' | '4-4-4' | '3-3-3-3';
+
+export type GridAlignment = 'center' | 'flex-start' | 'stretch';
 export interface GridRowProps {
   /**
    * Defines the grid layout.
@@ -13,6 +15,11 @@ export interface GridRowProps {
    * If `true`, the grid row will have a bottom margin.
    */
   gutterBottom?: boolean;
+  /**
+   * Aligns the grid items
+   * @default "center"
+   */
+  alignItems?: GridAlignment;
 }
 
 const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
@@ -29,7 +36,7 @@ const useStyles = makeStyles<Theme, GridRowProps>((theme) => ({
  * | `gridRow-item-{n}`  | Grid item _n_        |
  */
 export const GridRow: React.FC<GridRowProps> = (props) => {
-  const { gridVariant = '12' } = props;
+  const { gridVariant = '12', alignItems = 'center' } = props;
   const classes = useStyles(props);
   const children = Array.isArray(props.children)
     ? props.children
@@ -114,7 +121,7 @@ export const GridRow: React.FC<GridRowProps> = (props) => {
       container
       spacing={3}
       data-testid={'gridRow'}
-      alignItems={'center'}
+      alignItems={alignItems}
       classes={classes}
     >
       {renderGrid()}
