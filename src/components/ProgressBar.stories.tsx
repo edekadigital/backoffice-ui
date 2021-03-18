@@ -1,7 +1,6 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
 import { GridRow, Page } from '..';
-import { FlexContainer } from '../layouts/FlexContainer';
 import { ProgressBarColors, ProgressBar } from './ProgressBar';
 
 export default {
