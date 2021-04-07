@@ -6,7 +6,7 @@ import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 
 const naviItems = [
-  { value: 1, label: 'Manuel Neuer' },
+  { value: 1, label: 'Manuel Neuer', disabled: true },
   { value: 2, label: 'Thiago' },
   { value: 3, label: 'Robert Lewandowski' },
 ];
@@ -42,6 +42,13 @@ describe('<TabNavigation/>', () => {
     };
 
     const { getByText } = render(<TestComponent />);
+
+    expect(getByText('Manuel Neuer').closest('button')).toBeDisabled();
+    expect(getByText('Thiago').closest('button')).toBeEnabled();
+    expect(getByText('Robert Lewandowski').closest('button')).toBeEnabled();
+
+    userEvent.click(getByText('Manuel Neuer'));
+    expect(handleChange).toBeCalledTimes(0);
 
     userEvent.click(getByText('Thiago'));
     expect(handleChange).toBeCalledTimes(1);
