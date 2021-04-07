@@ -38,6 +38,11 @@ export const Default = () => {
       label: 'Tab Five of Five',
       divider: true,
     },
+    {
+      value: 6,
+      label: 'disabled Tab',
+      disabled: true,
+    },
   ];
 
   const [value, setValue] = useState(1);

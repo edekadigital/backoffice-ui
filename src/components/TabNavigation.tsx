@@ -16,7 +16,11 @@ export interface TabNavigationItem<T> {
    */
   value: T;
   /**
-   * If `true`, a vertical devider will be shown before the tab item
+   * If `true`, the tab will be disabled
+   */
+  disabled?: boolean;
+  /**
+   * If `true`, a vertical divider will be shown before the tab item
    */
   divider?: boolean;
 }
@@ -108,6 +112,7 @@ export function TabNavigation<T>(props: TabNavigationProps<T>) {
             to={item.value}
             value={item.value}
             className={className}
+            disabled={item.disabled}
             data-testid={'tabNavigation-item-' + index}
           />
         );
