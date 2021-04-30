@@ -127,7 +127,8 @@ export interface Filter<D> {
   accessor: keyof D;
   label: string;
   selectorValues?: string[];
-  value?: string;
+  initialValue?: string;
+  multiple?: boolean;
 }
 
 export interface ActiveFilter<D> extends Filter<D> {
@@ -227,7 +228,18 @@ export function EnhancedDataTable<D extends object>(
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
   const [activeFilters, setActiveFilters] = React.useState<
     Array<ActiveFilter<D>> | []
-  >(filters?.filter((filter) => filter.value) as Array<ActiveFilter<D>>);
+  >(
+    filters
+      ?.filter((filter) => filter.initialValue)
+      .map((filter) => ({
+        accessor: filter.accessor,
+        label: filter.label,
+        selectorValues: filter.selectorValues,
+        initialValue: filter.initialValue,
+        multiple: filter.multiple,
+        value: filter.initialValue,
+      })) as Array<ActiveFilter<D>>
+  );
   const [paginationState, setPaginationState] = React.useState<PaginationState>(
     {
       size: defaultPageSize,

@@ -285,11 +285,13 @@ export const Filterable = () => {
       accessor: 'type',
       label: 'Type',
       selectorValues: ['Manual', 'Automatic'],
-      value: 'Manual',
+      initialValue: 'Manual',
+      multiple: true,
     },
     {
       accessor: 'name',
       label: 'Name',
+      multiple: true,
     },
     {
       accessor: 'age',
@@ -326,13 +328,27 @@ export const Filterable = () => {
     ];
 
     if (filters && filters.length > 0) {
-      data = data.filter((item) =>
-        filters.every((filter) =>
-          item[filter.accessor as keyof typeof item]
-            ?.toString()
-            .includes(filter.value)
-        )
+      const groupedFilters = filters.reduce(
+        (entryMap, filter) =>
+          entryMap.set(filter.accessor, [
+            ...(entryMap.get(filter.accessor) || []),
+            filter,
+          ]),
+        new Map<string, ActiveFilter<TestData>[]>()
       );
+      groupedFilters.forEach((element, key) => {
+        const auxData = new Map<string, TestData>();
+        const filterValues = element.map((filter) => filter.value);
+        data.forEach((item) => {
+          filterValues.forEach((filterValue) => {
+            const itemValue = item[key as keyof typeof item]?.toString();
+            if (itemValue?.includes(filterValue)) {
+              auxData.set(itemValue, item);
+            }
+          });
+        });
+        data = Array.from(auxData.values());
+      });
     }
 
     // import {sortTable} from 'utils/tableUtils'
@@ -538,7 +554,7 @@ export const AllFunctionalities = () => {
       accessor: 'type',
       label: 'Type',
       selectorValues: ['Manual', 'Automatic'],
-      value: 'Manual',
+      initialValue: 'Manual',
     },
     {
       accessor: 'name',

@@ -166,13 +166,16 @@ export function EnhancedDataTableToolbar<D>(
           .filter(
             (filter) =>
               activeFilters.filter(
-                (activeFilter) => activeFilter.accessor === filter.accessor
+                (activeFilter) =>
+                  activeFilter.accessor === filter.accessor &&
+                  !!activeFilter.multiple === false
               ).length < 1
           )
           .map((item) => ({
             accessor: item.accessor,
             label: item.label,
             selectorValues: item.selectorValues,
+            multiple: item.multiple,
           }))
       );
     }
@@ -225,7 +228,7 @@ export function EnhancedDataTableToolbar<D>(
       activeFilters.map((filter: ActiveFilter<D>, index: number) => (
         <Chip
           classes={{ root: classes.chipRoot }}
-          key={filter.accessor as React.Key}
+          key={`${filter.accessor}-${index}` as React.Key}
           color={'primary'}
           label={`${filter.label}: "${filter.value}"`}
           onDelete={handleDeleteFilterClick(filter)}
