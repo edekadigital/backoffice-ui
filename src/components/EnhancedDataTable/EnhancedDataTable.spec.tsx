@@ -506,7 +506,12 @@ describe('<EnhancedDataTable />', () => {
     await waitFor(() => {});
     // expect fetchData function to have been called with selected filter and its defined value
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
-      { ...filters[0], selectorValues: undefined, value: 'filterValue' },
+      {
+        ...filters[0],
+        selectorValues: undefined,
+        multiple: undefined,
+        value: 'filterValue',
+      },
     ]);
     // filter menu should be closed automatically and the active filter should be rendered
     expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
@@ -744,7 +749,11 @@ describe('<EnhancedDataTable />', () => {
     await waitFor(() => {});
     expect(fetchDataFn).toBeCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
-      { ...filters[0], value: filters[0].selectorValues![0] },
+      {
+        ...filters[0],
+        value: filters[0].selectorValues![0],
+        multiple: undefined,
+      },
     ]);
   });
 
