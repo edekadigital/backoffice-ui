@@ -506,7 +506,12 @@ describe('<EnhancedDataTable />', () => {
     await waitFor(() => {});
     // expect fetchData function to have been called with selected filter and its defined value
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
-      { ...filters[0], selectorValues: undefined, value: 'filterValue' },
+      {
+        ...filters[0],
+        selectorValues: undefined,
+        multiple: undefined,
+        value: 'filterValue',
+      },
     ]);
     // filter menu should be closed automatically and the active filter should be rendered
     expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
@@ -585,6 +590,91 @@ describe('<EnhancedDataTable />', () => {
     expect(queryByTestId('enhancedDataTable-filterBar-filterMenu')).toBeFalsy();
   });
 
+  it('should be possible to add a filter more than once', async () => {
+    const filters: Array<Filter<TestData>> = [
+      {
+        accessor: 'name',
+        label: 'Name',
+        multiple: true,
+      },
+      {
+        accessor: 'age',
+        label: 'Age',
+        multiple: true,
+      },
+    ];
+
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+      />
+    );
+    await waitFor(() => {});
+    // add first filter
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.type(
+      getByTestId('enhancedDataTable-filterBar-input'),
+      'filterValue'
+    );
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await waitFor(() => {});
+
+    // add second filter
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-0'));
+    userEvent.type(
+      getByTestId('enhancedDataTable-filterBar-input'),
+      'filterValue2'
+    );
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await waitFor(() => {});
+
+    // add third filter
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-selectFilter-1'));
+    userEvent.type(getByTestId('enhancedDataTable-filterBar-input'), '15');
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-submit'));
+    await waitFor(() => {});
+
+    // all filters should be available
+    userEvent.click(getByTestId('enhancedDataTable-filterBar-add'));
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-0').firstChild!
+        .textContent
+    ).toBe(filters[0].label);
+    expect(
+      getByTestId('enhancedDataTable-filterBar-selectFilter-1').firstChild!
+        .textContent
+    ).toBe(filters[1].label);
+  });
+
   it('should be possible to close the previously opened filter menu', async () => {
     const filters: Array<Filter<TestData>> = [
       {
@@ -659,7 +749,11 @@ describe('<EnhancedDataTable />', () => {
     await waitFor(() => {});
     expect(fetchDataFn).toBeCalledTimes(2);
     expect(fetchDataFn.mock.calls[1][0].filters).toStrictEqual([
-      { ...filters[0], value: filters[0].selectorValues![0] },
+      {
+        ...filters[0],
+        value: filters[0].selectorValues![0],
+        multiple: undefined,
+      },
     ]);
   });
 
