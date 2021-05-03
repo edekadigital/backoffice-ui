@@ -262,6 +262,7 @@ export function EnhancedDataTableToolbar<D>(
       onChange={handleFilterValueChange}
       select
       inputTestId={'enhancedDataTable-filterBar-selectValue'}
+      defaultValue=""
     >
       {selectedFilter.selectorValues.map((filterValue, index) => (
         <MenuItem
