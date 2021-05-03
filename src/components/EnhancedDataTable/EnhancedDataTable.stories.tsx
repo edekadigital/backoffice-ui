@@ -343,7 +343,7 @@ export const Filterable = () => {
           filterValues.forEach((filterValue) => {
             const itemValue = item[key as keyof typeof item]?.toString();
             if (itemValue?.includes(filterValue)) {
-              auxData.set(itemValue, item);
+              auxData.set(JSON.stringify(item), item);
             }
           });
         });
