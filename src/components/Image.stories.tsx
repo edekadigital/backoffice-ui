@@ -24,7 +24,7 @@ export const ModeHeight = () => (
   </div>
 );
 
-export const Soruces = () => {
+export const Sources = () => {
   const sources: ImageSource[] = [
     {
       media: '(min-width: 600px)',
