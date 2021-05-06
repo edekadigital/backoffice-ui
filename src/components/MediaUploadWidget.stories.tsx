@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { MediaUpload } from '..';
+import { MediaUploadWidget } from '..';
 
 export default {
-  title: 'Components/MediaUpload',
-  component: MediaUpload,
+  title: 'Components/MediaUploadWidget',
+  component: MediaUploadWidget,
 };
 
 export const WithImageUploadExample = () => {
   return (
-    <MediaUpload
+    <MediaUploadWidget
       cloudinaryConfig={{ uploadPreset: 'gws-dev', maxFiles: 1 }}
-    ></MediaUpload>
+    ></MediaUploadWidget>
   );
 };

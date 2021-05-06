@@ -12,7 +12,7 @@ import { IconButton } from '..';
 
 export interface ListActionItem {
   icon: React.ElementType<SvgIconProps>;
-  handler: (id: string | undefined) => void;
+  handler: (e: React.MouseEvent, id: string | undefined) => void;
 }
 
 export interface ListItem {
@@ -41,7 +41,7 @@ export const ListItem: React.VFC<ListItem> = (props) => {
         <ListItemSecondaryAction>
           <IconButton
             icon={action?.icon}
-            onClick={() => action?.handler(id)}
+            onClick={(e: React.MouseEvent) => action?.handler(e, id)}
             disabled={disabled}
           />
         </ListItemSecondaryAction>
