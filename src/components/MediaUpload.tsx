@@ -1,4 +1,5 @@
 import * as React from 'react';
+import jsSHA from 'jssha';
 import { makeStyles, Theme } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import {
@@ -16,8 +17,21 @@ const action = {
   handler: () => {},
 };
 
+export type Formats = 'png' | 'gif' | 'jpeg';
 export interface CloudinaryConfig {
-  config: string;
+  uploadPreset: string;
+  multiple?: boolean;
+  maxFiles?: number;
+  maxFileSize?: number;
+  clientAllowedFormats?: Formats[];
+  maxImageFileSize?: number;
+  maxVideoFileSize?: number;
+  maxRawFileSize?: number;
+  maxImageWidth?: number;
+  maxImageHeight?: number;
+  minImageWidth?: number;
+  minImageHeight?: number;
+  validateMaxWidthHeight?: boolean;
 }
 
 export interface ImageUploadData {
@@ -25,7 +39,7 @@ export interface ImageUploadData {
 }
 
 export interface MediaUploadProps {
-  cloudinaryConfig?: CloudinaryConfig;
+  cloudinaryConfig: CloudinaryConfig;
   onImageUpload?: () => ImageUploadData[];
 }
 
@@ -33,21 +47,59 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
 
-export const MediaUpload: React.VFC<MediaUploadProps> = () => {
-  const [images, setImages] = React.useState([]);
+export const MediaUpload: React.VFC<MediaUploadProps> = (props) => {
+  const { cloudinaryConfig } = props;
+  const [images, setImages] = React.useState<{ info: string }[]>([]);
   const [cloudinaryReady, setCloudinaryReady] = React.useState(false);
   const widget = React.useRef();
   const styles = useStyles();
 
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  /**
+   * TODO: SHA Verschlüsselung bzw. Erstellen der Signature muss in Backend implementiert werden!
+   * Cloudinary config muss als env-var gesetzt werden, um die widgets testen zu können.
+   * `export STORYBOOK_CLOUDINARY_CLOUD_NAME=***`
+   */
+  const cloudName = process.env.STORYBOOK_CLOUDINARY_CLOUD_NAME;
+  const apiSecret = process.env.STORYBOOK_CLOUDINARY_API_SECRET;
+  const apiKey = process.env.STORYBOOK_CLOUDINARY_API_KEY;
+  const shaObj = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' });
+  shaObj.update(
+    `source=uw&timestamp=${timestamp}&upload_preset${cloudinaryConfig.uploadPreset}`
+  );
+  const hash = shaObj.getHash('HEX');
+  console.log(hash);
+  console.log(cloudName, apiKey, apiSecret);
+
   React.useEffect(() => {
     loadCloudinaryScriptDynamic(() => {
-      widget.current = (window as any).cloudinary.createUploadWidget({
-        cloudName: 'edeka-test',
-        uploadPreset: 'gws-dev',
-      });
+      widget.current = (window as any).cloudinary.createUploadWidget(
+        {
+          ...cloudinaryConfig,
+          cloudName,
+          sources: ['local', 'url'],
+          uploadSignature: hash,
+          uploadSignatureTimestamp: timestamp,
+          apiKey,
+          apiSecret,
+          thumbnailTransformation: [{ width: 61, height: 34, crop: 'limit' }],
+        },
+        (error: any, result: any) => {
+          if (!error && result && result.event === 'success') {
+            // setImages(result.info);
+            console.log(
+              'Inserted assets: ',
+              JSON.stringify(result.info, null, 2)
+            );
+          }
+        }
+      );
       setCloudinaryReady(true);
     });
-  }, []);
+    return () => {
+      (widget.current as any).destroy({ removeThumbnails: true });
+    };
+  }, [apiKey, apiSecret, cloudName, cloudinaryConfig, hash, timestamp]);
 
   return (
     <>
@@ -73,7 +125,11 @@ export const MediaUpload: React.VFC<MediaUploadProps> = () => {
       {images.length > 0 && (
         <List>
           {images.map((image, index) => (
-            <ListItem key={`Image-${index}`} />
+            <ListItem
+              key={`Image-${index}`}
+              text={image.info}
+              action={action}
+            />
           ))}
         </List>
       )}

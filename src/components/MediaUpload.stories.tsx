@@ -7,5 +7,9 @@ export default {
 };
 
 export const WithImageUploadExample = () => {
-  return <MediaUpload></MediaUpload>;
+  return (
+    <MediaUpload
+      cloudinaryConfig={{ uploadPreset: 'gws-dev', maxFiles: 1 }}
+    ></MediaUpload>
+  );
 };
