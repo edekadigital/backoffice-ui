@@ -13,7 +13,16 @@ import {
   ImageSource,
 } from '..';
 
-export type Formats = 'png' | 'gif' | 'jpeg';
+export type Formats =
+  | 'png'
+  | 'gif'
+  | 'jpeg'
+  | 'pdf'
+  | 'heif'
+  | 'heic'
+  | 'webp'
+  | 'svg';
+
 export interface CloudinaryConfig {
   uploadPreset: string;
   multiple?: boolean;
@@ -56,11 +65,13 @@ export interface ImageUploadData {
   original_filename: string;
   path: string;
   thumbnail_url: string;
+  delete_token: string;
 }
 
 export interface MediaUploadProps {
   cloudinaryConfig: CloudinaryConfig;
-  onImageUpload?: () => ImageUploadData[];
+  onImageUpload?: (images: ImageUploadData[]) => void;
+  initialImages?: ImageUploadData[];
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -82,8 +93,10 @@ const sources: ImageSource[] = [
 ];
 
 export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
-  const { cloudinaryConfig } = props;
-  const [images, setImages] = React.useState<ImageUploadData[]>([]);
+  const { cloudinaryConfig, initialImages, onImageUpload } = props;
+  const [images, setImages] = React.useState<ImageUploadData[]>(
+    initialImages || []
+  );
   const widget = React.useRef();
   const styles = useStyles();
 
@@ -145,6 +158,9 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
           if (!error && result && result.event === 'queues-end') {
             const updatedImages = [...images, ...tempImages];
             setImages(updatedImages);
+            if (onImageUpload) {
+              onImageUpload(updatedImages);
+            }
           }
           if (error) {
             console.log(error);
@@ -153,7 +169,15 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
       );
       (widget.current as any).open();
     });
-  }, [apiKey, cloudName, cloudinaryConfig, hash, images, timestamp]);
+  }, [
+    apiKey,
+    cloudName,
+    cloudinaryConfig,
+    hash,
+    images,
+    onImageUpload,
+    timestamp,
+  ]);
 
   React.useEffect(() => {
     return () => {
@@ -164,8 +188,36 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
   const action = {
     icon: Delete,
     handler: (e: React.MouseEvent, id: string | undefined) => {
-      // Talk to cloudinay api endpoint
-      console.log(e, id);
+      const timestampDelete = Math.round(new Date().getTime() / 1000);
+      const shaObjDelete = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' });
+      shaObj.update(`public_id=${id}&timestamp=${timestampDelete}${apiSecret}`);
+      const hashDelete = shaObjDelete.getHash('HEX');
+
+      // fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, {
+      //   method: 'POST',
+      //   mode: 'no-cors',
+      //   body: JSON.stringify({
+      //     public_id: id,
+      //     timestamp: timestampDelete,
+      //     signature: hashDelete,
+      //     api_key: apiKey,
+      //   }),
+      // }).then(
+      //   (result) => console.log(result),
+      //   (error) => console.log(error)
+      // );
+
+      const image = images.find((image) => image.public_id === id);
+      fetch(`https://api.cloudinary.com/v1_1/${cloudName}/delete_by_token`, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({
+          token: image!.delete_token,
+        }),
+      }).then(
+        (result) => console.log(result),
+        (error) => console.log(error)
+      );
     },
   };
 
@@ -202,7 +254,7 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
                 text={`${image.original_filename}.${image.format}`}
                 subText={`${size}${unit}`}
                 action={action}
-                id={image.asset_id}
+                id={image.public_id}
                 bullet={
                   <Image
                     mode="contain"
@@ -224,7 +276,7 @@ const loadCloudinaryScriptDynamic = (callback: () => void) => {
 
   if (!existingScript) {
     const script = document.createElement('script');
-    script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+    script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
     script.id = 'cloudinary';
     document.body.appendChild(script);
 
@@ -235,31 +287,3 @@ const loadCloudinaryScriptDynamic = (callback: () => void) => {
 
   if (existingScript && callback) callback();
 };
-
-/**
- * Inserted assets:  {
-  "id": "uw-file3",
-  "batchId": "uw-batch2",
-  "asset_id": "2c2a2ac1da80431ad0f11819f4b66151",
-  "public_id": "GWS-DEV/empjd1bzxy310n6ak52v",
-  "version": 1620306173,
-  "version_id": "2c6851002bed5a5e75eaa3e9dca423ee",
-  "signature": "2f86b98f7dabffac123216d87cd2f1b7465c1d4f",
-  "width": 1580,
-  "height": 818,
-  "format": "png",
-  "resource_type": "image",
-  "created_at": "2021-05-06T13:02:53Z",
-  "tags": [],
-  "bytes": 64436,
-  "type": "upload",
-  "etag": "cb947c700f68c9ac23f1c9042eefa867",
-  "placeholder": false,
-  "url": "http://res.cloudinary.com/edeka-dev/image/upload/v1620306173/GWS-DEV/empjd1bzxy310n6ak52v.png",
-  "secure_url": "https://res.cloudinary.com/edeka-dev/image/upload/v1620306173/GWS-DEV/empjd1bzxy310n6ak52v.png",
-  "access_mode": "public",
-  "original_filename": "Screenshot 2021-05-05 at 11.58.06",
-  "path": "v1620306173/GWS-DEV/empjd1bzxy310n6ak52v.png",
-  "thumbnail_url": "https://res.cloudinary.com/edeka-dev/image/upload/c_limit,h_34,w_61/v1620306173/GWS-DEV/empjd1bzxy310n6ak52v.png"
-}
- */
