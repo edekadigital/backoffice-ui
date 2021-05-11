@@ -6,7 +6,7 @@ import { Divider } from '..';
 export const List: React.FC = (props) => {
   const { children } = props;
   return (
-    <MuiList dense={true}>
+    <MuiList dense={true} data-testid="list">
       <Divider />
       {children}
     </MuiList>

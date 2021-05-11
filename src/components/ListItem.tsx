@@ -32,17 +32,24 @@ export const ListItem: React.VFC<ListItem> = (props) => {
   const { text, subText, bullet, id, action, disabled = false } = props;
   const bulletStyles = useListBulletStyles();
   return (
-    <MuiListItem divider={true} disabled={disabled}>
+    <MuiListItem divider={true} disabled={disabled} data-testid="listItem">
       {bullet && (
-        <ListItemAvatar classes={bulletStyles}>{bullet}</ListItemAvatar>
+        <ListItemAvatar classes={bulletStyles} data-testid="listItem-avatar">
+          {bullet}
+        </ListItemAvatar>
       )}
-      <ListItemText primary={text} secondary={subText} />
+      <ListItemText
+        primary={text}
+        secondary={subText}
+        data-testid="listItem-text"
+      />
       {action && (
-        <ListItemSecondaryAction>
+        <ListItemSecondaryAction data-testid="listItem-action">
           <IconButton
             icon={action?.icon}
             onClick={(e: React.MouseEvent) => action?.handler(e, id)}
             disabled={disabled}
+            data-testid="listItem-action-button"
           />
         </ListItemSecondaryAction>
       )}

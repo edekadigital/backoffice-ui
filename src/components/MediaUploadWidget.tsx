@@ -1,5 +1,4 @@
 import * as React from 'react';
-import jsSHA from 'jssha';
 import { makeStyles, Theme } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import {
@@ -23,6 +22,8 @@ export type Formats =
   | 'webp'
   | 'svg';
 
+export type Sources = 'local' | 'url';
+
 export interface CloudinaryConfig {
   uploadPreset: string;
   multiple?: boolean;
@@ -37,95 +38,98 @@ export interface CloudinaryConfig {
   minImageWidth?: number;
   minImageHeight?: number;
   validateMaxWidthHeight?: boolean;
+  cloudName: string;
+  sources?: Sources[];
+  uploadSignature: string;
+  uploadSignatureTimestamp: number;
+  apiKey: string;
 }
 
 export interface ImageUploadData {
-  id: string;
-  batchId: string;
-  asset_id: string;
+  id?: string;
+  batchId?: string;
+  asset_id?: string;
   public_id: string;
-  version: number;
-  version_id: string;
-  signature: string;
-  width: number;
-  height: number;
+  version?: number;
+  version_id?: string;
+  signature?: string;
+  width?: number;
+  height?: number;
   format: Formats;
-  resource_type: string;
-  created_at: string;
-  tags: string[];
+  resource_type?: string;
+  created_at?: string;
+  tags?: string[];
   bytes: number;
-  // Create type
-  type: string;
-  etag: string;
-  placeholder: boolean;
-  url: string;
-  secure_url: string;
-  // Create type
-  access_mode: string;
+  type?: string;
+  etag?: string;
+  placeholder?: boolean;
+  url?: string;
+  secure_url?: string;
+  access_mode?: string;
   original_filename: string;
-  path: string;
+  path?: string;
   thumbnail_url: string;
   delete_token: string;
 }
 
-export interface MediaUploadProps {
-  cloudinaryConfig: CloudinaryConfig;
-  onImageUpload?: (images: ImageUploadData[]) => void;
+export type CloudinaryConfigProvider = () => Promise<CloudinaryConfig>;
+export interface MediaUploadWidgetProps {
+  /**
+   * Callback when delete icon in list is clicked
+   */
+  deleteHandler?: (
+    e: React.MouseEvent,
+    id?: string,
+    deleteToken?: string
+  ) => Promise<{ result: string } | Error>;
+  /**
+   * Function which returns the configuration object for the upload widget
+   */
+  getWidgetConfig: CloudinaryConfigProvider;
+  /**
+   * Initial array of images
+   */
   initialImages?: ImageUploadData[];
+  /**
+   * Callback with image object once upload was successfull
+   */
+  onImageUpload?: (images: ImageUploadData[]) => void;
+  /**
+   * Calback when upload failed
+   */
+  onImageUploadError?: (error: Error) => void;
+  /**
+   * Optional image which will be displayed next to the upload button
+   */
+  image?: React.ReactElement;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const img1x = require('../assets/attach-file@1x.png');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const img2x = require('../assets/attach-file@2x.png');
-const sources: ImageSource[] = [
-  {
-    media: '(min-width: 600px)',
-    srcSet: img2x,
-  },
-  {
-    srcSet: img1x,
-  },
-];
-
-export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
-  const { cloudinaryConfig, initialImages, onImageUpload } = props;
+export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
+  const {
+    getWidgetConfig,
+    initialImages,
+    onImageUpload,
+    deleteHandler,
+    onImageUploadError,
+    image,
+  } = props;
   const [images, setImages] = React.useState<ImageUploadData[]>(
     initialImages || []
   );
   const widget = React.useRef();
   const styles = useStyles();
 
-  const timestamp = Math.round(new Date().getTime() / 1000);
-  /**
-   * TODO: SHA Verschlüsselung bzw. Erstellen der Signature muss in Backend implementiert werden!
-   * Cloudinary config muss als env-var gesetzt werden, um die widgets testen zu können.
-   * `export STORYBOOK_CLOUDINARY_CLOUD_NAME=***`
-   */
-  const cloudName = process.env.STORYBOOK_CLOUDINARY_CLOUD_NAME;
-  const apiSecret = process.env.STORYBOOK_CLOUDINARY_API_SECRET;
-  const apiKey = process.env.STORYBOOK_CLOUDINARY_API_KEY;
-  const shaObj = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' });
-  shaObj.update(
-    `source=uw&timestamp=${timestamp}&upload_preset=${cloudinaryConfig.uploadPreset}${apiSecret}`
-  );
-  const hash = shaObj.getHash('HEX');
-
-  const openWidget = React.useCallback(() => {
-    const tempImages: any[] = [];
+  const openWidget = React.useCallback(async () => {
+    const config = await getWidgetConfig();
+    const tempImages: ImageUploadData[] = [];
     loadCloudinaryScriptDynamic(() => {
       widget.current = (window as any).cloudinary.createUploadWidget(
         {
-          ...cloudinaryConfig,
-          cloudName,
-          sources: ['local', 'url'],
-          uploadSignature: hash,
-          uploadSignatureTimestamp: timestamp,
-          apiKey,
+          ...config,
           styles: {
             palette: {
               window: '#FFFFFF',
@@ -151,7 +155,7 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
             },
           },
         },
-        (error: any, result: any) => {
+        (error: Error, result: { event: string; info: ImageUploadData }) => {
           if (!error && result && result.event === 'success') {
             tempImages.push(result.info);
           }
@@ -163,79 +167,54 @@ export const MediaUploadWidget: React.VFC<MediaUploadProps> = (props) => {
             }
           }
           if (error) {
-            console.log(error);
+            if (onImageUploadError) {
+              onImageUploadError(error);
+            }
           }
         }
       );
       (widget.current as any).open();
     });
-  }, [
-    apiKey,
-    cloudName,
-    cloudinaryConfig,
-    hash,
-    images,
-    onImageUpload,
-    timestamp,
-  ]);
+  }, [getWidgetConfig, images, onImageUpload, onImageUploadError]);
 
   React.useEffect(() => {
     return () => {
-      (widget.current as any).destroy({ removeThumbnails: true });
+      if (widget.current) {
+        (widget.current as any).destroy({ removeThumbnails: true });
+      }
     };
   });
 
-  const action = {
-    icon: Delete,
-    handler: (e: React.MouseEvent, id: string | undefined) => {
-      const timestampDelete = Math.round(new Date().getTime() / 1000);
-      const shaObjDelete = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' });
-      shaObj.update(`public_id=${id}&timestamp=${timestampDelete}${apiSecret}`);
-      const hashDelete = shaObjDelete.getHash('HEX');
-
-      // fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, {
-      //   method: 'POST',
-      //   mode: 'no-cors',
-      //   body: JSON.stringify({
-      //     public_id: id,
-      //     timestamp: timestampDelete,
-      //     signature: hashDelete,
-      //     api_key: apiKey,
-      //   }),
-      // }).then(
-      //   (result) => console.log(result),
-      //   (error) => console.log(error)
-      // );
-
-      const image = images.find((image) => image.public_id === id);
-      fetch(`https://api.cloudinary.com/v1_1/${cloudName}/delete_by_token`, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({
-          token: image!.delete_token,
-        }),
-      }).then(
-        (result) => console.log(result),
-        (error) => console.log(error)
-      );
-    },
-  };
+  const action = deleteHandler
+    ? {
+        icon: Delete,
+        handler: (e: React.MouseEvent, id: string | undefined) => {
+          const image = images.find((image) => image.public_id === id);
+          deleteHandler(e, id, image?.delete_token).then(
+            () => {
+              const updatedImages = images.filter(
+                (image) => image.public_id !== id
+              );
+              setImages(updatedImages);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        },
+      }
+    : undefined;
 
   return (
     <>
       <Paper borderStyle="dashed" gutterBottom={true}>
         <FlexContainer align="center" justify="center">
-          <Image
-            src={img2x}
-            sources={sources}
-            alt="attach-file-image"
-            mode="height"
-          />
+          {image}
           <Button
             variant="text"
             icon={CloudUpload}
             color="primary"
-            className={styles.button}
+            className={image ? styles.button : undefined}
             onClick={openWidget}
           >
             Bild wählen

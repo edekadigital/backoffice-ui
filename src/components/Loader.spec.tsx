@@ -2,7 +2,7 @@ import { cleanup, render } from '@testing-library/react';
 import * as React from 'react';
 import { Loader } from './Loader';
 
-describe('<ListMenu/>', () => {
+describe('<Loader/>', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
