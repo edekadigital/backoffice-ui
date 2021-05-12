@@ -7,6 +7,7 @@ import {
   Sources,
   Image,
   ImageSource,
+  MediaData,
 } from '..';
 
 export default {
@@ -51,13 +52,7 @@ const getConfig: CloudinaryConfigProvider = async () => {
   };
 };
 
-const handleError = () => {
-  window.alert(
-    'Image cannnot be uploaded, configuration of widget is just for demo'
-  );
-};
-
-const images = [
+const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/a9a4a4',
     public_id: 'public_id1',
@@ -91,63 +86,35 @@ const images = [
     delete_token: 'delete_token',
   },
 ];
-
+// TODO Überlegen ob ein demo account eingerichtet werden kann
 export const Default = () => {
-  return (
-    <>
-      <MediaUploadWidget
-        getWidgetConfig={getConfig}
-        onImageUploadError={handleError}
-        image={image}
-      ></MediaUploadWidget>
-      <Body backgroundColor="warning" dense={false}>
-        You won&rsquo;t be able to upload an image, widget is just for
-        demonstration purposes
-      </Body>
-    </>
-  );
-};
+  const [items, setItems] = React.useState(initialItems);
+  const handleUpload = (items: MediaData[]) => {
+    console.log('handleUploads', items);
+  };
 
-export const WithInitialImages = () => {
-  return (
-    <>
-      <MediaUploadWidget
-        getWidgetConfig={getConfig}
-        onImageUploadError={handleError}
-        initialImages={images}
-        image={image}
-      ></MediaUploadWidget>
-      <Body backgroundColor="warning" dense={false}>
-        You won&rsquo;t be able to upload an image, widget is just for
-        demonstration purposes
-      </Body>
-    </>
-  );
-};
-
-export const WithDeleteAction = () => {
-  const handleDelete = async (): Promise<{ result: string }> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ result: 'ok' });
-        window.alert('Call Endpoint to delete image in cloudinary');
-      }, 1000);
+  const handleDelete = async (deletedItem: MediaData) => {
+    setItems((prevItems) => {
+      return prevItems.filter(
+        (item) => item.public_id !== deletedItem.public_id
+      );
     });
+    console.log('handleDelete', deletedItem);
   };
 
   return (
     <>
-      <MediaUploadWidget
-        getWidgetConfig={getConfig}
-        onImageUploadError={handleError}
-        initialImages={images}
-        deleteHandler={handleDelete}
-        image={image}
-      ></MediaUploadWidget>
       <Body backgroundColor="warning" dense={false}>
         You won&rsquo;t be able to upload an image, widget is just for
         demonstration purposes
       </Body>
+      <MediaUploadWidget
+        getWidgetConfig={getConfig}
+        onUpload={handleUpload}
+        onDelete={handleDelete}
+        callToActionImage={image}
+        items={items}
+      ></MediaUploadWidget>
     </>
   );
 };

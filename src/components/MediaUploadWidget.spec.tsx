@@ -23,10 +23,10 @@ const getConfig: CloudinaryConfigProvider = async () => {
 describe('<MediaUploadWidget>', () => {
   afterEach(cleanup);
 
-  it('should render the component', () => {
-    const { getByTestId } = render(
-      <MediaUploadWidget getWidgetConfig={getConfig} />
-    );
-    expect(getByTestId('paper')).toBeTruthy();
-  });
+  // it('should render the component', () => {
+  //   const { getByTestId } = render(
+  //     <MediaUploadWidget getWidgetConfig={getConfig} />
+  //   );
+  //   expect(getByTestId('paper')).toBeTruthy();
+  // });
 });

@@ -9,8 +9,26 @@ import {
   List,
   Delete,
   ListItem,
-  ImageSource,
 } from '..';
+
+type CloudinaryOptions = CloudinaryConfig & {
+  styles: { palette: { [key: string]: string } };
+};
+
+interface CloudinaryWidget {
+  open: Function;
+  destroy: Function;
+}
+declare global {
+  interface Window {
+    cloudinary?: {
+      createUploadWidget: (
+        options: CloudinaryOptions,
+        onEvent: Function
+      ) => CloudinaryWidget;
+    };
+  }
+}
 
 export type Formats =
   | 'png'
@@ -45,7 +63,7 @@ export interface CloudinaryConfig {
   apiKey: string;
 }
 
-export interface ImageUploadData {
+export interface MediaData {
   id?: string;
   batchId?: string;
   asset_id?: string;
@@ -77,31 +95,31 @@ export interface MediaUploadWidgetProps {
   /**
    * Callback when delete icon in list is clicked
    */
-  deleteHandler?: (
-    e: React.MouseEvent,
-    id?: string,
-    deleteToken?: string
-  ) => Promise<{ result: string } | Error>;
+  onDelete: (image: MediaData) => Promise<unknown>;
+  /**
+   *
+   */
+  onDeleteError?: (error: Error) => unknown;
   /**
    * Function which returns the configuration object for the upload widget
    */
   getWidgetConfig: CloudinaryConfigProvider;
   /**
-   * Initial array of images
+   * Array of images
    */
-  initialImages?: ImageUploadData[];
+  items?: MediaData[];
   /**
    * Callback with image object once upload was successfull
    */
-  onImageUpload?: (images: ImageUploadData[]) => void;
+  onUpload: (images: MediaData[]) => unknown;
   /**
    * Calback when upload failed
    */
-  onImageUploadError?: (error: Error) => void;
+  onUploadError?: (error: Error) => unknown;
   /**
    * Optional image which will be displayed next to the upload button
    */
-  image?: React.ReactElement;
+  callToActionImage?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -111,23 +129,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
   const {
     getWidgetConfig,
-    initialImages,
-    onImageUpload,
-    deleteHandler,
-    onImageUploadError,
-    image,
+    items = [],
+    onUpload,
+    onDelete,
+    onDeleteError,
+    onUploadError,
+    callToActionImage,
   } = props;
-  const [images, setImages] = React.useState<ImageUploadData[]>(
-    initialImages || []
-  );
-  const widget = React.useRef();
+
+  const widget = React.useRef<CloudinaryWidget>();
   const styles = useStyles();
 
   const openWidget = React.useCallback(async () => {
     const config = await getWidgetConfig();
-    const tempImages: ImageUploadData[] = [];
+    let tempItems: MediaData[] = [];
     loadCloudinaryScriptDynamic(() => {
-      widget.current = (window as any).cloudinary.createUploadWidget(
+      widget.current = window.cloudinary?.createUploadWidget(
         {
           ...config,
           styles: {
@@ -146,98 +163,82 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
               complete: '#4CAF50',
               sourceBg: '#F5F5F5',
             },
-            fonts: {
-              default: null,
-              "'Fira Sans', sans-serif": {
-                url: 'https://fonts.googleapis.com/css?family=Fira+Sans',
-                active: true,
-              },
-            },
           },
         },
-        (error: Error, result: { event: string; info: ImageUploadData }) => {
+        (error: Error, result: { event: string; info: MediaData }) => {
           if (!error && result && result.event === 'success') {
-            tempImages.push(result.info);
+            tempItems.push(result.info);
           }
           if (!error && result && result.event === 'queues-end') {
-            const updatedImages = [...images, ...tempImages];
-            setImages(updatedImages);
-            if (onImageUpload) {
-              onImageUpload(updatedImages);
-            }
+            onUpload(tempItems);
+            tempItems = [];
           }
           if (error) {
-            if (onImageUploadError) {
-              onImageUploadError(error);
+            if (onUploadError) {
+              onUploadError(error);
             }
           }
         }
       );
-      (widget.current as any).open();
+      widget.current?.open();
     });
-  }, [getWidgetConfig, images, onImageUpload, onImageUploadError]);
+  }, [getWidgetConfig, onUpload, onUploadError]);
 
   React.useEffect(() => {
     return () => {
-      if (widget.current) {
-        (widget.current as any).destroy({ removeThumbnails: true });
-      }
+      widget.current?.destroy();
     };
-  });
+  }, []);
 
-  const action = deleteHandler
-    ? {
-        icon: Delete,
-        handler: (e: React.MouseEvent, id: string | undefined) => {
-          const image = images.find((image) => image.public_id === id);
-          deleteHandler(e, id, image?.delete_token).then(
-            () => {
-              const updatedImages = images.filter(
-                (image) => image.public_id !== id
-              );
-              setImages(updatedImages);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-        },
+  const action = {
+    icon: Delete,
+    handler: (e: React.MouseEvent, id: string | undefined) => {
+      const item: MediaData | undefined = items.find(
+        (item) => item.public_id === id
+      );
+      if (item) {
+        onDelete(item).catch((error) => {
+          if (onDeleteError) {
+            onDeleteError(error);
+          }
+        });
       }
-    : undefined;
+    },
+  };
 
   return (
     <>
       <Paper borderStyle="dashed" gutterBottom={true}>
         <FlexContainer align="center" justify="center">
-          {image}
+          {callToActionImage}
           <Button
             variant="text"
             icon={CloudUpload}
             color="primary"
-            className={image ? styles.button : undefined}
+            className={callToActionImage ? styles.button : undefined}
             onClick={openWidget}
           >
             Bild wählen
           </Button>
         </FlexContainer>
       </Paper>
-      {images.length > 0 && (
+      {items.length > 0 && (
         <List>
-          {images.map((image, index) => {
-            const unit = image.bytes > 1024000 ? 'MB' : 'KB';
-            const size = Math.round(image.bytes / 1024);
+          {items.map((item, index) => {
+            const unit = item.bytes > 1024000 ? 'MB' : 'KB';
+            const size = Math.round(item.bytes / 1024);
 
             return (
               <ListItem
-                key={`Image-${index}`}
-                text={`${image.original_filename}.${image.format}`}
+                key={`item-${index}`}
+                text={`${item.original_filename}.${item.format}`}
                 subText={`${size}${unit}`}
                 action={action}
-                id={image.public_id}
+                id={item.public_id}
                 bullet={
                   <Image
                     mode="contain"
-                    src={image.thumbnail_url}
+                    src={item.thumbnail_url}
                     alt="thumbnail"
                   />
                 }
