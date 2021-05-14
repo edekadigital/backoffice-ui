@@ -2,13 +2,13 @@ import * as React from 'react';
 import {
   Body,
   CloudinaryConfigProvider,
-  Formats,
   MediaUploadWidget,
-  Sources,
   Image,
   ImageSource,
   MediaData,
+  Spacer,
 } from '..';
+import { Formats, Sources } from '../utils/loadCloudinaryScript';
 
 export default {
   title: 'Components/MediaUploadWidget',
@@ -108,6 +108,7 @@ export const Default = () => {
         You won&rsquo;t be able to upload an image, widget is just for
         demonstration purposes
       </Body>
+      <Spacer vertical={2} />
       <MediaUploadWidget
         getWidgetConfig={getConfig}
         onUpload={handleUpload}

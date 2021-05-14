@@ -10,59 +10,12 @@ import {
   Delete,
   ListItem,
 } from '..';
-
-type CloudinaryOptions = CloudinaryConfig & {
-  styles: { palette: { [key: string]: string } };
-};
-
-interface CloudinaryWidget {
-  open: Function;
-  destroy: Function;
-}
-declare global {
-  interface Window {
-    cloudinary?: {
-      createUploadWidget: (
-        options: CloudinaryOptions,
-        onEvent: Function
-      ) => CloudinaryWidget;
-    };
-  }
-}
-
-export type Formats =
-  | 'png'
-  | 'gif'
-  | 'jpeg'
-  | 'pdf'
-  | 'heif'
-  | 'heic'
-  | 'webp'
-  | 'svg';
-
-export type Sources = 'local' | 'url';
-
-export interface CloudinaryConfig {
-  uploadPreset: string;
-  multiple?: boolean;
-  maxFiles?: number;
-  maxFileSize?: number;
-  clientAllowedFormats?: Formats[];
-  maxImageFileSize?: number;
-  maxVideoFileSize?: number;
-  maxRawFileSize?: number;
-  maxImageWidth?: number;
-  maxImageHeight?: number;
-  minImageWidth?: number;
-  minImageHeight?: number;
-  validateMaxWidthHeight?: boolean;
-  cloudName: string;
-  sources?: Sources[];
-  uploadSignature: string;
-  uploadSignatureTimestamp: number;
-  apiKey: string;
-}
-
+import {
+  CloudinaryConfig,
+  CloudinaryWidget,
+  Formats,
+  loadCloudinaryScript,
+} from '../utils/loadCloudinaryScript';
 export interface MediaData {
   id?: string;
   batchId?: string;
@@ -143,45 +96,50 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
   const openWidget = React.useCallback(async () => {
     const config = await getWidgetConfig();
     let tempItems: MediaData[] = [];
-    loadCloudinaryScriptDynamic(() => {
-      widget.current = window.cloudinary?.createUploadWidget(
-        {
-          ...config,
-          styles: {
-            palette: {
-              window: '#FFFFFF',
-              windowBorder: '#9E9E9E',
-              tabIcon: '#1A65B2',
-              menuIcons: '#9E9E9E',
-              textDark: '#000000',
-              textLight: '#FFFFFF',
-              link: '#1A65B2',
-              action: '#FF9800',
-              inactiveTabIcon: '#757575',
-              error: '#D32F2F',
-              inProgress: '#1A65B2',
-              complete: '#4CAF50',
-              sourceBg: '#F5F5F5',
+
+    if (widget.current) {
+      widget.current?.open();
+    } else {
+      loadCloudinaryScript()?.then((cloudinary) => {
+        widget.current = cloudinary?.createUploadWidget(
+          {
+            ...config,
+            styles: {
+              palette: {
+                window: '#FFFFFF',
+                windowBorder: '#9E9E9E',
+                tabIcon: '#1A65B2',
+                menuIcons: '#9E9E9E',
+                textDark: '#000000',
+                textLight: '#FFFFFF',
+                link: '#1A65B2',
+                action: '#FF9800',
+                inactiveTabIcon: '#757575',
+                error: '#D32F2F',
+                inProgress: '#1A65B2',
+                complete: '#4CAF50',
+                sourceBg: '#F5F5F5',
+              },
             },
           },
-        },
-        (error: Error, result: { event: string; info: MediaData }) => {
-          if (!error && result && result.event === 'success') {
-            tempItems.push(result.info);
-          }
-          if (!error && result && result.event === 'queues-end') {
-            onUpload(tempItems);
-            tempItems = [];
-          }
-          if (error) {
-            if (onUploadError) {
-              onUploadError(error);
+          (error: Error, result: { event: string; info: MediaData }) => {
+            if (!error && result && result.event === 'success') {
+              tempItems.push(result.info);
+            }
+            if (!error && result && result.event === 'queues-end') {
+              onUpload(tempItems);
+              tempItems = [];
+            }
+            if (error) {
+              if (onUploadError) {
+                onUploadError(error);
+              }
             }
           }
-        }
-      );
-      widget.current?.open();
-    });
+        );
+        widget.current?.open();
+      });
+    }
   }, [getWidgetConfig, onUpload, onUploadError]);
 
   React.useEffect(() => {
@@ -217,6 +175,7 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
             color="primary"
             className={callToActionImage ? styles.button : undefined}
             onClick={openWidget}
+            data-testid="mediaUploadWidget-button"
           >
             Bild wählen
           </Button>
@@ -249,21 +208,4 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
       )}
     </>
   );
-};
-
-const loadCloudinaryScriptDynamic = (callback: () => void) => {
-  const existingScript = document.getElementById('cloudinary');
-
-  if (!existingScript) {
-    const script = document.createElement('script');
-    script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
-    script.id = 'cloudinary';
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      if (callback) callback();
-    };
-  }
-
-  if (existingScript && callback) callback();
 };
