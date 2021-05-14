@@ -79,6 +79,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
 
+export const widgetStylesConfig = {
+  palette: {
+    window: '#FFFFFF',
+    windowBorder: '#9E9E9E',
+    tabIcon: '#1A65B2',
+    menuIcons: '#9E9E9E',
+    textDark: '#000000',
+    textLight: '#FFFFFF',
+    link: '#1A65B2',
+    action: '#FF9800',
+    inactiveTabIcon: '#757575',
+    error: '#D32F2F',
+    inProgress: '#1A65B2',
+    complete: '#4CAF50',
+    sourceBg: '#F5F5F5',
+  },
+};
+
 export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
   const {
     getWidgetConfig,
@@ -104,23 +122,7 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
         widget.current = cloudinary?.createUploadWidget(
           {
             ...config,
-            styles: {
-              palette: {
-                window: '#FFFFFF',
-                windowBorder: '#9E9E9E',
-                tabIcon: '#1A65B2',
-                menuIcons: '#9E9E9E',
-                textDark: '#000000',
-                textLight: '#FFFFFF',
-                link: '#1A65B2',
-                action: '#FF9800',
-                inactiveTabIcon: '#757575',
-                error: '#D32F2F',
-                inProgress: '#1A65B2',
-                complete: '#4CAF50',
-                sourceBg: '#F5F5F5',
-              },
-            },
+            styles: widgetStylesConfig,
           },
           (error: Error, result: { event: string; info: MediaData }) => {
             if (!error && result && result.event === 'success') {
@@ -168,7 +170,11 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
     <>
       <Paper borderStyle="dashed" gutterBottom={true}>
         <FlexContainer align="center" justify="center">
-          {callToActionImage}
+          {callToActionImage ? (
+            <div data-testid="mediaUploadWidget-callToActionImage">
+              {callToActionImage}
+            </div>
+          ) : null}
           <Button
             variant="text"
             icon={CloudUpload}

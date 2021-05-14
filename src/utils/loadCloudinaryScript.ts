@@ -73,4 +73,5 @@ export const loadCloudinaryScript = () => {
       };
     });
   }
+  return;
 };

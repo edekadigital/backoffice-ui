@@ -4,6 +4,7 @@ import { ThemeProvider } from '..';
 import {
   CloudinaryConfigProvider,
   MediaUploadWidget,
+  widgetStylesConfig,
 } from './MediaUploadWidget';
 import {
   Formats,
@@ -14,12 +15,21 @@ import userEvent from '@testing-library/user-event';
 
 jest.mock('../utils/loadCloudinaryScript');
 
-const mockedLoadScript = () => {
+const mockedLoadScript = (
+  callCallback = false,
+  error: Error | null = null,
+  result = { event: 'queues-end' }
+) => {
   const open = jest.fn();
   const destroy = jest.fn();
-  const createUploadWidget = jest.fn().mockImplementation(() => {
-    return { open, destroy };
-  });
+  const createUploadWidget = jest
+    .fn()
+    .mockImplementation((config, callback) => {
+      if (callCallback) {
+        callback(error, result);
+      }
+      return { open, destroy };
+    });
   (loadCloudinaryScript as jest.MockedFunction<
     typeof loadCloudinaryScript
   >).mockResolvedValue({
@@ -56,7 +66,7 @@ const initialItems = [
     thumbnail_url: 'urlItem2',
     public_id: 'public_id2',
     format: 'jpeg' as Formats,
-    bytes: 1024,
+    bytes: 1024001,
     original_filename: 'sampleItem',
     delete_token: 'delete_token',
   },
@@ -68,16 +78,19 @@ describe('<MediaUploadWidget>', () => {
   it('should render the component', () => {
     const handleDelete = jest.fn();
     const handleUpload = jest.fn();
-    const { getByTestId } = render(
+    const { getByTestId, queryAllByTestId } = render(
       <ThemeProvider>
         <MediaUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
+          callToActionImage={<img src="image-source" />}
         />
       </ThemeProvider>
     );
     expect(getByTestId('paper')).toBeTruthy();
+    expect(queryAllByTestId('listItem')).toHaveLength(0);
+    expect(getByTestId('mediaUploadWidget-callToActionImage')).toBeTruthy();
   });
 
   it('should render a list of items', () => {
@@ -120,7 +133,9 @@ describe('<MediaUploadWidget>', () => {
   });
 
   it('should not initialize widget again when button is clicked', async () => {
-    const { createUploadWidget } = mockedLoadScript();
+    const { createUploadWidget } = mockedLoadScript(true, undefined, {
+      event: 'success',
+    });
     const handleDelete = jest.fn();
     const handleUpload = jest.fn();
     const { getByTestId } = render(
@@ -185,6 +200,66 @@ describe('<MediaUploadWidget>', () => {
 
     await waitFor(() => {
       expect(handleDeleteError).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call onUpload when event callback is called and result is defined', async () => {
+    const { createUploadWidget } = mockedLoadScript(true);
+    const handleDelete = jest.fn();
+    const handleUpload = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <MediaUploadWidget
+          getWidgetConfig={getConfig}
+          onDelete={handleDelete}
+          onUpload={handleUpload}
+          items={initialItems}
+        />
+      </ThemeProvider>
+    );
+
+    userEvent.click(getByTestId('mediaUploadWidget-button'));
+
+    const config = await getConfig();
+
+    await waitFor(() => {
+      expect(createUploadWidget).toHaveBeenCalled();
+      expect(createUploadWidget.mock.calls[0][0]).toEqual({
+        ...config,
+        styles: widgetStylesConfig,
+      });
+      expect(handleUpload).toHaveBeenCalled();
+    });
+  });
+
+  it('should call onUploadError when event callback error is defined', async () => {
+    const { createUploadWidget } = mockedLoadScript(true, new Error());
+    const handleDelete = jest.fn();
+    const handleUpload = jest.fn();
+    const handleUploadError = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <MediaUploadWidget
+          getWidgetConfig={getConfig}
+          onDelete={handleDelete}
+          onUpload={handleUpload}
+          onUploadError={handleUploadError}
+          items={initialItems}
+        />
+      </ThemeProvider>
+    );
+
+    userEvent.click(getByTestId('mediaUploadWidget-button'));
+
+    const config = await getConfig();
+
+    await waitFor(() => {
+      expect(createUploadWidget).toHaveBeenCalled();
+      expect(createUploadWidget.mock.calls[0][0]).toEqual({
+        ...config,
+        styles: widgetStylesConfig,
+      });
+      expect(handleUploadError).toHaveBeenCalled();
     });
   });
 });
