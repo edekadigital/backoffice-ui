@@ -12,14 +12,13 @@ import { IconButton } from '..';
 
 export interface ListActionItem {
   icon: React.ElementType<SvgIconProps>;
-  handler: (e: React.MouseEvent, id: string | undefined) => void;
+  handler: React.MouseEventHandler;
 }
 
 export interface ListItem {
-  text?: React.ReactElement | string;
-  subText?: React.ReactElement | string;
+  text?: React.ReactNode;
+  subText?: React.ReactNode;
   bullet?: React.ReactElement;
-  id?: string;
   disabled?: boolean;
   action?: ListActionItem;
 }
@@ -29,7 +28,7 @@ const useListBulletStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const ListItem: React.VFC<ListItem> = (props) => {
-  const { text, subText, bullet, id, action, disabled = false } = props;
+  const { text, subText, bullet, action, disabled } = props;
   const bulletStyles = useListBulletStyles();
   return (
     <MuiListItem divider={true} disabled={disabled} data-testid="listItem">
@@ -47,7 +46,7 @@ export const ListItem: React.VFC<ListItem> = (props) => {
         <ListItemSecondaryAction data-testid="listItem-action">
           <IconButton
             icon={action?.icon}
-            onClick={(e: React.MouseEvent) => action?.handler(e, id)}
+            onClick={action.handler}
             disabled={disabled}
             data-testid="listItem-action-button"
           />

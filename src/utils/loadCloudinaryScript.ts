@@ -1,4 +1,4 @@
-export type Formats =
+export type CloudinaryAssetFormat =
   | 'png'
   | 'gif'
   | 'jpeg'
@@ -8,14 +8,14 @@ export type Formats =
   | 'webp'
   | 'svg';
 
-export type Sources = 'local' | 'url';
+export type CloudinaryAssetSource = 'local' | 'url';
 
 export interface CloudinaryConfig {
   uploadPreset: string;
   multiple?: boolean;
   maxFiles?: number;
   maxFileSize?: number;
-  clientAllowedFormats?: Formats[];
+  clientAllowedFormats?: CloudinaryAssetFormat[];
   maxImageFileSize?: number;
   maxVideoFileSize?: number;
   maxRawFileSize?: number;
@@ -25,7 +25,7 @@ export interface CloudinaryConfig {
   minImageHeight?: number;
   validateMaxWidthHeight?: boolean;
   cloudName: string;
-  sources?: Sources[];
+  sources?: CloudinaryAssetSource[];
   uploadSignature: string;
   uploadSignatureTimestamp: number;
   apiKey: string;

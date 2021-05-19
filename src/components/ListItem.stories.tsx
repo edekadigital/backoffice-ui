@@ -2,11 +2,6 @@ import * as React from 'react';
 import { ListItem, Image, List, TextField, Switch } from '..';
 import { Info } from '../icons';
 
-const action = {
-  icon: Info,
-  handler: () => {},
-};
-
 const bullet = (
   <Image
     mode="contain"
@@ -31,7 +26,16 @@ export const Default = () => {
 export const WithAction = () => {
   return (
     <List>
-      <ListItem text="Lorem" subText="ipsum" action={action} />
+      <ListItem
+        text="Lorem"
+        subText="ipsum"
+        action={{
+          icon: Info,
+          handler: () => {
+            console.log('Clicked');
+          },
+        }}
+      />
     </List>
   );
 };

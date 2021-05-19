@@ -8,7 +8,10 @@ import {
   MediaData,
   Spacer,
 } from '..';
-import { Formats, Sources } from '../utils/loadCloudinaryScript';
+import {
+  CloudinaryAssetFormat,
+  CloudinaryAssetSource,
+} from '../utils/loadCloudinaryScript';
 
 export default {
   title: 'Components/MediaUploadWidget',
@@ -38,7 +41,7 @@ const image = (
   />
 );
 
-const sources: Sources[] = ['url'];
+const sources: CloudinaryAssetSource[] = ['local'];
 
 const getConfig: CloudinaryConfigProvider = async () => {
   return {
@@ -56,7 +59,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/a9a4a4',
     public_id: 'public_id1',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -64,7 +67,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
     public_id: 'public_id2',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -72,7 +75,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/7b82b7',
     public_id: 'public_id3',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -80,7 +83,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/f8a26a',
     public_id: 'public_id4',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -115,7 +118,7 @@ export const Default = () => {
         onDelete={handleDelete}
         callToActionImage={image}
         items={items}
-      ></MediaUploadWidget>
+      />
     </>
   );
 };

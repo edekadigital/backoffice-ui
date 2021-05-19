@@ -9,11 +9,12 @@ import {
   List,
   Delete,
   ListItem,
+  ListActionItem,
 } from '..';
 import {
   CloudinaryConfig,
   CloudinaryWidget,
-  Formats,
+  CloudinaryAssetFormat,
   loadCloudinaryScript,
 } from '../utils/loadCloudinaryScript';
 export interface MediaData {
@@ -26,7 +27,7 @@ export interface MediaData {
   signature?: string;
   width?: number;
   height?: number;
-  format: Formats;
+  format: CloudinaryAssetFormat;
   resource_type?: string;
   created_at?: string;
   tags?: string[];
@@ -150,22 +151,6 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
     };
   }, []);
 
-  const action = {
-    icon: Delete,
-    handler: (e: React.MouseEvent, id: string | undefined) => {
-      const item: MediaData | undefined = items.find(
-        (item) => item.public_id === id
-      );
-      if (item) {
-        onDelete(item).catch((error) => {
-          if (onDeleteError) {
-            onDeleteError(error);
-          }
-        });
-      }
-    },
-  };
-
   return (
     <>
       <Paper borderStyle="dashed" gutterBottom={true}>
@@ -193,13 +178,23 @@ export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
             const unit = item.bytes > 1024000 ? 'MB' : 'KB';
             const size = Math.round(item.bytes / 1024);
 
+            const action: ListActionItem = {
+              icon: Delete,
+              handler: () => {
+                onDelete(item).catch((error) => {
+                  if (onDeleteError) {
+                    onDeleteError(error);
+                  }
+                });
+              },
+            };
+
             return (
               <ListItem
                 key={`item-${index}`}
                 text={`${item.original_filename}.${item.format}`}
                 subText={`${size}${unit}`}
                 action={action}
-                id={item.public_id}
                 bullet={
                   <Image
                     mode="contain"

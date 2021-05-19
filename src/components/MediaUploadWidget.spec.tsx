@@ -7,9 +7,9 @@ import {
   widgetStylesConfig,
 } from './MediaUploadWidget';
 import {
-  Formats,
+  CloudinaryAssetFormat,
   loadCloudinaryScript,
-  Sources,
+  CloudinaryAssetSource,
 } from '../utils/loadCloudinaryScript';
 import userEvent from '@testing-library/user-event';
 
@@ -39,7 +39,7 @@ const mockedLoadScript = (
   return { createUploadWidget, open, destroy };
 };
 
-const sources: Sources[] = ['url'];
+const sources: CloudinaryAssetSource[] = ['url'];
 
 const getConfig: CloudinaryConfigProvider = async () => {
   return {
@@ -57,7 +57,7 @@ const initialItems = [
   {
     thumbnail_url: 'urlItem1',
     public_id: 'public_id1',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024,
     original_filename: 'sampleItem',
     delete_token: 'delete_token',
@@ -65,7 +65,7 @@ const initialItems = [
   {
     thumbnail_url: 'urlItem2',
     public_id: 'public_id2',
-    format: 'jpeg' as Formats,
+    format: 'jpeg' as CloudinaryAssetFormat,
     bytes: 1024001,
     original_filename: 'sampleItem',
     delete_token: 'delete_token',
