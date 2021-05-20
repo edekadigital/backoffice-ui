@@ -3,9 +3,9 @@ import * as React from 'react';
 import { ThemeProvider } from '..';
 import {
   CloudinaryConfigProvider,
-  MediaUploadWidget,
+  CloudinaryUploadWidget,
   widgetStylesConfig,
-} from './MediaUploadWidget';
+} from './CloudinaryUploadWidget';
 import {
   CloudinaryAssetFormat,
   loadCloudinaryScript,
@@ -22,14 +22,12 @@ const mockedLoadScript = (
 ) => {
   const open = jest.fn();
   const destroy = jest.fn();
-  const createUploadWidget = jest
-    .fn()
-    .mockImplementation((config, callback) => {
-      if (callCallback) {
-        callback(error, result);
-      }
-      return { open, destroy };
-    });
+  const createUploadWidget = jest.fn().mockImplementation((callback) => {
+    if (callCallback) {
+      callback(error, result);
+    }
+    return { open, destroy };
+  });
   (loadCloudinaryScript as jest.MockedFunction<
     typeof loadCloudinaryScript
   >).mockResolvedValue({
@@ -72,7 +70,7 @@ const initialItems = [
   },
 ];
 
-describe('<MediaUploadWidget>', () => {
+describe('<CloudinaryUploadWidget>', () => {
   afterEach(cleanup);
 
   it('should render the component', () => {
@@ -80,7 +78,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getByTestId, queryAllByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -98,7 +96,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getAllByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -115,7 +113,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -140,7 +138,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -164,7 +162,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getAllByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -184,7 +182,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getAllByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onDeleteError={handleDeleteError}
@@ -209,7 +207,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUpload = jest.fn();
     const { getByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
@@ -239,7 +237,7 @@ describe('<MediaUploadWidget>', () => {
     const handleUploadError = jest.fn();
     const { getByTestId } = render(
       <ThemeProvider>
-        <MediaUploadWidget
+        <CloudinaryUploadWidget
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}

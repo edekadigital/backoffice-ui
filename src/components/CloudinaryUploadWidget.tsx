@@ -45,7 +45,7 @@ export interface MediaData {
 }
 
 export type CloudinaryConfigProvider = () => Promise<CloudinaryConfig>;
-export interface MediaUploadWidgetProps {
+export interface CloudinaryUploadWidgetProps {
   /**
    * Callback when delete icon in list is clicked
    */
@@ -98,7 +98,9 @@ export const widgetStylesConfig = {
   },
 };
 
-export const MediaUploadWidget: React.VFC<MediaUploadWidgetProps> = (props) => {
+export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
+  props
+) => {
   const {
     getWidgetConfig,
     items = [],

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   Body,
   CloudinaryConfigProvider,
-  MediaUploadWidget,
+  CloudinaryUploadWidget,
   Image,
   ImageSource,
   MediaData,
@@ -14,8 +14,8 @@ import {
 } from '../utils/loadCloudinaryScript';
 
 export default {
-  title: 'Components/MediaUploadWidget',
-  component: MediaUploadWidget,
+  title: 'Components/CloudinaryUploadWidget',
+  component: CloudinaryUploadWidget,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -154,7 +154,7 @@ export const Default = () => {
         demonstration purposes
       </Body>
       <Spacer vertical={2} />
-      <MediaUploadWidget
+      <CloudinaryUploadWidget
         getWidgetConfig={getConfig}
         onUpload={handleUpload}
         onDelete={handleDelete}
