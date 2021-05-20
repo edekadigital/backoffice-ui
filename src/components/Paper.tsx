@@ -7,6 +7,7 @@ import { Spacer } from '..';
 import { Image } from './Image';
 
 export type PaperColor = 'initial' | 'primary';
+export type BorderStyle = 'solid' | 'dashed';
 
 export interface PaperProps {
   /**
@@ -31,13 +32,26 @@ export interface PaperProps {
    * Image that will appear in the right top corner, will disappear on mobile viewport
    */
   image?: React.ElementType<SVGImageElement> | string;
+  /**
+   * Sets border style of the paper component
+   * @default solid
+   */
+  borderStyle?: BorderStyle;
 }
 
 const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
-  paperRoot: ({ gutterBottom, backgroundColor = 'initial' }) => {
+  paperRoot: ({
+    gutterBottom,
+    backgroundColor = 'initial',
+    borderStyle = 'solid',
+  }) => {
     const colorMap = {
       primary: theme.palette.primary.main,
       initial: theme.palette.background.paper,
+    };
+    const borderStyleMap = {
+      solid: `1px solid ${theme.palette.action.focus}`,
+      dashed: `1px dashed ${theme.palette.action.focus}`,
     };
     return {
       marginBottom: theme.spacing(gutterBottom ? 3 : 0),
@@ -48,6 +62,7 @@ const useStyles = makeStyles<Theme, PaperProps>((theme) => ({
           ? theme.palette.primary.contrastText
           : theme.palette.text.primary,
       position: 'relative',
+      border: borderStyleMap[borderStyle],
     };
   },
   headingRoot: {
