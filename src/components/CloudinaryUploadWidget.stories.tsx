@@ -5,7 +5,7 @@ import {
   CloudinaryUploadWidget,
   Image,
   ImageSource,
-  MediaData,
+  CloudinaryMediaData,
   Spacer,
 } from '..';
 import {
@@ -41,7 +41,7 @@ const image = (
   />
 );
 
-const sources: CloudinaryAssetSource[] = ['local'];
+const sources: CloudinaryAssetSource[] = ['local', 'url'];
 
 /**
  * For demonstration purpose only.
@@ -134,11 +134,11 @@ const initialItems = [
 // TODO Überlegen ob ein demo account eingerichtet werden kann
 export const Default = () => {
   const [items, setItems] = React.useState(initialItems);
-  const handleUpload = (items: MediaData[]) => {
+  const handleUpload = (items: CloudinaryMediaData[]) => {
     console.log('handleUploads', items);
   };
 
-  const handleDelete = async (deletedItem: MediaData) => {
+  const handleDelete = async (deletedItem: CloudinaryMediaData) => {
     setItems((prevItems) => {
       return prevItems.filter(
         (item) => item.public_id !== deletedItem.public_id

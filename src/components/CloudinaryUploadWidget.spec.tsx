@@ -4,7 +4,6 @@ import { ThemeProvider } from '..';
 import {
   CloudinaryConfigProvider,
   CloudinaryUploadWidget,
-  widgetStylesConfig,
 } from './CloudinaryUploadWidget';
 import {
   CloudinaryAssetFormat,
@@ -224,9 +223,8 @@ describe('<CloudinaryUploadWidget>', () => {
 
     await waitFor(() => {
       expect(createUploadWidget).toHaveBeenCalled();
-      expect(createUploadWidget.mock.calls[0][0]).toEqual({
+      expect(createUploadWidget.mock.calls[0][0]).toMatchObject({
         ...config,
-        styles: widgetStylesConfig,
       });
       expect(handleUpload).toHaveBeenCalled();
     });
@@ -255,9 +253,8 @@ describe('<CloudinaryUploadWidget>', () => {
 
     await waitFor(() => {
       expect(createUploadWidget).toHaveBeenCalled();
-      expect(createUploadWidget.mock.calls[0][0]).toEqual({
+      expect(createUploadWidget.mock.calls[0][0]).toMatchObject({
         ...config,
-        styles: widgetStylesConfig,
       });
       expect(handleUploadError).toHaveBeenCalled();
     });

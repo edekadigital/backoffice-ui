@@ -17,7 +17,8 @@ import {
   CloudinaryAssetFormat,
   loadCloudinaryScript,
 } from '../utils/loadCloudinaryScript';
-export interface MediaData {
+import { useTheme } from '@material-ui/styles';
+export interface CloudinaryMediaData {
   id?: string;
   batchId?: string;
   asset_id?: string;
@@ -49,7 +50,7 @@ export interface CloudinaryUploadWidgetProps {
   /**
    * Callback when delete icon in list is clicked
    */
-  onDelete: (image: MediaData) => Promise<unknown>;
+  onDelete: (image: CloudinaryMediaData) => Promise<unknown>;
   /**
    *
    */
@@ -61,11 +62,11 @@ export interface CloudinaryUploadWidgetProps {
   /**
    * Array of images
    */
-  items?: MediaData[];
+  items?: CloudinaryMediaData[];
   /**
    * Callback with image object once upload was successfull
    */
-  onUpload: (images: MediaData[]) => unknown;
+  onUpload: (images: CloudinaryMediaData[]) => unknown;
   /**
    * Calback when upload failed
    */
@@ -79,24 +80,6 @@ export interface CloudinaryUploadWidgetProps {
 const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
-
-export const widgetStylesConfig = {
-  palette: {
-    window: '#FFFFFF',
-    windowBorder: '#9E9E9E',
-    tabIcon: '#1A65B2',
-    menuIcons: '#9E9E9E',
-    textDark: '#000000',
-    textLight: '#FFFFFF',
-    link: '#1A65B2',
-    action: '#FF9800',
-    inactiveTabIcon: '#757575',
-    error: '#D32F2F',
-    inProgress: '#1A65B2',
-    complete: '#4CAF50',
-    sourceBg: '#F5F5F5',
-  },
-};
 
 export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
   props
@@ -113,10 +96,42 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
 
   const widget = React.useRef<CloudinaryWidget>();
   const styles = useStyles();
+  const theme = useTheme<Theme>();
+
+  const widgetStylesConfig = React.useMemo(
+    () => ({
+      palette: {
+        window: theme.palette.background.paper,
+        windowBorder: theme.palette.divider,
+        tabIcon: theme.palette.primary.main,
+        menuIcons: theme.palette.action.active,
+        textDark: theme.palette.text.secondary,
+        textLight: theme.palette.primary.contrastText,
+        link: theme.palette.primary.main,
+        inactiveTabIcon: theme.palette.text.disabled,
+        error: theme.palette.error.main,
+        inProgress: theme.palette.primary.main,
+        complete: theme.palette.success.main,
+        sourceBg: theme.palette.background.default,
+      },
+    }),
+    [
+      theme.palette.action.active,
+      theme.palette.background.default,
+      theme.palette.background.paper,
+      theme.palette.divider,
+      theme.palette.error.main,
+      theme.palette.primary.contrastText,
+      theme.palette.primary.main,
+      theme.palette.success.main,
+      theme.palette.text.disabled,
+      theme.palette.text.secondary,
+    ]
+  );
 
   const openWidget = React.useCallback(async () => {
     const config = await getWidgetConfig();
-    let tempItems: MediaData[] = [];
+    let tempItems: CloudinaryMediaData[] = [];
 
     if (widget.current) {
       widget.current?.open();
@@ -127,7 +142,10 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
             ...config,
             styles: widgetStylesConfig,
           },
-          (error: Error, result: { event: string; info: MediaData }) => {
+          (
+            error: Error,
+            result: { event: string; info: CloudinaryMediaData }
+          ) => {
             if (!error && result && result.event === 'success') {
               tempItems.push(result.info);
             }
@@ -145,7 +163,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
         widget.current?.open();
       });
     }
-  }, [getWidgetConfig, onUpload, onUploadError]);
+  }, [getWidgetConfig, onUpload, onUploadError, widgetStylesConfig]);
 
   React.useEffect(() => {
     return () => {
