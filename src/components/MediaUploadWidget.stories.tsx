@@ -43,15 +43,57 @@ const image = (
 
 const sources: CloudinaryAssetSource[] = ['local'];
 
+/**
+ * For demonstration purpose only.
+ * General informations:
+ * - `uploadPreset` is required AND has to be part of the request body when generating the upload signature
+ * - `uploadSignatureTimestamp` can be set in frontend and be part of the request body when generating the upload signature.
+ *    Otherwise the timestamp will be calculated in the backend automatically.
+ * - `apiKey`, `cloudName` and `uploadSignature` itself will be passed in the response body after calling the
+ *    signature generator backend endpoint (no need to store these values in frontend). Make sure these values
+ *    are part of the returned config callback.
+ */
 const getConfig: CloudinaryConfigProvider = async () => {
-  return {
-    uploadPreset: 'upload-preset',
-    uploadSignature: 'signature',
-    uploadSignatureTimestamp: 1637238,
-    apiKey: 'apiKey',
-    cloudName: 'cloud',
+  const config = {
+    uploadPreset: 'SOME-PRESET',
+    uploadSignatureTimestamp: Math.round(new Date().getTime() / 1000),
     sources,
     maxFiles: 1,
+  };
+
+  /**
+   * Call api endpoint to generate required cloudinary signature
+   * and to get required apiKey, cloudName and timestamp.
+   */
+  // const signatureGeneratorResponse = await fetch(
+  //   'http://xxx/getSignature',
+  //   {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(config),
+  //   }
+  // );
+
+  // const {
+  //   uploadSignature,
+  //   uploadSignatureTimestamp,
+  //   cloudName,
+  //   apiKey,
+  // } = await signatureGeneratorResponse.json();
+
+  const uploadSignature = 'SOME-SIGNATURE'; // mocked signature response
+  const uploadSignatureTimestamp = 123456; // mocked timestamp response
+  const cloudName = 'SOME-CLOUDNAME'; // mocked cloudinary cloud name response
+  const apiKey = 'SOME-APIKEY'; // mocked api key response
+
+  return {
+    ...config,
+    cloudName,
+    apiKey,
+    uploadSignature,
+    uploadSignatureTimestamp,
   };
 };
 
