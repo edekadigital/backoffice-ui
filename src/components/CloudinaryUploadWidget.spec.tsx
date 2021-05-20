@@ -22,12 +22,14 @@ const mockedLoadScript = (
 ) => {
   const open = jest.fn();
   const destroy = jest.fn();
-  const createUploadWidget = jest.fn().mockImplementation((callback) => {
-    if (callCallback) {
-      callback(error, result);
-    }
-    return { open, destroy };
-  });
+  const createUploadWidget = jest
+    .fn()
+    .mockImplementation((config, callback) => {
+      if (callCallback) {
+        callback(error, result);
+      }
+      return { open, destroy };
+    });
   (loadCloudinaryScript as jest.MockedFunction<
     typeof loadCloudinaryScript
   >).mockResolvedValue({
