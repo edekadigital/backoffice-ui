@@ -1,17 +1,15 @@
 import * as React from 'react';
+import { CloudinaryMediaData } from '..';
 import {
   Body,
-  CloudinaryConfigProvider,
+  CloudinaryUploadWidgetConfigCallback,
   CloudinaryUploadWidget,
   Image,
   ImageSource,
-  CloudinaryMediaData,
   Spacer,
-} from '..';
-import {
-  CloudinaryAssetFormat,
-  CloudinaryAssetSource,
-} from '../utils/loadCloudinaryScript';
+  CloudinaryUploadWidgetUploadCallback,
+} from '../../..';
+import { CloudinaryUploadWidgetDeleteCallback } from './CloudinaryUploadWidget';
 
 export default {
   title: 'Components/CloudinaryUploadWidget',
@@ -41,24 +39,19 @@ const image = (
   />
 );
 
-const sources: CloudinaryAssetSource[] = ['local', 'url'];
-
 /**
  * For demonstration purpose only.
  * General informations:
- * - `uploadPreset` is required AND has to be part of the request body when generating the upload signature
  * - `uploadSignatureTimestamp` can be set in frontend and be part of the request body when generating the upload signature.
  *    Otherwise the timestamp will be calculated in the backend automatically.
  * - `apiKey`, `cloudName` and `uploadSignature` itself will be passed in the response body after calling the
  *    signature generator backend endpoint (no need to store these values in frontend). Make sure these values
  *    are part of the returned config callback.
  */
-const getConfig: CloudinaryConfigProvider = async () => {
+const getConfig: CloudinaryUploadWidgetConfigCallback = async (options) => {
   const config = {
-    uploadPreset: 'SOME-PRESET',
     uploadSignatureTimestamp: Math.round(new Date().getTime() / 1000),
-    sources,
-    maxFiles: 1,
+    ...options,
   };
 
   /**
@@ -97,11 +90,11 @@ const getConfig: CloudinaryConfigProvider = async () => {
   };
 };
 
-const initialItems = [
+const initialItems: CloudinaryMediaData[] = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/a9a4a4',
     public_id: 'public_id1',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -109,7 +102,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
     public_id: 'public_id2',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -117,7 +110,7 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/7b82b7',
     public_id: 'public_id3',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
@@ -125,20 +118,23 @@ const initialItems = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/f8a26a',
     public_id: 'public_id4',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
   },
 ];
-// TODO Überlegen ob ein demo account eingerichtet werden kann
+
 export const Default = () => {
   const [items, setItems] = React.useState(initialItems);
-  const handleUpload = (items: CloudinaryMediaData[]) => {
+
+  const handleUpload: CloudinaryUploadWidgetUploadCallback = (items) => {
     console.log('handleUploads', items);
   };
 
-  const handleDelete = async (deletedItem: CloudinaryMediaData) => {
+  const handleDelete: CloudinaryUploadWidgetDeleteCallback = async (
+    deletedItem
+  ) => {
     setItems((prevItems) => {
       return prevItems.filter(
         (item) => item.public_id !== deletedItem.public_id
@@ -160,6 +156,7 @@ export const Default = () => {
         onDelete={handleDelete}
         callToActionImage={image}
         items={items}
+        widgetOptions={{ uploadPreset: 'somePreset', sources: ['local'] }}
       />
     </>
   );

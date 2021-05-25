@@ -10,55 +10,70 @@ import {
   Delete,
   ListItem,
   ListActionItem,
-} from '..';
-import {
-  CloudinaryConfig,
-  CloudinaryWidget,
-  CloudinaryAssetFormat,
-  loadCloudinaryScript,
-} from '../utils/loadCloudinaryScript';
+} from '../../..';
+import { loadCloudinaryScript } from '../../../utils/loadCloudinaryScript';
 import { useTheme } from '@material-ui/styles';
-export interface CloudinaryMediaData {
-  id?: string;
-  batchId?: string;
-  asset_id?: string;
-  public_id: string;
-  version?: number;
-  version_id?: string;
-  signature?: string;
-  width?: number;
-  height?: number;
-  format: CloudinaryAssetFormat;
-  resource_type?: string;
-  created_at?: string;
-  tags?: string[];
-  bytes: number;
-  type?: string;
-  etag?: string;
-  placeholder?: boolean;
-  url?: string;
-  secure_url?: string;
-  access_mode?: string;
-  original_filename: string;
-  path?: string;
-  thumbnail_url: string;
-  delete_token: string;
+import { CloudinaryAssetFormat, CloudinaryMediaData } from '..';
+
+export interface CloudinaryUploadWidgetOptions {
+  uploadPreset: string;
+  multiple?: boolean;
+  maxFiles?: number;
+  maxFileSize?: number;
+  clientAllowedFormats?: CloudinaryAssetFormat[];
+  maxImageFileSize?: number;
+  maxVideoFileSize?: number;
+  maxRawFileSize?: number;
+  maxImageWidth?: number;
+  maxImageHeight?: number;
+  minImageWidth?: number;
+  minImageHeight?: number;
+  validateMaxWidthHeight?: boolean;
+  sources: CloudinaryUploadWidgetAssetSource[];
+}
+export type CloudinaryUploadWidgetConfig = CloudinaryUploadWidgetOptions & {
+  cloudName: string;
+  uploadSignature: string;
+  uploadSignatureTimestamp: number;
+  apiKey: string;
+};
+
+export type CloudinaryUploadWidgetAssetSource = 'local' | 'url';
+
+export interface CloudinaryUploadWidgetRef {
+  open: Function;
+  destroy: Function;
 }
 
-export type CloudinaryConfigProvider = () => Promise<CloudinaryConfig>;
+export type CloudinaryUploadWidgetConfigCallback = (
+  options: CloudinaryUploadWidgetOptions
+) => Promise<CloudinaryUploadWidgetConfig>;
+
+export type CloudinaryUploadWidgetDeleteCallback = (
+  image: CloudinaryMediaData
+) => Promise<void>;
+
+export type CloudinaryUploadWidgetDeleteErrorCallback = (error: Error) => void;
+
+export type CloudinaryUploadWidgetUploadCallback = (
+  images: CloudinaryMediaData[]
+) => void;
+
+export type CloudinaryUploadWidgetUploadErrorCallback = (error: Error) => void;
+
 export interface CloudinaryUploadWidgetProps {
   /**
    * Callback when delete icon in list is clicked
    */
-  onDelete: (image: CloudinaryMediaData) => Promise<unknown>;
+  onDelete: CloudinaryUploadWidgetDeleteCallback;
   /**
    *
    */
-  onDeleteError?: (error: Error) => unknown;
+  onDeleteError?: CloudinaryUploadWidgetDeleteErrorCallback;
   /**
    * Function which returns the configuration object for the upload widget
    */
-  getWidgetConfig: CloudinaryConfigProvider;
+  getWidgetConfig: CloudinaryUploadWidgetConfigCallback;
   /**
    * Array of images
    */
@@ -66,15 +81,19 @@ export interface CloudinaryUploadWidgetProps {
   /**
    * Callback with image object once upload was successfull
    */
-  onUpload: (images: CloudinaryMediaData[]) => unknown;
+  onUpload: CloudinaryUploadWidgetUploadCallback;
   /**
    * Calback when upload failed
    */
-  onUploadError?: (error: Error) => unknown;
+  onUploadError?: CloudinaryUploadWidgetUploadErrorCallback;
   /**
    * Optional image which will be displayed next to the upload button
    */
   callToActionImage?: React.ReactNode;
+  /**
+   * Additional cloudinary widget options
+   */
+  widgetOptions: CloudinaryUploadWidgetOptions;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -92,9 +111,10 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
     onDeleteError,
     onUploadError,
     callToActionImage,
+    widgetOptions,
   } = props;
 
-  const widget = React.useRef<CloudinaryWidget>();
+  const widget = React.useRef<CloudinaryUploadWidgetRef>();
   const styles = useStyles();
   const theme = useTheme<Theme>();
 
@@ -130,7 +150,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
   );
 
   const openWidget = React.useCallback(async () => {
-    const config = await getWidgetConfig();
+    const config = await getWidgetConfig(widgetOptions);
     let tempItems: CloudinaryMediaData[] = [];
 
     if (widget.current) {
@@ -163,7 +183,13 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
         widget.current?.open();
       });
     }
-  }, [getWidgetConfig, onUpload, onUploadError, widgetStylesConfig]);
+  }, [
+    getWidgetConfig,
+    onUpload,
+    onUploadError,
+    widgetOptions,
+    widgetStylesConfig,
+  ]);
 
   React.useEffect(() => {
     return () => {

@@ -1,18 +1,17 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
 import * as React from 'react';
-import { ThemeProvider } from '..';
 import {
-  CloudinaryConfigProvider,
   CloudinaryUploadWidget,
-} from './CloudinaryUploadWidget';
-import {
-  CloudinaryAssetFormat,
-  loadCloudinaryScript,
-  CloudinaryAssetSource,
-} from '../utils/loadCloudinaryScript';
+  CloudinaryUploadWidgetAssetSource,
+  CloudinaryUploadWidgetConfigCallback,
+  CloudinaryUploadWidgetOptions,
+  ThemeProvider,
+} from '../../..';
 import userEvent from '@testing-library/user-event';
+import { loadCloudinaryScript } from '../../../utils/loadCloudinaryScript';
+import { CloudinaryMediaData } from '..';
 
-jest.mock('../utils/loadCloudinaryScript');
+jest.mock('../../../utils/loadCloudinaryScript');
 
 const mockedLoadScript = (
   callCallback = false,
@@ -38,25 +37,29 @@ const mockedLoadScript = (
   return { createUploadWidget, open, destroy };
 };
 
-const sources: CloudinaryAssetSource[] = ['url'];
+const sources: CloudinaryUploadWidgetAssetSource[] = ['url'];
 
-const getConfig: CloudinaryConfigProvider = async () => {
+const widgetOptions: CloudinaryUploadWidgetOptions = {
+  uploadPreset: 'upload-preset',
+  sources,
+};
+
+const getConfig: CloudinaryUploadWidgetConfigCallback = async (options) => {
   return {
-    uploadPreset: 'upload-preset',
     uploadSignature: 'signature',
     uploadSignatureTimestamp: 1637238,
     apiKey: 'apiKey',
     cloudName: 'cloud',
-    sources,
     maxFiles: 1,
+    ...options,
   };
 };
 
-const initialItems = [
+const initialItems: CloudinaryMediaData[] = [
   {
     thumbnail_url: 'urlItem1',
     public_id: 'public_id1',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleItem',
     delete_token: 'delete_token',
@@ -64,7 +67,7 @@ const initialItems = [
   {
     thumbnail_url: 'urlItem2',
     public_id: 'public_id2',
-    format: 'jpeg' as CloudinaryAssetFormat,
+    format: 'jpeg',
     bytes: 1024001,
     original_filename: 'sampleItem',
     delete_token: 'delete_token',
@@ -84,6 +87,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDelete={handleDelete}
           onUpload={handleUpload}
           callToActionImage={<img src="image-source" />}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -102,6 +106,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDelete={handleDelete}
           onUpload={handleUpload}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -119,6 +124,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDelete={handleDelete}
           onUpload={handleUpload}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -144,6 +150,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDelete={handleDelete}
           onUpload={handleUpload}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -168,6 +175,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDelete={handleDelete}
           onUpload={handleUpload}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -189,6 +197,7 @@ describe('<CloudinaryUploadWidget>', () => {
           onDeleteError={handleDeleteError}
           onUpload={handleUpload}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
@@ -212,6 +221,7 @@ describe('<CloudinaryUploadWidget>', () => {
           getWidgetConfig={getConfig}
           onDelete={handleDelete}
           onUpload={handleUpload}
+          widgetOptions={widgetOptions}
           items={initialItems}
         />
       </ThemeProvider>
@@ -219,13 +229,8 @@ describe('<CloudinaryUploadWidget>', () => {
 
     userEvent.click(getByTestId('mediaUploadWidget-button'));
 
-    const config = await getConfig();
-
     await waitFor(() => {
       expect(createUploadWidget).toHaveBeenCalled();
-      expect(createUploadWidget.mock.calls[0][0]).toMatchObject({
-        ...config,
-      });
       expect(handleUpload).toHaveBeenCalled();
     });
   });
@@ -243,19 +248,15 @@ describe('<CloudinaryUploadWidget>', () => {
           onUpload={handleUpload}
           onUploadError={handleUploadError}
           items={initialItems}
+          widgetOptions={widgetOptions}
         />
       </ThemeProvider>
     );
 
     userEvent.click(getByTestId('mediaUploadWidget-button'));
 
-    const config = await getConfig();
-
     await waitFor(() => {
       expect(createUploadWidget).toHaveBeenCalled();
-      expect(createUploadWidget.mock.calls[0][0]).toMatchObject({
-        ...config,
-      });
       expect(handleUploadError).toHaveBeenCalled();
     });
   });
