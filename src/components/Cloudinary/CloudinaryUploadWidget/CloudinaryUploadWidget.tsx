@@ -31,12 +31,16 @@ export interface CloudinaryUploadWidgetOptions {
   validateMaxWidthHeight?: boolean;
   sources: CloudinaryUploadWidgetAssetSource[];
 }
-export type CloudinaryUploadWidgetConfig = CloudinaryUploadWidgetOptions & {
+
+export interface CloudinaryUploadWidgetSignatureParams {
   cloudName: string;
   uploadSignature: string;
   uploadSignatureTimestamp: number;
   apiKey: string;
-};
+}
+
+export type CloudinaryUploadWidgetConfig = CloudinaryUploadWidgetOptions &
+  CloudinaryUploadWidgetSignatureParams;
 
 export type CloudinaryUploadWidgetAssetSource = 'local' | 'url';
 
