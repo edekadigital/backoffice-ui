@@ -156,7 +156,10 @@ export const Default = () => {
         onDelete={handleDelete}
         callToActionImage={image}
         items={items}
-        widgetOptions={{ uploadPreset: 'somePreset', sources: ['local'] }}
+        widgetOptions={{
+          uploadPreset: 'somePreset',
+          sources: ['local', 'url'],
+        }}
       />
     </>
   );

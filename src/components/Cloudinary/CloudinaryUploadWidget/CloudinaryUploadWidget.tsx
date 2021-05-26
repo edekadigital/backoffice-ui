@@ -30,6 +30,7 @@ export interface CloudinaryUploadWidgetOptions {
   minImageHeight?: number;
   validateMaxWidthHeight?: boolean;
   sources: CloudinaryUploadWidgetAssetSource[];
+  showPoweredBy?: boolean;
 }
 
 export interface CloudinaryUploadWidgetSignatureParams {
@@ -104,6 +105,46 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
 
+const localizationDE = {
+  language: 'de',
+  text: {
+    de: {
+      or: 'oder',
+      back: 'Zurück',
+      close: 'Schließen',
+      menu: {
+        files: 'Meine Dateien',
+        web: 'URL',
+      },
+      url: {
+        inner_title: 'Öffentliche Bild-URL:',
+        input_placeholder: 'Bild-URL',
+      },
+      local: {
+        browse: 'Durchsuchen',
+        dd_title_single: 'Datei hierhin ziehen und ablegen',
+        dd_title_multi: 'Dateien hierhin ziehen und ablegen',
+        drop_title_single: 'Datei ablegen um sie hochzuladen',
+        drop_title_multiple: 'Dateien ablegen um sie hochzuladen',
+      },
+      uploader: {
+        errors: {
+          file_too_large:
+            'Dateigröße ({{size}}) überschreitet die maximal erlaubte Größe ({{allowed}})',
+          max_dimensions_validation:
+            'Bildabmessungen ({{width}}X{{height}}) sind größer als die maximal erlaubten Maße ({{maxWidth}}X{{maxHeight}})',
+          min_dimensions_validation:
+            'Bildabmessungen ({{width}}X{{height}}) sind kleiner als die mindestens erforderten Maße ({{minWidth}}X{{minHeight}})',
+          max_number_of_files: 'Maximale Anzahl an Dateien erreicht',
+          allowed_formats: 'Datei Format nicht erlaubt',
+          max_file_size: 'Datei ist zu groß',
+          min_file_size: 'Datei ist zu klein',
+        },
+      },
+    },
+  },
+};
+
 export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
   props
 ) => {
@@ -164,7 +205,9 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
         widget.current = cloudinary?.createUploadWidget(
           {
             ...config,
+            ...localizationDE,
             styles: widgetStylesConfig,
+            showPoweredBy: false,
           },
           (
             error: Error,
