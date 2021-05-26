@@ -17,9 +17,9 @@ export default {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const img1x = require('../assets/attach-file@1x.png');
+const img1x = require('../../../assets/attach-file@1x.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const img2x = require('../assets/attach-file@2x.png');
+const img2x = require('../../../assets/attach-file@2x.png');
 const imgSources: ImageSource[] = [
   {
     media: '(min-width: 600px)',
@@ -95,7 +95,7 @@ const initialItems: CloudinaryMediaData[] = [
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/a9a4a4',
     public_id: 'public_id1',
     format: 'jpeg',
-    bytes: 1024,
+    bytes: 103000,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
   },
@@ -103,7 +103,7 @@ const initialItems: CloudinaryMediaData[] = [
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
     public_id: 'public_id2',
     format: 'jpeg',
-    bytes: 1024,
+    bytes: 1387114,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
   },
@@ -111,7 +111,7 @@ const initialItems: CloudinaryMediaData[] = [
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/7b82b7',
     public_id: 'public_id3',
     format: 'jpeg',
-    bytes: 1024,
+    bytes: 10024000,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
   },
@@ -119,7 +119,7 @@ const initialItems: CloudinaryMediaData[] = [
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/f8a26a',
     public_id: 'public_id4',
     format: 'jpeg',
-    bytes: 1024,
+    bytes: 1000000,
     original_filename: 'sampleImage',
     delete_token: 'delete_token',
   },

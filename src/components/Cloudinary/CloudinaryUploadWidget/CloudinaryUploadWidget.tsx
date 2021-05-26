@@ -95,7 +95,7 @@ export interface CloudinaryUploadWidgetProps {
    */
   callToActionImage?: React.ReactNode;
   /**
-   * Additional cloudinary widget options
+   * Cloudinary widget options
    */
   widgetOptions: CloudinaryUploadWidgetOptions;
 }
@@ -225,8 +225,15 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
       {items.length > 0 && (
         <List>
           {items.map((item, index) => {
-            const unit = item.bytes > 1024000 ? 'MB' : 'KB';
-            const size = Math.round(item.bytes / 1024);
+            let unit;
+            let size;
+            if (item.bytes > 1024000) {
+              unit = 'MB';
+              size = (item.bytes / (1024 * 1024)).toFixed(1);
+            } else {
+              unit = 'KB';
+              size = (item.bytes / 1024).toFixed();
+            }
 
             const action: ListActionItem = {
               icon: Delete,
@@ -243,7 +250,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
               <ListItem
                 key={`item-${index}`}
                 text={`${item.original_filename}.${item.format}`}
-                subText={`${size}${unit}`}
+                subText={`${size} ${unit}`}
                 action={action}
                 bullet={
                   <Image
