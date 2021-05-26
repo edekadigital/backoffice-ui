@@ -10,6 +10,8 @@ import {
   Delete,
   ListItem,
   ListActionItem,
+  Dialog,
+  Loader,
 } from '../../..';
 import { loadCloudinaryScript } from '../../../utils/loadCloudinaryScript';
 import { useTheme } from '@material-ui/styles';
@@ -31,6 +33,7 @@ export interface CloudinaryUploadWidgetOptions {
   validateMaxWidthHeight?: boolean;
   sources: CloudinaryUploadWidgetAssetSource[];
   showPoweredBy?: boolean;
+  language?: 'de' | 'en';
 }
 
 export interface CloudinaryUploadWidgetSignatureParams {
@@ -99,14 +102,18 @@ export interface CloudinaryUploadWidgetProps {
    * Cloudinary widget options
    */
   widgetOptions: CloudinaryUploadWidgetOptions;
+  /**
+   * Text and label language in the upload widget.
+   * @default "de"
+   */
+  language?: 'en' | 'de';
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: { marginLeft: theme.spacing(2) },
 }));
 
-const localizationDE = {
-  language: 'de',
+const localization = {
   text: {
     de: {
       or: 'oder',
@@ -141,6 +148,16 @@ const localizationDE = {
           min_file_size: 'Datei ist zu klein',
         },
       },
+      loadingDialog: {
+        title: 'Bitte warten',
+        text: 'Bitte warten. Der Datei Uploader wird initialisiert...',
+      },
+    },
+    en: {
+      loadingDialog: {
+        title: 'Please wait.',
+        text: 'Please wait. Initializing file uploader...',
+      },
     },
   },
 };
@@ -157,11 +174,13 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
     onUploadError,
     callToActionImage,
     widgetOptions,
+    language = 'de',
   } = props;
 
   const widget = React.useRef<CloudinaryUploadWidgetRef>();
   const styles = useStyles();
   const theme = useTheme<Theme>();
+  const [openLoadingDialog, setOpenLoadingDialog] = React.useState(false);
 
   const widgetStylesConfig = React.useMemo(
     () => ({
@@ -195,17 +214,20 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
   );
 
   const openWidget = React.useCallback(async () => {
+    setOpenLoadingDialog(true);
     const config = await getWidgetConfig(widgetOptions);
     let tempItems: CloudinaryMediaData[] = [];
 
     if (widget.current) {
       widget.current?.open();
+      setOpenLoadingDialog(false);
     } else {
       loadCloudinaryScript()?.then((cloudinary) => {
         widget.current = cloudinary?.createUploadWidget(
           {
             ...config,
-            ...localizationDE,
+            ...localization,
+            language,
             styles: widgetStylesConfig,
             showPoweredBy: false,
           },
@@ -228,10 +250,12 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
           }
         );
         widget.current?.open();
+        setOpenLoadingDialog(false);
       });
     }
   }, [
     getWidgetConfig,
+    language,
     onUpload,
     onUploadError,
     widgetOptions,
@@ -307,6 +331,14 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
           })}
         </List>
       )}
+      <Dialog
+        open={openLoadingDialog}
+        title={localization.text[language].loadingDialog.title}
+      >
+        <FlexContainer gutterBottom={10} gutterTop={10} justify="center">
+          <Loader message={localization.text[language].loadingDialog.text} />
+        </FlexContainer>
+      </Dialog>
     </>
   );
 };
