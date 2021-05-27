@@ -47,6 +47,7 @@ export interface CloudinaryMediaData {
   secure_url?: string;
   access_mode?: string;
   original_filename: string;
+  original_extension: string;
   path?: string;
   thumbnail_url: string;
   delete_token: string;

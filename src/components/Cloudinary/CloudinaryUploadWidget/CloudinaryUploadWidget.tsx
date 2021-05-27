@@ -58,7 +58,7 @@ export type CloudinaryUploadWidgetConfigCallback = (
 ) => Promise<CloudinaryUploadWidgetConfig>;
 
 export type CloudinaryUploadWidgetDeleteCallback = (
-  image: CloudinaryMediaData
+  publicId: string
 ) => Promise<void>;
 
 export type CloudinaryUploadWidgetDeleteErrorCallback = (error: Error) => void;
@@ -325,7 +325,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
             const action: ListActionItem = {
               icon: Delete,
               handler: () => {
-                onDelete(item).catch((error) => {
+                onDelete(item.public_id).catch((error) => {
                   if (onDeleteError) {
                     onDeleteError(error);
                   }

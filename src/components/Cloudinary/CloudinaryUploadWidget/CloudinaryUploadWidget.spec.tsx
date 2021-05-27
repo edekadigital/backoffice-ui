@@ -62,6 +62,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 1024,
     original_filename: 'sampleItem',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
   {
@@ -70,6 +71,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 1024001,
     original_filename: 'sampleItem',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
 ];
@@ -182,7 +184,7 @@ describe('<CloudinaryUploadWidget>', () => {
     userEvent.click(getAllByTestId('listItem-action-button')[1]);
 
     expect(handleDelete).toHaveBeenCalledTimes(1);
-    expect(handleDelete).toHaveBeenCalledWith(initialItems[1]);
+    expect(handleDelete).toHaveBeenCalledWith(initialItems[1].public_id);
   });
 
   it('should catch error for delete handler', async () => {
@@ -204,7 +206,7 @@ describe('<CloudinaryUploadWidget>', () => {
     userEvent.click(getAllByTestId('listItem-action-button')[1]);
 
     expect(handleDelete).toHaveBeenCalledTimes(1);
-    expect(handleDelete).toHaveBeenCalledWith(initialItems[1]);
+    expect(handleDelete).toHaveBeenCalledWith(initialItems[1].public_id);
 
     await waitFor(() => {
       expect(handleDeleteError).toHaveBeenCalledTimes(1);

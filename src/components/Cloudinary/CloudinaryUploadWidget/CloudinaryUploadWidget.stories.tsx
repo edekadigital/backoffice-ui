@@ -97,6 +97,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 103000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
   {
@@ -105,6 +106,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 1387114,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
   {
@@ -113,6 +115,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 10024000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
   {
@@ -121,6 +124,7 @@ const initialItems: CloudinaryMediaData[] = [
     format: 'jpeg',
     bytes: 1000000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
   },
 ];
@@ -133,14 +137,12 @@ export const Default = () => {
   };
 
   const handleDelete: CloudinaryUploadWidgetDeleteCallback = async (
-    deletedItem
+    publicId
   ) => {
     setItems((prevItems) => {
-      return prevItems.filter(
-        (item) => item.public_id !== deletedItem.public_id
-      );
+      return prevItems.filter((item) => item.public_id !== publicId);
     });
-    console.log('handleDelete', deletedItem);
+    console.log('handleDelete', publicId);
   };
 
   return (
