@@ -58,24 +58,6 @@ const getConfig: CloudinaryUploadWidgetConfigCallback = async (options) => {
    * Call api endpoint to generate required cloudinary signature
    * and to get required apiKey, cloudName and timestamp.
    */
-  // const signatureGeneratorResponse = await fetch(
-  //   'http://xxx/getSignature',
-  //   {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(config),
-  //   }
-  // );
-
-  // const {
-  //   uploadSignature,
-  //   uploadSignatureTimestamp,
-  //   cloudName,
-  //   apiKey,
-  // } = await signatureGeneratorResponse.json();
-
   const uploadSignature = 'SOME-SIGNATURE'; // mocked signature response
   const uploadSignatureTimestamp = 123456; // mocked timestamp response
   const cloudName = 'SOME-CLOUDNAME'; // mocked cloudinary cloud name response
@@ -99,6 +81,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleImage',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
@@ -108,6 +93,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleImage',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/7b82b7',
@@ -117,6 +105,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleImage',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/f8a26a',
@@ -126,6 +117,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleImage',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
 ];
 

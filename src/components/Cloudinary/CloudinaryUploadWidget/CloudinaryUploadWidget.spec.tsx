@@ -64,6 +64,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleItem',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'urlItem2',
@@ -73,6 +76,9 @@ const initialItems: CloudinaryMediaData[] = [
     original_filename: 'sampleItem',
     original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
 ];
 

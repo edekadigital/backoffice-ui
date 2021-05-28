@@ -33,8 +33,8 @@ export interface CloudinaryMediaData {
   version?: number;
   version_id?: string;
   signature?: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   format: CloudinaryAssetFormat;
   resource_type?: string;
   created_at?: string;
@@ -44,7 +44,7 @@ export interface CloudinaryMediaData {
   etag?: string;
   placeholder?: boolean;
   url?: string;
-  secure_url?: string;
+  secure_url: string;
   access_mode?: string;
   original_filename: string;
   original_extension: string;
