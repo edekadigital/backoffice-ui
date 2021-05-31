@@ -6,12 +6,33 @@ import TextField from '@material-ui/core/TextField';
  * UI
  */
 export interface AutocompleteProps<T extends {}> {
+  /**
+   * The label of this autocomplete field that will be shown inside when empty and not focused, inside the top line when filled.
+   */
   label: string;
+  /**
+   * The inputPlaceholder is shown inside the input while typing as a suggestion
+   */
   inputPlaceholder: string;
+  /**
+   * the default values that are shipped with this component by config
+   */
   value: T[];
+  /**
+   * function fired when items are changing
+   */
   onChange: (items: T[]) => unknown;
+  /**
+   * how to fetch autosuggestions
+   */
   fetchOptions: (inputValue: string) => Promise<T[]>;
+  /**
+   * Used to determine the string value for a given option.
+   */
   getOptionLabel: (item: T) => string;
+  /**
+   * how to process manually entered items (not autosuggested)
+   */
   findItems?: (...inputStrings: string[]) => Promise<T[]>;
 }
 
