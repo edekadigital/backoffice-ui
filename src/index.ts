@@ -40,7 +40,8 @@ export * from './components/Checkbox';
 export * from './components/AssignmentTable';
 export * from './components/List';
 export * from './components/ListItem';
-export * from './components/CloudinaryUploadWidget';
+export * from './components/Cloudinary';
+export * from './components/Cloudinary/CloudinaryUploadWidget/CloudinaryUploadWidget';
 
 export * from './forms/FormWrapper';
 export * from './forms/FormRow';

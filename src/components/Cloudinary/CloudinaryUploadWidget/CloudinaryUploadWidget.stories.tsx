@@ -1,17 +1,15 @@
 import * as React from 'react';
+import { CloudinaryMediaData } from '..';
 import {
   Body,
-  CloudinaryConfigProvider,
+  CloudinaryUploadWidgetConfigCallback,
   CloudinaryUploadWidget,
   Image,
   ImageSource,
-  CloudinaryMediaData,
   Spacer,
-} from '..';
-import {
-  CloudinaryAssetFormat,
-  CloudinaryAssetSource,
-} from '../utils/loadCloudinaryScript';
+  CloudinaryUploadWidgetUploadCallback,
+} from '../../..';
+import { CloudinaryUploadWidgetDeleteCallback } from './CloudinaryUploadWidget';
 
 export default {
   title: 'Components/CloudinaryUploadWidget',
@@ -19,9 +17,9 @@ export default {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const img1x = require('../assets/attach-file@1x.png');
+const img1x = require('../../../assets/attach-file@1x.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const img2x = require('../assets/attach-file@2x.png');
+const img2x = require('../../../assets/attach-file@2x.png');
 const imgSources: ImageSource[] = [
   {
     media: '(min-width: 600px)',
@@ -41,48 +39,25 @@ const image = (
   />
 );
 
-const sources: CloudinaryAssetSource[] = ['local', 'url'];
-
 /**
  * For demonstration purpose only.
  * General informations:
- * - `uploadPreset` is required AND has to be part of the request body when generating the upload signature
  * - `uploadSignatureTimestamp` can be set in frontend and be part of the request body when generating the upload signature.
  *    Otherwise the timestamp will be calculated in the backend automatically.
  * - `apiKey`, `cloudName` and `uploadSignature` itself will be passed in the response body after calling the
  *    signature generator backend endpoint (no need to store these values in frontend). Make sure these values
  *    are part of the returned config callback.
  */
-const getConfig: CloudinaryConfigProvider = async () => {
+const getConfig: CloudinaryUploadWidgetConfigCallback = async (options) => {
   const config = {
-    uploadPreset: 'SOME-PRESET',
     uploadSignatureTimestamp: Math.round(new Date().getTime() / 1000),
-    sources,
-    maxFiles: 1,
+    ...options,
   };
 
   /**
    * Call api endpoint to generate required cloudinary signature
    * and to get required apiKey, cloudName and timestamp.
    */
-  // const signatureGeneratorResponse = await fetch(
-  //   'http://xxx/getSignature',
-  //   {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(config),
-  //   }
-  // );
-
-  // const {
-  //   uploadSignature,
-  //   uploadSignatureTimestamp,
-  //   cloudName,
-  //   apiKey,
-  // } = await signatureGeneratorResponse.json();
-
   const uploadSignature = 'SOME-SIGNATURE'; // mocked signature response
   const uploadSignatureTimestamp = 123456; // mocked timestamp response
   const cloudName = 'SOME-CLOUDNAME'; // mocked cloudinary cloud name response
@@ -97,54 +72,71 @@ const getConfig: CloudinaryConfigProvider = async () => {
   };
 };
 
-const initialItems = [
+const initialItems: CloudinaryMediaData[] = [
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/a9a4a4',
     public_id: 'public_id1',
-    format: 'jpeg' as CloudinaryAssetFormat,
-    bytes: 1024,
+    format: 'jpeg',
+    bytes: 103000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
     public_id: 'public_id2',
-    format: 'jpeg' as CloudinaryAssetFormat,
-    bytes: 1024,
+    format: 'jpeg',
+    bytes: 1387114,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/7b82b7',
     public_id: 'public_id3',
-    format: 'jpeg' as CloudinaryAssetFormat,
-    bytes: 1024,
+    format: 'jpeg',
+    bytes: 10024000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
   {
     thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/f8a26a',
     public_id: 'public_id4',
-    format: 'jpeg' as CloudinaryAssetFormat,
-    bytes: 1024,
+    format: 'jpeg',
+    bytes: 1000000,
     original_filename: 'sampleImage',
+    original_extension: 'jpg',
     delete_token: 'delete_token',
+    width: 3840,
+    height: 2160,
+    secure_url: 'https://edeka.de/test.jpg',
   },
 ];
-// TODO Überlegen ob ein demo account eingerichtet werden kann
+
 export const Default = () => {
   const [items, setItems] = React.useState(initialItems);
-  const handleUpload = (items: CloudinaryMediaData[]) => {
+
+  const handleUpload: CloudinaryUploadWidgetUploadCallback = (items) => {
     console.log('handleUploads', items);
   };
 
-  const handleDelete = async (deletedItem: CloudinaryMediaData) => {
+  const handleDelete: CloudinaryUploadWidgetDeleteCallback = async (
+    publicId
+  ) => {
     setItems((prevItems) => {
-      return prevItems.filter(
-        (item) => item.public_id !== deletedItem.public_id
-      );
+      return prevItems.filter((item) => item.public_id !== publicId);
     });
-    console.log('handleDelete', deletedItem);
+    console.log('handleDelete', publicId);
   };
 
   return (
@@ -160,6 +152,10 @@ export const Default = () => {
         onDelete={handleDelete}
         callToActionImage={image}
         items={items}
+        widgetOptions={{
+          uploadPreset: 'somePreset',
+          sources: ['local', 'url'],
+        }}
       />
     </>
   );
