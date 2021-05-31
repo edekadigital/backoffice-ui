@@ -12,6 +12,7 @@ export interface AutocompleteProps<T extends {}> {
   onChange: (items: T[]) => unknown;
   fetchOptions: (inputValue: string) => Promise<T[]>;
   getOptionLabel: (item: T) => string;
+  findItems?: (...inputStrings: string[]) => Promise<T[]>;
 }
 
 export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
@@ -22,6 +23,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
     getOptionLabel,
     onChange,
     fetchOptions,
+    findItems,
     ...otherProps
   } = props;
 
@@ -35,18 +37,28 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
     setOptions(nextOptions);
   };
 
-  const handleChange = (
+  const handleChange = async (
     _: React.ChangeEvent<{}>,
     value: (T | string)[],
     reason: string
   ) => {
-    const newValue = value as T[];
+    const newValues: T[] = [];
+
+    for (const tempValue of value) {
+      if (typeof tempValue === 'object') {
+        newValues.push(tempValue);
+      } else if (typeof tempValue === 'string' && findItems) {
+        const foundItems = await findItems(...tempValue.split(/[,;]?[\s]+/));
+        foundItems.forEach((tempValue) => newValues.push(tempValue as T));
+      }
+    }
+
     switch (reason) {
+      case 'create-option':
       case 'select-option':
       case 'remove-option':
-        onChange(newValue);
-        break;
-      default:
+      case 'clear':
+        onChange(newValues);
         break;
     }
   };
