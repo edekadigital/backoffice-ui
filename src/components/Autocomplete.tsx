@@ -1,5 +1,7 @@
 import * as React from 'react';
-import MuiAutocomplete from '@material-ui/lab/Autocomplete';
+import MuiAutocomplete, {
+  AutocompleteChangeReason,
+} from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 /**
@@ -61,7 +63,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
   const handleChange = async (
     _: React.ChangeEvent<{}>,
     value: (T | string)[],
-    reason: string
+    reason: AutocompleteChangeReason
   ) => {
     const newValues: T[] = [];
 
