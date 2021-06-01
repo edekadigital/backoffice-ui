@@ -41,6 +41,7 @@ export * from './components/AssignmentTable';
 export * from './components/List';
 export * from './components/ListItem';
 export * from './components/CloudinaryUploadWidget';
+export * from './components/Autocomplete';
 
 export * from './forms/FormWrapper';
 export * from './forms/FormRow';
