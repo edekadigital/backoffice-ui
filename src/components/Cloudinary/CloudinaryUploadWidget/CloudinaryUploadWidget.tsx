@@ -50,7 +50,7 @@ export type CloudinaryUploadWidgetAssetSource = 'local' | 'url';
 
 export interface CloudinaryUploadWidgetRef {
   open: Function;
-  destroy: Function;
+  destroy: () => Promise<void>;
 }
 
 export type CloudinaryUploadWidgetConfigCallback = (
@@ -242,36 +242,38 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
       widget.current?.open();
       setOpenLoadingDialog(false);
     } else {
-      loadCloudinaryScript()?.then((cloudinary) => {
-        widget.current = cloudinary?.createUploadWidget(
-          {
-            ...config,
-            ...localization,
-            language,
-            styles: widgetStylesConfig,
-            showPoweredBy: false,
-          },
-          (
-            error: Error,
-            result: { event: string; info: CloudinaryMediaData }
-          ) => {
-            if (!error && result && result.event === 'success') {
-              tempItems.push(result.info);
-            }
-            if (!error && result && result.event === 'queues-end') {
-              onUpload(tempItems);
-              tempItems = [];
-            }
-            if (error) {
-              if (onUploadError) {
-                onUploadError(error);
+      loadCloudinaryScript()
+        .then((cloudinary) => {
+          widget.current = cloudinary?.createUploadWidget(
+            {
+              ...config,
+              ...localization,
+              language,
+              styles: widgetStylesConfig,
+              showPoweredBy: false,
+            },
+            (
+              error: Error,
+              result: { event: string; info: CloudinaryMediaData }
+            ) => {
+              if (!error && result && result.event === 'success') {
+                tempItems.push(result.info);
+              }
+              if (!error && result && result.event === 'queues-end') {
+                onUpload(tempItems);
+                tempItems = [];
+              }
+              if (error) {
+                if (onUploadError) {
+                  onUploadError(error);
+                }
               }
             }
-          }
-        );
-        widget.current?.open();
-        setOpenLoadingDialog(false);
-      });
+          );
+          widget.current?.open();
+          setOpenLoadingDialog(false);
+        })
+        .catch((e) => console.error('ERROR on loading cloudinary library', e));
     }
   }, [
     getWidgetConfig,
@@ -284,7 +286,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
 
   React.useEffect(() => {
     return () => {
-      widget.current?.destroy();
+      widget.current?.destroy().then(() => (widget.current = undefined));
     };
   }, []);
 

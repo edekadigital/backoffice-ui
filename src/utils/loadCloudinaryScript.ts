@@ -2,7 +2,7 @@ import { Cloudinary } from '../components/Cloudinary';
 
 export const loadCloudinaryScript = () => {
   const existingScript = document.getElementById('cloudinary');
-
+  console.log('existingScript', existingScript);
   if (!existingScript) {
     return new Promise<Cloudinary>((resolve, reject) => {
       const script = document.createElement('script');
@@ -20,6 +20,5 @@ export const loadCloudinaryScript = () => {
         reject();
       };
     });
-  }
-  return;
+  } else return Promise.resolve(window.cloudinary as Cloudinary);
 };
