@@ -19,6 +19,7 @@ export type CloudinaryAssetFormat =
   | 'png'
   | 'gif'
   | 'jpeg'
+  | 'jpg'
   | 'pdf'
   | 'heif'
   | 'heic'
