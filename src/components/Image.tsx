@@ -30,6 +30,10 @@ export interface ImageProps {
    */
   position?: ImagePosition;
   /**
+   * Set the maximum width of the given image
+   */
+  maxWidth?: number;
+  /**
    * Sets the mode how the image should be rendered.
    * @default "width"
    */
@@ -43,12 +47,13 @@ export interface ImageProps {
 /* istanbul ignore next */
 const useStyles = makeStyles<unknown, ImageProps>({
   root: {},
-  img: ({ mode = 'width', position = 'relative' }) => ({
+  img: ({ mode = 'width', position = 'relative', maxWidth }) => ({
     position,
     display: 'block',
     width: mode === 'height' ? 'auto' : '100%',
     height: mode === 'width' ? 'auto' : '100%',
     objectFit: mode === 'width' || mode === 'height' ? undefined : mode,
+    maxWidth,
     fontFamily:
       mode === 'width' || mode === 'height'
         ? undefined

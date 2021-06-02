@@ -344,6 +344,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
                     mode="contain"
                     src={item.thumbnail_url || item.secure_url}
                     alt="thumbnail"
+                    maxWidth={56}
                   />
                 }
               />

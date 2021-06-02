@@ -86,7 +86,7 @@ const initialItems: CloudinaryMediaData[] = [
     secure_url: 'https://edeka.de/test.jpg',
   },
   {
-    thumbnail_url: 'https://via.placeholder.com/61x34.jpeg/88c893',
+    thumbnail_url: 'https://via.placeholder.com/120x70.jpeg/88c893',
     public_id: 'public_id2',
     format: 'jpeg',
     bytes: 1387114,
