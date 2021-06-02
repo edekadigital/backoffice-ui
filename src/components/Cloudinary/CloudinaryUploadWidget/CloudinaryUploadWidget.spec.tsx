@@ -19,7 +19,7 @@ const mockedLoadScript = (
   result = { event: 'queues-end' }
 ) => {
   const open = jest.fn();
-  const destroy = jest.fn();
+  const destroy = jest.fn().mockImplementation(() => Promise.resolve());
   const createUploadWidget = jest
     .fn()
     .mockImplementation((config, callback) => {
@@ -162,15 +162,15 @@ describe('<CloudinaryUploadWidget>', () => {
         />
       </ThemeProvider>
     );
-    userEvent.click(getByTestId('mediaUploadWidget-button'));
 
+    userEvent.click(getByTestId('mediaUploadWidget-button'));
     await waitFor(() => {
       expect(createUploadWidget).toHaveBeenCalled();
     });
-
     userEvent.click(getByTestId('mediaUploadWidget-button'));
-
-    expect(createUploadWidget).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(createUploadWidget).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should call delete handler when delete icon is clicked', () => {

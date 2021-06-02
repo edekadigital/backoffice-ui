@@ -242,38 +242,36 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
       widget.current?.open();
       setOpenLoadingDialog(false);
     } else {
-      loadCloudinaryScript()
-        .then((cloudinary) => {
-          widget.current = cloudinary?.createUploadWidget(
-            {
-              ...config,
-              ...localization,
-              language,
-              styles: widgetStylesConfig,
-              showPoweredBy: false,
-            },
-            (
-              error: Error,
-              result: { event: string; info: CloudinaryMediaData }
-            ) => {
-              if (!error && result && result.event === 'success') {
-                tempItems.push(result.info);
-              }
-              if (!error && result && result.event === 'queues-end') {
-                onUpload(tempItems);
-                tempItems = [];
-              }
-              if (error) {
-                if (onUploadError) {
-                  onUploadError(error);
-                }
+      loadCloudinaryScript().then((cloudinary) => {
+        widget.current = cloudinary?.createUploadWidget(
+          {
+            ...config,
+            ...localization,
+            language,
+            styles: widgetStylesConfig,
+            showPoweredBy: false,
+          },
+          (
+            error: Error,
+            result: { event: string; info: CloudinaryMediaData }
+          ) => {
+            if (!error && result && result.event === 'success') {
+              tempItems.push(result.info);
+            }
+            if (!error && result && result.event === 'queues-end') {
+              onUpload(tempItems);
+              tempItems = [];
+            }
+            if (error) {
+              if (onUploadError) {
+                onUploadError(error);
               }
             }
-          );
-          widget.current?.open();
-          setOpenLoadingDialog(false);
-        })
-        .catch((e) => console.error('ERROR on loading cloudinary library', e));
+          }
+        );
+        widget.current?.open();
+        setOpenLoadingDialog(false);
+      });
     }
   }, [
     getWidgetConfig,
