@@ -342,7 +342,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
                 bullet={
                   <Image
                     mode="contain"
-                    src={item.thumbnail_url}
+                    src={item.thumbnail_url || item.secure_url}
                     alt="thumbnail"
                   />
                 }
