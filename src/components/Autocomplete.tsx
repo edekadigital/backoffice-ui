@@ -4,9 +4,6 @@ import MuiAutocomplete, {
 } from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
-/**
- * UI
- */
 export interface AutocompleteProps<T extends {}> {
   /**
    * The label of this autocomplete field that will be shown inside when empty and not focused, inside the top line when filled.
