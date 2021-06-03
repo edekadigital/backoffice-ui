@@ -48,6 +48,7 @@ export const useEditorState = (initialValue = '', selectAll = false) => {
     blockStyles: {
       ins_open: 'UNDERLINE',
     },
+    preserveNewlines: true,
     remarkableOptions: {
       enable: {
         inline: 'ins',

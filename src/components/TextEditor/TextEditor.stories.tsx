@@ -85,8 +85,9 @@ export const LargeSize = () => {
 };
 
 export const WithInitialValue = () => {
-  const defaultValue = `## Hello World!
-  I **am** a *Markdown* ++String++! [I'm an inline-style link](https://www.google.com).`;
+  const defaultValue = `## Hello World!\n
+  I **am** a *Markdown* ++String++![I'm an inline-style link](https://www.google.com).`;
+
   const [markdown, setMarkdown] = React.useState<string | undefined>(
     defaultValue
   );
