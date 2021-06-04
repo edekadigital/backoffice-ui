@@ -90,7 +90,7 @@ Commits that get pushed to master branch will trigger the automated release work
 
 The format of the commit messages will be validated at commit time as well as part of the automated pull request validation.
 
-By running `npm run commit` (or `npx git-cz`) an interactive cli will provide assistance for writing useful and commit messages following the formalized conventions for commit messages:
+By running `npm run commit` (or `npx git-cz`) an interactive cli will provide assistance for writing useful commit messages following the formalized conventions for commit messages:
 
 ```bash
 git add .
