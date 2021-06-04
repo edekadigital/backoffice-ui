@@ -109,6 +109,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
       const rawObject = convertToRaw(content);
       const markdownString = draftToMarkdown(rawObject, {
         styleItems: extendedStyleItems,
+        preserveNewlines: true,
       });
       props.onChange(markdownString);
       setEditorState(editorState);
