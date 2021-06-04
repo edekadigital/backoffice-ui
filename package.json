@@ -16,6 +16,7 @@
     "lib"
   ],
   "scripts": {
+    "prepare": "husky install",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 8000 -c .storybook -s .storybook/assets",
     "build-storybook": "build-storybook -c .storybook -s .storybook/assets -o public",
@@ -28,11 +29,12 @@
     "fix": "gts fix",
     "clean": "gts clean",
     "prepublishOnly": "npm run build",
-    "format": "prettier \"**/*.{ts,json,md,tsx}\" --write"
+    "format": "prettier \"**/*.{ts,json,md,tsx}\" --write",
+    "commit": "git-cz"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsc --noemit && lint-staged"
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
     }
   },
   "lint-staged": {
@@ -53,6 +55,9 @@
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/cz-commitlint": "^12.1.4",
     "@rollup/plugin-babel": "^5.2.3",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@semantic-release/git": "^9.0.0",
@@ -72,15 +77,16 @@
     "@types/react": "^16.14.3",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.1.0",
+    "commitizen": "^4.2.4",
     "css-mediaquery": "^0.1.2",
     "eslint-plugin-jest": "^24.0.2",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "gts": "^2.0.2",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "jest": "^26.4.2",
     "jest-css-modules": "^2.1.0",
-    "lint-staged": "^10.4.0",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
