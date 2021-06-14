@@ -51,5 +51,5 @@ export interface CloudinaryMediaData {
   original_extension?: string;
   path?: string;
   thumbnail_url?: string;
-  delete_token: string;
+  delete_token?: string;
 }
