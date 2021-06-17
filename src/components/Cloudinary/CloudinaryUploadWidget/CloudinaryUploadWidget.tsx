@@ -336,7 +336,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
             return (
               <ListItem
                 key={`item-${index}`}
-                text={`${item.original_filename}.${item.format}`}
+                text={`${item.original_filename}.${item.original_extension}`}
                 subText={`${size} ${unit}`}
                 action={action}
                 bullet={
