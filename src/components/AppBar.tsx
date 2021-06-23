@@ -119,6 +119,7 @@ const useGridMenuStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   list: {
+    width: 280,
     display: 'flex',
     flexWrap: 'wrap',
     padding: theme.spacing(1),
@@ -128,10 +129,9 @@ const useGridMenuStyles = makeStyles((theme) => ({
 const useGridMenuItemStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2, 1, 1, 1),
-    flex: '0 50%',
+    flex: '0 0 auto',
     width: '50%',
     display: 'flex',
-    flexBasis: 'auto',
     flexDirection: 'column',
     alignItems: 'center',
     borderRadius: theme.shape.borderRadius,
