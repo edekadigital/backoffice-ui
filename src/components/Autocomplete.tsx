@@ -57,6 +57,9 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
     setOptions(nextOptions);
   };
 
+  const handleBlur = async (event: React.ChangeEvent<{}>) =>
+    handleChange(event, [(event.target as HTMLInputElement).value], 'blur');
+
   const handleChange = async (
     _: React.ChangeEvent<{}>,
     value: (T | string)[],
@@ -77,6 +80,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       case 'create-option':
       case 'select-option':
       case 'remove-option':
+      case 'blur':
       case 'clear':
         onChange(newValues);
         break;
@@ -91,6 +95,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       getOptionLabel={getOptionLabel}
       value={value}
       onInputChange={handleInputChange}
+      onBlur={handleBlur}
       onChange={handleChange}
       {...otherProps}
       renderInput={(params) => (
