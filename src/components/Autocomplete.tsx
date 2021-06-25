@@ -58,7 +58,11 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
   };
 
   const handleBlur = async (event: React.ChangeEvent<{}>) =>
-    handleChange(event, [(event.target as HTMLInputElement).value], 'blur');
+    handleChange(
+      event,
+      [...value, (event.target as HTMLInputElement).value],
+      'blur'
+    );
 
   const handleChange = async (
     _: React.ChangeEvent<{}>,
