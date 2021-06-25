@@ -250,4 +250,53 @@ describe('<Autocomplete/>', () => {
       { id: '4', name: 'christoph' },
     ]);
   });
+
+  it('keeps existing values on blur', async () => {
+    const fetchOptionsPromise = Promise.resolve([]);
+    const onChangeFn = jest.fn();
+    const fetchOptionsFn = jest.fn(() => fetchOptionsPromise);
+    const findItemsFn = jest.fn(
+      (...inputStrings: string[]) =>
+        new Promise<any>((resolve) =>
+          resolve(inputStrings.map((name) => ({ id: '4', name })))
+        )
+    );
+
+    const props: AutocompleteProps<{ id: string; name: string }> = {
+      label: 'theLabel',
+      inputPlaceholder: 'hold my beer',
+      value: [{ id: '4', name: 'hold' }],
+      onChange: onChangeFn,
+      fetchOptions: fetchOptionsFn,
+      getOptionLabel: (item) => {
+        return item.name;
+      },
+      findItems: findItemsFn,
+    };
+
+    const { getAllByRole, getByTestId } = render(
+      <>
+        <Autocomplete {...props} />
+        <TextField inputTestId="other-field" />
+      </>
+    );
+
+    const input = getAllByRole('textbox')[0] as HTMLInputElement;
+    userEvent.type(input, 'my; beer christoph');
+
+    userEvent.click(getByTestId('other-field'));
+
+    await waitFor(() => {
+      expect(findItemsFn).toBeCalledTimes(1);
+      expect(onChangeFn).toBeCalledTimes(1);
+    });
+
+    const [newValue] = onChangeFn.mock.calls[0];
+    expect(newValue).toMatchObject([
+      { id: '4', name: 'hold' },
+      { id: '4', name: 'my' },
+      { id: '4', name: 'beer' },
+      { id: '4', name: 'christoph' },
+    ]);
+  });
 });
