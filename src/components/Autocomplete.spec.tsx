@@ -1,13 +1,6 @@
 import * as React from 'react';
 
-import {
-  act,
-  cleanup,
-  getAllByRole,
-  getByTestId,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { act, cleanup, getByTestId, waitFor } from '@testing-library/react';
 import { render } from '../test-utils';
 import { Autocomplete, AutocompleteProps } from './Autocomplete';
 import userEvent, { specialChars } from '@testing-library/user-event';
@@ -37,8 +30,19 @@ describe('<Autocomplete/>', () => {
       },
     };
 
-    const { container } = render(<Autocomplete {...props} />);
+    const { container, getByTestId } = render(
+      <Autocomplete
+        data-testid="superfancy-autocomplete"
+        inputTestId="superfancy-autocomplete-input"
+        {...props}
+      />
+    );
+    const AutoCompleteSearch = getByTestId('superfancy-autocomplete');
+    const input = getByTestId('superfancy-autocomplete-input');
+
     expect(container).toBeTruthy();
+    expect(AutoCompleteSearch).toBeTruthy();
+    expect(input).toBeTruthy();
   });
 
   it('displays chip correctly when option is set', () => {
@@ -85,14 +89,11 @@ describe('<Autocomplete/>', () => {
       },
     };
 
-    const { container, getByTestId, getByText } = render(
-      <Autocomplete data-testid="superfancy-autocomplete" {...props} />
+    const { container, getByTestId } = render(
+      <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
     );
     expect(container).toBeTruthy();
-    const AutoCompleteSearch = getByTestId('superfancy-autocomplete');
-    const input = within(AutoCompleteSearch).getByPlaceholderText(
-      'hold my beer'
-    );
+    const input = getByTestId('superfancy-autocomplete-input');
 
     await userEvent.type(input, 'hold', { delay: 20 });
     expect(input).toHaveValue('hold');
@@ -132,13 +133,10 @@ describe('<Autocomplete/>', () => {
     };
 
     const { container, getByTestId } = render(
-      <Autocomplete data-testid="superfancy-autocomplete" {...props} />
+      <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
     );
     expect(container).toBeTruthy();
-    const AutoCompleteSearch = getByTestId('superfancy-autocomplete');
-    const input = within(AutoCompleteSearch).getByPlaceholderText(
-      'hold my beer'
-    );
+    const input = getByTestId('superfancy-autocomplete-input');
 
     userEvent.type(input, 'hold, my; beer christoph');
     await act(() => fetchOptionsPromise.then(() => {}));
@@ -184,13 +182,18 @@ describe('<Autocomplete/>', () => {
     };
 
     const { container, getByTestId } = render(
-      <Autocomplete data-testid="superfancy-autocomplete" {...props} />
+      <Autocomplete
+        data-testid="superfancy-autocomplete"
+        inputTestId="superfancy-autocomplete-input"
+        {...props}
+      />
     );
-    expect(container).toBeTruthy();
     const AutoCompleteSearch = getByTestId('superfancy-autocomplete');
-    const input = within(AutoCompleteSearch).getByPlaceholderText(
-      'hold my beer'
-    );
+    const input = getByTestId('superfancy-autocomplete-input');
+
+    expect(container).toBeTruthy();
+    expect(AutoCompleteSearch).toBeTruthy();
+    expect(input).toBeTruthy();
 
     userEvent.type(input, 'hold, my; beer christoph');
     await act(() => fetchOptionsPromise.then(() => {}));
@@ -224,14 +227,17 @@ describe('<Autocomplete/>', () => {
       findItems: findItemsFn,
     };
 
-    const { getAllByRole, getByTestId } = render(
+    const { container, getByTestId } = render(
       <>
-        <Autocomplete {...props} />
+        <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
         <TextField inputTestId="other-field" />
       </>
     );
 
-    const input = getAllByRole('textbox')[0] as HTMLInputElement;
+    expect(container).toBeTruthy();
+    const input = getByTestId(
+      'superfancy-autocomplete-input'
+    ) as HTMLInputElement;
     userEvent.type(input, 'hold, my; beer christoph');
     expect(input.value).toBe('hold, my; beer christoph');
 
@@ -274,14 +280,17 @@ describe('<Autocomplete/>', () => {
       findItems: findItemsFn,
     };
 
-    const { getAllByRole, getByTestId } = render(
+    const { container, getByTestId } = render(
       <>
-        <Autocomplete {...props} />
+        <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
         <TextField inputTestId="other-field" />
       </>
     );
 
-    const input = getAllByRole('textbox')[0] as HTMLInputElement;
+    expect(container).toBeTruthy();
+    const input = getByTestId(
+      'superfancy-autocomplete-input'
+    ) as HTMLInputElement;
     userEvent.type(input, 'my; beer christoph');
 
     userEvent.click(getByTestId('other-field'));

@@ -2,7 +2,7 @@ import * as React from 'react';
 import MuiAutocomplete, {
   AutocompleteChangeReason,
 } from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+import { TextField as MuiTextField } from '@material-ui/core';
 
 export interface AutocompleteProps<T extends {}> {
   /**
@@ -13,6 +13,11 @@ export interface AutocompleteProps<T extends {}> {
    * The inputPlaceholder is shown inside the input while typing as a suggestion
    */
   inputPlaceholder: string;
+  /**
+   * Overwrites the default `data-testid` for the input element.
+   * @default "autocompleteField-input"
+   */
+  inputTestId?: string;
   /**
    * the default values that are shipped with this component by config
    */
@@ -44,6 +49,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
     onChange,
     fetchOptions,
     findItems,
+    inputTestId = 'autocompleteField-input',
     ...otherProps
   } = props;
 
@@ -103,8 +109,9 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       onChange={handleChange}
       {...otherProps}
       renderInput={(params) => (
-        <TextField
+        <MuiTextField
           {...params}
+          inputProps={{ ...params.inputProps, 'data-testid': inputTestId }}
           variant="outlined"
           label={label}
           placeholder={inputPlaceholder}
