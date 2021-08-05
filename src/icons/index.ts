@@ -42,6 +42,7 @@ export { default as Error } from '@material-ui/icons/Error';
 export { default as ExitToApp } from '@material-ui/icons/ExitToApp';
 export { default as Favorite } from '@material-ui/icons/Favorite';
 export { default as FavoriteBorder } from '@material-ui/icons/FavoriteBorder';
+export { default as FileCopyOutlined } from '@material-ui/icons/FileCopyOutlined';
 export { default as FilterList } from '@material-ui/icons/FilterList';
 export { default as FormatBoldIcon } from '@material-ui/icons/FormatBold';
 export { default as FormatItalicIcon } from '@material-ui/icons/FormatItalic';
