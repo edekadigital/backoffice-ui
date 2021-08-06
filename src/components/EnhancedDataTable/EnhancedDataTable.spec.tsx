@@ -781,6 +781,29 @@ describe('<EnhancedDataTable />', () => {
     );
   });
 
+  it('should render an alternative table body component with row data', async () => {
+    const TestComponent: React.FC<{ row: TestData }> = (props) => {
+      return <div data-testid="custom-component">CUSTOM {props.row.city}</div>;
+    };
+    const columns: Array<EnhancedDataTableColumn<TestData>> = [
+      { accessor: 'name', label: 'Name', component: TestComponent },
+      { accessor: 'city', label: 'City', sortable: false },
+      { accessor: 'age', label: 'Age' },
+    ];
+
+    const { getAllByTestId, queryAllByTestId } = render(
+      <EnhancedDataTable columns={columns} fetchData={fetchDataFn} />
+    );
+    await waitFor(() => {});
+    expect(queryAllByTestId('custom-component').length).toBe(2);
+    expect(getAllByTestId('custom-component')[0].innerHTML).toBe(
+      `CUSTOM ${testData[0].city}`
+    );
+    expect(getAllByTestId('custom-component')[1].innerHTML).toBe(
+      `CUSTOM ${testData[1].city}`
+    );
+  });
+
   it('should show additional action buttons in table head if toolbarActions prop is given', () => {
     const handler = jest.fn();
     const actions = [

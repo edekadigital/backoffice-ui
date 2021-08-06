@@ -56,7 +56,7 @@ export function EnhancedDataTableBody<D extends object>(
   const renderColumns = (row: D, rowIndex: number) =>
     columns.map((column, index) => {
       const renderColumn = column.component ? (
-        <column.component>
+        <column.component row={row}>
           {row[column.accessor as keyof typeof row]}
         </column.component>
       ) : (
