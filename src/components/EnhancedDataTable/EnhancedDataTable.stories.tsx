@@ -619,17 +619,17 @@ export const AllFunctionalities = () => {
     });
   };
 
-  const TypeChipComponent: React.FC = ({ children }) => {
-    if (!children) return <></>;
-    return children === 'Automatic' ? (
+  const TypeChipComponent: React.FC<{ row: TestData }> = (props) => {
+    if (!props.children) return <></>;
+    return props.children === 'Automatic' ? (
       <StatusChip
-        label={children.toString()}
+        label={props.children.toString()}
         color={'success'}
         size={'small'}
       />
     ) : (
       <StatusChip
-        label={children.toString()}
+        label={`${props.children.toString()} - ${props.row.city}`}
         color={'warning'}
         size={'small'}
       />
@@ -662,6 +662,14 @@ export const AllFunctionalities = () => {
     console.log(data, 'Clicked row');
   };
 
+  const toolbarActions: Array<ToolbarActionItem> = [
+    {
+      icon: Add,
+      label: 'Outlined Button',
+      handler: (data) => console.log(data, 'Outlined Button is called'),
+    },
+  ];
+
   return (
     <EnhancedDataTable
       fetchData={fetchData}
@@ -670,6 +678,7 @@ export const AllFunctionalities = () => {
       selectionActions={selectionActions}
       filters={filters}
       onRowClick={clickAction}
+      toolbarActions={toolbarActions}
     />
   );
 };
@@ -749,6 +758,8 @@ export const WithToolbarActions = () => {
       columns={columns}
       selectionActions={selectionActions}
       toolbarActions={toolbarActions}
+      toolbarButtonVariant="text"
+      toolbarBackgroundColor="primary"
     />
   );
 };

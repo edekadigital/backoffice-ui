@@ -21,6 +21,7 @@ import {
   EnhancedDataTableSelectionMenuActions,
 } from './EnhancedDataTableSelectionMenu';
 import { Subtitle } from '../../typography/Subtitle';
+import { ButtonVariant } from '../Button';
 
 export type EnhancedDataTableFetchData<D> = (
   fetchProps: EnhancedDataTableFetchProps<D>
@@ -95,6 +96,14 @@ export interface EnhancedDataTableProps<D extends object> {
    * Array of additional actions in the table toolbar, will be displayed as buttons
    */
   toolbarActions?: Array<ToolbarActionItem>;
+  /**
+   * Variant of the toolbar buttons
+   */
+  toolbarButtonVariant?: ButtonVariant;
+  /**
+   * Style of the toolbar
+   */
+  toolbarBackgroundColor?: 'default' | 'primary';
   /**
    * Array of actions per row, each action returning an item (row). Rendered to the left of onRowClick icon if it is present.
    */
@@ -223,6 +232,8 @@ export function EnhancedDataTable<D extends object>(
     rowsPerPageOptions = [5, 10, 25],
     rowActions = [],
     rowClickIcon,
+    toolbarButtonVariant,
+    toolbarBackgroundColor,
   } = props;
   const [data, setData] = React.useState<D[]>();
   const [selectedRows, setSelectedRows] = React.useState<D[]>([]);
@@ -447,11 +458,13 @@ export function EnhancedDataTable<D extends object>(
 
   const renderToolbar = (
     <EnhancedDataTableToolbar
+      buttonVariant={toolbarButtonVariant}
       filters={filters}
       setActiveFilters={handleActiveFilters}
       activeFilters={activeFilters}
       headline={headline}
       toolbarActions={toolbarActions}
+      toolbarBackgroundColor={toolbarBackgroundColor ?? 'default'}
     />
   );
 

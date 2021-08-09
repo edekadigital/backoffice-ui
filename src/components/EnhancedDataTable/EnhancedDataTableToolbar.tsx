@@ -17,17 +17,19 @@ import {
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
 import { Heading } from '../../typography/Heading';
-import { Button } from '../Button';
+import { Button, ButtonVariant } from '../Button';
 import { TextField } from '../TextField';
 import clsx from 'clsx';
 import { IconButton } from '../IconButton';
 
 export interface EnhancedDataTableToolbarProps<D> {
   activeFilters: Array<ActiveFilter<D>>;
+  buttonVariant?: ButtonVariant;
   setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
   filters?: Array<Filter<D>>;
   headline?: string;
   toolbarActions?: Array<ToolbarActionItem>;
+  toolbarBackgroundColor: 'default' | 'primary';
 }
 
 export interface ToolbarActionItem {
@@ -36,73 +38,75 @@ export interface ToolbarActionItem {
   handler: React.MouseEventHandler<HTMLElement>;
 }
 
-const useToolbarStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    toolbar: {
-      display: 'flex',
-      justifyContent: 'flex-start',
-      flexWrap: 'wrap',
-      overflow: 'hidden',
-      borderBottom: `solid 1px ${theme.palette.grey[300]}`,
-      paddingLeft: theme.spacing(2),
-    },
-    filterToolbar: {
-      marginLeft: -theme.spacing(1),
-      paddingRight: theme.spacing(1),
-    },
-    chipRoot: {
-      margin: theme.spacing(1),
-    },
-    chipOutlined: {
-      borderStyle: 'dashed',
-    },
-    popoverPaper: {
-      minWidth: 250,
-    },
-    popoverFormPaper: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(2),
-      '& > button': {
-        marginTop: theme.spacing(2),
-        marginLeft: 'auto',
-        display: 'block',
-      },
-    },
-    filterTitleToolbar: {
-      color: `${theme.palette.primary.contrastText}`,
-      background: `${theme.palette.primary.main}`,
-      fontSize: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      flexGrow: 1,
-    },
-    filterTitleToolbarLabel: {
-      flexGrow: 1,
-    },
-    gutterTop: {
-      marginTop: theme.spacing(1),
-    },
-    negativeMarginTop: {
-      marginTop: -theme.spacing(1),
-    },
-    actions: {
-      marginLeft: 'auto',
-    },
-  })
-);
-
 export function EnhancedDataTableToolbar<D>(
   props: EnhancedDataTableToolbarProps<D>
 ) {
   const {
     filters,
     activeFilters,
+    buttonVariant,
     setActiveFilters,
     headline,
     toolbarActions,
+    toolbarBackgroundColor,
   } = props;
 
+  const useToolbarStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      toolbar: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+        overflow: 'hidden',
+        borderBottom: `solid 1px ${theme.palette.grey[300]}`,
+        paddingLeft: theme.spacing(2),
+        backgroundColor: toolbarBackgroundColor === 'default' ? undefined : theme.palette.primary.light,
+      },
+      filterToolbar: {
+        marginLeft: -theme.spacing(1),
+        paddingRight: theme.spacing(1),
+      },
+      chipRoot: {
+        margin: theme.spacing(1),
+      },
+      chipOutlined: {
+        borderStyle: 'dashed',
+      },
+      popoverPaper: {
+        minWidth: 250,
+      },
+      popoverFormPaper: {
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(2),
+        '& > button': {
+          marginTop: theme.spacing(2),
+          marginLeft: 'auto',
+          display: 'block',
+        },
+      },
+      filterTitleToolbar: {
+        color: `${theme.palette.primary.contrastText}`,
+        background: `${theme.palette.primary.main}`,
+        fontSize: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+        flexGrow: 1,
+      },
+      filterTitleToolbarLabel: {
+        flexGrow: 1,
+      },
+      gutterTop: {
+        marginTop: theme.spacing(1),
+      },
+      negativeMarginTop: {
+        marginTop: -theme.spacing(1),
+      },
+      actions: {
+        marginLeft: buttonVariant === 'text' ? '10px' : 'auto',
+      },
+    })
+  );
   const classes = useToolbarStyles();
 
   const [selectableFilters, setSelectableFilters] = React.useState<
@@ -188,6 +192,7 @@ export function EnhancedDataTableToolbar<D>(
     >
       {toolbarActions.map((action, index) => (
         <Button
+          variant={buttonVariant}
           color={'primary'}
           icon={action.icon}
           onClick={action.handler}
@@ -377,3 +382,7 @@ export function EnhancedDataTableToolbar<D>(
     </>
   );
 }
+
+EnhancedDataTableToolbar.defaultProps = {
+  buttonVariant: 'outlined',
+} as Partial<EnhancedDataTableToolbarProps<unknown>>;
