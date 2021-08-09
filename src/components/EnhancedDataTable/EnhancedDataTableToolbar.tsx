@@ -60,7 +60,10 @@ export function EnhancedDataTableToolbar<D>(
         overflow: 'hidden',
         borderBottom: `solid 1px ${theme.palette.grey[300]}`,
         paddingLeft: theme.spacing(2),
-        backgroundColor: toolbarBackgroundColor === 'default' ? undefined : theme.palette.primary.light,
+        backgroundColor:
+          toolbarBackgroundColor === 'default'
+            ? undefined
+            : theme.palette.primary.light,
       },
       filterToolbar: {
         marginLeft: -theme.spacing(1),
@@ -157,6 +160,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const handleFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    event.stopPropagation();
     if (selectedFilter?.accessor && selectedFilter?.value) {
       setActiveFilters(activeFilters.concat(selectedFilter));
       setPopoverAnchorEl(null);
