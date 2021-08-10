@@ -60,6 +60,8 @@ export function EnhancedDataTableToolbar<D>(
         overflow: 'hidden',
         borderBottom: `solid 1px ${theme.palette.grey[300]}`,
         paddingLeft: theme.spacing(2),
+      },
+      titleToolbar: {
         backgroundColor:
           toolbarBackgroundColor === 'default'
             ? undefined
@@ -224,7 +226,7 @@ export function EnhancedDataTableToolbar<D>(
 
   const renderToolbar =
     headline || toolbarActions ? (
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={clsx(classes.toolbar, classes.titleToolbar)}>
         {renderHeadline}
         {renderToolbarActions}
       </Toolbar>
