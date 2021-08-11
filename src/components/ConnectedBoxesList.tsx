@@ -129,7 +129,7 @@ export const ConnectedBoxesList = (props: ConnectedBoxesListProps) => {
             {element}
           </GrayBox>
           {props.connectBoxes ?? true ? (
-            <div className={classes.connectorBox}>
+            <div className={classes.connectorBox} data-testid="box-connector">
               {index < props.boxesContents.length - 1
                 ? props.connectionLabel
                 : ''}
