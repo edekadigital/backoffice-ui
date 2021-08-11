@@ -751,9 +751,17 @@ export const WithToolbarActions = () => {
     },
   ];
 
+  const filters: Array<Filter<TestData>> = [
+    {
+      accessor: 'age',
+      label: 'Age',
+    },
+  ];
+
   return (
     <EnhancedDataTable
       fetchData={fetchData}
+      filters={filters}
       headline={'Table with selectable rows'}
       columns={columns}
       selectionActions={selectionActions}
