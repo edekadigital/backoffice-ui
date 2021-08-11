@@ -38,6 +38,11 @@ export interface AutocompleteProps<T extends {}> {
    * how to process manually entered items (not autosuggested)
    */
   findItems?: (...inputStrings: string[]) => Promise<T[]>;
+  /**
+   * You normally should not have to use this, but in special cases
+   * use className to override specific styles.
+   */
+  className?: string;
 }
 
 export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
