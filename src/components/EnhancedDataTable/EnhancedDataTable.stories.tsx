@@ -19,6 +19,7 @@ import {
   Add,
   Edit,
   CloudDownload,
+  MoreVert,
 } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
 import { ToolbarActionItem } from './EnhancedDataTableToolbar';
@@ -746,8 +747,32 @@ export const WithToolbarActions = () => {
   const toolbarActions: Array<ToolbarActionItem> = [
     {
       icon: Add,
-      label: 'Some Action',
-      handler: (data) => console.log(data, 'Some Action is called'),
+      label: 'Some Action 1',
+      handler: (data) => console.log(data, 'Some Action 1 is called'),
+    },
+    {
+      icon: Add,
+      disabled: true,
+      label: 'Some Action 2',
+      handler: (data) => console.log(data, 'Some Action 2 is called'),
+    },
+    {
+      type: 'list',
+      icon: MoreVert,
+      label: 'More',
+      items: [
+        {
+          icon: Add,
+          label: 'Sub Action 1',
+          handler: (data) => console.log(data, 'Sub Action 1 is called'),
+        },
+        {
+          icon: Add,
+          label: 'Sub Action 2',
+          disabled: true,
+          handler: (data) => console.log(data, 'Sub Action 2 is called'),
+        },
+      ],
     },
   ];
 
