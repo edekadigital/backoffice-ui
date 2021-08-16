@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {
-  Toolbar,
-  makeStyles,
-  Theme,
-  createStyles,
   Chip,
-  Popover,
-  PopoverOrigin,
-  Paper,
+  createStyles,
   List,
   ListItem,
   ListItemText,
+  makeStyles,
   MenuItem,
+  Paper,
+  Popover,
+  PopoverOrigin,
   SvgIconProps,
+  Theme,
+  Toolbar,
 } from '@material-ui/core';
 import { ActiveFilter, Filter } from './EnhancedDataTable';
 import { Add, Close } from '../../icons';
@@ -21,6 +21,7 @@ import { Button, ButtonVariant } from '../Button';
 import { TextField } from '../TextField';
 import clsx from 'clsx';
 import { IconButton } from '../IconButton';
+import { ListMenu, ListMenuItem } from '../ListMenu';
 
 export interface EnhancedDataTableToolbarProps<D> {
   activeFilters: Array<ActiveFilter<D>>;
@@ -28,15 +29,24 @@ export interface EnhancedDataTableToolbarProps<D> {
   setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
   filters?: Array<Filter<D>>;
   headline?: string;
-  toolbarActions?: Array<ToolbarActionItem>;
+  toolbarActions?: Array<ToolbarActionItem | ToolbarActionListItem>;
   toolbarBackgroundColor: 'default' | 'primary';
 }
 
-export interface ToolbarActionItem {
+export type ToolbarActionItem = {
+  type?: 'item';
   label: string;
+  disabled?: boolean;
   icon?: React.ElementType<SvgIconProps>;
   handler: React.MouseEventHandler<HTMLElement>;
-}
+};
+
+export type ToolbarActionListItem = {
+  type: 'list';
+  label: string;
+  icon?: React.ElementType<SvgIconProps>;
+  items: ToolbarActionItem[];
+};
 
 export function EnhancedDataTableToolbar<D>(
   props: EnhancedDataTableToolbarProps<D>
@@ -191,23 +201,54 @@ export function EnhancedDataTableToolbar<D>(
     }
   }, [activeFilters, filters]);
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [openedMenuIndex, setOpenedMenuIndex] = React.useState<number>(0);
+
   const renderToolbarActions = toolbarActions ? (
     <div
       className={classes.actions}
       data-testid={'enhancedDataTable-filterBar-actions'}
     >
-      {toolbarActions.map((action, index) => (
-        <Button
-          variant={buttonVariant}
-          color={'primary'}
-          icon={action.icon}
-          onClick={action.handler}
-          key={`toolbar-action-${index}`}
-          data-testid={`enhancedDataTable-filterBar-actions-${index}`}
-        >
-          {action.label}
-        </Button>
-      ))}
+      {toolbarActions.map((action, index) => {
+        if (action.type === 'list') {
+          return (
+            <React.Fragment key={`toolbar-action-${index}`}>
+              <Button
+                variant={buttonVariant}
+                color={'primary'}
+                icon={action.icon}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                  setOpenedMenuIndex(index);
+                  setAnchorEl(event.currentTarget);
+                }}
+                data-testid={`enhancedDataTable-filterBar-actions-${index}`}
+              >
+                {action.label}
+              </Button>
+              <ListMenu
+                anchorEl={anchorEl}
+                items={(action.items as unknown) as ListMenuItem[]}
+                onClose={() => setAnchorEl(null)}
+                open={!!anchorEl && openedMenuIndex === index}
+              />
+            </React.Fragment>
+          );
+        }
+
+        return (
+          <Button
+            disabled={action.disabled ?? false}
+            variant={buttonVariant}
+            color={'primary'}
+            icon={action.icon}
+            onClick={action.handler}
+            key={`toolbar-action-${index}`}
+            data-testid={`enhancedDataTable-filterBar-actions-${index}`}
+          >
+            {action.label}
+          </Button>
+        );
+      })}
     </div>
   ) : (
     <></>
