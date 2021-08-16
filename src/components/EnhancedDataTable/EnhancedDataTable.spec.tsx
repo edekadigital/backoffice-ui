@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, waitFor } from '@testing-library/react';
+import { act, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import {
@@ -867,5 +867,40 @@ describe('<EnhancedDataTable />', () => {
     expect(handlerB).toBeCalledTimes(1);
     expect(handlerA).toHaveBeenCalledWith(testData[0]);
     expect(handlerB).toHaveBeenCalledWith(testData[1]);
+  });
+
+  it('should show reset filter button', async () => {
+    const filters: Filter<TestData>[] = [
+      {
+        accessor: 'age',
+        label: 'Age',
+        initialValue: '23',
+      },
+    ];
+    const { getByTestId, queryByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        filters={filters}
+        showResetToolbarFilters={true}
+      />
+    );
+
+    await waitFor(async () => {
+      expect(
+        getByTestId('enhancedDataTable-filterBar-resetFilters')
+      ).toBeTruthy();
+    });
+
+    act(() => {
+      userEvent.click(getByTestId('enhancedDataTable-filterBar-resetFilters'));
+    });
+
+    await waitFor(async () => {
+      expect(queryByTestId('enhancedDataTable-activeFilter-0')).toBeFalsy();
+      expect(
+        queryByTestId('enhancedDataTable-filterBar-resetFilters')
+      ).toBeFalsy();
+    });
   });
 });

@@ -765,6 +765,7 @@ export const WithToolbarActions = () => {
       headline={'Table with selectable rows'}
       columns={columns}
       selectionActions={selectionActions}
+      showResetToolbarFilters={true}
       toolbarActions={toolbarActions}
       toolbarButtonVariant="text"
       toolbarBackgroundColor="primary"

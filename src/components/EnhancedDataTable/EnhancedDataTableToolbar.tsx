@@ -28,6 +28,7 @@ export interface EnhancedDataTableToolbarProps<D> {
   setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
   filters?: Array<Filter<D>>;
   headline?: string;
+  showResetToolbarFilters: boolean;
   toolbarActions?: Array<ToolbarActionItem>;
   toolbarBackgroundColor: 'default' | 'primary';
 }
@@ -49,6 +50,7 @@ export function EnhancedDataTableToolbar<D>(
     headline,
     toolbarActions,
     toolbarBackgroundColor,
+    showResetToolbarFilters,
   } = props;
 
   const useToolbarStyles = makeStyles((theme: Theme) =>
@@ -110,6 +112,10 @@ export function EnhancedDataTableToolbar<D>(
       actions: {
         marginLeft: buttonVariant === 'text' ? '10px' : 'auto',
       },
+      resetFilter: {
+        position: 'absolute',
+        right: '8px',
+      },
     })
   );
   const classes = useToolbarStyles();
@@ -149,6 +155,10 @@ export function EnhancedDataTableToolbar<D>(
     },
     [activeFilters, setActiveFilters]
   );
+
+  const handleResetFilterClick = () => {
+    setActiveFilters([]);
+  };
 
   const handleFilterSelectClick = (selectedFilter: Filter<D>) => {
     setSelectedFilter(selectedFilter as ActiveFilter<D>);
@@ -251,6 +261,25 @@ export function EnhancedDataTableToolbar<D>(
       <></>
     );
   }, [activeFilters, classes.chipRoot, handleDeleteFilterClick]);
+
+  const renderResetActiveFilters = React.useMemo(() => {
+    return showResetToolbarFilters &&
+      activeFilters &&
+      activeFilters.length > 0 ? (
+      <span className={classes.resetFilter}>
+        <Button
+          color={'primary'}
+          variant={buttonVariant}
+          onClick={handleResetFilterClick}
+          data-testid={'enhancedDataTable-filterBar-resetFilters'}
+        >
+          Filter löschen
+        </Button>
+      </span>
+    ) : (
+      <></>
+    );
+  }, [activeFilters, handleResetFilterClick]);
 
   const popoverFilterList = selectableFilters ? (
     selectableFilters!.map((filter, index) => (
@@ -364,6 +393,7 @@ export function EnhancedDataTableToolbar<D>(
         disabled={!selectableFilters || selectableFilters.length < 1}
         data-testid={'enhancedDataTable-filterBar-add'}
       />
+      {renderResetActiveFilters}
       <Popover
         open={isPopoverOpened}
         anchorEl={popoverAnchorEl}
