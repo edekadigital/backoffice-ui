@@ -131,6 +131,11 @@ export interface EnhancedDataTableProps<D extends object> {
    * @default []
    */
   selectionActions?: Array<EnhancedDataTableSelectionMenuActions<D>>;
+  /**
+   * Show reset filter button
+   * @default false
+   */
+  showResetToolbarFilters?: boolean;
 }
 
 export interface Filter<D> {
@@ -233,6 +238,7 @@ export function EnhancedDataTable<D extends object>(
     rowsPerPageOptions = [5, 10, 25],
     rowActions = [],
     rowClickIcon,
+    showResetToolbarFilters,
     toolbarButtonVariant,
     toolbarBackgroundColor,
   } = props;
@@ -466,6 +472,7 @@ export function EnhancedDataTable<D extends object>(
       headline={headline}
       toolbarActions={toolbarActions}
       toolbarBackgroundColor={toolbarBackgroundColor ?? 'default'}
+      showResetToolbarFilters={showResetToolbarFilters ?? false}
     />
   );
 
