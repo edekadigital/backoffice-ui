@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 
 export interface ListMenuItem {
+  disabled?: boolean;
   icon?: React.ElementType<SvgIconProps>;
   label?: string;
   handler: React.MouseEventHandler<HTMLElement>;
@@ -85,7 +86,12 @@ export const ListMenu: React.FC<ListMenuProps> = ({
     };
 
     return (
-      <MuiMenuItem onClick={handleClick} key={key} data-testid={key}>
+      <MuiMenuItem
+        onClick={handleClick}
+        key={key}
+        data-testid={key}
+        disabled={tempItem.disabled ?? false}
+      >
         {renderIcon(tempItem, key)}
         <MuiListItemText primary={tempItem.label} />
       </MuiMenuItem>

@@ -12,6 +12,10 @@ import {
 import { paginateTable } from '../../utils/tableUtils';
 import { Edit, GetApp } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
+import {
+  ToolbarActionItem,
+  ToolbarActionListItem,
+} from './EnhancedDataTableToolbar';
 
 interface TestData {
   city: string;
@@ -902,5 +906,50 @@ describe('<EnhancedDataTable />', () => {
         queryByTestId('enhancedDataTable-filterBar-resetFilters')
       ).toBeFalsy();
     });
+  });
+
+  it('should render toolbar actions with menu', async () => {
+    const handler1 = jest.fn();
+    const handler2 = jest.fn();
+    const items: ToolbarActionItem[] = [
+      {
+        icon: GetApp,
+        label: 'Sub Action 1',
+        handler: handler1,
+      },
+      {
+        icon: GetApp,
+        disabled: true,
+        label: 'Sub Action 2',
+        handler: handler2,
+      },
+    ];
+    const actions: (ToolbarActionItem | ToolbarActionListItem)[] = [
+      {
+        type: 'list',
+        icon: GetApp,
+        label: 'FooFoo',
+        items: items,
+      },
+    ];
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        toolbarActions={actions}
+      />
+    );
+    expect(getByTestId('enhancedDataTable-filterBar-actions')).toBeTruthy();
+    act(() => {
+      userEvent.click(getByTestId('enhancedDataTable-filterBar-actions-0'));
+    });
+    await waitFor(() => {
+      expect(getByTestId('listMenu-menuItem-0')).toBeTruthy();
+    });
+    act(() => {
+      userEvent.click(getByTestId('listMenu-menuItem-0'));
+    });
+    expect(handler1).toHaveBeenCalledTimes(1);
+    expect(handler2).toHaveBeenCalledTimes(0);
   });
 });

@@ -13,6 +13,7 @@ import {
 import {
   EnhancedDataTableToolbar,
   ToolbarActionItem,
+  ToolbarActionListItem,
 } from './EnhancedDataTableToolbar';
 import { EnhancedDataTableHead } from './EnhancedDataTableHead';
 import { EnhancedDataTableBody } from './EnhancedDataTableBody';
@@ -95,7 +96,7 @@ export interface EnhancedDataTableProps<D extends object> {
   /**
    * Array of additional actions in the table toolbar, will be displayed as buttons
    */
-  toolbarActions?: Array<ToolbarActionItem>;
+  toolbarActions?: Array<ToolbarActionItem | ToolbarActionListItem>;
   /**
    * Variant of the toolbar buttons
    */
