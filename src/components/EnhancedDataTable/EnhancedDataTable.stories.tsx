@@ -22,7 +22,10 @@ import {
   MoreVert,
 } from '../..';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
-import { ToolbarActionItem } from './EnhancedDataTableToolbar';
+import {
+  ToolbarActionItem,
+  ToolbarActionListItem,
+} from './EnhancedDataTableToolbar';
 import { Button } from '../Button';
 
 export default {
@@ -744,7 +747,7 @@ export const WithToolbarActions = () => {
     },
   ];
 
-  const toolbarActions: Array<ToolbarActionItem> = [
+  const toolbarActions: Array<ToolbarActionItem | ToolbarActionListItem> = [
     {
       icon: Add,
       label: 'Some Action 1',

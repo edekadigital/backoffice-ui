@@ -12,7 +12,10 @@ import {
 import { paginateTable } from '../../utils/tableUtils';
 import { Edit, GetApp } from '../../icons';
 import { EnhancedDataTableSelectionMenuActions } from './EnhancedDataTableSelectionMenu';
-import { ToolbarActionItem } from './EnhancedDataTableToolbar';
+import {
+  ToolbarActionItem,
+  ToolbarActionListItem,
+} from './EnhancedDataTableToolbar';
 
 interface TestData {
   city: string;
@@ -886,7 +889,7 @@ describe('<EnhancedDataTable />', () => {
         handler: handler2,
       },
     ];
-    const actions: ToolbarActionItem[] = [
+    const actions: (ToolbarActionItem | ToolbarActionListItem)[] = [
       {
         type: 'list',
         icon: GetApp,

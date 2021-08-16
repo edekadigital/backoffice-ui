@@ -29,24 +29,24 @@ export interface EnhancedDataTableToolbarProps<D> {
   setActiveFilters: (filters: Array<ActiveFilter<D>>) => void;
   filters?: Array<Filter<D>>;
   headline?: string;
-  toolbarActions?: Array<ToolbarActionItem>;
+  toolbarActions?: Array<ToolbarActionItem | ToolbarActionListItem>;
   toolbarBackgroundColor: 'default' | 'primary';
 }
 
-export type ToolbarActionItem =
-  | {
-      type?: 'item';
-      label: string;
-      disabled?: boolean;
-      icon?: React.ElementType<SvgIconProps>;
-      handler: React.MouseEventHandler<HTMLElement>;
-    }
-  | {
-      type: 'list';
-      label: string;
-      icon?: React.ElementType<SvgIconProps>;
-      items: ToolbarActionItem[];
-    };
+export type ToolbarActionItem = {
+  type?: 'item';
+  label: string;
+  disabled?: boolean;
+  icon?: React.ElementType<SvgIconProps>;
+  handler: React.MouseEventHandler<HTMLElement>;
+};
+
+export type ToolbarActionListItem = {
+  type: 'list';
+  label: string;
+  icon?: React.ElementType<SvgIconProps>;
+  items: ToolbarActionItem[];
+};
 
 export function EnhancedDataTableToolbar<D>(
   props: EnhancedDataTableToolbarProps<D>
