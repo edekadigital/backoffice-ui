@@ -135,6 +135,11 @@ export interface TextFieldProps {
    * @default primary
    */
   color?: TextFieldColor;
+  /**
+   * You normally should not have to use this, but in special cases
+   * use className to override specific styles.
+   */
+  className?: string;
 }
 
 const useInputStyles = makeStyles<Theme, { color: TextFieldColor }>(

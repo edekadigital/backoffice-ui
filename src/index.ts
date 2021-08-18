@@ -10,6 +10,7 @@ export * from './components/AppBar';
 export * from './components/Button';
 export * from './components/ButtonBar';
 export * from './components/ConfirmationDialog';
+export * from './components/ConnectedBoxesList';
 export * from './components/ContentGroup';
 export * from './components/DateField';
 export * from './components/DatePicker';

@@ -65,6 +65,11 @@ export interface SelectFieldProps {
    * The value of the input element that is set per default.
    */
   defaultValue?: TextFieldValue;
+  /**
+   * You normally should not have to use this, but in special cases
+   * use className to override specific styles.
+   */
+  className?: string;
 }
 
 /**
