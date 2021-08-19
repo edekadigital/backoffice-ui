@@ -8,7 +8,7 @@ export interface AutocompleteProps<T extends {}> {
   /**
    * The label of this autocomplete field that will be shown inside when empty and not focused, inside the top line when filled.
    */
-  label: string;
+  label?: string;
   /**
    * The inputPlaceholder is shown inside the input while typing as a suggestion
    */
