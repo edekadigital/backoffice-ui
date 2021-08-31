@@ -27,6 +27,11 @@ export interface FormWrapperProps {
    * Callback fired when the cancel button is clicked.
    */
   onCancel?: FormWrapperHandler;
+
+  /**
+   * visually disable the submit button
+   */
+  disableSubmit?: boolean;
 }
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -53,6 +58,7 @@ export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
     onSubmit,
     onCancel,
     alignButtons,
+    disableSubmit,
   } = props;
 
   const classes = useStyles();
@@ -88,7 +94,12 @@ export const FormWrapper: React.FC<FormWrapperProps> = (props) => {
     >
       <div className={classes.content}>{children}</div>
       <ButtonBar align={alignButtons}>
-        <Button type="submit" data-testid="formWrapper-submit" color="primary">
+        <Button
+          type="submit"
+          data-testid="formWrapper-submit"
+          color="primary"
+          disabled={disableSubmit}
+        >
           {submitLabel}
         </Button>
         {cancelButton}

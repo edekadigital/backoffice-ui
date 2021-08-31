@@ -66,4 +66,30 @@ describe('<FormWrapper/>', () => {
     userEvent.click(getByTestId('formWrapper-submit'));
     expect(submit).toEqual(true);
   });
+
+  it('should disable a form wrapper submit button', () => {
+    let submit = false;
+    const onSubmit = () => {
+      submit = true;
+    };
+
+    const { getByTestId } = render(
+      <FormWrapper
+        cancelLabel={labelCancel}
+        submitLabel={labelSubmit}
+        disableSubmit={true}
+        onSubmit={onSubmit}
+      >
+        <FormRow>
+          <TextField label={label} />
+          <TextField label={label2} />
+        </FormRow>
+      </FormWrapper>
+    );
+
+    expect(getByTestId('formWrapper-submit').textContent).toEqual(labelSubmit);
+
+    userEvent.click(getByTestId('formWrapper-submit'));
+    expect(submit).toEqual(false);
+  });
 });
