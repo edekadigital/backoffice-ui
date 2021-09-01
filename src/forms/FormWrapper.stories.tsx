@@ -21,6 +21,7 @@ export const Default = () => {
       cancelLabel="Cancel"
       onSubmit={onSubmit}
       onCancel={onCancel}
+      disableSubmit={false}
     >
       <FormRow gutterBottom={true}>
         <TextField label="Some Label" />
