@@ -93,11 +93,21 @@ export const ReactHookFormExample = () => {
 
   const findItems = async (...inputValues: string[]) => {
     return new Promise<Brewery[]>((resolve) =>
-      resolve(inputValues.map((name) => ({ id: 0, name, city: 'Hamburg' })))
+      setTimeout(() => {
+        resolve(
+          inputValues.map((name) => ({
+            id: 0,
+            name,
+            city: 'Hamburg',
+            found: name.length > 4,
+          }))
+        );
+      }, 2000)
     );
   };
 
-  const getOptionLabel = (brewery: Brewery) => brewery.name;
+  const getOptionLabel = (brewery: Brewery) =>
+    `${brewery.name} - ${brewery.city ? brewery.city : ''}`;
 
   return (
     <>

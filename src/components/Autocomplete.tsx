@@ -2,7 +2,11 @@ import * as React from 'react';
 import MuiAutocomplete, {
   AutocompleteChangeReason,
 } from '@material-ui/lab/Autocomplete';
-import { TextField as MuiTextField } from '@material-ui/core';
+import {
+  Chip,
+  CircularProgress,
+  TextField as MuiTextField,
+} from '@material-ui/core';
 
 export interface AutocompleteProps<T extends {}> {
   /**
@@ -45,7 +49,14 @@ export interface AutocompleteProps<T extends {}> {
   className?: string;
 }
 
-export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
+const trimSplit = (x: string): string[] => x.trim().split(/[,;]?[\s]+/);
+const flatten = <T extends string[]>(array: T[]): string[] =>
+  array.reduce((acc: string[], val: string[]) => acc.concat(val), []);
+const distinct = <T extends string>(value: T, index: number, self: T[]) => {
+  return self.indexOf(value) === index;
+};
+
+export const Autocomplete = <A extends {}>(props: AutocompleteProps<A>) => {
   const {
     label,
     inputPlaceholder,
@@ -58,36 +69,70 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
     ...otherProps
   } = props;
 
-  const [options, setOptions] = React.useState<T[]>([]);
+  type B = A & { input: string; found?: boolean };
+
+  const [loading, setLoading] = React.useState(false);
+  const [options, setOptions] = React.useState<B[]>([]);
 
   const handleInputChange = async (
-    _: React.ChangeEvent<{}>,
+    event: React.ChangeEvent<{}>,
     inputValue: string
   ) => {
-    const nextOptions = await fetchOptions(inputValue);
-    setOptions(nextOptions);
+    const nativeEvent: InputEvent = event.nativeEvent as InputEvent;
+    if (event && nativeEvent.inputType === 'insertFromPaste') {
+      await handleChange(
+        event,
+        [...value, (event.target as HTMLInputElement).value],
+        'create-option'
+      );
+    } else {
+      const nextOptions = await fetchOptions(inputValue).then((results) =>
+        results.map((el) => {
+          return { ...el, input: inputValue, found: true };
+        })
+      );
+      setOptions(nextOptions);
+    }
   };
 
-  const handleBlur = async (event: React.ChangeEvent<{}>) =>
-    handleChange(
-      event,
-      [...value, (event.target as HTMLInputElement).value],
-      'blur'
-    );
+  const handleBlur = async (event: React.ChangeEvent<{}>) => {
+    if ((event.target as HTMLInputElement).value.trim() !== '') {
+      await handleChange(
+        event,
+        [...value, (event.target as HTMLInputElement).value],
+        'blur'
+      );
+    }
+  };
 
   const handleChange = async (
     _: React.ChangeEvent<{}>,
-    value: (T | string)[],
+    value: (A | string)[],
     reason: AutocompleteChangeReason
   ) => {
-    const newValues: T[] = [];
+    const allValues: B[] = [];
+    const oldValues: B[] = value.filter((it) => typeof it === 'object') as B[];
+    allValues.push(...oldValues);
 
-    for (const tempValue of value) {
-      if (typeof tempValue === 'object') {
-        newValues.push(tempValue);
-      } else if (typeof tempValue === 'string' && findItems) {
-        const foundItems = await findItems(...tempValue.split(/[,;]?[\s]+/));
-        foundItems.forEach((tempValue) => newValues.push(tempValue as T));
+    const newValues: string[] = flatten(
+      (value.filter((it) => typeof it === 'string') as string[]).map(trimSplit)
+    )
+      .filter(distinct)
+      .filter((input) => allValues.every((e) => e.input !== input));
+
+    for (const tempValue of newValues) {
+      allValues.push({ input: tempValue } as B);
+    }
+
+    if (findItems && newValues.length > 0) {
+      setLoading(true);
+      for (const tempValue of newValues) {
+        findItems(tempValue).then((items) => {
+          const index = allValues.findIndex((it) => it.input === tempValue);
+          allValues[index] = { ...items[0], input: tempValue };
+          onChange(allValues);
+          if (index === allValues.length - 1) setLoading(false);
+        });
       }
     }
 
@@ -97,9 +142,13 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       case 'remove-option':
       case 'blur':
       case 'clear':
-        onChange(newValues);
+        onChange(allValues);
         break;
     }
+  };
+
+  const getExtendedOptionLabel = (b: B) => {
+    return b.found === undefined && b.input ? b.input : getOptionLabel(b);
   };
 
   return (
@@ -113,10 +162,44 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       onBlur={handleBlur}
       onChange={handleChange}
       {...otherProps}
+      renderTags={(value, getTagProps) =>
+        value.map((option, index) => {
+          return (
+            <Chip
+              {...getTagProps({ index })}
+              key={`autocomplete-key-${index}`}
+              label={getExtendedOptionLabel(option as B)}
+              style={{
+                backgroundColor:
+                  (option as B).found === true
+                    ? '#1a65b2'
+                    : (option as B).found === false
+                    ? '#d32f2f'
+                    : '#e0e0e0',
+              }}
+              color={(option as B).found !== undefined ? 'primary' : 'default'}
+            />
+          );
+        })
+      }
       renderInput={(params) => (
         <MuiTextField
           {...params}
-          inputProps={{ ...params.inputProps, 'data-testid': inputTestId }}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? (
+                  <CircularProgress color="primary" size={'1.5rem'} />
+                ) : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }}
+          inputProps={{
+            ...params.inputProps,
+            'data-testid': inputTestId,
+          }}
           variant="outlined"
           label={label}
           placeholder={inputPlaceholder}

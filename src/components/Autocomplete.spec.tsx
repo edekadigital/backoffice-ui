@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { act, cleanup, getByTestId, waitFor } from '@testing-library/react';
+import { act, cleanup, waitFor } from '@testing-library/react';
 import { render } from '../test-utils';
 import { Autocomplete, AutocompleteProps } from './Autocomplete';
 import userEvent, { specialChars } from '@testing-library/user-event';
@@ -143,11 +143,13 @@ describe('<Autocomplete/>', () => {
     await userEvent.type(input, specialChars.enter, { delay: 20 });
     await act(() => Promise.all(findItemsFn.mock.calls).then(() => {}));
 
-    expect(findItemsFn).toBeCalledTimes(1);
-    const inputStrings = findItemsFn.mock.calls[0];
-    expect(inputStrings).toMatchObject(['hold', 'my', 'beer', 'christoph']);
+    expect(findItemsFn).toBeCalledTimes(4);
+    expect(findItemsFn.mock.calls[0]).toMatchObject(['hold']);
+    expect(findItemsFn.mock.calls[1]).toMatchObject(['my']);
+    expect(findItemsFn.mock.calls[2]).toMatchObject(['beer']);
+    expect(findItemsFn.mock.calls[3]).toMatchObject(['christoph']);
 
-    expect(onChangeFn).toBeCalledTimes(1);
+    expect(onChangeFn).toBeCalledTimes(5);
     const [newValue] = onChangeFn.mock.calls[0];
     expect(newValue).toMatchObject([
       { id: '4', name: 'hold' },
@@ -157,7 +159,7 @@ describe('<Autocomplete/>', () => {
     ]);
   });
 
-  it('calls onChange with previous state when findItems is not set', async () => {
+  it('calls onChange with previous state and new values when findItems is not set', async () => {
     const value = [
       { id: '1', name: 'beerholda' },
       { id: '2', name: 'beerholda2' },
@@ -201,7 +203,12 @@ describe('<Autocomplete/>', () => {
 
     expect(onChangeFn).toBeCalledTimes(1);
     const [newValue] = onChangeFn.mock.calls[0];
-    expect(newValue).toMatchObject(value);
+    expect(newValue.slice(0, 2)).toMatchObject(value);
+    expect(newValue.slice(2, 6)).toMatchObject(
+      ['hold', 'my', 'beer', 'christoph'].map((input: string) => {
+        return { input };
+      })
+    );
   });
 
   it('calls onChange on blur', async () => {
@@ -244,7 +251,7 @@ describe('<Autocomplete/>', () => {
     userEvent.click(getByTestId('other-field'));
 
     await waitFor(() => {
-      expect(findItemsFn).toBeCalledTimes(1);
+      expect(findItemsFn).toBeCalledTimes(4);
       expect(onChangeFn).toBeCalledTimes(1);
     });
 
@@ -296,7 +303,7 @@ describe('<Autocomplete/>', () => {
     userEvent.click(getByTestId('other-field'));
 
     await waitFor(() => {
-      expect(findItemsFn).toBeCalledTimes(1);
+      expect(findItemsFn).toBeCalledTimes(3);
       expect(onChangeFn).toBeCalledTimes(1);
     });
 
