@@ -7,6 +7,7 @@ import {
   CircularProgress,
   TextField as MuiTextField,
 } from '@material-ui/core';
+import { AutocompleteGetTagProps } from '@material-ui/lab/Autocomplete/Autocomplete';
 
 export interface AutocompleteProps<T extends {}> {
   /**
@@ -47,6 +48,29 @@ export interface AutocompleteProps<T extends {}> {
    * use className to override specific styles.
    */
   className?: string;
+
+  /**
+   * You can use the chipLookupColor prop to define a color
+   * for the chip during the item search
+   */
+  chipLookupColor?: string;
+
+  /**
+   * You can use the chipLookupColor property to define a color
+   * for the chip of the not found item
+   */
+  chipLookupFailedColor?: string;
+
+  /**
+   * You can use the chipLookupColor property to define a color
+   * for the chip of the found item
+   */
+  chipLookupSuccessColor?: string;
+
+  /**
+   * abc
+   */
+  colored?: boolean;
 }
 
 const trimSplit = (x: string): string[] => x.trim().split(/[,;]?[\s]+/);
@@ -151,6 +175,36 @@ export const Autocomplete = <A extends {}>(props: AutocompleteProps<A>) => {
     return b.found === undefined && b.input ? b.input : getOptionLabel(b);
   };
 
+  const renderTagsFunc: (
+    value: A[],
+    getTagProps: AutocompleteGetTagProps
+  ) => React.ReactNode = (value, getTagProps) =>
+    value.map((option, index) => {
+      return (
+        <Chip
+          {...getTagProps({ index })}
+          key={`autocomplete-key-${index}`}
+          label={getExtendedOptionLabel(option as B)}
+          style={{
+            backgroundColor:
+              (option as B).found === true
+                ? props.chipLookupSuccessColor || '#1a65b2'
+                : (option as B).found === false
+                ? props.chipLookupFailedColor || '#d32f2f'
+                : props.chipLookupColor || '#e0e0e0',
+          }}
+          color={(option as B).found !== undefined ? 'primary' : 'default'}
+        />
+      );
+    });
+
+  let renderTagsProps = {};
+  if (props.colored) {
+    renderTagsProps = {
+      renderTags: renderTagsFunc,
+    };
+  }
+
   return (
     <MuiAutocomplete
       multiple
@@ -162,26 +216,7 @@ export const Autocomplete = <A extends {}>(props: AutocompleteProps<A>) => {
       onBlur={handleBlur}
       onChange={handleChange}
       {...otherProps}
-      renderTags={(value, getTagProps) =>
-        value.map((option, index) => {
-          return (
-            <Chip
-              {...getTagProps({ index })}
-              key={`autocomplete-key-${index}`}
-              label={getExtendedOptionLabel(option as B)}
-              style={{
-                backgroundColor:
-                  (option as B).found === true
-                    ? '#1a65b2'
-                    : (option as B).found === false
-                    ? '#d32f2f'
-                    : '#e0e0e0',
-              }}
-              color={(option as B).found !== undefined ? 'primary' : 'default'}
-            />
-          );
-        })
-      }
+      {...renderTagsProps}
       renderInput={(params) => (
         <MuiTextField
           {...params}

@@ -32,6 +32,7 @@ describe('<Autocomplete/>', () => {
 
     const { container, getByTestId } = render(
       <Autocomplete
+        colored={true}
         data-testid="superfancy-autocomplete"
         inputTestId="superfancy-autocomplete-input"
         {...props}
@@ -87,6 +88,7 @@ describe('<Autocomplete/>', () => {
       getOptionLabel: (item) => {
         return item.name;
       },
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -130,6 +132,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -232,6 +235,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -271,7 +275,7 @@ describe('<Autocomplete/>', () => {
     const findItemsFn = jest.fn(
       (...inputStrings: string[]) =>
         new Promise<any>((resolve) =>
-          resolve(inputStrings.map((name) => ({ id: '4', name })))
+          resolve(inputStrings.map((name) => ({ id: '4', name, found: true })))
         )
     );
 
@@ -285,6 +289,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
