@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { act, cleanup, getByTestId, waitFor } from '@testing-library/react';
+import { act, cleanup, waitFor } from '@testing-library/react';
 import { render } from '../test-utils';
 import { Autocomplete, AutocompleteProps } from './Autocomplete';
 import userEvent, { specialChars } from '@testing-library/user-event';
@@ -32,6 +32,7 @@ describe('<Autocomplete/>', () => {
 
     const { container, getByTestId } = render(
       <Autocomplete
+        colored={true}
         data-testid="superfancy-autocomplete"
         inputTestId="superfancy-autocomplete-input"
         {...props}
@@ -87,6 +88,7 @@ describe('<Autocomplete/>', () => {
       getOptionLabel: (item) => {
         return item.name;
       },
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -130,6 +132,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -143,11 +146,13 @@ describe('<Autocomplete/>', () => {
     await userEvent.type(input, specialChars.enter, { delay: 20 });
     await act(() => Promise.all(findItemsFn.mock.calls).then(() => {}));
 
-    expect(findItemsFn).toBeCalledTimes(1);
-    const inputStrings = findItemsFn.mock.calls[0];
-    expect(inputStrings).toMatchObject(['hold', 'my', 'beer', 'christoph']);
+    expect(findItemsFn).toBeCalledTimes(4);
+    expect(findItemsFn.mock.calls[0]).toMatchObject(['hold']);
+    expect(findItemsFn.mock.calls[1]).toMatchObject(['my']);
+    expect(findItemsFn.mock.calls[2]).toMatchObject(['beer']);
+    expect(findItemsFn.mock.calls[3]).toMatchObject(['christoph']);
 
-    expect(onChangeFn).toBeCalledTimes(1);
+    expect(onChangeFn).toBeCalledTimes(4);
     const [newValue] = onChangeFn.mock.calls[0];
     expect(newValue).toMatchObject([
       { id: '4', name: 'hold' },
@@ -157,7 +162,113 @@ describe('<Autocomplete/>', () => {
     ]);
   });
 
-  it('calls onChange with previous state when findItems is not set', async () => {
+  it('correctly leaves out items, which where excluded by findItems', async () => {
+    const fetchOptionsPromise = Promise.resolve([
+      { id: '1', name: 'beerholda' },
+      { id: '2', name: 'beerholda2' },
+      { id: '3', name: 'beerholda3' },
+    ]);
+    const onChangeFn = jest.fn();
+    const fetchOptionsFn = jest.fn(() => fetchOptionsPromise);
+    const findItemsFn = jest.fn(
+      (...inputStrings: string[]) =>
+        new Promise<any>((resolve) =>
+          resolve(
+            inputStrings
+              .filter(
+                (inputString) => inputString.match(/(hold)|(beer)/) !== null
+              )
+              .map((name) => ({ id: '4', name }))
+          )
+        )
+    );
+
+    const props: AutocompleteProps<{ id: string; name: string }> = {
+      label: 'theLabel',
+      inputPlaceholder: 'hold my beer',
+      value: [],
+      onChange: onChangeFn,
+      fetchOptions: fetchOptionsFn,
+      getOptionLabel: (item) => {
+        return item.name;
+      },
+      findItems: findItemsFn,
+      colored: true,
+    };
+
+    const { container, getByTestId } = render(
+      <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
+    );
+    expect(container).toBeTruthy();
+    const input = getByTestId('superfancy-autocomplete-input');
+
+    userEvent.type(input, 'hold, my; beer christoph');
+    await userEvent.type(input, specialChars.enter, { delay: 20 });
+
+    expect(onChangeFn).toBeCalledTimes(2);
+    const [newValue] = onChangeFn.mock.calls[0];
+    expect(newValue).toMatchObject([
+      { id: '4', name: 'hold' },
+      { id: '4', name: 'beer' },
+    ]);
+  });
+
+  it('correctly distinguishes between the found and not-found items', async () => {
+    const fetchOptionsPromise = Promise.resolve([
+      { id: '1', name: 'beerholda' },
+      { id: '2', name: 'beerholda2' },
+      { id: '3', name: 'beerholda3' },
+    ]);
+    const onChangeFn = jest.fn();
+    const fetchOptionsFn = jest.fn(() => fetchOptionsPromise);
+    const findItemsFn = jest.fn(
+      (...inputStrings: string[]) =>
+        new Promise<({ id: string; name: string } | string)[]>((resolve) =>
+          resolve(
+            inputStrings.map((name) => {
+              if (name.match(/(hold)|(beer)/) !== null) {
+                return { id: '4', name }; // found, return the object
+              } else {
+                return name; // not found, return a string
+              }
+            })
+          )
+        )
+    );
+
+    const props: AutocompleteProps<{ id: string; name: string }> = {
+      label: 'theLabel',
+      inputPlaceholder: 'hold my beer',
+      value: [],
+      onChange: onChangeFn,
+      fetchOptions: fetchOptionsFn,
+      getOptionLabel: (item) => {
+        return item.name;
+      },
+      findItems: findItemsFn,
+      colored: true,
+    };
+
+    const { container, getByTestId } = render(
+      <Autocomplete inputTestId="superfancy-autocomplete-input" {...props} />
+    );
+    expect(container).toBeTruthy();
+    const input = getByTestId('superfancy-autocomplete-input');
+
+    userEvent.type(input, 'hold, my; beer christoph');
+    await userEvent.type(input, specialChars.enter, { delay: 20 });
+
+    expect(onChangeFn).toBeCalledTimes(4);
+    const [newValue] = onChangeFn.mock.calls[0];
+    expect(newValue).toMatchObject([
+      { id: '4', name: 'hold' },
+      'my',
+      { id: '4', name: 'beer' },
+      'christoph',
+    ]);
+  });
+
+  it('calls onChange with previous state and new values when findItems is not set', async () => {
     const value = [
       { id: '1', name: 'beerholda' },
       { id: '2', name: 'beerholda2' },
@@ -201,7 +312,13 @@ describe('<Autocomplete/>', () => {
 
     expect(onChangeFn).toBeCalledTimes(1);
     const [newValue] = onChangeFn.mock.calls[0];
-    expect(newValue).toMatchObject(value);
+    expect(newValue.slice(0, 2)).toMatchObject(value);
+    expect(newValue.slice(2, 6)).toMatchObject([
+      'hold',
+      'my',
+      'beer',
+      'christoph',
+    ]);
   });
 
   it('calls onChange on blur', async () => {
@@ -225,6 +342,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -244,8 +362,8 @@ describe('<Autocomplete/>', () => {
     userEvent.click(getByTestId('other-field'));
 
     await waitFor(() => {
-      expect(findItemsFn).toBeCalledTimes(1);
-      expect(onChangeFn).toBeCalledTimes(1);
+      expect(findItemsFn).toBeCalledTimes(4);
+      expect(onChangeFn).toBeCalledTimes(4);
     });
 
     const [newValue] = onChangeFn.mock.calls[0];
@@ -264,7 +382,7 @@ describe('<Autocomplete/>', () => {
     const findItemsFn = jest.fn(
       (...inputStrings: string[]) =>
         new Promise<any>((resolve) =>
-          resolve(inputStrings.map((name) => ({ id: '4', name })))
+          resolve(inputStrings.map((name) => ({ id: '4', name, found: true })))
         )
     );
 
@@ -278,6 +396,7 @@ describe('<Autocomplete/>', () => {
         return item.name;
       },
       findItems: findItemsFn,
+      colored: true,
     };
 
     const { container, getByTestId } = render(
@@ -296,8 +415,8 @@ describe('<Autocomplete/>', () => {
     userEvent.click(getByTestId('other-field'));
 
     await waitFor(() => {
-      expect(findItemsFn).toBeCalledTimes(1);
-      expect(onChangeFn).toBeCalledTimes(1);
+      expect(findItemsFn).toBeCalledTimes(3);
+      expect(onChangeFn).toBeCalledTimes(3);
     });
 
     const [newValue] = onChangeFn.mock.calls[0];
