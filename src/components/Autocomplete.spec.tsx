@@ -213,7 +213,7 @@ describe('<Autocomplete/>', () => {
     ]);
   });
 
-  it('correctly distinguishes between found and not-found items', async () => {
+  it('correctly distinguishes between the found and not-found items', async () => {
     const fetchOptionsPromise = Promise.resolve([
       { id: '1', name: 'beerholda' },
       { id: '2', name: 'beerholda2' },
