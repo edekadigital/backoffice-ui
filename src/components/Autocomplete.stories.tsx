@@ -173,7 +173,7 @@ export const ColoredChipsExample = () => {
               : name;
           })
         );
-      }, 2000)
+      }, 1000 + Math.random() * 4000)
     );
   };
 

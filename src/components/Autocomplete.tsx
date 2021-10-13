@@ -194,23 +194,34 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       // Due to the asynchronous nature of findItems AND the way itemsBeingSearched
       // is updated, we need to keep this technical copy here in order to
       // have a deterministic list.
-      let localListOfItemsBeingSearched = [...newStringValues];
+      const localListOfItemsBeingSearched = [...newStringValues];
       for (const tempValue of newStringValues) {
-        const items = await findItems(tempValue);
-        if (items.length > 0) {
-          allValues.push(items[0]);
-          onChange(allValues);
-        }
-        localListOfItemsBeingSearched = localListOfItemsBeingSearched.filter(
-          (value) => value !== tempValue
-        );
-        setItemsBeingSearched(localListOfItemsBeingSearched);
+        monitorItemSearch(tempValue, localListOfItemsBeingSearched, allValues);
       }
-      setLoading(false);
     } else {
       // We do not have a find method, so we just take what was given to us.
       allValues = allValues.concat(newStringValues);
       onChange(allValues);
+    }
+  };
+
+  const monitorItemSearch = async (
+    searchValue: string,
+    localListOfItemsBeingSearched: string[],
+    allValues: (T | string)[]
+  ) => {
+    if (findItems) {
+      const items = await findItems(searchValue);
+      if (items.length > 0) {
+        allValues.push(items[0]);
+        onChange(allValues);
+      }
+      const indexOfSearchValue = localListOfItemsBeingSearched.indexOf(
+        searchValue
+      );
+      localListOfItemsBeingSearched.splice(indexOfSearchValue, 1);
+      setItemsBeingSearched([...localListOfItemsBeingSearched]);
+      if (localListOfItemsBeingSearched.length <= 0) setLoading(false);
     }
   };
 
