@@ -58,6 +58,30 @@ describe('<ConnectedBoxesList />', () => {
     expect(queryByTestId('box-connector')).toBeNull();
   });
 
+  it('should be able to not render the add button, if disabled.', () => {
+    const { queryAllByTestId, queryByTestId } = render(
+      <ConnectedBoxesList
+        boxesContents={[
+          <div key={1} data-testid="content1">
+            Hello
+          </div>,
+          <div key={2} data-testid="content2">
+            Hello
+          </div>,
+        ]}
+        addButtonLabel="Hinzufügen"
+        connectionLabel="und"
+        testId="connected-boxes"
+        onAdd={() => {}}
+        onRemove={() => {}}
+        hideAddButton
+      />
+    );
+
+    expect(queryAllByTestId('box-connector')).toHaveLength(1);
+    expect(queryByTestId('box-add')).toBeNull();
+  });
+
   it('should render the connector boxes, if not specifically set.', () => {
     const { queryAllByTestId } = render(
       <ConnectedBoxesList

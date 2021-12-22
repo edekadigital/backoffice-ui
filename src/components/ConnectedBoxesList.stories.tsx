@@ -45,6 +45,7 @@ const Template: Story<ConnectedBoxesListProps> = (props) => {
       addButtonLabel={props.addButtonLabel}
       connectBoxes={props.connectBoxes}
       connectionLabel={props.connectionLabel}
+      hideAddButton={props.hideAddButton}
       testId={props.testId}
       onAdd={handleAdd}
       onRemove={handleRemove}

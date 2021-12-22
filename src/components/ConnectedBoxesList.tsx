@@ -100,6 +100,11 @@ export interface ConnectedBoxesListProps {
    * whole thing off.
    */
   connectBoxes?: boolean;
+  /**
+   * Sometimes enough is enough. You don't want your users to add even more boxes and drown
+   * in it. Just flip this switch and the add button disappears.
+   */
+  hideAddButton?: boolean;
 }
 
 /**
@@ -128,7 +133,8 @@ export const ConnectedBoxesList = (props: ConnectedBoxesListProps) => {
             />
             {element}
           </GrayBox>
-          {props.connectBoxes ?? true ? (
+          {(props.connectBoxes ?? true) &&
+          (!props.hideAddButton || index < props.boxesContents.length - 1) ? (
             <div className={classes.connectorBox} data-testid="box-connector">
               {index < props.boxesContents.length - 1
                 ? props.connectionLabel
@@ -137,19 +143,21 @@ export const ConnectedBoxesList = (props: ConnectedBoxesListProps) => {
           ) : null}
         </div>
       ))}
-      <div className={classes.buttonBoxTransform}>
-        <GrayBox short>
-          <Button
-            variant="text"
-            color="primary"
-            icon={Add}
-            data-testid="box-add"
-            onClick={props.onAdd}
-          >
-            {props.addButtonLabel}
-          </Button>
-        </GrayBox>
-      </div>
+      {props.hideAddButton ?? false ? null : (
+        <div className={classes.buttonBoxTransform}>
+          <GrayBox short>
+            <Button
+              variant="text"
+              color="primary"
+              icon={Add}
+              data-testid="box-add"
+              onClick={props.onAdd}
+            >
+              {props.addButtonLabel}
+            </Button>
+          </GrayBox>
+        </div>
+      )}
     </div>
   );
 };
