@@ -59,7 +59,7 @@ describe('<ConnectedBoxesList />', () => {
   });
 
   it('should be able to not render the add button, if disabled.', () => {
-    const { queryAllByTestId } = render(
+    const { queryAllByTestId, queryByTestId } = render(
       <ConnectedBoxesList
         boxesContents={[
           <div key={1} data-testid="content1">
@@ -79,6 +79,7 @@ describe('<ConnectedBoxesList />', () => {
     );
 
     expect(queryAllByTestId('box-connector')).toHaveLength(1);
+    expect(queryByTestId('box-add')).toBeNull();
   });
 
   it('should render the connector boxes, if not specifically set.', () => {
