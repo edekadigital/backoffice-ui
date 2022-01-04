@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MuiCheckbox from '@material-ui/core/Checkbox';
-import { makeStyles, Theme, fade } from '@material-ui/core/styles';
+import { makeStyles, Theme, alpha } from '@material-ui/core/styles';
 
 export interface CheckboxProps {
   /**
@@ -69,8 +69,8 @@ const useStyles = makeStyles<Theme, CheckboxProps>((theme: Theme) => ({
     },
     '&:hover, &.Mui-checked:hover': {
       backgroundColor: inverted
-        ? fade(theme.palette.primary.contrastText, 0.04)
-        : fade(theme.palette.primary.main, 0.04),
+        ? alpha(theme.palette.primary.contrastText, 0.04)
+        : alpha(theme.palette.primary.main, 0.04),
     },
   }),
 }));

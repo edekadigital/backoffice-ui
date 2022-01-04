@@ -11,7 +11,7 @@ type IconColor =
   | 'warning'
   | 'info';
 
-type IconSize = 'inherit' | 'default' | 'small' | 'large';
+type IconSize = 'inherit' | 'medium' | 'small' | 'large';
 
 export interface IconProps {
   color?: IconColor;
@@ -41,7 +41,7 @@ const useStyles = makeStyles<Theme, { color: IconColor }>((theme: Theme) => {
 });
 
 export const Icon: React.FC<IconProps> = (props) => {
-  const { color = 'default', icon, size = 'default' } = props;
+  const { color = 'default', icon, size = 'medium' } = props;
   const classes = useStyles({ color });
   const IconComponent = icon;
   return (

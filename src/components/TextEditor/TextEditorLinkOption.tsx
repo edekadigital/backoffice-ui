@@ -12,7 +12,7 @@ const useLinkButtonStyles = makeStyles<Theme>((theme) => ({
     paddingRight: theme.spacing(2),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2),
-    [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
+    [theme.breakpoints.up(theme.breakpoints.values.sm)]: {
       minWidth: 400,
     },
     '& > button': {

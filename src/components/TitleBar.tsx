@@ -53,7 +53,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
     display: 'flex',
     flexWrap: 'nowrap',
     marginBottom: theme.spacing(gutterBottom ? 2 : 0),
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+    [theme.breakpoints.up(theme.breakpoints.values.lg)]: {
       marginLeft: floatingBackButton && onBackClick ? theme.spacing(-6) : 0,
     },
   }),
@@ -63,7 +63,7 @@ const useStyles = makeStyles<Theme, TitleBarProps>((theme: Theme) => ({
   },
   backButton: ({ floatingBackButton = true, onBackClick }) => ({
     marginLeft: theme.spacing(-2),
-    [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+    [theme.breakpoints.up(theme.breakpoints.values.lg)]: {
       marginLeft: floatingBackButton && onBackClick ? 0 : theme.spacing(-2),
     },
   }),

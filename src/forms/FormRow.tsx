@@ -98,7 +98,7 @@ const useStyles = makeStyles<Theme, SanitizedFormProps>((theme) => ({
     if (typeof maxWidth === 'number') {
       maxWidthValue = maxWidth;
     } else if (maxWidth) {
-      maxWidthValue = theme.breakpoints.width(maxWidth);
+      maxWidthValue = theme.breakpoints.values.xl;
     }
 
     return {
@@ -147,7 +147,7 @@ export const FormRow: React.FC<FormRowProps> = (rawProps) => {
     <div className={classes.root}>
       <Grid
         container={true}
-        justify={justify}
+        justifyContent={justify}
         alignItems="flex-start"
         spacing={GRID_SPACING}
       >

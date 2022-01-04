@@ -21,15 +21,15 @@ const useStyles = makeStyles<Theme, { paddingBottom?: boolean }>(
   (theme: Theme) => ({
     root: ({ paddingBottom }) => ({
       paddingBottom: paddingBottom ? theme.spacing(10) : theme.spacing(0),
-      [theme.breakpoints.up(theme.breakpoints.width('xs'))]: {
+      [theme.breakpoints.up(theme.breakpoints.values.xs)]: {
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
       },
-      [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
+      [theme.breakpoints.up(theme.breakpoints.values.sm)]: {
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
       },
-      [theme.breakpoints.up(theme.breakpoints.width('lg'))]: {
+      [theme.breakpoints.up(theme.breakpoints.values.lg)]: {
         paddingLeft: theme.spacing(8),
         paddingRight: theme.spacing(8),
       },
