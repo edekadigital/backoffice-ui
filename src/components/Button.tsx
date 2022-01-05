@@ -3,7 +3,7 @@ import {
   ButtonProps as MuiButtonProps,
   Button as MuiButton,
   ButtonGroup,
-  fade,
+  alpha,
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -133,20 +133,20 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
     };
 
     const buttonTextHoverColorMap: Record<ButtonColor, string> = {
-      success: fade(theme.palette.success.main, 0.04),
-      error: fade(theme.palette.error.main, 0.04),
-      primary: fade(theme.palette.primary.main, 0.04),
-      secondary: fade(theme.palette.secondary.main, 0.04),
+      success: alpha(theme.palette.success.main, 0.04),
+      error: alpha(theme.palette.error.main, 0.04),
+      primary: alpha(theme.palette.primary.main, 0.04),
+      secondary: alpha(theme.palette.secondary.main, 0.04),
       default: theme.palette.action.hover,
       inherit: 'inherit',
     };
 
     const buttonOutlinedBorderColorMap: Record<ButtonColor, string> = {
-      success: fade(theme.palette.success.main, 0.5),
-      error: fade(theme.palette.error.main, 0.5),
-      primary: fade(theme.palette.primary.main, 0.5),
-      secondary: fade(theme.palette.secondary.main, 0.5),
-      default: fade(theme.palette.common.black, 0.23),
+      success: alpha(theme.palette.success.main, 0.5),
+      error: alpha(theme.palette.error.main, 0.5),
+      primary: alpha(theme.palette.primary.main, 0.5),
+      secondary: alpha(theme.palette.secondary.main, 0.5),
+      default: alpha(theme.palette.common.black, 0.23),
       inherit: 'inherit',
     };
 
@@ -155,7 +155,7 @@ const useOveridesStyles = makeStyles<Theme, { color: ButtonColor }>(
       error: theme.palette.error.main,
       primary: theme.palette.primary.main,
       secondary: theme.palette.secondary.main,
-      default: fade(theme.palette.common.black, 0.23),
+      default: alpha(theme.palette.common.black, 0.23),
       inherit: 'inherit',
     };
 

@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(2),
     },
     paginationToolbar: {
-      [theme.breakpoints.up(theme.breakpoints.width('sm'))]: {
+      [theme.breakpoints.up(theme.breakpoints.values.sm)]: {
         minHeight: theme.spacing(9),
       },
     },
@@ -431,7 +431,7 @@ export function EnhancedDataTable<D extends object>(
             count={paginationState.totalCount}
             rowsPerPage={paginationState.size}
             page={paginationState.page}
-            onChangePage={handleChangePage}
+            onPageChange={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
             classes={{ toolbar: classes.paginationToolbar }}
