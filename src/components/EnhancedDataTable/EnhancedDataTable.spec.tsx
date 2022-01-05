@@ -455,6 +455,21 @@ describe('<EnhancedDataTable />', () => {
     expect(fetchDataFn.mock.calls[3][0].orderBy).toBe(columns[2].accessor);
   });
 
+  it('should be possible to provide default sorting for data fetching', async () => {
+    const { getByTestId } = render(
+      <EnhancedDataTable
+        columns={columns}
+        fetchData={fetchDataFn}
+        defaultOrder="desc"
+        defaultOrderBy={columns[1].accessor}
+      />
+    );
+    await waitFor(() => {});
+    expect(fetchDataFn).toHaveBeenCalledTimes(1);
+    expect(fetchDataFn.mock.calls[0][0].order).toBe('desc');
+    expect(fetchDataFn.mock.calls[0][0].orderBy).toBe(columns[1].accessor);
+  });
+
   it('should be possible to set and unset a text filter on a given column', async () => {
     const filters: Array<Filter<TestData>> = [
       {

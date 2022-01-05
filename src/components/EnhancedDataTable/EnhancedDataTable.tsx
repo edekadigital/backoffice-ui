@@ -85,6 +85,15 @@ export interface EnhancedDataTableProps<D extends object> {
    */
   fetchData: EnhancedDataTableFetchData<D>;
   /**
+   * If provided sets the default order for data fetching. Possible values include 'asc' and 'desc'.
+   * It's default is 'asc'.
+   */
+  defaultOrder?: Order;
+  /**
+   * If provided sets the default order criterion for data fetching. Possibly includes all keys of D.
+   */
+  defaultOrderBy?: keyof D;
+  /**
    * List of available (and initially active) filters.
    * You can activate a given filter initially by setting its value property.
    */
@@ -232,6 +241,8 @@ export function EnhancedDataTable<D extends object>(
     columns,
     filters,
     fetchData,
+    defaultOrder = 'asc',
+    defaultOrderBy,
     selectionActions = [],
     onRowClick,
     defaultPageSize = 10,
@@ -265,8 +276,10 @@ export function EnhancedDataTable<D extends object>(
       totalCount: 0,
     }
   );
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof D>();
+  const [order, setOrder] = React.useState<Order>(defaultOrder);
+  const [orderBy, setOrderBy] = React.useState<keyof D | undefined>(
+    defaultOrderBy
+  );
   const tableRef = React.useRef<HTMLDivElement>(null);
   const isAllRowsSelected = !!data && selectedRows.length === data.length;
   const classes = useStyles();
