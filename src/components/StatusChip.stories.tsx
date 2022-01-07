@@ -14,6 +14,7 @@ export const Info = () => <StatusChip label="Some label" color="info" />;
 export const Success = () => <StatusChip label="Some label" color="success" />;
 export const Warning = () => <StatusChip label="Some label" color="warning" />;
 export const Error = () => <StatusChip label="Some label" color="error" />;
+export const Dark = () => <StatusChip label="Some label" color="dark" />;
 export const MultipleChips = () => (
   <FormRow gridLayout={['auto', 'auto', 'auto', 'auto']}>
     <StatusChip label="Active" color="success" icon={Check} />

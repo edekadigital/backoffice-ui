@@ -9,7 +9,8 @@ export type StatusChipColor =
   | 'success'
   | 'error'
   | 'warning'
-  | 'info';
+  | 'info'
+  | 'dark';
 
 export interface StatusChipProps {
   /**
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       warning: theme.palette.warning.dark,
       success: theme.palette.success.main,
       error: theme.palette.error.dark,
+      dark: theme.palette.common.black,
     };
     return {
       color:
