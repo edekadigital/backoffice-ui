@@ -445,7 +445,7 @@ export function EnhancedDataTable<D extends object>(
             rowsPerPage={paginationState.size}
             page={paginationState.page}
             onPageChange={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage={'Einträge pro Seite'}
             classes={{ toolbar: classes.paginationToolbar }}
             data-testid={'enhancedDataTable-pagination'}
