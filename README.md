@@ -95,4 +95,4 @@ By running `npm run commit` (or `npx git-cz`) an interactive cli will provide as
 ```bash
 git add .
 npm run commit
-```
+``` 
