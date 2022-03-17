@@ -262,7 +262,7 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       freeSolo
       options={options}
       getOptionLabel={getOptionLabel}
-      value={values}
+      value={values as T[]}
       onInputChange={handleInputChange}
       onBlur={handleBlur}
       onChange={handleChange}
