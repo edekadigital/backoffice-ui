@@ -11,7 +11,7 @@ jest.mock('draft-js', () => ({
   // @ts-expect-error
   ...jest.requireActual('draft-js'),
   Editor: jest.fn((props) => {
-    const modifiedOnchange = (e) => {
+    const modifiedOnchange = (e: any) => {
       const { ContentState, EditorState } = require('draft-js');
       const text = e.target.value;
       if (text) {
