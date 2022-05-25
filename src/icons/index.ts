@@ -109,6 +109,8 @@ export { default as UnfoldMore } from '@material-ui/icons/UnfoldMore';
 export { default as VerticalAlignBottom } from '@material-ui/icons/VerticalAlignBottom';
 export { default as Visibility } from '@material-ui/icons/Visibility';
 export { default as VisibilityOff } from '@material-ui/icons/VisibilityOff';
+export { default as Lock } from '@material-ui/icons/Lock';
+export { default as LockOpen } from '@material-ui/icons/LockOpen';
 
 export { default as Logout } from './custom-icons/Logout';
 export { default as TextWithBlanks } from './custom-icons/TextWithBlanks';
