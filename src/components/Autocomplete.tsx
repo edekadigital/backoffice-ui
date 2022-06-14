@@ -216,9 +216,8 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
         allValues.push(items[0]);
         onChange(allValues);
       }
-      const indexOfSearchValue = localListOfItemsBeingSearched.indexOf(
-        searchValue
-      );
+      const indexOfSearchValue =
+        localListOfItemsBeingSearched.indexOf(searchValue);
       localListOfItemsBeingSearched.splice(indexOfSearchValue, 1);
       setItemsBeingSearched([...localListOfItemsBeingSearched]);
       if (localListOfItemsBeingSearched.length <= 0) setLoading(false);
@@ -251,10 +250,10 @@ export const Autocomplete = <T extends {}>(props: AutocompleteProps<T>) => {
       );
     });
 
-  const values = useMemo(() => [...value, ...itemsBeingSearched], [
-    value,
-    itemsBeingSearched,
-  ]);
+  const values = useMemo(
+    () => [...value, ...itemsBeingSearched],
+    [value, itemsBeingSearched]
+  );
 
   return (
     <MuiAutocomplete

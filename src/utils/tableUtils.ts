@@ -20,11 +20,11 @@ export function sortTable<
       } else {
         const varA =
           typeof a[orderBy] === 'string'
-            ? ((a[orderBy] as unknown) as string).toUpperCase()
+            ? (a[orderBy] as unknown as string).toUpperCase()
             : a[orderBy];
         const varB =
           typeof b[orderBy] === 'string'
-            ? ((b[orderBy] as unknown) as string).toUpperCase()
+            ? (b[orderBy] as unknown as string).toUpperCase()
             : b[orderBy];
 
         if (varA > varB) {
