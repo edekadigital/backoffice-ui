@@ -104,6 +104,7 @@ export { default as SwapHoriz } from '@material-ui/icons/SwapHoriz';
 export { default as SwapHorizontalCircle } from '@material-ui/icons/SwapHorizontalCircle';
 export { default as SwapVert } from '@material-ui/icons/SwapVert';
 export { default as SwapVerticalCircle } from '@material-ui/icons/SwapVerticalCircle';
+export { default as Sync } from '@material-ui/icons/Sync';
 export { default as Undo } from '@material-ui/icons/Undo';
 export { default as UnfoldMore } from '@material-ui/icons/UnfoldMore';
 export { default as VerticalAlignBottom } from '@material-ui/icons/VerticalAlignBottom';
