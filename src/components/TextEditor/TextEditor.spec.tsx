@@ -8,7 +8,6 @@ import { useEditorState } from './useEditorState';
 jest.mock('./useEditorState');
 
 jest.mock('draft-js', () => ({
-  // @ts-expect-error
   ...jest.requireActual('draft-js'),
   Editor: jest.fn((props) => {
     const modifiedOnchange = (e: any) => {
@@ -30,12 +29,11 @@ jest.mock('draft-js', () => ({
 }));
 
 const setupEditorStateMock = (preSelectAll?: boolean) => {
-  (useEditorState as jest.MockedFunction<
-    typeof useEditorState
-  >).mockImplementation((initialValue?: string) => {
-    const { useEditorState: actualUseEditorState } = jest.requireActual(
-      './useEditorState'
-    );
+  (
+    useEditorState as jest.MockedFunction<typeof useEditorState>
+  ).mockImplementation((initialValue?: string) => {
+    const { useEditorState: actualUseEditorState } =
+      jest.requireActual('./useEditorState');
     return actualUseEditorState(initialValue, preSelectAll);
   });
 };

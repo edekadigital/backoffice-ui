@@ -28,9 +28,9 @@ const mockedLoadScript = (
       }
       return { open, destroy };
     });
-  (loadCloudinaryScript as jest.MockedFunction<
-    typeof loadCloudinaryScript
-  >).mockResolvedValue({
+  (
+    loadCloudinaryScript as jest.MockedFunction<typeof loadCloudinaryScript>
+  ).mockResolvedValue({
     createUploadWidget,
   });
 
