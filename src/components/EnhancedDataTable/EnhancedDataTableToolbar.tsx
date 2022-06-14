@@ -290,7 +290,7 @@ export function EnhancedDataTableToolbar<D>(
       activeFilters.map((filter: ActiveFilter<D>, index: number) => (
         <Chip
           classes={{ root: classes.chipRoot }}
-          key={`${filter.accessor}-${index}` as React.Key}
+          key={`${String(filter.accessor)}-${index}` as React.Key}
           color={'primary'}
           label={`${filter.label}: "${filter.value}"`}
           onDelete={handleDeleteFilterClick(filter)}
