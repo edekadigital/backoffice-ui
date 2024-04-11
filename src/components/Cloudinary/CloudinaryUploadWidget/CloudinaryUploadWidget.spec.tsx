@@ -217,6 +217,25 @@ describe('<CloudinaryUploadWidget>', () => {
     });
   });
 
+  it('should not show delete icon when delete is disabled', () => {
+    const handleDelete = jest.fn();
+    const handleUpload = jest.fn();
+    const { queryAllByTestId } = render(
+      <ThemeProvider>
+        <CloudinaryUploadWidget
+          getWidgetConfig={getConfig}
+          onDelete={handleDelete}
+          onUpload={handleUpload}
+          items={initialItems}
+          widgetOptions={widgetOptions}
+          isDeleteDisabled={true}
+        />
+      </ThemeProvider>
+    );
+
+    expect(queryAllByTestId('listItem-action-button')[1]).toBeFalsy();
+  });
+
   it('should call onUpload when event callback is called and result is defined', async () => {
     const { createUploadWidget } = mockedLoadScript(true);
     const handleDelete = jest.fn();
@@ -265,5 +284,24 @@ describe('<CloudinaryUploadWidget>', () => {
       expect(createUploadWidget).toHaveBeenCalled();
       expect(handleUploadError).toHaveBeenCalled();
     });
+  });
+
+  it('should show disabled upload button if upload is disabled', async () => {
+    const handleDelete = jest.fn();
+    const handleUpload = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <CloudinaryUploadWidget
+          getWidgetConfig={getConfig}
+          onDelete={handleDelete}
+          onUpload={handleUpload}
+          widgetOptions={widgetOptions}
+          items={initialItems}
+          isUploadDisabled={true}
+        />
+      </ThemeProvider>
+    );
+
+    expect(getByTestId('mediaUploadWidget-button')).toBeDisabled();
   });
 });

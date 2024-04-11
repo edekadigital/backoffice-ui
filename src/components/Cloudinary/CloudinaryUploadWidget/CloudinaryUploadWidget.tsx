@@ -83,6 +83,14 @@ export interface CloudinaryUploadWidgetProps {
    */
   getWidgetConfig: CloudinaryUploadWidgetConfigCallback;
   /**
+   * Disable upload button
+   */
+  isUploadDisabled?: boolean;
+  /**
+   * Remove delete action from list
+   */
+  isDeleteDisabled?: boolean;
+  /**
    * Array of images
    */
   items?: CloudinaryMediaData[];
@@ -91,7 +99,7 @@ export interface CloudinaryUploadWidgetProps {
    */
   onUpload: CloudinaryUploadWidgetUploadCallback;
   /**
-   * Calback when upload failed
+   * Callback when upload failed
    */
   onUploadError?: CloudinaryUploadWidgetUploadErrorCallback;
   /**
@@ -187,6 +195,8 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
 ) => {
   const {
     getWidgetConfig,
+    isUploadDisabled,
+    isDeleteDisabled,
     items = [],
     onUpload,
     onDelete,
@@ -304,6 +314,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
             className={callToActionImage ? styles.button : undefined}
             onClick={openWidget}
             data-testid="mediaUploadWidget-button"
+            disabled={isUploadDisabled}
           >
             Bild wählen
           </Button>
@@ -338,7 +349,7 @@ export const CloudinaryUploadWidget: React.VFC<CloudinaryUploadWidgetProps> = (
                 key={`item-${index}`}
                 text={`${item.original_filename}.${item.format}`}
                 subText={`${size} ${unit}`}
-                action={action}
+                action={!isDeleteDisabled ? action : undefined}
                 bullet={
                   <Image
                     mode="contain"
